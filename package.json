@@ -4,7 +4,7 @@
   "description": "JavaScript frontend to jgiven",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "mocha specs"
   },
   "repository": {
     "type": "git",
@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/jsGiven/jsGiven/issues"
   },
-  "homepage": "https://github.com/jsGiven/jsGiven#readme"
+  "homepage": "https://github.com/jsGiven/jsGiven#readme",
+  "devDependencies": {
+    "mocha": "2.4.5"
+  }
 }
