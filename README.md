@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/flegall/es6-showcase.svg?branch=master)](https://travis-ci.org/flegall/es6-showcase)
+
+
 # jsGiven
 
 A JavaScript frontend to [JGiven](http://jgiven.org/)
