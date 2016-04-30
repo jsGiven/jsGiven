@@ -25,4 +25,4 @@ It aims to be usable with those runners.
 It's neither a test assertion library, it's not aimed to replace ChaiJS, Jasmine or the test runner assertion library.
 It aims to be usable with your favourite assertion library.
 
-It aims to provide the most confortable developper experience with optional ES6 syntax, and option FlowType or TypeScript typings.
+It aims to provide the most confortable developper experience with optional ES6 syntax, and optional FlowType or TypeScript typings.
