@@ -28,7 +28,7 @@ scenarios('scenario_runner', () => {
 
             // then
             expect(describe).to.have.been.calledWith('Group name');
-            expect(it).to.have.been.calledWithExactly('My scenario name', scenarioFunc);
+            expect(it).to.have.been.calledWith('My scenario name');
             expect(scenarioFunc).to.have.been.called;
         }
     };
