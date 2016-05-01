@@ -14,8 +14,12 @@ type ItFunc = {
     (testName: string, testFunc: TestFunc): void;
 }
 
-type ScenariosFunc = {
-    (): {[key:string]: ScenarioFunc};
+type GivenParam<G> = {
+    given: () => G;
+}
+
+type ScenariosFunc<G> = {
+    (givenParam: GivenParam<G>): {[key:string]: ScenarioFunc};
 }
 
 type ScenarioFunc = {
@@ -26,14 +30,15 @@ export class ScenarioRunner {
     describe: DescribeFunc;
     it: ItFunc;
 
-    setupForRspec(describe: any, it: any) {
+    setupForRspec(describe: any, it: any): void {
         this.describe = describe;
         this.it = it;
     }
 
-    scenarios(groupName: string, scenariosFunc: ScenariosFunc) {
+    scenarios<G>(groupName: string, givenMixin: G, scenariosFunc: ScenariosFunc<G>) {
         this.describe(humanize(groupName), () => {
-            const scenarios = scenariosFunc();
+            const givenFunc = () => givenMixin;
+            const scenarios = scenariosFunc({given: givenFunc});
             _.functions(scenarios).forEach(scenarioName => {
                 const scenarioNameForHumans = humanize(scenarioName);
                 this.it(scenarioNameForHumans, scenarios[scenarioName])
@@ -44,5 +49,11 @@ export class ScenarioRunner {
 
 const INSTANCE = new ScenarioRunner();
 
-export const setupForRspec = INSTANCE.setupForRspec.bind(INSTANCE);
-export const scenarios = INSTANCE.scenarios.bind(INSTANCE);
+export const setupForRspec: (describe: mixed, it: mixed) => void
+    = INSTANCE.setupForRspec.bind(INSTANCE);
+export const scenarios: (groupName: string, givenMixin: mixed, scenarioFunc: ScenariosFunc) => void
+    = INSTANCE.scenarios.bind(INSTANCE);
+
+export function stages<A, B, C, D>(a: A, b: B, c?: C,d?: D): A & B & C & D {
+    return {...a, ...b, ...c, ...d};
+}
