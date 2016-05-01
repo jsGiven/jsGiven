@@ -7,7 +7,7 @@ import sinon from 'sinon';
 
 setupForRspec(describe, it);
 
-scenarios('ScenarioRunner', () => {
+scenarios('scenario_runner', () => {
     return {
         should_be_able_to_run_scenarios_over_an_rspec_runner() {
             // given
@@ -18,7 +18,7 @@ scenarios('ScenarioRunner', () => {
             const scenarioFunc = sinon.spy();
 
             // when
-            scenarioRunner.scenarios('groupName', () => {
+            scenarioRunner.scenarios('group_name', () => {
                 return {
                     my_scenario_name: scenarioFunc
                 };
@@ -27,8 +27,8 @@ scenarios('ScenarioRunner', () => {
             it.callArg(1); // Emulate rspec it()
 
             // then
-            expect(describe).to.have.been.calledWith('groupName');
-            expect(it).to.have.been.calledWithExactly('my_scenario_name', scenarioFunc);
+            expect(describe).to.have.been.calledWith('Group name');
+            expect(it).to.have.been.calledWithExactly('My scenario name', scenarioFunc);
             expect(scenarioFunc).to.have.been.called;
         }
     };

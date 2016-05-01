@@ -1,5 +1,6 @@
 // @flow
 import _ from 'lodash';
+import humanize from 'string-humanize';
 
 type DescribeFunc = {
     (suiteName: string, suiteFunc: TestFunc): void;
@@ -31,10 +32,12 @@ export class ScenarioRunner {
     }
 
     scenarios(groupName: string, scenariosFunc: ScenariosFunc) {
-        this.describe(groupName, () => {
+        this.describe(humanize(groupName), () => {
             const scenarios = scenariosFunc();
-            _.functions(scenarios).forEach(scenarioName =>
-                this.it(scenarioName, scenarios[scenarioName]));
+            _.functions(scenarios).forEach(scenarioName => {
+                const scenarioNameForHumans = humanize(scenarioName);
+                this.it(scenarioNameForHumans, scenarios[scenarioName])
+            });
         })
     }
 }
