@@ -17,5 +17,5 @@ export class ScenarioRunner {
 
 const INSTANCE = new ScenarioRunner();
 
-export const setupForRspec = ::INSTANCE.setupForRspec;
-export const scenarios = ::INSTANCE.scenarios;
+export const setupForRspec = INSTANCE.setupForRspec.bind(INSTANCE);
+export const scenarios = INSTANCE.scenarios.bind(INSTANCE);
