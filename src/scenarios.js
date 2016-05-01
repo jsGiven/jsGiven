@@ -14,3 +14,8 @@ export class ScenarioRunner {
         })
     }
 }
+
+const INSTANCE = new ScenarioRunner();
+
+export const setupForRspec = ::INSTANCE.setupForRspec;
+export const scenarios = ::INSTANCE.scenarios;
