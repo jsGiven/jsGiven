@@ -29,3 +29,5 @@ It's neither a test assertion library, it's not aimed to replace ChaiJS, Jasmine
 It aims to be usable with your favourite assertion library.
 
 It aims to provide the most confortable developper experience with optional ES6 syntax, and optional FlowType or TypeScript typings.
+
+It's not usable yet !
