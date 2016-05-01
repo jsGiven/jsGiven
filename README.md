@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/flegall/es6-showcase.svg?branch=master)](https://travis-ci.org/flegall/es6-showcase)
+[![Build Status](https://travis-ci.org/jsGiven/jsGiven.svg?branch=master)](https://travis-ci.org/jsGiven/jsGiven)
 
 
 # jsGiven
