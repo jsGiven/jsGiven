@@ -9,7 +9,7 @@ setupForRspec(describe, it);
 
 scenarios('scenario_runner', () => {
     return {
-        should_be_able_to_run_scenarios_over_an_rspec_runner() {
+        scenarios_can_be_run_over_an_rspec_runner() {
             // given
             const scenarioRunner = new ScenarioRunner();
             const describe = sinon.stub();
