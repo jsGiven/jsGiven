@@ -1,3 +1,4 @@
+// @flow
 import {scenarios, setupForRspec} from '../index';
 import {ScenarioRunner} from '../src/scenarios';
 

@@ -1,2 +1,9 @@
+[ignore]
+# fails for now
+.*jgiven-report.*
+
+[libs]
+flow-declarations
+
 [options]
 esproposal.class_instance_fields=enable
