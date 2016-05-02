@@ -1,14 +1,16 @@
 // @flow
-import {scenarios, setupForRspec, State} from '../index';
+import {scenarios, setupForRspec, State, Stage} from '../index';
 
 import {ScenarioRunner} from '../src/scenarios';
 
 import {expect} from 'chai';
 import sinon from 'sinon';
 
+import _ from 'lodash';
+
 setupForRspec(describe, it);
 
-class ScenariosGivenStage {
+class ScenariosGivenStage extends Stage {
     @State scenarioRunner: ScenarioRunner;
     @State describe;
     @State it;
@@ -24,7 +26,7 @@ class ScenariosGivenStage {
     }
 }
 
-class ScenarioWhenStage {
+class ScenarioWhenStage extends Stage {
     @State scenarioRunner: ScenarioRunner;
     @State describe;
     @State it;
@@ -42,7 +44,7 @@ class ScenarioWhenStage {
     }
 }
 
-class ScenarioThenStage {
+class ScenarioThenStage extends Stage {
     @State describe;
     @State it;
     @State scenarioFunc;
@@ -77,8 +79,8 @@ scenarios('scenario_runner', ScenariosGivenStage, ScenarioWhenStage, ScenarioThe
             when().a_scenario_is_executed();
 
             // then
-            then().describe_has_been_called()
-                .it_has_been_called()
+            then().describe_has_been_called().and()
+                .it_has_been_called().and()
                 .the_scenario_function_has_been_called();
         },
 
