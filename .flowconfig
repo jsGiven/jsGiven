@@ -7,3 +7,4 @@ flow-declarations
 
 [options]
 esproposal.class_instance_fields=enable
+esproposal.decorators=ignore

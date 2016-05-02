@@ -1,1 +1,2 @@
-export {setupForRspec, scenarios} from './src/scenarios';
+// @flow
+export {setupForRspec, scenarios, State} from './src/scenarios';
