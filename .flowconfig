@@ -1,7 +1,3 @@
-[ignore]
-# fails for now
-.*jgiven-report.*
-
 [libs]
 flow-declarations
 
