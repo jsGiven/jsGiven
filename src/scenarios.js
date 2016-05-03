@@ -76,17 +76,20 @@ export class ScenarioRunner {
             const scenarios = scenariosFunc(givenParam);
 
             _.functions(scenarios).forEach(scenarioName => {
-                currentGiven = currentWhen = currentThen = undefined;
-
                 const scenarioNameForHumans = humanize(scenarioName);
-                this.it(scenarioNameForHumans, scenarios[scenarioName])
+                this.it(scenarioNameForHumans, () => {
+                    // Reset stages
+                    currentGiven = currentWhen = currentThen = undefined;
+                    // Execute scenario
+                    scenarios[scenarioName]();
+                })
             });
         })
     }
 }
 
 function buildObject<T>(tClass: Class<T>): T {
-    // Flowtype really can't type this constructor invocations from Class<G|W|T>
+    // Flowtype really can't type this constructor invocation from Class<T>
     // Therefore we have to cast it as any :(
     const tClassConstructor:any = tClass;
     return new tClassConstructor();
