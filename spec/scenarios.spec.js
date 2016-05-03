@@ -162,13 +162,9 @@ class ScenarioThenStage extends Stage {
         return this;
     }
 
-    the_value_from_when_stage_should_be_modified(): this {
-        expect(this.expectedValueFromWhenStage).to.equal(2);
-        return this;
-    }
-
-    the_value_from_given_stage_should_be_modified(): this {
+    the_state_has_been_propagated(): this {
         expect(this.expectedValueFromGivenStage).to.equal(2);
+        expect(this.expectedValueFromWhenStage).to.equal(2);
         return this;
     }
 }
@@ -207,8 +203,7 @@ scenarios('scenario_runner', ScenariosGivenStage, ScenarioWhenStage, ScenarioThe
 
             when().the_scenario_is_executed();
 
-            then().the_value_from_when_stage_should_be_modified()
-                .and().the_value_from_when_stage_should_be_modified();
+            then().the_state_has_been_propagated();
         }
     };
 });
