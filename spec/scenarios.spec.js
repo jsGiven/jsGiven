@@ -10,22 +10,10 @@ import _ from 'lodash';
 
 setupForRspec(describe, it);
 
-class ScenariosGivenStage extends Stage {
+class BasicScenarioGivenStage extends Stage {
     @State scenarioRunner: ScenarioRunner;
     @State describe;
     @State it;
-    @State scenarioFunc;
-    @State somethingGivenCalled;
-    @State somethingWhenCalled;
-    @State somethingThenCalled;
-    GivenStageThatRecordBeenCalled;
-    WhenStageThatRecordBeenCalled;
-    ThenStageThatRecordBeenCalled;
-    GivenStageStateFull;
-    WhenStageStateFull;
-    ThenStageStateFull;
-    @State expectedValueFromWhenStage;
-    @State expectedValueFromGivenStage;
 
     a_scenario_runner(): this {
         this.scenarioRunner = new ScenarioRunner();
@@ -34,8 +22,40 @@ class ScenariosGivenStage extends Stage {
         this.scenarioRunner.setupForRspec(this.describe, this.it);
         return this;
     }
+}
+
+class ScenarioWhenStage extends Stage {
+    @State scenarioRunner: ScenarioRunner;
+    @State describe;
+    @State it;
+
+    the_scenario_is_executed(): this {
+        this.describe.callArg(1); // Emulate rspec describe()
+        this.it.callArg(1); // Emulate rspec it()
+        return this;
+    }
+}
+
+class BasicScenarioThenStage extends Stage {
+    @State describe;
+    @State it;
+
+    the_describe_method_has_been_called(): this {
+        expect(this.describe).to.have.been.calledWith('Group name');
+        return this;
+    }
+
+    the_it_method_has_been_called(): this {
+        expect(this.it).to.have.been.calledWith('My scenario name');
+        return this;
+    }
+}
+
+class DummyScenarioGivenStage extends BasicScenarioGivenStage {
+    @State scenarioFunc;
 
     a_dummy_scenario(): this {
+        class DefaultStage {};
         this.scenarioFunc = sinon.spy();
         this.scenarioRunner.scenarios('group_name', DefaultStage, DefaultStage, DefaultStage, () => {
             return {
@@ -44,6 +64,39 @@ class ScenariosGivenStage extends Stage {
         });
         return this;
     }
+}
+
+class DummyScenarioThenStage extends BasicScenarioThenStage {
+    @State scenarioFunc;
+
+    the_dummy_scenario_function_has_been_called(): this {
+        expect(this.scenarioFunc).to.have.been.called;
+        return this;
+    }
+}
+
+scenarios('scenario_runner', DummyScenarioGivenStage, ScenarioWhenStage, DummyScenarioThenStage, ({given, when, then}) => {
+    return {
+        scenarios_can_be_run_over_an_rspec_runner() {
+            given().a_scenario_runner()
+                .and().a_dummy_scenario();
+
+            when().the_scenario_is_executed();
+
+            then().the_describe_method_has_been_called()
+                .and().the_it_method_has_been_called()
+                .and().the_dummy_scenario_function_has_been_called();
+        }
+    }
+});
+
+class StageRecorderGivenStage extends BasicScenarioGivenStage {
+    @State somethingGivenCalled;
+    @State somethingWhenCalled;
+    @State somethingThenCalled;
+    GivenStageThatRecordBeenCalled;
+    WhenStageThatRecordBeenCalled;
+    ThenStageThatRecordBeenCalled;
 
     three_stages_that_record_been_called(): this {
         this.somethingGivenCalled = false;
@@ -62,6 +115,54 @@ class ScenariosGivenStage extends Stage {
 
         return this;
     }
+
+    a_scenario_that_uses_the_stages_that_records(): this {
+        this.scenarioRunner.scenarios('group_name', this.GivenStageThatRecordBeenCalled, this.WhenStageThatRecordBeenCalled, this.ThenStageThatRecordBeenCalled, ({given, when, then}) => {
+            return {
+                scenario_using_stages() {
+                    given().somethingGiven();
+                    when().somethingWhen();
+                    then().somethingThen();
+                }
+            };
+        });
+        return this;
+    }
+}
+
+class StageRecorderThenStage extends BasicScenarioThenStage {
+    @State somethingGivenCalled;
+    @State somethingWhenCalled;
+    @State somethingThenCalled;
+
+    the_three_stages_have_been_called(): this {
+        expect(this.somethingGivenCalled).to.be.true;
+        expect(this.somethingWhenCalled).to.be.true;
+        expect(this.somethingThenCalled).to.be.true;
+        return this;
+    }
+}
+
+scenarios('scenario_runner', StageRecorderGivenStage, ScenarioWhenStage, StageRecorderThenStage, ({given, when, then}) => {
+    return {
+        scenarios_can_use_given_when_then_stages_with_methods() {
+            given().a_scenario_runner()
+                .and().three_stages_that_record_been_called()
+                .and().a_scenario_that_uses_the_stages_that_records();
+
+            when().the_scenario_is_executed();
+
+            then().the_three_stages_have_been_called();
+        }
+    };
+});
+
+class StatefullScenarioGivenStage extends BasicScenarioGivenStage {
+    GivenStageStateFull;
+    WhenStageStateFull;
+    ThenStageStateFull;
+    @State expectedValueFromWhenStage;
+    @State expectedValueFromGivenStage;
 
     three_stateful_stages(): this {
         const self = this;
@@ -88,19 +189,6 @@ class ScenariosGivenStage extends Stage {
         return this;
     }
 
-    a_scenario_that_uses_the_stages_that_records(): this {
-        this.scenarioRunner.scenarios('group_name', this.GivenStageThatRecordBeenCalled, this.WhenStageThatRecordBeenCalled, this.ThenStageThatRecordBeenCalled, ({given, when, then}) => {
-            return {
-                scenario_using_stages() {
-                    given().somethingGiven();
-                    when().somethingWhen();
-                    then().somethingThen();
-                }
-            };
-        });
-        return this;
-    }
-
     a_scenario_that_uses_stateful_stages(): this {
         this.scenarioRunner.scenarios('group_name', this.GivenStageStateFull, this.WhenStageStateFull, this.ThenStageStateFull, ({given, when, then}) => {
             return {
@@ -115,52 +203,9 @@ class ScenariosGivenStage extends Stage {
     }
 }
 
-class ScenarioWhenStage extends Stage {
-    @State scenarioRunner: ScenarioRunner;
-    @State describe;
-    @State it;
-    @State scenarioFunc;
-
-    the_scenario_is_executed(): this {
-        this.describe.callArg(1); // Emulate rspec describe()
-        this.it.callArg(1); // Emulate rspec it()
-        return this;
-    }
-}
-
-class ScenarioThenStage extends Stage {
-    @State describe;
-    @State it;
-    @State scenarioFunc;
-
-    @State somethingGivenCalled;
-    @State somethingWhenCalled;
-    @State somethingThenCalled;
-
+class StatefullScenarioThenStage extends BasicScenarioThenStage {
     @State expectedValueFromWhenStage;
     @State expectedValueFromGivenStage;
-
-    the_describe_method_has_been_called(): this {
-        expect(this.describe).to.have.been.calledWith('Group name');
-        return this;
-    }
-
-    the_it_method_has_been_called(): this {
-        expect(this.it).to.have.been.calledWith('My scenario name');
-        return this;
-    }
-
-    the_dummy_scenario_function_has_been_called(): this {
-        expect(this.scenarioFunc).to.have.been.called;
-        return this;
-    }
-
-    the_three_stages_have_been_called(): this {
-        expect(this.somethingGivenCalled).to.be.true;
-        expect(this.somethingWhenCalled).to.be.true;
-        expect(this.somethingThenCalled).to.be.true;
-        return this;
-    }
 
     the_state_has_been_propagated(): this {
         expect(this.expectedValueFromGivenStage).to.equal(2);
@@ -169,33 +214,8 @@ class ScenarioThenStage extends Stage {
     }
 }
 
-class DefaultStage {
-
-}
-
-scenarios('scenario_runner', ScenariosGivenStage, ScenarioWhenStage, ScenarioThenStage, ({given, when, then}) => {
+scenarios('scenario_runner', StatefullScenarioGivenStage, ScenarioWhenStage, StatefullScenarioThenStage, ({given, when, then}) => {
     return {
-        scenarios_can_be_run_over_an_rspec_runner() {
-            given().a_scenario_runner()
-                .and().a_dummy_scenario();
-
-            when().the_scenario_is_executed();
-
-            then().the_describe_method_has_been_called()
-                .and().the_it_method_has_been_called()
-                .and().the_dummy_scenario_function_has_been_called();
-        },
-
-        scenarios_can_use_given_when_then_stages_with_methods() {
-            given().a_scenario_runner()
-                .and().three_stages_that_record_been_called()
-                .and().a_scenario_that_uses_the_stages_that_records();
-
-            when().the_scenario_is_executed();
-
-            then().the_three_stages_have_been_called();
-        },
-
         scenarios_can_share_state_between_stages() {
             given().a_scenario_runner()
                 .and().three_stateful_stages()
