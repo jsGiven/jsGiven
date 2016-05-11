@@ -103,7 +103,6 @@ function buildObject<T>(tClass: Class<T>): T {
 
     getAllMethods(classPrototype).forEach((methodName) => {
         extendedPrototype[methodName] = function(...args) {
-            console.log(methodName, args);
             return classPrototype[methodName].apply(this, ...args);
         }
     });

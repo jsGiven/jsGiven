@@ -1,0 +1,9 @@
+{
+    "automock": false,
+    "testFileExtensions": [
+        "spec.js"
+    ],
+    "testDirectoryName": "spec",
+    "setupFiles": ["spec/support/setup-jest.js"],
+    "name": "NAME_IS_REQUIRED_SEE_https://github.com/facebook/jest/issues/955#issuecomment-215440726"
+}
