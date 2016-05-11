@@ -89,10 +89,41 @@ export class ScenarioRunner {
 }
 
 function buildObject<T>(tClass: Class<T>): T {
-    // Flowtype really can't type this constructor invocation from Class<T>
+    class extendedClass extends tClass {};
+
+    // Flowtype really can't type this constructor invocation
     // Therefore we have to cast it as any :(
-    const tClassConstructor:any = tClass;
-    return new tClassConstructor();
+    const extendedClassConstructor: any = extendedClass;
+    const instance = new extendedClassConstructor();
+
+    const extendedPrototype = Object.getPrototypeOf(instance);
+    const classPrototype = Object.getPrototypeOf(extendedPrototype);
+
+    getAllMethods(classPrototype).forEach((methodName) => {
+        extendedPrototype[methodName] = function(...args) {
+            console.log(methodName, args);
+            return classPrototype[methodName].apply(this, ...args);
+        }
+    });
+
+    return instance;
+
+    function getAllMethods(obj: any): string[] {
+        let allProps: string[] = [];
+        let current = obj;
+        do {
+            let props = Object.getOwnPropertyNames(current)
+            props.forEach(function(prop) {
+                if (allProps.indexOf(prop) === -1) {
+                    if(_.isFunction(current[prop])) {
+                        allProps.push(prop);
+                    }
+                }
+            });
+        } while(current = Object.getPrototypeOf(current));
+
+        return allProps;
+    }
 }
 
 const INSTANCE = new ScenarioRunner();
