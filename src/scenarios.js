@@ -1,4 +1,6 @@
 // @flow
+import {Stage} from './Stage';
+
 import _ from 'lodash';
 import humanize from 'string-humanize';
 
@@ -37,7 +39,7 @@ export class ScenarioRunner {
         this.it = it;
     }
 
-    scenarios<G, W, T>(groupName: string, givenClass: Class<G>, whenClass: Class<W>, thenClass: Class<T>, scenariosFunc: ScenariosFunc<G, W, T>) {
+    scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, givenClass: Class<G>, whenClass: Class<W>, thenClass: Class<T>, scenariosFunc: ScenariosFunc<G, W, T>) {
         let currentGiven: ?G;
         let currentWhen: ?W;
         let currentThen: ?T;
@@ -46,7 +48,7 @@ export class ScenarioRunner {
             if (!currentGiven) {
                 currentGiven = buildObject(givenClass);
             }
-            return currentGiven;
+            return currentGiven.given();
         }
 
         function getOrBuildWhen(): W {
@@ -54,7 +56,7 @@ export class ScenarioRunner {
                 currentWhen = buildObject(whenClass);
                 copyStateProperties(currentGiven, currentWhen);
             }
-            return currentWhen;
+            return currentWhen.when();
         }
 
         function getOrBuildThen(): T {
@@ -63,7 +65,7 @@ export class ScenarioRunner {
                 copyStateProperties(currentGiven, currentThen);
                 copyStateProperties(currentWhen, currentThen);
             }
-            return currentThen;
+            return currentThen.then();
         }
 
         const givenParam: ScenariosParam<G, W, T> = {
@@ -131,7 +133,7 @@ const INSTANCE = new ScenarioRunner();
 export function setupForRspec(describe: mixed, it: mixed):void {
     return INSTANCE.setupForRspec(describe, it);
 }
-export function scenarios<G, W, T>(groupName: string, givenClass: Class<G>, whenClass: Class<W>, thenClass: Class<T>, scenarioFunc: ScenariosFunc<G, W, T>): void {
+export function scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, givenClass: Class<G>, whenClass: Class<W>, thenClass: Class<T>, scenarioFunc: ScenariosFunc<G, W, T>): void {
     return INSTANCE.scenarios(groupName, givenClass, whenClass, thenClass, scenarioFunc);
 }
 

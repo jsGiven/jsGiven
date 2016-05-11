@@ -55,7 +55,7 @@ class DummyScenarioGivenStage extends BasicScenarioGivenStage {
     @State scenarioFunc;
 
     a_dummy_scenario(): this {
-        class DefaultStage {};
+        class DefaultStage extends Stage {};
         this.scenarioFunc = sinon.spy();
         this.scenarioRunner.scenarios('group_name', DefaultStage, DefaultStage, DefaultStage, () => {
             return {
@@ -94,22 +94,22 @@ class StageRecorderGivenStage extends BasicScenarioGivenStage {
     @State somethingGivenCalled;
     @State somethingWhenCalled;
     @State somethingThenCalled;
-    GivenStageThatRecordBeenCalled;
-    WhenStageThatRecordBeenCalled;
-    ThenStageThatRecordBeenCalled;
+    GivenStageThatRecordBeenCalled: Class<any>;
+    WhenStageThatRecordBeenCalled: Class<any>;
+    ThenStageThatRecordBeenCalled: Class<any>;
 
     three_stages_that_record_been_called(): this {
         this.somethingGivenCalled = false;
         const self = this;
-        this.GivenStageThatRecordBeenCalled = class GivenStageThatRecordBeenCalled {
+        this.GivenStageThatRecordBeenCalled = class GivenStageThatRecordBeenCalled extends Stage {
             somethingGiven() { self.somethingGivenCalled = true; }
         };
         this.somethingWhenCalled = false;
-        this.WhenStageThatRecordBeenCalled = class WhenStageThatRecordBeenCalled {
+        this.WhenStageThatRecordBeenCalled = class WhenStageThatRecordBeenCalled extends Stage {
             somethingWhen() { self.somethingWhenCalled = true; }
         };
         this.somethingThenCalled = false;
-        this.ThenStageThatRecordBeenCalled = class ThenStageThatRecordBeenCalled {
+        this.ThenStageThatRecordBeenCalled = class ThenStageThatRecordBeenCalled extends Stage {
             somethingThen() { self.somethingThenCalled = true; }
         };
 
@@ -158,27 +158,27 @@ scenarios('scenario_runner', StageRecorderGivenStage, ScenarioWhenStage, StageRe
 });
 
 class StatefullScenarioGivenStage extends BasicScenarioGivenStage {
-    GivenStageStateFull;
-    WhenStageStateFull;
-    ThenStageStateFull;
+    GivenStageStateFull: Class<any>;
+    WhenStageStateFull: Class<any>;
+    ThenStageStateFull: Class<any>;
     @State expectedValueFromWhenStage;
     @State expectedValueFromGivenStage;
 
     three_stateful_stages(): this {
         const self = this;
-        this.GivenStageStateFull = class GivenStageStateFull {
+        this.GivenStageStateFull = class GivenStageStateFull extends Stage {
             @State givenValue: number;
             @State expectedValue: number;
             aValue() { this.givenValue = 1; this.expectedValue = 2; }
         };
-        this.WhenStageStateFull = class WhenStageStateFull {
+        this.WhenStageStateFull = class WhenStageStateFull extends Stage {
             @State givenValue: number;
             @State computedValue: number;
             it_gets_incremented() { this.computedValue = this.givenValue + 1; }
         };
         this.expectedValueFromWhenStage;
         this.expectedValueFromGivenStage;
-        this.ThenStageStateFull = class ThenStageStateFull {
+        this.ThenStageStateFull = class ThenStageStateFull extends Stage {
             @State expectedValue: number;
             @State computedValue: number;
             the_value_must_be_incremented() {
