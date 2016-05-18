@@ -4,11 +4,13 @@
   "description": "JavaScript frontend to jgiven",
   "main": "index.js",
   "scripts": {
-    "test": "npm run flow && npm run test_mocha && npm run test_jest && npm run test_jasmine && npm run test_ava",
+    "postinstall": "node_modules/protractor/bin/webdriver-manager update",
+    "test": "npm run flow && npm run test_mocha && npm run test_jest && npm run test_jasmine && npm run test_ava && npm run test_protractor",
     "test_mocha": "mocha --opts spec/support/mocha-default.opts spec",
     "test_jest": "jest --config .jest.conf.json --colors",
     "test_jasmine": "jasmine",
     "test_ava": "ava spec/**.spec.js -v",
+    "test_protractor": "protractor .protractor.conf.js",
     "flow": "node_modules/flow-bin/cli.js"
   },
   "repository": {
@@ -45,6 +47,7 @@
     "jasmine": "^2.4.1",
     "jest-cli": "^12.0.2",
     "mocha": "^2.4.5",
+    "protractor": "^3.3.0",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0"
   },
