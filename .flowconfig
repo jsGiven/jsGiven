@@ -1,3 +1,7 @@
+[ignore]
+.*/node_modules/json5/test/.*\.json
+.*/flow-typed/.*
+
 [libs]
 flow-declarations
 
