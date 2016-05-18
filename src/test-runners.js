@@ -22,9 +22,11 @@ export function setupForRspec(describe: any, it: any):void {
 }
 
 export function setupForAva(test: any): void {
+    let capturedGroupName = '';
     return INSTANCE.setup((groupName, suiteFunc) => {
+        capturedGroupName = groupName;
         suiteFunc();
     }, (testName, testFunc) => {
-        test(testName, testFunc);
+        test(`${capturedGroupName} / ${testName}`, testFunc);
     });
 }
