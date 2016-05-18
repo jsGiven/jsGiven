@@ -4,10 +4,11 @@
   "description": "JavaScript frontend to jgiven",
   "main": "index.js",
   "scripts": {
-    "test": "npm run flow && npm run test_mocha && npm run test_jest && npm run test_jasmine",
+    "test": "npm run flow && npm run test_mocha && npm run test_jest && npm run test_jasmine && npm run test_ava",
     "test_mocha": "mocha --opts spec/support/mocha-default.opts spec",
     "test_jest": "jest --config .jest.conf.json --colors",
     "test_jasmine": "jasmine",
+    "test_ava": "ava spec/**.spec.js -v",
     "flow": "node_modules/flow-bin/cli.js"
   },
   "repository": {
@@ -31,6 +32,7 @@
   },
   "homepage": "https://github.com/jsGiven/jsGiven#readme",
   "devDependencies": {
+    "ava": "^0.14.0",
     "babel-core": "^6.8.0",
     "babel-jest": "^12.0.2",
     "babel-plugin-transform-class-properties": "^6.8.0",
@@ -49,5 +51,12 @@
   "dependencies": {
     "lodash": "^4.11.0",
     "string-humanize": "^1.0.0"
+  },
+  "ava": {
+    "require": [
+      "babel-register",
+      "./spec/support/setup-sinon-chai.js"
+    ],
+    "babel": "inherit"
   }
 }

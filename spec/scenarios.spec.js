@@ -1,5 +1,5 @@
 // @flow
-import {scenarios, setupForRspec, State, Stage} from '../index';
+import {scenarios, setupForRspec, setupForAva, State, Stage} from '../index';
 
 import {ScenarioRunner} from '../src/scenarios';
 
@@ -8,7 +8,12 @@ import sinon from 'sinon';
 
 import _ from 'lodash';
 
-setupForRspec(describe, it);
+if (global.describe && global.it) {
+    setupForRspec(describe, it);
+} else {
+    const test = require('ava');
+    setupForAva(test);
+}
 
 class BasicScenarioGivenStage extends Stage {
     @State scenarioRunner: ScenarioRunner;
@@ -19,7 +24,7 @@ class BasicScenarioGivenStage extends Stage {
         this.scenarioRunner = new ScenarioRunner();
         this.describe = sinon.stub();
         this.it = sinon.stub();
-        this.scenarioRunner.setupForRspec(this.describe, this.it);
+        this.scenarioRunner.setup(this.describe, this.it);
         return this;
     }
 }
@@ -77,7 +82,7 @@ class DummyScenarioThenStage extends BasicScenarioThenStage {
 
 scenarios('scenario_runner', DummyScenarioGivenStage, ScenarioWhenStage, DummyScenarioThenStage, ({given, when, then}) => {
     return {
-        scenarios_can_be_run_over_an_rspec_runner() {
+        scenarios_can_be_run_over_any_scenario_runner() {
             given().a_scenario_runner()
                 .and().a_dummy_scenario();
 

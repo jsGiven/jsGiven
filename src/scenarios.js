@@ -1,20 +1,9 @@
 // @flow
 import {Stage} from './Stage';
+import type {GroupFunc, TestFunc} from './test-runners';
 
 import _ from 'lodash';
 import humanize from 'string-humanize';
-
-type DescribeFunc = {
-    (suiteName: string, suiteFunc: TestFunc): void;
-}
-
-type TestFunc = {
-    (): void;
-}
-
-type ItFunc = {
-    (testName: string, testFunc: TestFunc): void;
-}
 
 type ScenariosParam<G, W, T> = {
     given: () => G;
@@ -31,10 +20,10 @@ type ScenarioFunc = {
 }
 
 export class ScenarioRunner {
-    describe: DescribeFunc;
-    it: ItFunc;
+    describe: GroupFunc;
+    it: TestFunc;
 
-    setupForRspec(describe: any, it: any): void {
+    setup(describe: GroupFunc, it: TestFunc): void {
         this.describe = describe;
         this.it = it;
     }
@@ -127,11 +116,8 @@ function buildObject<T>(tClass: Class<T>): T {
     }
 }
 
-const INSTANCE = new ScenarioRunner();
+export const INSTANCE = new ScenarioRunner();
 
-export function setupForRspec(describe: mixed, it: mixed):void {
-    return INSTANCE.setupForRspec(describe, it);
-}
 export function scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, givenClass: Class<G>, whenClass: Class<W>, thenClass: Class<T>, scenarioFunc: ScenariosFunc<G, W, T>): void {
     return INSTANCE.scenarios(groupName, givenClass, whenClass, thenClass, scenarioFunc);
 }
