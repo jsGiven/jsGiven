@@ -1,7 +1,7 @@
 // @flow
 import {scenarios, setupForRspec, setupForAva, State, Stage} from '../index';
-
 import {ScenarioRunner} from '../src/scenarios';
+import {BasicScenarioGivenStage, ScenarioWhenStage, BasicScenarioThenStage} from './basic-stages';
 
 import {expect} from 'chai';
 import sinon from 'sinon';
@@ -13,47 +13,6 @@ if (global.describe && global.it) {
 } else {
     const test = require('ava');
     setupForAva(test);
-}
-
-class BasicScenarioGivenStage extends Stage {
-    @State scenarioRunner: ScenarioRunner;
-    @State describe;
-    @State it;
-
-    a_scenario_runner(): this {
-        this.scenarioRunner = new ScenarioRunner();
-        this.describe = sinon.stub();
-        this.it = sinon.stub();
-        this.scenarioRunner.setup(this.describe, this.it);
-        return this;
-    }
-}
-
-class ScenarioWhenStage extends Stage {
-    @State scenarioRunner: ScenarioRunner;
-    @State describe;
-    @State it;
-
-    the_scenario_is_executed(): this {
-        this.describe.callArg(1); // Emulate rspec describe()
-        this.it.callArg(1); // Emulate rspec it()
-        return this;
-    }
-}
-
-class BasicScenarioThenStage extends Stage {
-    @State describe;
-    @State it;
-
-    the_describe_method_has_been_called(): this {
-        expect(this.describe).to.have.been.calledWith('Group name');
-        return this;
-    }
-
-    the_it_method_has_been_called(): this {
-        expect(this.it).to.have.been.calledWith('My scenario name');
-        return this;
-    }
 }
 
 class DummyScenarioGivenStage extends BasicScenarioGivenStage {

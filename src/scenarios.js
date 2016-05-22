@@ -15,13 +15,24 @@ type ScenariosFunc<G, W, T> = {
     (scenariosParam: ScenariosParam<G, W, T>): {[key:string]: ScenarioFunc};
 }
 
-type ScenarioFunc = {
+export type ScenarioFunc = {
     (): void;
+}
+
+type ScenarioReport = {
+    name: string;
+
+}
+
+type GroupReport = {
+    name: string;
+    scenarios: ScenarioReport[];
 }
 
 export class ScenarioRunner {
     groupFunc: GroupFunc;
     testFunc: TestFunc;
+    report: ?GroupReport;
 
     setup(groupFunc: GroupFunc, testFunc: TestFunc): void {
         this.groupFunc = groupFunc;
@@ -63,7 +74,14 @@ export class ScenarioRunner {
             then: getOrBuildThen
         };
 
-        this.groupFunc(humanize(groupName), () => {
+        const humanizedGroupName = humanize(groupName);
+
+        this.report = {
+            name: humanizedGroupName,
+            scenarios: []
+        }
+
+        this.groupFunc(humanizedGroupName, () => {
             const scenarios = scenariosFunc(givenParam);
 
             _.functions(scenarios).forEach(scenarioName => {
@@ -71,11 +89,17 @@ export class ScenarioRunner {
                 this.testFunc(scenarioNameForHumans, () => {
                     // Reset stages
                     currentGiven = currentWhen = currentThen = undefined;
-                    // Execute scenario
-                    scenarios[scenarioName]();
+                    try {
+                        // Execute scenario
+                        scenarios[scenarioName]();
+                    } finally {
+                        if (this.report) {
+                            this.report.scenarios.push({name: scenarioNameForHumans});
+                        }
+                    }
                 })
             });
-        })
+        });
     }
 }
 
