@@ -20,12 +20,12 @@ type ScenarioFunc = {
 }
 
 export class ScenarioRunner {
-    describe: GroupFunc;
-    it: TestFunc;
+    groupFunc: GroupFunc;
+    testFunc: TestFunc;
 
-    setup(describe: GroupFunc, it: TestFunc): void {
-        this.describe = describe;
-        this.it = it;
+    setup(groupFunc: GroupFunc, testFunc: TestFunc): void {
+        this.groupFunc = groupFunc;
+        this.testFunc = testFunc;
     }
 
     scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, givenClass: Class<G>, whenClass: Class<W>, thenClass: Class<T>, scenariosFunc: ScenariosFunc<G, W, T>) {
@@ -63,12 +63,12 @@ export class ScenarioRunner {
             then: getOrBuildThen
         };
 
-        this.describe(humanize(groupName), () => {
+        this.groupFunc(humanize(groupName), () => {
             const scenarios = scenariosFunc(givenParam);
 
             _.functions(scenarios).forEach(scenarioName => {
                 const scenarioNameForHumans = humanize(scenarioName);
-                this.it(scenarioNameForHumans, () => {
+                this.testFunc(scenarioNameForHumans, () => {
                     // Reset stages
                     currentGiven = currentWhen = currentThen = undefined;
                     // Execute scenario
