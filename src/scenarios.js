@@ -21,7 +21,6 @@ export type ScenarioFunc = {
 
 type ScenarioReport = {
     name: string;
-
 }
 
 type GroupReport = {

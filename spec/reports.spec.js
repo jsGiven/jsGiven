@@ -53,7 +53,7 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
         return this;
     }
 
-    it_is_readable_in_english(): this {
+    its_name_is_readable_in_english(): this {
         const report = this.scenarioRunner.report;
         if (report) {
             expect(report.name).to.equal('Group name');
@@ -74,7 +74,7 @@ scenarios('reports', ReportScenarioGivenStage, ScenarioWhenStage, ReportScenario
             when().the_scenario_is_executed();
 
             then().the_report_has_been_generated()
-                .and().it_is_readable_in_english();
+                .and().its_name_is_readable_in_english();
         }
     }
 });
