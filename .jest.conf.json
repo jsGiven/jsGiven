@@ -1,8 +1,6 @@
 {
     "automock": false,
-    "testFileExtensions": [
-        "spec.js"
-    ],
-    "testDirectoryName": "spec",
+    "testPathDirs": ["spec"],
+    "testRegex": ".*\\.spec\\.js$",
     "setupFiles": ["spec/support/setup-jest.js"]
 }
