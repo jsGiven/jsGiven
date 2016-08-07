@@ -1,6 +1,10 @@
+// Choosing firefox on CI, Chrome at home
+var os = require('os');
+var browser = os.platform() === 'linux' ? 'firefox' : 'chrome';
+
 exports.config = {
     capabilities: {
-        'browserName': 'firefox'
+        'browserName': browser,
     },
     specs: ['spec/**.spec.js'],
     onPrepare: function () {
