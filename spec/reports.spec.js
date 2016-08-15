@@ -29,7 +29,7 @@ class ReportScenarioGivenStage extends BasicScenarioGivenStage {
             the_resulting_meal_is_a_pan_cake(): this {return this};
         };
         this.scenarioFunc = sinon.spy();
-        this.scenarioRunner.scenarios('group_name', DefaultStage, DefaultStage, DefaultStage, ({given, when, then}) => {
+        this.scenarioRunner.scenarios('group_name', [DefaultStage, DefaultStage, DefaultStage], ({given, when, then}) => {
             return {
                 pan_cake_recipe() {
                     given().an_egg().

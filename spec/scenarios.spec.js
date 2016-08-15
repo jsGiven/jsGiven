@@ -21,7 +21,7 @@ class DummyScenarioGivenStage extends BasicScenarioGivenStage {
     a_dummy_scenario(): this {
         class DefaultStage extends Stage {};
         this.scenarioFunc = sinon.spy();
-        this.scenarioRunner.scenarios('group_name', DefaultStage, DefaultStage, DefaultStage, () => {
+        this.scenarioRunner.scenarios('group_name', DefaultStage, () => {
             return {
                 my_scenario_name: this.scenarioFunc
             };
@@ -81,7 +81,7 @@ class StageRecorderGivenStage extends BasicScenarioGivenStage {
     }
 
     a_scenario_that_uses_the_stages_that_records(): this {
-        this.scenarioRunner.scenarios('group_name', this.GivenStageThatRecordBeenCalled, this.WhenStageThatRecordBeenCalled, this.ThenStageThatRecordBeenCalled, ({given, when, then}) => {
+        this.scenarioRunner.scenarios('group_name', [this.GivenStageThatRecordBeenCalled, this.WhenStageThatRecordBeenCalled, this.ThenStageThatRecordBeenCalled], ({given, when, then}) => {
             return {
                 scenario_using_stages() {
                     given().somethingGiven();
@@ -154,7 +154,7 @@ class StatefullScenarioGivenStage extends BasicScenarioGivenStage {
     }
 
     a_scenario_that_uses_stateful_stages(): this {
-        this.scenarioRunner.scenarios('group_name', this.GivenStageStateFull, this.WhenStageStateFull, this.ThenStageStateFull, ({given, when, then}) => {
+        this.scenarioRunner.scenarios('group_name', [this.GivenStageStateFull, this.WhenStageStateFull, this.ThenStageStateFull], ({given, when, then}) => {
             return {
                 scenario_using_stages() {
                     given().aValue();

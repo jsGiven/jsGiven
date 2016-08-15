@@ -28,6 +28,8 @@ type GroupReport = {
     scenarios: ScenarioReport[];
 }
 
+type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G>;
+
 export class ScenarioRunner {
     groupFunc: GroupFunc;
     testFunc: TestFunc;
@@ -37,41 +39,64 @@ export class ScenarioRunner {
         this.groupFunc = groupFunc;
         this.testFunc = testFunc;
     }
-
-    scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, givenClass: Class<G>, whenClass: Class<W>, thenClass: Class<T>, scenariosFunc: ScenariosFunc<G, W, T>) {
+    scenarios<G: Stage, W: Stage, T: Stage>(
+            groupName: string,
+            stagesParams: StagesParam<G, W, T>,
+            scenariosFunc: ScenariosFunc<G, W, T>) {
         let currentGiven: ?G;
         let currentWhen: ?W;
         let currentThen: ?T;
 
-        function getOrBuildGiven(): G {
-            if (!currentGiven) {
-                currentGiven = buildObject(givenClass);
+        let givenParam: ScenariosParam<G, W, T>;
+        if (_.isArray(stagesParams)) {
+            const [givenClass, whenClass, thenClass] = (stagesParams: any);
+            function getOrBuildGiven(): G {
+                if (!currentGiven) {
+                    currentGiven = buildObject(givenClass);
+                }
+                return currentGiven.given();
             }
-            return currentGiven.given();
-        }
 
-        function getOrBuildWhen(): W {
-            if (!currentWhen) {
-                currentWhen = buildObject(whenClass);
-                copyStateProperties(currentGiven, currentWhen);
+            function getOrBuildWhen(): W {
+                if (!currentWhen) {
+                    currentWhen = buildObject(whenClass);
+                    copyStateProperties(currentGiven, currentWhen);
+                }
+                return currentWhen.when();
             }
-            return currentWhen.when();
-        }
 
-        function getOrBuildThen(): T {
-            if (!currentThen) {
-                currentThen = buildObject(thenClass);
-                copyStateProperties(currentGiven, currentThen);
-                copyStateProperties(currentWhen, currentThen);
+            function getOrBuildThen(): T {
+                if (!currentThen) {
+                    currentThen = buildObject(thenClass);
+                    copyStateProperties(currentGiven, currentThen);
+                    copyStateProperties(currentWhen, currentThen);
+                }
+                return currentThen.then();
             }
-            return currentThen.then();
-        }
 
-        const givenParam: ScenariosParam<G, W, T> = {
-            given: getOrBuildGiven,
-            when: getOrBuildWhen,
-            then: getOrBuildThen
-        };
+            givenParam = {
+                given: getOrBuildGiven,
+                when: getOrBuildWhen,
+                then: getOrBuildThen
+            };
+        } else {
+            const givenClass = (stagesParams: any);
+
+            function getOrBuildGWT(): G & W & T {
+                if (!currentGiven) {
+                    currentGiven = buildObject(givenClass);
+                    currentWhen = currentGiven;
+                    currentThen = currentThen;
+                }
+                return (currentGiven: any);
+            }
+
+            givenParam = {
+                given: () => getOrBuildGWT().given(),
+                when: () => getOrBuildGWT().when(),
+                then: () => getOrBuildGWT().then()
+            };
+        }
 
         const humanizedGroupName = humanize(groupName);
 
@@ -141,7 +166,7 @@ function buildObject<T>(tClass: Class<T>): T {
 export const INSTANCE = new ScenarioRunner();
 
 export function scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, givenClass: Class<G>, whenClass: Class<W>, thenClass: Class<T>, scenarioFunc: ScenariosFunc<G, W, T>): void {
-    return INSTANCE.scenarios(groupName, givenClass, whenClass, thenClass, scenarioFunc);
+    return INSTANCE.scenarios(groupName, [givenClass, whenClass, thenClass], scenarioFunc);
 }
 
 function copyStateProperties<S, T>(source: ?S, target: ?T): void {
