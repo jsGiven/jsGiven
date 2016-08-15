@@ -107,8 +107,7 @@ function buildObject<T>(tClass: Class<T>): T {
 
     // Flowtype really can't type this constructor invocation
     // Therefore we have to cast it as any :(
-    const extendedClassConstructor: any = extendedClass;
-    const instance = new extendedClassConstructor();
+    const instance = new (extendedClass: any)();
 
     const extendedPrototype = Object.getPrototypeOf(instance);
     const classPrototype = Object.getPrototypeOf(extendedPrototype);
