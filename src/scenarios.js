@@ -98,6 +98,7 @@ export class ScenarioRunner {
             };
         }
 
+
         const humanizedGroupName = humanize(groupName);
 
         this.report = {
