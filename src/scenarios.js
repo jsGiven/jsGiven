@@ -20,7 +20,7 @@ export type ScenarioFunc = {
     (): void;
 }
 
-type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G>;
+type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G & W & T>;
 
 export class ScenarioRunner {
     groupFunc: GroupFunc;
@@ -200,8 +200,8 @@ export class ScenarioRunner {
 
 export const INSTANCE = new ScenarioRunner();
 
-export function scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, givenClass: Class<G>, whenClass: Class<W>, thenClass: Class<T>, scenarioFunc: ScenariosFunc<G, W, T>): void {
-    return INSTANCE.scenarios(groupName, [givenClass, whenClass, thenClass], scenarioFunc);
+export function scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, stagesParam: StagesParam<G, W, T>, scenarioFunc: ScenariosFunc<G, W, T>): void {
+    return INSTANCE.scenarios(groupName, stagesParam, scenarioFunc);
 }
 
 function copyStateProperties<S, T>(source: ?S, target: ?T): void {

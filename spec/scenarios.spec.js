@@ -39,7 +39,7 @@ class DummyScenarioThenStage extends BasicScenarioThenStage {
     }
 }
 
-scenarios('scenario_runner', DummyScenarioGivenStage, ScenarioWhenStage, DummyScenarioThenStage, ({given, when, then}) => {
+scenarios('scenario_runner', [DummyScenarioGivenStage, ScenarioWhenStage, DummyScenarioThenStage], ({given, when, then}) => {
     return {
         scenarios_can_be_run_over_any_scenario_runner() {
             given().a_scenario_runner()
@@ -110,7 +110,7 @@ class StageRecorderThenStage extends BasicScenarioThenStage {
     }
 }
 
-scenarios('scenario_runner', StageRecorderGivenStage, ScenarioWhenStage, StageRecorderThenStage, ({given, when, then}) => {
+scenarios('scenario_runner', [StageRecorderGivenStage, ScenarioWhenStage, StageRecorderThenStage], ({given, when, then}) => {
     return {
         scenarios_can_use_given_when_then_stages_with_methods() {
             given().a_scenario_runner()
@@ -189,7 +189,7 @@ class StatefullScenarioThenStage extends BasicScenarioThenStage {
     }
 }
 
-scenarios('scenario_runner', StatefullScenarioGivenStage, ScenarioWhenStage, StatefullScenarioThenStage, ({given, when, then}) => {
+scenarios('scenario_runner', [StatefullScenarioGivenStage, ScenarioWhenStage, StatefullScenarioThenStage], ({given, when, then}) => {
     return {
         scenarios_can_share_state_between_stages() {
             given().a_scenario_runner()

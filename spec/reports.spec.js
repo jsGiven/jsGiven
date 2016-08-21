@@ -79,16 +79,9 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
         return this;
     }
 
-    its_given_part_contains_the_expected_steps(): this {
+    its_given_part_contains_the_steps(expectedSteps: string[]): this {
         const {steps} = this.findPartByKind('GIVEN');
-        expect(steps.map(({name}) => name)).to.deep.equal([
-            'Given',
-            'an egg',
-            'and',
-            'some milk',
-            'and',
-            '100 grams of flour',
-        ]);
+        expect(steps.map(({name}) => name)).to.deep.equal(expectedSteps);
         return this;
     }
 
@@ -105,7 +98,7 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
     }
 }
 
-scenarios('reports', ReportScenarioGivenStage, ScenarioWhenStage, ReportScenarioThenStage, ({given, when, then}) => {
+scenarios('reports', [ReportScenarioGivenStage, ScenarioWhenStage, ReportScenarioThenStage], ({given, when, then}) => {
     return {
         a_report_is_generated_after_execution() {
             given().a_scenario_runner()
@@ -116,7 +109,14 @@ scenarios('reports', ReportScenarioGivenStage, ScenarioWhenStage, ReportScenario
             then().the_report_has_been_generated()
                 .and().its_name_is_readable_in_english()
                 .and().it_has_a_given_part()
-                .and().its_given_part_contains_the_expected_steps()
+                .and().its_given_part_contains_the_steps([
+                    'Given',
+                    'an egg',
+                    'and',
+                    'some milk',
+                    'and',
+                    '100 grams of flour',
+                ])
                 .and().its_given_part_does_not_include_methods_that_return_something_else_than_this()
                 .and().it_has_a_when_part()
                 .and().it_has_a_then_part();
