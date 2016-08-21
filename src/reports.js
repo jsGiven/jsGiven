@@ -13,16 +13,25 @@ export class ScenarioPart {
         this.steps = [];
     }
 
-    addStep(methodName: string) {
-        const name = this.steps.length > 0 ?
-            _.lowerCase(humanize(methodName)) :
-            humanize(methodName);
-        this.steps.push({name});
+    addStep(methodName: string, parameters: mixed[]) {
+        const isFirstStep = this.steps.length === 0;
+        this.steps.push(new Step(methodName, parameters, isFirstStep));
     }
 }
 
-type Step = {
+class Step {
     name: string;
+
+    constructor(methodName: string, parameters: mixed[], isFirstStep: boolean) {
+        const strings = methodName.split('$').map((word, index) =>
+            isFirstStep && index === 0 ? humanize(word) : _.lowerCase(humanize(word))
+        );
+
+        this.name = strings.reduce((previous, newString, index) => {
+            const build = previous + `${parameters[index - 1]} ` + newString;
+            return build;
+        });
+    }
 }
 
 export class ScenarioReport {

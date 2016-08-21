@@ -171,7 +171,7 @@ export class ScenarioRunner {
             extendedPrototype[methodName] = function(...args) {
                 const result = classPrototype[methodName].apply(this, args);
                 if (result === this) { // only records methods that return this
-                    self.currentPart.addStep(methodName);
+                    self.currentPart.addStep(methodName, args);
                 }
                 return result;
             }

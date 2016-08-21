@@ -24,10 +24,10 @@ class ReportScenarioGivenStage extends BasicScenarioGivenStage {
         class DefaultStage extends Stage {
             an_egg(): this {return this;}
             some_milk(): this {this.internalMethod(); return this;}
-            some_flour(): this {return this;}
+            $_grams_of_flour(grams: number): this {return this;}
             the_cook_mangles_everthing_to_a_dough(): this {return this};
             the_cook_fries_the_dough_in_a_pan(): this {return this};
-            the_resulting_meal_is_a_pan_cake(): this {this.internalMethod(); return this};
+            the_resulting_meal_is_a_pan_cake(): this {return this};
             internalMethod(): void {};
         };
         this.scenarioFunc = sinon.spy();
@@ -36,7 +36,7 @@ class ReportScenarioGivenStage extends BasicScenarioGivenStage {
                 pan_cake_recipe() {
                     given().an_egg().
                         and().some_milk().
-                        and().some_flour()
+                        and().$_grams_of_flour(100)
 
                     when().the_cook_mangles_everthing_to_a_dough().
                         and().the_cook_fries_the_dough_in_a_pan()
@@ -87,7 +87,7 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
             'and',
             'some milk',
             'and',
-            'some flour',
+            '100 grams of flour',
         ]);
         return this;
     }
