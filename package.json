@@ -61,7 +61,7 @@
   "ava": {
     "require": [
       "babel-core/register",
-      "./spec/support/setup-sinon-chai.js"
+      "./spec/support/setup-tests.js"
     ],
     "babel": "inherit"
   }

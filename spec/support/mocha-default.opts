@@ -1,2 +1,2 @@
 --compilers js:babel-core/register
---require spec/support/setup-sinon-chai.js
+--require spec/support/setup-tests.js

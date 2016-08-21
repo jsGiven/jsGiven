@@ -7,6 +7,6 @@
   "random": false,
   "helpers": [
     "../node_modules/babel-core/register.js",
-    "../spec/support/setup-sinon-chai.js"
+    "../spec/support/setup-tests.js"
   ]
 }

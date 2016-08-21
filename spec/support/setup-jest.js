@@ -1,1 +1,1 @@
-require('./setup-sinon-chai');
+require('./setup-tests');

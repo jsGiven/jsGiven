@@ -9,6 +9,6 @@ exports.config = {
     specs: ['spec/**.spec.js'],
     onPrepare: function () {
         require("babel-core/register");
-        require('./spec/support/setup-sinon-chai.js');
+        require('./spec/support/setup-tests.js');
     }
 };
