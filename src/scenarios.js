@@ -70,10 +70,10 @@ export class ScenarioRunner {
         let currentThen: ?T;
 
         let scenariosParam: ScenariosParam<G, W, T>;
-        if (_.isArray(stagesParams)) {
+        if (Array.isArray(stagesParams)) {
             const self = this;
 
-            const [givenClass, whenClass, thenClass] = (stagesParams: any);
+            const [givenClass, whenClass, thenClass] = stagesParams;
             function getOrBuildGiven(): G {
                 if (!currentGiven) {
                     currentGiven = self.buildObject(givenClass);
