@@ -3,7 +3,7 @@ import {scenarios, setupForRspec, setupForAva, State, Stage} from '../index';
 import {BasicScenarioGivenStage, ScenarioWhenStage, BasicScenarioThenStage} from './basic-stages';
 
 import {ScenarioRunner} from '../src/scenarios';
-import type {ScenarioPart, ScenarioPartKind} from '../src/scenarios';
+import type {ScenarioPart, ScenarioPartKind} from '../src/reports';
 
 import {expect} from 'chai';
 import sinon from 'sinon';

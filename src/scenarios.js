@@ -1,6 +1,7 @@
 // @flow
 import {Stage} from './Stage';
 import type {GroupFunc, TestFunc} from './test-runners';
+import {GroupReport, ScenarioReport, ScenarioPart} from './reports';
 
 import _ from 'lodash';
 import humanize from 'string-humanize';
@@ -17,27 +18,6 @@ type ScenariosFunc<G, W, T> = {
 
 export type ScenarioFunc = {
     (): void;
-}
-
-export type ScenarioPartKind = 'GIVEN' | 'WHEN' | 'THEN';
-
-export type ScenarioPart = {
-    kind: ScenarioPartKind;
-    steps: Step[];
-}
-
-type Step = {
-    name: string;
-}
-
-type ScenarioReport = {
-    name: string;
-    parts: ScenarioPart[];
-}
-
-type GroupReport = {
-    name: string;
-    scenarios: ScenarioReport[];
 }
 
 type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G>;
@@ -60,10 +40,7 @@ export class ScenarioRunner {
             scenariosFunc: ScenariosFunc<G, W, T>) {
 
         const humanizedGroupName = humanize(groupName);
-        this.report = {
-            name: humanizedGroupName,
-            scenarios: []
-        }
+        this.report = new GroupReport(humanizedGroupName);
 
         let currentGiven: ?G;
         let currentWhen: ?W;
@@ -159,25 +136,22 @@ export class ScenarioRunner {
     }
 
     addScenario(scenarioNameForHumans: string) {
-        this.currentScenario = {
-            name: scenarioNameForHumans,
-            parts: [],
-        };
+        this.currentScenario = new ScenarioReport(scenarioNameForHumans);
         this.report.scenarios.push(this.currentScenario);
     }
 
     addGivenPart() {
-        this.currentPart = {kind: 'GIVEN', steps: []};
+        this.currentPart = new ScenarioPart('GIVEN');
         this.currentScenario.parts.push(this.currentPart);
     }
 
     addWhenPart() {
-        this.currentPart = {kind: 'WHEN', steps: []};
+        this.currentPart = new ScenarioPart('WHEN');
         this.currentScenario.parts.push(this.currentPart);
     }
 
     addThenPart() {
-        this.currentPart = {kind: 'THEN', steps: []};
+        this.currentPart = new ScenarioPart('THEN');
         this.currentScenario.parts.push(this.currentPart);
     }
 
@@ -195,12 +169,7 @@ export class ScenarioRunner {
             const self = this;
 
             extendedPrototype[methodName] = function(...args) {
-                const steps = self.currentPart.steps;
-                const name = steps.length > 0 ?
-                    _.lowerCase(humanize(methodName)) :
-                    humanize(methodName);
-                self.currentPart.steps.push({name});
-
+                self.currentPart.addStep(methodName);
                 return classPrototype[methodName].apply(this, args);
             }
         });
