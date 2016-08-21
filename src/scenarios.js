@@ -19,8 +19,15 @@ export type ScenarioFunc = {
     (): void;
 }
 
+export type ScenarioPartKind = 'GIVEN' | 'WHEN' | 'THEN';
+
+export type ScenarioPart = {
+    kind: ScenarioPartKind;
+}
+
 type ScenarioReport = {
     name: string;
+    parts: ScenarioPart[];
 }
 
 type GroupReport = {
@@ -33,21 +40,33 @@ type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G>;
 export class ScenarioRunner {
     groupFunc: GroupFunc;
     testFunc: TestFunc;
-    report: ?GroupReport;
+    report: GroupReport;
+    currentScenario: ScenarioReport;
+    currentGivenPart: ScenarioPart;
+    currentWhenPart: ScenarioPart;
+    currentThenPart: ScenarioPart;
 
     setup(groupFunc: GroupFunc, testFunc: TestFunc): void {
         this.groupFunc = groupFunc;
         this.testFunc = testFunc;
     }
+
     scenarios<G: Stage, W: Stage, T: Stage>(
             groupName: string,
             stagesParams: StagesParam<G, W, T>,
             scenariosFunc: ScenariosFunc<G, W, T>) {
+
+        const humanizedGroupName = humanize(groupName);
+        this.report = {
+            name: humanizedGroupName,
+            scenarios: []
+        }
+
         let currentGiven: ?G;
         let currentWhen: ?W;
         let currentThen: ?T;
 
-        let givenParam: ScenariosParam<G, W, T>;
+        let scenariosParam: ScenariosParam<G, W, T>;
         if (_.isArray(stagesParams)) {
             const [givenClass, whenClass, thenClass] = (stagesParams: any);
             function getOrBuildGiven(): G {
@@ -74,11 +93,11 @@ export class ScenarioRunner {
                 return currentThen.then();
             }
 
-            givenParam = {
+            scenariosParam = this.addGivenWhenThenParts({
                 given: getOrBuildGiven,
                 when: getOrBuildWhen,
                 then: getOrBuildThen
-            };
+            });
         } else {
             const givenClass = (stagesParams: any);
 
@@ -91,40 +110,69 @@ export class ScenarioRunner {
                 return (currentGiven: any);
             }
 
-            givenParam = {
+            scenariosParam = this.addGivenWhenThenParts({
                 given: () => getOrBuildGWT().given(),
                 when: () => getOrBuildGWT().when(),
                 then: () => getOrBuildGWT().then()
-            };
-        }
-
-
-        const humanizedGroupName = humanize(groupName);
-
-        this.report = {
-            name: humanizedGroupName,
-            scenarios: []
+            });
         }
 
         this.groupFunc(humanizedGroupName, () => {
-            const scenarios = scenariosFunc(givenParam);
+            const scenarios = scenariosFunc(scenariosParam);
 
             _.functions(scenarios).forEach(scenarioName => {
                 const scenarioNameForHumans = humanize(scenarioName);
                 this.testFunc(scenarioNameForHumans, () => {
+                    this.addScenario(scenarioNameForHumans);
+
                     // Reset stages
                     currentGiven = currentWhen = currentThen = undefined;
-                    try {
-                        // Execute scenario
-                        scenarios[scenarioName]();
-                    } finally {
-                        if (this.report) {
-                            this.report.scenarios.push({name: scenarioNameForHumans});
-                        }
-                    }
+
+                    // Execute scenario
+                    scenarios[scenarioName]();
                 })
             });
         });
+    }
+
+    addGivenWhenThenParts<G, W, T>(scenariosParam: ScenariosParam<G, W, T>): ScenariosParam<G, W, T> {
+        return {
+            given: () => {
+                this.addGivenPart();
+                return scenariosParam.given();
+            },
+            when: () => {
+                this.addWhenPart();
+                return scenariosParam.when();
+            },
+            then: () => {
+                this.addThenPart();
+                return scenariosParam.then();
+            },
+        };
+    }
+
+    addScenario(scenarioNameForHumans: string) {
+        this.currentScenario = {
+            name: scenarioNameForHumans,
+            parts: [],
+        };
+        this.report.scenarios.push(this.currentScenario);
+    }
+
+    addGivenPart() {
+        this.currentGivenPart = {kind: 'GIVEN'};
+        this.currentScenario.parts.push(this.currentGivenPart);
+    }
+
+    addWhenPart() {
+        this.currentWhenPart = {kind: 'WHEN'};
+        this.currentScenario.parts.push(this.currentWhenPart);
+    }
+
+    addThenPart() {
+        this.currentThenPart = {kind: 'THEN'};
+        this.currentScenario.parts.push(this.currentThenPart);
     }
 }
 
@@ -140,27 +188,27 @@ function buildObject<T>(tClass: Class<T>): T {
 
     getAllMethods(classPrototype).forEach((methodName) => {
         extendedPrototype[methodName] = function(...args) {
-            return classPrototype[methodName].apply(this, ...args);
+            return classPrototype[methodName].apply(this, args);
         }
     });
 
     return instance;
 
     function getAllMethods(obj: any): string[] {
-        let allProps: string[] = [];
+        let allMethods: string[] = [];
         let current = obj;
         do {
             let props = Object.getOwnPropertyNames(current)
             props.forEach(function(prop) {
-                if (allProps.indexOf(prop) === -1) {
+                if (allMethods.indexOf(prop) === -1) {
                     if(_.isFunction(current[prop])) {
-                        allProps.push(prop);
+                        allMethods.push(prop);
                     }
                 }
             });
         } while(current = Object.getPrototypeOf(current));
 
-        return allProps;
+        return allMethods;
     }
 }
 
