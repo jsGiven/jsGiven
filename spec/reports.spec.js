@@ -78,7 +78,20 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
         return this;
     }
 
-    __findPartByKind(scenarioKind: ScenarioPartKind): ?ScenarioPart {
+    its_given_part_contains_the_expected_words(): this {
+        const {steps} = this.__findPartByKind('GIVEN');
+        expect(steps.map(({name}) => name)).to.deep.equal([
+            'Given',
+            'an egg',
+            'and',
+            'some milk',
+            'and',
+            'some flour',
+        ]);
+        return this;
+    }
+
+    __findPartByKind(scenarioKind: ScenarioPartKind): ScenarioPart {
         const report = this.scenarioRunner.report;
         const [scenario] = report.scenarios;
         return scenario.parts.find(({kind}) => kind === scenarioKind);
@@ -96,6 +109,7 @@ scenarios('reports', ReportScenarioGivenStage, ScenarioWhenStage, ReportScenario
             then().the_report_has_been_generated()
                 .and().its_name_is_readable_in_english()
                 .and().it_has_a_given_part()
+                .and().its_given_part_contains_the_expected_words()
                 .and().it_has_a_when_part()
                 .and().it_has_a_then_part();
         }

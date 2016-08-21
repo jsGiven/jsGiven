@@ -23,6 +23,11 @@ export type ScenarioPartKind = 'GIVEN' | 'WHEN' | 'THEN';
 
 export type ScenarioPart = {
     kind: ScenarioPartKind;
+    steps: Step[];
+}
+
+type Step = {
+    name: string;
 }
 
 type ScenarioReport = {
@@ -162,17 +167,17 @@ export class ScenarioRunner {
     }
 
     addGivenPart() {
-        this.currentPart = {kind: 'GIVEN'};
+        this.currentPart = {kind: 'GIVEN', steps: []};
         this.currentScenario.parts.push(this.currentPart);
     }
 
     addWhenPart() {
-        this.currentPart = {kind: 'WHEN'};
+        this.currentPart = {kind: 'WHEN', steps: []};
         this.currentScenario.parts.push(this.currentPart);
     }
 
     addThenPart() {
-        this.currentPart = {kind: 'THEN'};
+        this.currentPart = {kind: 'THEN', steps: []};
         this.currentScenario.parts.push(this.currentPart);
     }
 
@@ -187,7 +192,15 @@ export class ScenarioRunner {
         const classPrototype = Object.getPrototypeOf(extendedPrototype);
 
         getAllMethods(classPrototype).forEach((methodName) => {
+            const self = this;
+
             extendedPrototype[methodName] = function(...args) {
+                const steps = self.currentPart.steps;
+                const name = steps.length > 0 ?
+                    _.lowerCase(humanize(methodName)) :
+                    humanize(methodName);
+                self.currentPart.steps.push({name});
+
                 return classPrototype[methodName].apply(this, args);
             }
         });
