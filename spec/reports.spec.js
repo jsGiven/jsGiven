@@ -23,11 +23,12 @@ class ReportScenarioGivenStage extends BasicScenarioGivenStage {
     a_dummy_scenario(): this {
         class DefaultStage extends Stage {
             an_egg(): this {return this;}
-            some_milk(): this {return this;}
+            some_milk(): this {this.internalMethod(); return this;}
             some_flour(): this {return this;}
             the_cook_mangles_everthing_to_a_dough(): this {return this};
             the_cook_fries_the_dough_in_a_pan(): this {return this};
-            the_resulting_meal_is_a_pan_cake(): this {return this};
+            the_resulting_meal_is_a_pan_cake(): this {this.internalMethod(); return this};
+            internalMethod(): void {};
         };
         this.scenarioFunc = sinon.spy();
         this.scenarioRunner.scenarios('group_name', DefaultStage, ({given, when, then}) => {
@@ -64,22 +65,22 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
     }
 
     it_has_a_given_part(): this {
-        expect(this.__findPartByKind('GIVEN')).to.exist;
+        expect(this.findPartByKind('GIVEN')).to.exist;
         return this;
     }
 
     it_has_a_when_part(): this {
-        expect(this.__findPartByKind('WHEN')).to.exist;
+        expect(this.findPartByKind('WHEN')).to.exist;
         return this;
     }
 
     it_has_a_then_part(): this {
-        expect(this.__findPartByKind('THEN')).to.exist;
+        expect(this.findPartByKind('THEN')).to.exist;
         return this;
     }
 
-    its_given_part_contains_the_expected_words(): this {
-        const {steps} = this.__findPartByKind('GIVEN');
+    its_given_part_contains_the_expected_steps(): this {
+        const {steps} = this.findPartByKind('GIVEN');
         expect(steps.map(({name}) => name)).to.deep.equal([
             'Given',
             'an egg',
@@ -91,7 +92,13 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
         return this;
     }
 
-    __findPartByKind(scenarioKind: ScenarioPartKind): ScenarioPart {
+    its_given_part_does_not_include_methods_that_return_something_else_than_this(): this {
+        const {steps} = this.findPartByKind('GIVEN');
+        expect(steps.map(({name}) => name)).not.to.include('internal method');
+        return this;
+    }
+
+    findPartByKind(scenarioKind: ScenarioPartKind): ScenarioPart {
         const report = this.scenarioRunner.report;
         const [scenario] = report.scenarios;
         return scenario.parts.find(({kind}) => kind === scenarioKind);
@@ -109,7 +116,8 @@ scenarios('reports', ReportScenarioGivenStage, ScenarioWhenStage, ReportScenario
             then().the_report_has_been_generated()
                 .and().its_name_is_readable_in_english()
                 .and().it_has_a_given_part()
-                .and().its_given_part_contains_the_expected_words()
+                .and().its_given_part_contains_the_expected_steps()
+                .and().its_given_part_does_not_include_methods_that_return_something_else_than_this()
                 .and().it_has_a_when_part()
                 .and().it_has_a_then_part();
         }

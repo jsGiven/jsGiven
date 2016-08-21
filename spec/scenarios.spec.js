@@ -66,15 +66,18 @@ class StageRecorderGivenStage extends BasicScenarioGivenStage {
         this.somethingGivenCalled = false;
         const self = this;
         this.GivenStageThatRecordBeenCalled = class GivenStageThatRecordBeenCalled extends Stage {
-            somethingGiven() { self.somethingGivenCalled = true; }
+            somethingGiven(): this {
+                self.somethingGivenCalled = true;
+                return this;
+            }
         };
         this.somethingWhenCalled = false;
         this.WhenStageThatRecordBeenCalled = class WhenStageThatRecordBeenCalled extends Stage {
-            somethingWhen() { self.somethingWhenCalled = true; }
+            somethingWhen(): this { self.somethingWhenCalled = true; return this; }
         };
         this.somethingThenCalled = false;
         this.ThenStageThatRecordBeenCalled = class ThenStageThatRecordBeenCalled extends Stage {
-            somethingThen() { self.somethingThenCalled = true; }
+            somethingThen(): this { self.somethingThenCalled = true; return this; }
         };
 
         return this;
@@ -133,21 +136,29 @@ class StatefullScenarioGivenStage extends BasicScenarioGivenStage {
         this.GivenStageStateFull = class GivenStageStateFull extends Stage {
             @State givenValue: number;
             @State expectedValue: number;
-            aValue() { this.givenValue = 1; this.expectedValue = 2; }
+            aValue(): this {
+                this.givenValue = 1;
+                this.expectedValue = 2;
+                return this;
+            }
         };
         this.WhenStageStateFull = class WhenStageStateFull extends Stage {
             @State givenValue: number;
             @State computedValue: number;
-            it_gets_incremented() { this.computedValue = this.givenValue + 1; }
+            it_gets_incremented(): this {
+                this.computedValue = this.givenValue + 1;
+                return this;
+            }
         };
         this.expectedValueFromWhenStage;
         this.expectedValueFromGivenStage;
         this.ThenStageStateFull = class ThenStageStateFull extends Stage {
             @State expectedValue: number;
             @State computedValue: number;
-            the_value_must_be_incremented() {
+            the_value_must_be_incremented(): this {
                 self.expectedValueFromWhenStage = this.computedValue;
                 self.expectedValueFromGivenStage = this.expectedValue;
+                return this;
             }
         };
         return this;
