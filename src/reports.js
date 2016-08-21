@@ -23,12 +23,17 @@ export class Step {
     name: string;
 
     constructor(methodName: string, parameters: mixed[], isFirstStep: boolean) {
-        const strings = methodName.split('$').map((word, index) =>
-            isFirstStep && index === 0 ? humanize(word) : _.lowerCase(humanize(word))
-        );
+        const TWO_DOLLAR_PLACEHOLDER = 'zzblablaescapedollarsignplaceholdertpolm';
+        const strings = methodName
+            .replace('$$', TWO_DOLLAR_PLACEHOLDER)
+            .split('$')
+            .map((word, index) =>
+                isFirstStep && index === 0 ? humanize(word) : _.lowerCase(humanize(word))
+            );
+
         this.name = strings.reduce((previous, newString, index) =>
             `${previous} ${formatParameter(parameters[index - 1])} ${newString}`
-        ).trim();
+        ).trim().replace(TWO_DOLLAR_PLACEHOLDER, '$');
 
         function formatParameter(parameter: mixed): string {
             if (_.isObject(parameter) || Array.isArray(parameter)) {

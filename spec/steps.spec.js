@@ -50,5 +50,10 @@ scenarios('parametrized_steps', StepsStage, ({given, when, then}) => {
             given().a_parametrized_step_with_$_methodName_and_$_argument('before_$_after', 500);
             then().the_parametrized_step_is_named_$('before 500 after');
         },
+
+        two_dollar_signs_should_not_be_treated_as_a_placeholder() {
+            given().a_parametrized_step_with_$_methodName_and_$_argument('many_$$', 500);
+            then().the_parametrized_step_is_named_$('many $');
+        },
     }
 });
