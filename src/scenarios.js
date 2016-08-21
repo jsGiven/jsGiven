@@ -42,9 +42,7 @@ export class ScenarioRunner {
     testFunc: TestFunc;
     report: GroupReport;
     currentScenario: ScenarioReport;
-    currentGivenPart: ScenarioPart;
-    currentWhenPart: ScenarioPart;
-    currentThenPart: ScenarioPart;
+    currentPart: ScenarioPart;
 
     setup(groupFunc: GroupFunc, testFunc: TestFunc): void {
         this.groupFunc = groupFunc;
@@ -68,17 +66,19 @@ export class ScenarioRunner {
 
         let scenariosParam: ScenariosParam<G, W, T>;
         if (_.isArray(stagesParams)) {
+            const self = this;
+
             const [givenClass, whenClass, thenClass] = (stagesParams: any);
             function getOrBuildGiven(): G {
                 if (!currentGiven) {
-                    currentGiven = buildObject(givenClass);
+                    currentGiven = self.buildObject(givenClass);
                 }
                 return currentGiven.given();
             }
 
             function getOrBuildWhen(): W {
                 if (!currentWhen) {
-                    currentWhen = buildObject(whenClass);
+                    currentWhen = self.buildObject(whenClass);
                     copyStateProperties(currentGiven, currentWhen);
                 }
                 return currentWhen.when();
@@ -86,7 +86,7 @@ export class ScenarioRunner {
 
             function getOrBuildThen(): T {
                 if (!currentThen) {
-                    currentThen = buildObject(thenClass);
+                    currentThen = self.buildObject(thenClass);
                     copyStateProperties(currentGiven, currentThen);
                     copyStateProperties(currentWhen, currentThen);
                 }
@@ -99,11 +99,12 @@ export class ScenarioRunner {
                 then: getOrBuildThen
             });
         } else {
+            const self = this;
             const givenClass = (stagesParams: any);
 
             function getOrBuildGWT(): G & W & T {
                 if (!currentGiven) {
-                    currentGiven = buildObject(givenClass);
+                    currentGiven = self.buildObject(givenClass);
                     currentWhen = currentGiven;
                     currentThen = currentThen;
                 }
@@ -161,54 +162,54 @@ export class ScenarioRunner {
     }
 
     addGivenPart() {
-        this.currentGivenPart = {kind: 'GIVEN'};
-        this.currentScenario.parts.push(this.currentGivenPart);
+        this.currentPart = {kind: 'GIVEN'};
+        this.currentScenario.parts.push(this.currentPart);
     }
 
     addWhenPart() {
-        this.currentWhenPart = {kind: 'WHEN'};
-        this.currentScenario.parts.push(this.currentWhenPart);
+        this.currentPart = {kind: 'WHEN'};
+        this.currentScenario.parts.push(this.currentPart);
     }
 
     addThenPart() {
-        this.currentThenPart = {kind: 'THEN'};
-        this.currentScenario.parts.push(this.currentThenPart);
+        this.currentPart = {kind: 'THEN'};
+        this.currentScenario.parts.push(this.currentPart);
     }
-}
 
-function buildObject<T>(tClass: Class<T>): T {
-    class extendedClass extends tClass {};
+    buildObject<T>(tClass: Class<T>): T {
+        class extendedClass extends tClass {};
 
-    // Flowtype really can't type this constructor invocation
-    // Therefore we have to cast it as any :(
-    const instance = new (extendedClass: any)();
+        // Flowtype really can't type this constructor invocation
+        // Therefore we have to cast it as any :(
+        const instance = new (extendedClass: any)();
 
-    const extendedPrototype = Object.getPrototypeOf(instance);
-    const classPrototype = Object.getPrototypeOf(extendedPrototype);
+        const extendedPrototype = Object.getPrototypeOf(instance);
+        const classPrototype = Object.getPrototypeOf(extendedPrototype);
 
-    getAllMethods(classPrototype).forEach((methodName) => {
-        extendedPrototype[methodName] = function(...args) {
-            return classPrototype[methodName].apply(this, args);
-        }
-    });
+        getAllMethods(classPrototype).forEach((methodName) => {
+            extendedPrototype[methodName] = function(...args) {
+                return classPrototype[methodName].apply(this, args);
+            }
+        });
 
-    return instance;
+        return instance;
 
-    function getAllMethods(obj: any): string[] {
-        let allMethods: string[] = [];
-        let current = obj;
-        do {
-            let props = Object.getOwnPropertyNames(current)
-            props.forEach(function(prop) {
-                if (allMethods.indexOf(prop) === -1) {
-                    if(_.isFunction(current[prop])) {
-                        allMethods.push(prop);
+        function getAllMethods(obj: any): string[] {
+            let allMethods: string[] = [];
+            let current = obj;
+            do {
+                let props = Object.getOwnPropertyNames(current)
+                props.forEach(function(prop) {
+                    if (allMethods.indexOf(prop) === -1) {
+                        if(_.isFunction(current[prop])) {
+                            allMethods.push(prop);
+                        }
                     }
-                }
-            });
-        } while(current = Object.getPrototypeOf(current));
+                });
+            } while(current = Object.getPrototypeOf(current));
 
-        return allMethods;
+            return allMethods;
+        }
     }
 }
 
