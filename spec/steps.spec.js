@@ -13,11 +13,28 @@ if (global.describe && global.it) {
 
 class StepsStage extends Stage {
     step: Step;
+    somethingWithToStringInstance: any;
 
     a_parametrized_step_with_$_methodName_and_$_argument(methodName: string, value: mixed): this {
         this.step = new Step(methodName, [value], false);
         return this;
     }
+
+    a_class_that_defines_a_toString_method_that_returns(text: string): this {
+        class SomethingWithToString {
+            toString() {
+                return text;
+            }
+        }
+        this.somethingWithToStringInstance = new SomethingWithToString();
+        return this;
+    }
+
+    a_parametrized_step_with_$_methodName_that_receives_an_argument_of_that_class(methodName: string): this {
+        this.step = new Step(methodName, [this.somethingWithToStringInstance], false);
+        return this;
+    }
+
     the_parametrized_step_is_named_$(expectedName: string): this {
         expect(this.step.name).to.equal(expectedName);
         return this;
@@ -54,6 +71,12 @@ scenarios('parametrized_steps', StepsStage, ({given, when, then}) => {
         two_dollar_signs_should_not_be_treated_as_a_placeholder() {
             given().a_parametrized_step_with_$_methodName_and_$_argument('many_$$', 500);
             then().the_parametrized_step_is_named_$('many $');
+        },
+
+        the_toString_method_should_be_used_when_present() {
+            given().a_class_that_defines_a_toString_method_that_returns('customToString')
+                .and().a_parametrized_step_with_$_methodName_that_receives_an_argument_of_that_class('do_something_with_$');
+            then().the_parametrized_step_is_named_$('do something with customToString');
         },
     }
 });

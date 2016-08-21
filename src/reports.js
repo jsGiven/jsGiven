@@ -24,19 +24,26 @@ export class Step {
 
     constructor(methodName: string, parameters: mixed[], isFirstStep: boolean) {
         const TWO_DOLLAR_PLACEHOLDER = 'zzblablaescapedollarsignplaceholdertpolm';
-        const strings = methodName
+
+        this.name = methodName
             .replace('$$', TWO_DOLLAR_PLACEHOLDER)
             .split('$')
             .map((word, index) =>
                 isFirstStep && index === 0 ? humanize(word) : _.lowerCase(humanize(word))
-            );
+            )
+            .reduce((previous, newString, index) =>
+                `${previous} ${formatParameter(parameters[index - 1])} ${newString}`
+            )
+            .trim()
+            .replace(TWO_DOLLAR_PLACEHOLDER, '$');
 
-        this.name = strings.reduce((previous, newString, index) =>
-            `${previous} ${formatParameter(parameters[index - 1])} ${newString}`
-        ).trim().replace(TWO_DOLLAR_PLACEHOLDER, '$');
-
-        function formatParameter(parameter: mixed): string {
+        function formatParameter(parameter: any): string {
             if (_.isObject(parameter) || Array.isArray(parameter)) {
+                if (parameter.toString &&
+                    parameter.toString !== Object.prototype.toString &&
+                    parameter.toString !== Array.prototype.toString) {
+                    return parameter.toString();
+                }
                 return JSON.stringify(parameter);
             } else {
                 return parameter.toString ? parameter.toString() : JSON.stringify(parameter);
