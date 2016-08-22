@@ -9,7 +9,7 @@ A JavaScript frontend to [JGiven](http://jgiven.org/)
 
 It aims to provide a BDD frontend (behaving very much like jGiven) producing json reports compatible with JGiven's web application.
 ```javascript
-scenarios('recipes', {given, when, then} => {
+scenarios('recipes', RecipesStage, ({given, when, then}) => {
   return {
      a_pancake_can_be_fried_out_of_an_egg_milk_and_flour() {
       given().an_egg().
