@@ -44,7 +44,7 @@
             2,
             "all"
         ],
-        "flowtype/define-flow-type": 1,
+        "flowtype/define-flow-type": 2,
         "flowtype/require-parameter-type": [
             2,
             {
@@ -96,7 +96,7 @@
                     ["builtin", "external", "internal", "parent", "sibling", "index"],
                 "newlines-between": "always"
             }
-        ],
+        ]
     },
     "settings": {
         "flowtype": {
