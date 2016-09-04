@@ -106,13 +106,17 @@ export class ScenarioRunner {
             _.functions(scenarios).forEach(scenarioName => {
                 const scenarioNameForHumans = humanize(scenarioName);
                 this.testFunc(scenarioNameForHumans, () => {
-                    this.addScenario(scenarioNameForHumans);
+                    const scenario = this.addScenario(scenarioNameForHumans);
 
                     // Reset stages
                     currentGiven = currentWhen = currentThen = undefined;
 
                     // Execute scenario
-                    scenarios[scenarioName]();
+                    try {
+                        scenarios[scenarioName]();
+                    } finally {
+                        scenario.dumpToFile();
+                    }
                 });
             });
         });
@@ -135,9 +139,10 @@ export class ScenarioRunner {
         };
     }
 
-    addScenario(scenarioNameForHumans: string) {
-        this.currentScenario = new ScenarioReport(scenarioNameForHumans);
+    addScenario(scenarioNameForHumans: string): ScenarioReport {
+        this.currentScenario = new ScenarioReport(this.report, scenarioNameForHumans);
         this.report.scenarios.push(this.currentScenario);
+        return this.currentScenario;
     }
 
     addGivenPart() {

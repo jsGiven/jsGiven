@@ -1,4 +1,7 @@
 // @flow
+import fs from 'fs';
+import crypto from 'crypto';
+
 import _ from 'lodash';
 import humanize from 'string-humanize';
 
@@ -54,12 +57,22 @@ export class Step {
 }
 
 export class ScenarioReport {
+    groupReport: GroupReport;
     name: string;
     parts: ScenarioPart[];
 
-    constructor(name: string) {
+    constructor(groupReport: GroupReport, name: string) {
+        this.groupReport = groupReport;
         this.name = name;
         this.parts = [];
+    }
+
+    dumpToFile() {
+        createDirOrDoNothingIfExists('jsGiven-reports');
+        const fileName = computeScenarioFileName(this.groupReport.name, this.name);
+        const duplicate: ScenarioReport = _.cloneDeep(this);
+        duplicate.groupReport.scenarios = [];
+        fs.writeFileSync(`jsGiven-reports/${fileName}`, JSON.stringify(duplicate), 'utf-8');
     }
 }
 
@@ -71,4 +84,22 @@ export class GroupReport {
         this.name = name;
         this.scenarios = [];
     }
+}
+
+function createDirOrDoNothingIfExists(path: string) {
+    try {
+        fs.mkdirSync('jsGiven-reports');
+    } catch (error) {
+        if (error.code !== 'EEXIST') {
+            throw error;
+        } else {
+            // do nothing
+        }
+    }
+}
+
+export function computeScenarioFileName(groupName: string, scenarioName: string): string {
+    const hash = crypto.createHash('sha256');
+    hash.update(groupName + '\n' +scenarioName);
+    return hash.digest('hex');
 }

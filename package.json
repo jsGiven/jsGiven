@@ -11,6 +11,7 @@
     "test": "npm run test_mocha && npm run test_jest && npm run test_jasmine && npm run test_ava && npm run test_protractor",
     "test_mocha": "mocha --opts spec/support/mocha-default.opts spec",
     "test_jest": "check-node-version -q --node '< 4.0' || jest --config .jest.conf.json --colors",
+    "test_jest_watch": "npm run test_jest -- --watch",
     "test_jasmine": "jasmine",
     "test_ava": "ava spec/**.spec.js -v",
     "test_protractor": "check-node-version -q --node '< 4.0' || protractor .protractor.conf.js",
