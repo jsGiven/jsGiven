@@ -1,0 +1,95 @@
+{
+    "parser": "babel-eslint",
+    "extends": [
+        "standard",
+        "eslint:recommended"
+    ],
+    "env": {
+        "browser": true
+    },
+    "globals": {
+        "describe": false,
+        "it": false,
+    },
+    "plugins": [
+        "flowtype",
+    ],
+    "rules": {
+        "space-before-function-paren": [
+            "error",
+            {
+                "anonymous": "always",
+                "named": "never"
+            }
+        ],
+        "indent": [
+            "error",
+            4,
+            { "SwitchCase": 1 }
+        ],
+        "semi": [
+            2,
+            "always"
+        ],
+        "no-console": [
+            0
+        ],
+        "comma-dangle": [
+            "error", "always-multiline"
+        ],
+        "curly": [
+            2,
+            "all"
+        ],
+        "flowtype/define-flow-type": 1,
+        "flowtype/require-parameter-type": [
+            2,
+            {
+                "excludeArrowFunctions": true
+            }
+        ],
+        "flowtype/require-return-type": [
+            2,
+            "always",
+            {
+                "annotateUndefined": "never",
+                "excludeArrowFunctions": true
+            }
+        ],
+        "flowtype/require-valid-file-annotation": [
+            2,
+            "always"
+        ],
+        "flowtype/space-after-type-colon": [
+            2,
+            "always"
+        ],
+        "flowtype/space-before-type-colon": [
+            2,
+            "never"
+        ],
+        "flowtype/space-before-generic-bracket": [
+            2,
+            "never",
+        ],
+        "flowtype/union-intersection-spacing": [
+            2,
+            "always",
+        ],
+        "flowtype/generic-spacing": [
+            2,
+            "never",
+        ],
+        "flowtype/type-id-match": [
+            2,
+            "^([A-Z][a-z0-9]+)+$"
+        ],
+        "flowtype/use-flow-type": 2,
+        "flowtype/valid-syntax": 2
+    },
+    "settings": {
+        "flowtype": {
+            "onlyFilesWithFlowAnnotation": false
+        }
+    }
+}

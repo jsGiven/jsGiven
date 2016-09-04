@@ -1,10 +1,9 @@
 // @flow
-import {scenarios, setupForRspec, setupForAva, State, Stage} from '../index';
-import {ScenarioRunner} from '../src/scenarios';
-import type {ScenarioFunc} from '../src/scenarios';
-import type {GroupFunc, TestFunc} from '../src/test-runners';
-import sinon from 'sinon';
 import {expect} from 'chai';
+import {ScenarioRunner} from '../src/scenarios';
+import sinon from 'sinon';
+import type {GroupFunc, TestFunc} from '../src/test-runners';
+import {Stage, State} from '../index';
 
 type SinonStub = {
     callArg: (arg: number) => void;

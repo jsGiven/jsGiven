@@ -1,1 +1,2 @@
+// @flow
 require('./setup-tests');

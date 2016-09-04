@@ -1,12 +1,9 @@
 // @flow
 import {scenarios, setupForRspec, setupForAva, State, Stage} from '../index';
-import {ScenarioRunner} from '../src/scenarios';
 import {BasicScenarioGivenStage, ScenarioWhenStage, BasicScenarioThenStage} from './basic-stages';
 
 import {expect} from 'chai';
 import sinon from 'sinon';
-
-import _ from 'lodash';
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);
@@ -19,11 +16,11 @@ class DummyScenarioGivenStage extends BasicScenarioGivenStage {
     @State scenarioFunc;
 
     a_dummy_scenario(): this {
-        class DefaultStage extends Stage {};
+        class DefaultStage extends Stage {}
         this.scenarioFunc = sinon.spy();
         this.scenarioRunner.scenarios('group_name', DefaultStage, () => {
             return {
-                my_scenario_name: this.scenarioFunc
+                my_scenario_name: this.scenarioFunc,
             };
         });
         return this;
@@ -50,8 +47,8 @@ scenarios('scenario_runner', [DummyScenarioGivenStage, ScenarioWhenStage, DummyS
             then().the_describe_method_has_been_called()
                 .and().the_it_method_has_been_called()
                 .and().the_dummy_scenario_function_has_been_called();
-        }
-    }
+        },
+    };
 });
 
 class StageRecorderGivenStage extends BasicScenarioGivenStage {
@@ -90,7 +87,7 @@ class StageRecorderGivenStage extends BasicScenarioGivenStage {
                     given().somethingGiven();
                     when().somethingWhen();
                     then().somethingThen();
-                }
+                },
             };
         });
         return this;
@@ -120,7 +117,7 @@ scenarios('scenario_runner', [StageRecorderGivenStage, ScenarioWhenStage, StageR
             when().the_scenario_is_executed();
 
             then().the_three_stages_have_been_called();
-        }
+        },
     };
 });
 
@@ -171,7 +168,7 @@ class StatefullScenarioGivenStage extends BasicScenarioGivenStage {
                     given().aValue();
                     when().it_gets_incremented();
                     then().the_value_must_be_incremented();
-                }
+                },
             };
         });
         return this;
@@ -199,6 +196,6 @@ scenarios('scenario_runner', [StatefullScenarioGivenStage, ScenarioWhenStage, St
             when().the_scenario_is_executed();
 
             then().the_state_has_been_propagated();
-        }
+        },
     };
 });

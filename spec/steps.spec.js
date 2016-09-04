@@ -22,7 +22,7 @@ class StepsStage extends Stage {
 
     a_class_that_defines_a_toString_method_that_returns(text: string): this {
         class SomethingWithToString {
-            toString() {
+            toString(): string {
                 return text;
             }
         }
@@ -39,7 +39,7 @@ class StepsStage extends Stage {
         expect(this.step.name).to.equal(expectedName);
         return this;
     }
-};
+}
 
 scenarios('parametrized_steps', StepsStage, ({given, when, then}) => {
     return {
@@ -78,5 +78,5 @@ scenarios('parametrized_steps', StepsStage, ({given, when, then}) => {
                 .and().a_parametrized_step_with_$_methodName_that_receives_an_argument_of_that_class('do_something_with_$');
             then().the_parametrized_step_is_named_$('do something with customToString');
         },
-    }
+    };
 });

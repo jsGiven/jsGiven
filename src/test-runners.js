@@ -13,7 +13,7 @@ export type TestFunc = {
     (testName: string, testFunc: RunnableFunc): void;
 }
 
-export function setupForRspec(describe: any, it: any):void {
+export function setupForRspec(describe: any, it: any): void {
     return INSTANCE.setup((groupName, suiteFunc) => {
         describe(groupName, suiteFunc);
     }, (testName, testFunc) => {

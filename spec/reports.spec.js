@@ -2,13 +2,10 @@
 import {scenarios, setupForRspec, setupForAva, State, Stage} from '../index';
 import {BasicScenarioGivenStage, ScenarioWhenStage, BasicScenarioThenStage} from './basic-stages';
 
-import {ScenarioRunner} from '../src/scenarios';
 import type {ScenarioPart, ScenarioPartKind} from '../src/reports';
 
 import {expect} from 'chai';
 import sinon from 'sinon';
-
-import _ from 'lodash';
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);
@@ -25,24 +22,24 @@ class ReportScenarioGivenStage extends BasicScenarioGivenStage {
             an_egg(): this {return this;}
             some_milk(): this {this.internalMethod(); return this;}
             $_grams_of_flour(grams: number): this {return this;}
-            the_cook_mangles_everthing_to_a_dough(): this {return this};
-            the_cook_fries_the_dough_in_a_pan(): this {return this};
-            the_resulting_meal_is_a_pan_cake(): this {return this};
-            internalMethod(): void {};
-        };
+            the_cook_mangles_everthing_to_a_dough(): this {return this;}
+            the_cook_fries_the_dough_in_a_pan(): this {return this;}
+            the_resulting_meal_is_a_pan_cake(): this {return this;}
+            internalMethod() {}
+        }
         this.scenarioFunc = sinon.spy();
         this.scenarioRunner.scenarios('group_name', DefaultStage, ({given, when, then}) => {
             return {
                 pan_cake_recipe() {
                     given().an_egg().
                         and().some_milk().
-                        and().$_grams_of_flour(100)
+                        and().$_grams_of_flour(100);
 
                     when().the_cook_mangles_everthing_to_a_dough().
-                        and().the_cook_fries_the_dough_in_a_pan()
+                        and().the_cook_fries_the_dough_in_a_pan();
 
-                    then().the_resulting_meal_is_a_pan_cake()
-                }
+                    then().the_resulting_meal_is_a_pan_cake();
+                },
             };
         });
         return this;
@@ -124,6 +121,6 @@ scenarios('reports', [ReportScenarioGivenStage, ScenarioWhenStage, ReportScenari
                 .and().its_given_part_does_not_include_methods_that_return_something_else_than_this()
                 .and().it_has_a_when_part()
                 .and().it_has_a_then_part();
-        }
-    }
+        },
+    };
 });

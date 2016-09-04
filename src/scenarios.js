@@ -1,10 +1,10 @@
 // @flow
+import _ from 'lodash';
+import humanize from 'string-humanize';
+
 import {Stage} from './Stage';
 import type {GroupFunc, TestFunc} from './test-runners';
 import {GroupReport, ScenarioReport, ScenarioPart} from './reports';
-
-import _ from 'lodash';
-import humanize from 'string-humanize';
 
 type ScenariosParam<G, W, T> = {
     given: () => G;
@@ -29,7 +29,7 @@ export class ScenarioRunner {
     currentScenario: ScenarioReport;
     currentPart: ScenarioPart;
 
-    setup(groupFunc: GroupFunc, testFunc: TestFunc): void {
+    setup(groupFunc: GroupFunc, testFunc: TestFunc) {
         this.groupFunc = groupFunc;
         this.testFunc = testFunc;
     }
@@ -51,52 +51,52 @@ export class ScenarioRunner {
             const self = this;
 
             const [givenClass, whenClass, thenClass] = stagesParams;
-            function getOrBuildGiven(): G {
+            const getOrBuildGiven: () => G = () => {
                 if (!currentGiven) {
                     currentGiven = self.buildObject(givenClass);
                 }
                 return currentGiven.given();
-            }
+            };
 
-            function getOrBuildWhen(): W {
+            const getOrBuildWhen: () => W = () => {
                 if (!currentWhen) {
                     currentWhen = self.buildObject(whenClass);
                     copyStateProperties(currentGiven, currentWhen);
                 }
                 return currentWhen.when();
-            }
+            };
 
-            function getOrBuildThen(): T {
+            const getOrBuildThen: () => T = () => {
                 if (!currentThen) {
                     currentThen = self.buildObject(thenClass);
                     copyStateProperties(currentGiven, currentThen);
                     copyStateProperties(currentWhen, currentThen);
                 }
                 return currentThen.then();
-            }
+            };
 
             scenariosParam = this.addGivenWhenThenParts({
                 given: getOrBuildGiven,
                 when: getOrBuildWhen,
-                then: getOrBuildThen
+                then: getOrBuildThen,
             });
         } else {
             const self = this;
             const givenClass = (stagesParams: any);
 
-            function getOrBuildGWT(): G & W & T {
+            const getOrBuildGWT: () => G & W & T = () => {
                 if (!currentGiven) {
                     currentGiven = self.buildObject(givenClass);
                     currentWhen = currentGiven;
-                    currentThen = currentThen;
+                    currentThen = currentWhen;
                 }
                 return (currentGiven: any);
-            }
+            };
 
             scenariosParam = this.addGivenWhenThenParts({
                 given: () => getOrBuildGWT().given(),
                 when: () => getOrBuildGWT().when(),
-                then: () => getOrBuildGWT().then()
+                then: () => getOrBuildGWT().then(),
             });
         }
 
@@ -113,7 +113,7 @@ export class ScenarioRunner {
 
                     // Execute scenario
                     scenarios[scenarioName]();
-                })
+                });
             });
         });
     }
@@ -156,7 +156,7 @@ export class ScenarioRunner {
     }
 
     buildObject<T>(tClass: Class<T>): T {
-        class extendedClass extends tClass {};
+        class extendedClass extends tClass {}
 
         // Flowtype really can't type this constructor invocation
         // Therefore we have to cast it as any :(
@@ -168,13 +168,13 @@ export class ScenarioRunner {
         getAllMethods(classPrototype).forEach((methodName) => {
             const self = this;
 
-            extendedPrototype[methodName] = function(...args) {
+            extendedPrototype[methodName] = function (...args: any[]): any {
                 const result = classPrototype[methodName].apply(this, args);
                 if (result === this) { // only records methods that return this
                     self.currentPart.addStep(methodName, args);
                 }
                 return result;
-            }
+            };
         });
 
         return instance;
@@ -183,15 +183,15 @@ export class ScenarioRunner {
             let allMethods: string[] = [];
             let current = obj;
             do {
-                let props = Object.getOwnPropertyNames(current)
-                props.forEach(function(prop) {
+                let props = Object.getOwnPropertyNames(current);
+                props.forEach(prop => {
                     if (allMethods.indexOf(prop) === -1) {
                         if(_.isFunction(current[prop])) {
                             allMethods.push(prop);
                         }
                     }
                 });
-            } while(current = Object.getPrototypeOf(current));
+            } while((current = Object.getPrototypeOf(current)));
 
             return allMethods;
         }
@@ -204,7 +204,7 @@ export function scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, stage
     return INSTANCE.scenarios(groupName, stagesParam, scenarioFunc);
 }
 
-function copyStateProperties<S, T>(source: ?S, target: ?T): void {
+function copyStateProperties<S, T>(source: ?S, target: ?T) {
     if (source && target && source.stateProperties && target.stateProperties) {
         const propertyNames = _.intersection(source.stateProperties, target.stateProperties);
         propertyNames.forEach(propertyName => {
@@ -216,7 +216,7 @@ function copyStateProperties<S, T>(source: ?S, target: ?T): void {
     }
 }
 
-export function State(target: any, key: string, descriptor: any) {
+export function State(target: any, key: string, descriptor: any): any {
     if (! target.stateProperties) {
         target.stateProperties = [];
     }
