@@ -70,19 +70,15 @@ export class ScenarioReport {
     dumpToFile() {
         createDirOrDoNothingIfExists('jsGiven-reports');
         const fileName = computeScenarioFileName(this.groupReport.name, this.name);
-        const duplicate: ScenarioReport = _.cloneDeep(this);
-        duplicate.groupReport.scenarios = [];
-        fs.writeFileSync(`jsGiven-reports/${fileName}`, JSON.stringify(duplicate), 'utf-8');
+        fs.writeFileSync(`jsGiven-reports/${fileName}`, JSON.stringify(this), 'utf-8');
     }
 }
 
 export class GroupReport {
     name: string;
-    scenarios: ScenarioReport[];
 
     constructor(name: string) {
         this.name = name;
-        this.scenarios = [];
     }
 }
 

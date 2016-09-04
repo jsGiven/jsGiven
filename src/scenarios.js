@@ -25,7 +25,6 @@ type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G & W & T>;
 export class ScenarioRunner {
     groupFunc: GroupFunc;
     testFunc: TestFunc;
-    report: GroupReport;
     currentScenario: ScenarioReport;
     currentPart: ScenarioPart;
 
@@ -40,7 +39,7 @@ export class ScenarioRunner {
             scenariosFunc: ScenariosFunc<G, W, T>) {
 
         const humanizedGroupName = humanize(groupName);
-        this.report = new GroupReport(humanizedGroupName);
+        const report = new GroupReport(humanizedGroupName);
 
         let currentGiven: ?G;
         let currentWhen: ?W;
@@ -106,7 +105,7 @@ export class ScenarioRunner {
             _.functions(scenarios).forEach(scenarioName => {
                 const scenarioNameForHumans = humanize(scenarioName);
                 this.testFunc(scenarioNameForHumans, () => {
-                    const scenario = this.addScenario(scenarioNameForHumans);
+                    const scenario = this.addScenario(report, scenarioNameForHumans);
 
                     // Reset stages
                     currentGiven = currentWhen = currentThen = undefined;
@@ -139,9 +138,8 @@ export class ScenarioRunner {
         };
     }
 
-    addScenario(scenarioNameForHumans: string): ScenarioReport {
-        this.currentScenario = new ScenarioReport(this.report, scenarioNameForHumans);
-        this.report.scenarios.push(this.currentScenario);
+    addScenario(report: GroupReport, scenarioNameForHumans: string): ScenarioReport {
+        this.currentScenario = new ScenarioReport(report, scenarioNameForHumans);
         return this.currentScenario;
     }
 
