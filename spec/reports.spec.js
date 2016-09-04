@@ -94,7 +94,11 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
     findPartByKind(scenarioKind: ScenarioPartKind): ScenarioPart {
         const report = this.scenarioRunner.report;
         const [scenario] = report.scenarios;
-        return scenario.parts.find(({kind}) => kind === scenarioKind);
+        const part = scenario.parts.find(({kind}) => kind === scenarioKind);
+        if (!part) {
+            throw new Error(`No such part ${scenarioKind}`);
+        }
+        return part;
     }
 }
 
