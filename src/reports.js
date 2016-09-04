@@ -21,6 +21,7 @@ export class ScenarioPart {
 
 export class Step {
     name: string;
+    methodName: string;
 
     constructor(methodName: string, parameters: mixed[], isFirstStep: boolean) {
         const TWO_DOLLAR_PLACEHOLDER = 'zzblablaescapedollarsignplaceholdertpolm';

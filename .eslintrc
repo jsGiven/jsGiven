@@ -2,7 +2,9 @@
     "parser": "babel-eslint",
     "extends": [
         "standard",
-        "eslint:recommended"
+        "eslint:recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings"
     ],
     "env": {
         "browser": true
@@ -13,6 +15,7 @@
     },
     "plugins": [
         "flowtype",
+        "import"
     ],
     "rules": {
         "space-before-function-paren": [
@@ -85,7 +88,14 @@
             "^([A-Z][a-z0-9]+)+$"
         ],
         "flowtype/use-flow-type": 2,
-        "flowtype/valid-syntax": 2
+        "flowtype/valid-syntax": 2,
+        "import/order": [
+            "error",
+            {
+                "groups":
+                    ["builtin", "external", "internal", "parent", "sibling", "index"]
+            }
+        ],
     },
     "settings": {
         "flowtype": {

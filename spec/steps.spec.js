@@ -1,8 +1,8 @@
 // @flow
+import {expect} from 'chai';
+
 import {scenarios, setupForRspec, setupForAva, Stage} from '../index';
 import {Step} from '../src/reports';
-
-import {expect} from 'chai';
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);

@@ -1,7 +1,7 @@
 // @flow
 import {expect} from 'chai';
-import {ScenarioRunner} from '../src/scenarios';
 import sinon from 'sinon';
+import {ScenarioRunner} from '../src/scenarios';
 import type {GroupFunc, TestFunc} from '../src/test-runners';
 import {Stage, State} from '../index';
 
