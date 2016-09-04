@@ -9,19 +9,18 @@ A JavaScript frontend to [JGiven](http://jgiven.org/)
 
 It aims to provide a BDD frontend (behaving very much like jGiven) producing json reports compatible with JGiven's web application.
 ```javascript
-scenarios('recipes', RecipesStage, ({given, when, then}) => {
-  return {
-     a_pancake_can_be_fried_out_of_an_egg_milk_and_flour() {
-      given().an_egg().
-        and().some_milk().
-        and().the_ingredient('flour')
+scenarios('recipes', RecipesStage, ({given, when, then}) => ({
+  a_pancake_can_be_fried_out_of_an_egg_milk_and_flour() {
+    given().an_egg().
+      and().some_milk().
+      and().the_ingredient('flour')
 
-      when().the_cook_mangles_everthing_to_a_dough().
-        and().the_cook_fries_the_dough_in_a_pan()
+    when().the_cook_mangles_everthing_to_a_dough().
+      and().the_cook_fries_the_dough_in_a_pan()
 
-      then().the_resulting_meal_is_a_pan_cake()
+    then().the_resulting_meal_is_a_pan_cake()
   }
-})
+}))
 ```
 
 It's not a test runner, it's not replacing Jest, Ava, Tap, Mocha, Jasmine, Karma, Webdriver, Nightwatch or Protractor.
