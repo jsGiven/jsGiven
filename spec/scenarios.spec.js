@@ -3,6 +3,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 
 import {scenarios, setupForRspec, setupForAva, State, Stage} from '../index';
+
 import {BasicScenarioGivenStage, ScenarioWhenStage, BasicScenarioThenStage} from './basic-stages';
 
 if (global.describe && global.it) {

@@ -7,8 +7,6 @@ import type {ScenarioPart, ScenarioPartKind} from '../src/reports';
 
 import {BasicScenarioGivenStage, ScenarioWhenStage, BasicScenarioThenStage} from './basic-stages';
 
-
-
 if (global.describe && global.it) {
     setupForRspec(describe, it);
 } else {
