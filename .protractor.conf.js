@@ -10,5 +10,11 @@ exports.config = {
     onPrepare: function () {
         require("babel-core/register");
         require('./spec/support/setup-tests.js');
+        var SpecReporter = require('jasmine-spec-reporter');
+        // add jasmine spec reporter
+        jasmine.getEnv().addReporter(new SpecReporter({displayStacktrace: 'all'}));
+    },
+    jasmineNodeOpts: {
+        print: function() {}
     }
 };

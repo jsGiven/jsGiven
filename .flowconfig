@@ -8,3 +8,4 @@ flow-declarations
 [options]
 esproposal.class_instance_fields=enable
 esproposal.decorators=ignore
+suppress_comment=\\(.\\|\n\\)*\\$FlowIgnore\\($\\|[^(]\\|(\\(>=0\\.\\(2[0-4]\\|1[0-9]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*react_native[a-z,_]*\\)?)\\)

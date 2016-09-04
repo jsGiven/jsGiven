@@ -12,7 +12,7 @@
     "test_mocha": "mocha --opts spec/support/mocha-default.opts spec",
     "test_jest": "check-node-version -q --node '< 4.0' || jest --config .jest.conf.json --colors",
     "test_jest_watch": "npm run test_jest -- --watch",
-    "test_jasmine": "jasmine",
+    "test_jasmine": "node spec/support/jasmine-runner.js",
     "test_ava": "ava spec/**.spec.js -v",
     "test_protractor": "check-node-version -q --node '< 4.0' || protractor .protractor.conf.js",
     "flow": "node_modules/flow-bin/cli.js"
@@ -61,6 +61,7 @@
     "eslint-plugin-standard": "2.0.0",
     "flow-bin": "0.32.0",
     "jasmine": "2.5.0",
+    "jasmine-spec-reporter": "2.7.0",
     "jest-cli": "15.1.1",
     "mocha": "3.0.2",
     "protractor": "4.0.4",
