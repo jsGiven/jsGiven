@@ -7,7 +7,6 @@
     "postinstall": "node_modules/protractor/bin/webdriver-manager update",
     "lint": "check-node-version -q --node '< 4.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint . ./)",
     "lintFix": "check-node-version -q --node '< 4.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint --fix . ./)",
-    "flow": "npm run flow",
     "pretest": "npm run flow && npm run lint",
     "test": "npm run test_mocha && npm run test_jest && npm run test_jasmine && npm run test_ava && npm run test_protractor",
     "test_mocha": "mocha --opts spec/support/mocha-default.opts spec",
