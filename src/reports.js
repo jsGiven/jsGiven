@@ -29,17 +29,22 @@ export class Step {
     constructor(methodName: string, parameters: mixed[], isFirstStep: boolean) {
         const TWO_DOLLAR_PLACEHOLDER = 'zzblablaescapedollarsignplaceholdertpolm';
 
-        this.name = methodName
-            .replace('$$', TWO_DOLLAR_PLACEHOLDER)
-            .split('$')
-            .map((word, index) =>
-                isFirstStep && index === 0 ? humanize(word) : _.lowerCase(humanize(word))
-            )
-            .reduce((previous, newString, index) =>
-                `${previous} ${formatParameter(parameters[index - 1])} ${newString}`
-            )
-            .trim()
-            .replace(TWO_DOLLAR_PLACEHOLDER, '$');
+        const parametersCopy = [...parameters];
+        this.name = [
+            methodName
+                .replace('$$', TWO_DOLLAR_PLACEHOLDER)
+                .split('$')
+                .map((word, index) =>
+                    isFirstStep && index === 0 ? humanize(word) : _.lowerCase(humanize(word))
+                )
+                .reduce((previous, newString, index) => {
+                    const [parameter] = parametersCopy.splice(0, 1);
+                    return `${previous} ${formatParameter(parameter)} ${newString}`;
+                })
+                .trim()
+                .replace(TWO_DOLLAR_PLACEHOLDER, '$'),
+            ...parametersCopy.map(formatParameter),
+        ].join(' ');
 
         function formatParameter(parameter: any): string {
             if (_.isObject(parameter) || Array.isArray(parameter)) {
@@ -50,7 +55,7 @@ export class Step {
                 }
                 return JSON.stringify(parameter);
             } else {
-                return parameter.toString ? parameter.toString() : JSON.stringify(parameter);
+                return parameter && parameter.toString ? parameter.toString() : JSON.stringify(parameter);
             }
         }
     }
