@@ -5,13 +5,13 @@ import maven from 'maven';
 import rimraf from 'rimraf';
 import DecompressZip from 'decompress-zip';
 
-const JGIVEN_APP_VERSION = '0.11.4';
+export const JGIVEN_APP_VERSION = '0.11.4';
 
 export default async function start(): Promise<void> {
     await installJGivenReportApp();
 }
 
-async function installJGivenReportApp(): Promise<void> {
+export async function installJGivenReportApp(): Promise<void> {
     await removeDir('./jGiven-report');
     fs.mkdirSync('./jGiven-report');
 
