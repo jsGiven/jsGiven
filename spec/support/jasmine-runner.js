@@ -11,4 +11,7 @@ jrunner.configureDefaultReporter({print: noop});    // remove default reporter l
 jasmine.getEnv().addReporter(new SpecReporter());   // add jasmine-spec-reporter
 /*eslint-enable */
 jrunner.loadConfigFile();                           // load jasmine.json configuration
+
+global.TEST_FRAMEWORK = 'JASMINE';
+
 jrunner.execute();

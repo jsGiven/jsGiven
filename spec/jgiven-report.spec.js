@@ -3,19 +3,29 @@ import fs from 'fs';
 
 import {expect} from 'chai';
 
+if (global.jasmine) {
+    global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 1800000;
+}
 import {installJGivenReportApp, JGIVEN_APP_VERSION} from '../src/generateReport';
 
 // Todo implement jsGiven test once it supports async tests
 if (global.describe && global.it) {
-    describe('JGiven report', () => {
-        it('should install the report app', async (...args) => {
-            await testInstallJGivenReportApp();
-            if (args.length > 0) {
-                const [done] = args;
-                done();
-            }
+    if (global.TEST_FRAMEWORK === 'JASMINE') {
+        describe('JGiven report', () => {
+            it('should install the report app', async (done) => {
+                await testInstallJGivenReportApp();
+                if (done) {
+                    done();
+                }
+            });
         });
-    });
+    } else {
+        describe('JGiven report', () => {
+            it('should install the report app', async () => {
+                await testInstallJGivenReportApp();
+            });
+        });
+    }
 } else {
     const test = require('ava');
     test('JGiven report should install the report app', async () => {
@@ -25,7 +35,7 @@ if (global.describe && global.it) {
 
 async function testInstallJGivenReportApp(): Promise<void> {
     await installJGivenReportApp();
-    
+
     expect(fs.existsSync('./jGiven-report')).to.be.true;
     expect(fs.existsSync('./jGiven-report/index.html')).to.be.true;
     expect(fs.existsSync('./jGiven-report/META-INF')).to.be.false;
