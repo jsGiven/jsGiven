@@ -65,7 +65,7 @@
     "jasmine-spec-reporter": "2.7.0",
     "jest-cli": "15.1.1",
     "mocha": "3.0.2",
-    "protractor": "4.0.5",
+    "protractor": "4.0.7",
     "sinon": "1.17.5",
     "sinon-chai": "2.8.0"
   },
