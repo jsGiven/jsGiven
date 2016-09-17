@@ -5,6 +5,8 @@ import crypto from 'crypto';
 import _ from 'lodash';
 import humanize from 'string-humanize';
 
+export const REPORTS_DESTINATION = 'jsGiven-reports';
+
 export type ScenarioPartKind = 'GIVEN' | 'WHEN' | 'THEN';
 
 export class ScenarioPart {
@@ -73,9 +75,9 @@ export class ScenarioReport {
     }
 
     dumpToFile() {
-        createDirOrDoNothingIfExists('jsGiven-reports');
+        createDirOrDoNothingIfExists(REPORTS_DESTINATION);
         const fileName = computeScenarioFileName(this.groupReport.name, this.name);
-        fs.writeFileSync(`jsGiven-reports/${fileName}`, JSON.stringify(this), 'utf-8');
+        fs.writeFileSync(`${REPORTS_DESTINATION}/${fileName}`, JSON.stringify(this), 'utf-8');
     }
 }
 

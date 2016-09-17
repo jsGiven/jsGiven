@@ -1,8 +1,16 @@
 // @flow
+
 import {expect} from 'chai';
 
 import {scenarios, setupForRspec, setupForAva, Stage} from '../index';
-import {GroupReport, ScenarioPart, ScenarioReport, Step} from '../src/reports';
+import {
+    computeScenarioFileName,
+    GroupReport,
+    ScenarioPart,
+    ScenarioReport,
+    Step,
+} from '../src/reports';
+import {generateJGivenReportDataFiles} from '../src/generateReport';
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);
@@ -13,9 +21,11 @@ if (global.describe && global.it) {
 
 class JGivenReportStage extends Stage {
     scenario: ScenarioReport;
-    
+    groupName = 'Group';
+    scenarioName = 'Scenario';
+
     the_simplest_jsgiven_report(): this {
-        const groupReport = new GroupReport('GroupName');
+        const groupReport = new GroupReport(this.groupName);
         const givenPart = new ScenarioPart('GIVEN', [
             new Step("given", [], true),
             new Step("some_eggs", [], false),
@@ -28,12 +38,15 @@ class JGivenReportStage extends Stage {
             new Step("then", [], true),
             new Step("the_eggs_are_broken", [], false),
         ]);
-        this.scenario = new ScenarioReport(groupReport, 'Scenario',
+        const scenario = new ScenarioReport(groupReport, this.scenarioName,
             [givenPart, whenPart, thenPart]);
+        scenario.dumpToFile();
         return this;
     }
 
     the_jgiven_report_is_generated(): this {
+        const scenarioFileName = computeScenarioFileName(this.groupName, this.scenarioName);
+        generateJGivenReportDataFiles(fileName => fileName === scenarioFileName);
         return this;
     }
 

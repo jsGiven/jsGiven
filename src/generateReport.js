@@ -5,6 +5,8 @@ import maven from 'maven';
 import rimraf from 'rimraf';
 import DecompressZip from 'decompress-zip';
 
+import {GroupReport, REPORTS_DESTINATION} from './reports';
+
 export const JGIVEN_APP_VERSION = '0.11.4';
 
 export default async function start(): Promise<void> {
@@ -34,6 +36,13 @@ export async function installJGivenReportApp(): Promise<void> {
     await removeDir(`./jGiven-report/jgiven-html5-report-${JGIVEN_APP_VERSION}.jar`);
 
     console.log('Done installing JGiven report app');
+}
+
+export function generateJGivenReportDataFiles(filter?: (fileName: string) => boolean = () => true) {
+    const files = fs.readdirSync(`./${REPORTS_DESTINATION}`).filter(filter);
+    const groupReport: GroupReport[] = files.map(file =>
+        JSON.parse(fs.readFileSync(`${REPORTS_DESTINATION}/${file}`, 'utf-8')));
+    console.log(groupReport);
 }
 
 function removeDir(dir: string): Promise<void> {
