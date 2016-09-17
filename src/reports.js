@@ -11,9 +11,9 @@ export class ScenarioPart {
     kind: ScenarioPartKind;
     steps: Step[];
 
-    constructor(kind: ScenarioPartKind) {
+    constructor(kind: ScenarioPartKind, steps?: Step[] = []) {
         this.kind = kind;
-        this.steps = [];
+        this.steps = steps;
     }
 
     addStep(methodName: string, parameters: mixed[]) {
@@ -66,10 +66,10 @@ export class ScenarioReport {
     name: string;
     parts: ScenarioPart[];
 
-    constructor(groupReport: GroupReport, name: string) {
+    constructor(groupReport: GroupReport, name: string, parts?: ScenarioPart[] = []) {
         this.groupReport = groupReport;
         this.name = name;
-        this.parts = [];
+        this.parts = parts;
     }
 
     dumpToFile() {

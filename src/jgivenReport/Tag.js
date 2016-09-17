@@ -5,7 +5,7 @@ type TagValue = string | string[];
 /**
  * A tag represents an annotation of a scenario-test.
  */
-interface Tag {
+export type Tag = {
     /**
     * The type of the annotation of the tag
     */

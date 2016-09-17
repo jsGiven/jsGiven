@@ -1,44 +1,56 @@
 // @flow
-import fs from 'fs';
-
 import {expect} from 'chai';
 
-if (global.jasmine) {
-    global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 1800000;
-}
-import {installJGivenReportApp, JGIVEN_APP_VERSION} from '../src/generateReport';
+import {scenarios, setupForRspec, setupForAva, Stage} from '../index';
+import {GroupReport, ScenarioPart, ScenarioReport, Step} from '../src/reports';
 
-// Todo implement jsGiven test once it supports async tests
 if (global.describe && global.it) {
-    if (global.TEST_FRAMEWORK === 'JASMINE') {
-        describe('JGiven report', () => {
-            it('should install the report app', async (done) => {
-                await testInstallJGivenReportApp();
-                if (done) {
-                    done();
-                }
-            });
-        });
-    } else {
-        describe('JGiven report', () => {
-            it('should install the report app', async () => {
-                await testInstallJGivenReportApp();
-            });
-        });
-    }
+    setupForRspec(describe, it);
 } else {
     const test = require('ava');
-    test('JGiven report should install the report app', async () => {
-        await testInstallJGivenReportApp();
-    });
+    setupForAva(test);
 }
 
-async function testInstallJGivenReportApp(): Promise<void> {
-    await installJGivenReportApp();
+class JGivenReportStage extends Stage {
+    scenario: ScenarioReport;
+    
+    the_simplest_jsgiven_report(): this {
+        const groupReport = new GroupReport('GroupName');
+        const givenPart = new ScenarioPart('GIVEN', [
+            new Step("given", [], true),
+            new Step("some_eggs", [], false),
+        ]);
+        const whenPart = new ScenarioPart('WHEN', [
+            new Step("when", [], true),
+            new Step("i_break_the_eggs", [], false),
+        ]);
+        const thenPart = new ScenarioPart('THEN', [
+            new Step("then", [], true),
+            new Step("the_eggs_are_broken", [], false),
+        ]);
+        this.scenario = new ScenarioReport(groupReport, 'Scenario',
+            [givenPart, whenPart, thenPart]);
+        return this;
+    }
 
-    expect(fs.existsSync('./jGiven-report')).to.be.true;
-    expect(fs.existsSync('./jGiven-report/index.html')).to.be.true;
-    expect(fs.existsSync('./jGiven-report/META-INF')).to.be.false;
-    expect(fs.existsSync('./jGiven-report/com')).to.be.false;
-    expect(fs.existsSync(`./jGiven-report/jgiven-html5-report-${JGIVEN_APP_VERSION}.jar`)).to.be.false;
+    the_jgiven_report_is_generated(): this {
+        return this;
+    }
+
+    the_data0_js_file_is_generated(): this {
+        expect(true).to.be.true;
+        return this;
+    }
 }
+
+scenarios('JGiven report', JGivenReportStage, ({given, when, then}) => {
+    return {
+        simplest_report_is_generated() {
+            given().the_simplest_jsgiven_report();
+
+            when().the_jgiven_report_is_generated();
+
+            then().the_data0_js_file_is_generated();
+        },
+    };
+});

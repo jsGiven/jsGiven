@@ -1,7 +1,10 @@
+// @flow
+import type {ArgumentInfo} from './ArgumentInfo';
+
 /**
  * Represents a part of a step.
  */
-interface Word {
+export type Word = {
     /**
      * The string representation of this word formatted with the default string formatter.
      */

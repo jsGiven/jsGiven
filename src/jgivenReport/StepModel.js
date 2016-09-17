@@ -1,9 +1,13 @@
+// @flow
+import type {AttachmentModel} from './AttachmentModel';
+import type {Word} from './Word';
+
 type StepStatus = 'PASSED'
     | 'FAILED'
     | 'SKIPPED'
     | 'PENDING';
 
-class StepModel {
+export type StepModel = {
     /**
      * The original name of this step as it appeared in the Java code.
      */
@@ -23,7 +27,7 @@ class StepModel {
     /**
      * The execution status of this step.
      */
-    status: StepStatus = 'PASSED';
+    status: StepStatus;
 
     /**
      * The total execution time of the step in nano seconds.

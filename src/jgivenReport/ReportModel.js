@@ -1,11 +1,12 @@
 //@flow
+import type {ScenarioModel} from './ScenarioModel';
+import type {Tag} from './Tag';
 
-
-interface ReportModel {
+export type ReportModel = {
     /**
      * Full qualified name of the test class.
      */
-    className : string;
+    className: string;
 
     /**
      * An optional name to group scenarios
@@ -20,5 +21,4 @@ interface ReportModel {
     scenarios: ScenarioModel[];
 
     tagMap: { [key: string]: Tag };
-
-  }
+};

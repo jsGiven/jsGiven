@@ -1,9 +1,13 @@
+// @flow
+
+import type {ScenarioCaseModel} from './ScenarioCaseModel';
+
 type ExecutionStatus =  'SCENARIO_PENDING'
     | 'SUCCESS'
     | 'FAILED'
     | 'SOME_STEPS_PENDING';
 
-interface ScenarioModel {
+export type ScenarioModel = {
     className: string;
     testMethodName: string;
     description: ?string;
@@ -12,8 +16,8 @@ interface ScenarioModel {
      * A list of tag ids
      */
     tagIds: string[];
-    explicitParameters:  string[];
-    derivedParameters:  string[];
+    explicitParameters: string[];
+    derivedParameters: string[];
     casesAsTable: boolean;
     scenarioCases: ScenarioCaseModel[];
     durationInNanos: number;

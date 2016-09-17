@@ -1,4 +1,7 @@
-class ScenarioCaseModel {
+// @flow
+import type {StepModel} from './StepModel';
+
+export type ScenarioCaseModel = {
     /**
     * The number of the case starting with 0
     */
@@ -25,7 +28,7 @@ class ScenarioCaseModel {
     */
     derivedArguments: string[];
 
-    success: boolean = true;
+    success: boolean;
 
    /**
     * An optional error message.

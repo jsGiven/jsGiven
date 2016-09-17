@@ -1,4 +1,5 @@
-interface ArgumentInfo {
+// @flow
+export type ArgumentInfo = {
     /**
      * In case this word can be replaced by a parameter name,
      * e.g. for data tables, this value is set, otherwise it is {@code null}.
@@ -27,7 +28,7 @@ interface ArgumentInfo {
     dataTable: ?DataTable;
 }
 
-interface DataTable {
+export type DataTable = {
     /*
     * The type of the header
     */
@@ -39,7 +40,7 @@ interface DataTable {
     data: Array<Array<String>>;
 }
 
-type HeaderType =
+export type HeaderType =
     /**
      * The table has no header
      */
