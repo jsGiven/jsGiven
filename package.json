@@ -71,7 +71,7 @@
   },
   "dependencies": {
     "decompress-zip": "0.3.0",
-    "lodash": "4.15.0",
+    "lodash": "4.16.0",
     "machinepack-zip": "1.1.0",
     "maven": "4.0.3",
     "rimraf": "2.5.4",
