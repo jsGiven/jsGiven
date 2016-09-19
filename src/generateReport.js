@@ -1,11 +1,12 @@
 //@flow
 import fs from 'fs';
+import zlib from 'zlib';
 
 import maven from 'maven';
 import rimraf from 'rimraf';
 import DecompressZip from 'decompress-zip';
 
-import {GroupReport, REPORTS_DESTINATION} from './reports';
+import {REPORTS_DESTINATION, ScenarioReport} from './reports';
 
 export const JGIVEN_APP_VERSION = '0.11.4';
 
@@ -40,9 +41,13 @@ export async function installJGivenReportApp(): Promise<void> {
 
 export function generateJGivenReportDataFiles(filter?: (fileName: string) => boolean = () => true) {
     const files = fs.readdirSync(`./${REPORTS_DESTINATION}`).filter(filter);
-    const groupReport: GroupReport[] = files.map(file =>
+    const scenarioReports: ScenarioReport[] = files.map(file =>
         JSON.parse(fs.readFileSync(`${REPORTS_DESTINATION}/${file}`, 'utf-8')));
-    console.log(groupReport);
+    
+    const json = JSON.stringify(scenarioReports);
+    const buffer = zlib.gzipSync(new Buffer(json, 'utf-8'));
+    const base64 = buffer.toString('base64');
+    fs.writeFileSync('./jGiven-report/data0.js', `jgivenReport.addZippedScenarios('${base64}');\n`, 'utf-8');
 }
 
 function removeDir(dir: string): Promise<void> {

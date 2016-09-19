@@ -1,4 +1,6 @@
 // @flow
+import fs from 'fs';
+import zlib from 'zlib';
 
 import {expect} from 'chai';
 
@@ -24,7 +26,7 @@ class JGivenReportStage extends Stage {
     groupName = 'Group';
     scenarioName = 'Scenario';
 
-    the_simplest_jsgiven_report(): this {
+    a_simple_jsgiven_report(): this {
         const groupReport = new GroupReport(this.groupName);
         const givenPart = new ScenarioPart('GIVEN', [
             new Step("given", [], true),
@@ -51,19 +53,50 @@ class JGivenReportStage extends Stage {
     }
 
     the_data0_js_file_is_generated(): this {
-        expect(true).to.be.true;
+        expect(fs.existsSync('./jGiven-report/data0.js')).to.be.true;
+        return this;
+    }
+
+    zippedScenariosData: ?string = undefined;
+
+    the_data0_js_file_can_be_executed(): this {
+        const data0Content = fs.readFileSync('./jGiven-report/data0.js', 'utf-8');
+        global.jgivenReport = {addZippedScenarios: data => this.zippedScenariosData = data};
+        eval(data0Content);
+        delete global.jgivenReport;
+        return this;
+    }
+
+    it_has_called_the_jgivenReport_addZippedScenarios_method(): this {
+        expect(this.zippedScenariosData).to.exist;
+        return this;
+    }
+
+    the_zipped_scenarios_can_be_decoded(): this {
+        if (this.zippedScenariosData) {
+            const bufferZipped = new Buffer(this.zippedScenariosData, 'base64');
+            const buffer = zlib.gunzipSync(bufferZipped);
+            const json = buffer.toString('utf-8');
+            const scenarios = JSON.parse(json);
+            console.log(scenarios);
+        } else {
+            expect('zippedScenariosData should not be null').to.be.true;
+        }
         return this;
     }
 }
 
 scenarios('JGiven report', JGivenReportStage, ({given, when, then}) => {
     return {
-        simplest_report_is_generated() {
-            given().the_simplest_jsgiven_report();
+        a_simple_report_is_generated() {
+            given().a_simple_jsgiven_report();
 
             when().the_jgiven_report_is_generated();
 
-            then().the_data0_js_file_is_generated();
+            then().the_data0_js_file_is_generated().and()
+                .the_data0_js_file_can_be_executed().and()
+                .it_has_called_the_jgivenReport_addZippedScenarios_method().and()
+                .the_zipped_scenarios_can_be_decoded();
         },
     };
 });
