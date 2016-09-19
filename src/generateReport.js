@@ -12,6 +12,7 @@ export const JGIVEN_APP_VERSION = '0.11.4';
 
 export default async function start(): Promise<void> {
     await installJGivenReportApp();
+    generateJGivenReportDataFiles();
 }
 
 export async function installJGivenReportApp(): Promise<void> {
@@ -43,7 +44,7 @@ export function generateJGivenReportDataFiles(filter?: (fileName: string) => boo
     const files = fs.readdirSync(`./${REPORTS_DESTINATION}`).filter(filter);
     const scenarioReports: ScenarioReport[] = files.map(file =>
         JSON.parse(fs.readFileSync(`${REPORTS_DESTINATION}/${file}`, 'utf-8')));
-    
+
     const json = JSON.stringify(scenarioReports);
     const buffer = zlib.gzipSync(new Buffer(json, 'utf-8'));
     const base64 = buffer.toString('base64');
