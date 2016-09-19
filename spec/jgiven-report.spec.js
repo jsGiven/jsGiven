@@ -26,6 +26,20 @@ class JGivenReportStage extends Stage {
     groupName = 'Group';
     scenarioName = 'Scenario';
 
+    an_existing_jgiven_directory(): this {
+        try {
+            fs.mkdirSync('./jGiven-report');
+        } catch (error) {
+            if (error.code !== 'EEXIST') {
+                throw error;
+            } else {
+                // do nothing
+            }
+        }
+
+        return this;
+    }
+
     a_simple_jsgiven_report(): this {
         const groupReport = new GroupReport(this.groupName);
         const givenPart = new ScenarioPart('GIVEN', [
@@ -89,7 +103,8 @@ class JGivenReportStage extends Stage {
 scenarios('JGiven report', JGivenReportStage, ({given, when, then}) => {
     return {
         a_simple_report_is_generated() {
-            given().a_simple_jsgiven_report();
+            given().an_existing_jgiven_directory().and()
+                .a_simple_jsgiven_report();
 
             when().the_jgiven_report_is_generated();
 
