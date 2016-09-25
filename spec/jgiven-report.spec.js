@@ -37,6 +37,16 @@ class JGivenReportStage extends Stage {
             }
         }
 
+        try {
+            fs.mkdirSync('./jGiven-report/data');
+        } catch (error) {
+            if (error.code !== 'EEXIST') {
+                throw error;
+            } else {
+                // do nothing
+            }
+        }
+
         return this;
     }
 

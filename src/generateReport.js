@@ -46,7 +46,7 @@ export async function installJGivenReportApp(reportPrefix: string = '.'): Promis
     console.log('Done installing JGiven report app');
 }
 
-export function generateJGivenReportDataFiles(filter?: (fileName: string) => boolean = () => true) {
+export function generateJGivenReportDataFiles(filter?: (fileName: string) => boolean = () => true, reportPrefix: string = '.') {
     const files = fs.readdirSync(`./${REPORTS_DESTINATION}`).filter(filter);
     const scenarioReports: ScenarioReport[] = files.map(file =>
         JSON.parse(fs.readFileSync(`${REPORTS_DESTINATION}/${file}`, 'utf-8')));
@@ -55,13 +55,15 @@ export function generateJGivenReportDataFiles(filter?: (fileName: string) => boo
     const scenarioModels = groupNamesAndScenarios.map(([groupName, scenarioReports]) =>
         toScenarioModel(groupName, scenarioReports));
 
-    fs.writeFileSync('./jGiven-report/data/metaData.js', `jgivenReport.setMetaData({"created":"${new Date().toLocaleString()}","title":"J(s)Given Report","data":["data0.js"]} );\n`, 'utf-8');
-    fs.writeFileSync('./jGiven-report/data/tags.js', `jgivenReport.setTags({});\n`, 'utf-8');
+    const reportDir = `${reportPrefix}/jGiven-report`;
+
+    fs.writeFileSync(`${reportDir}/data/metaData.js`, `jgivenReport.setMetaData({"created":"${new Date().toLocaleString()}","title":"J(s)Given Report","data":["data0.js"]} );\n`, 'utf-8');
+    fs.writeFileSync(`${reportDir}/data/tags.js`, `jgivenReport.setTags({});\n`, 'utf-8');
 
     const json = JSON.stringify({scenarios: scenarioModels});
     const buffer = zlib.gzipSync(new Buffer(json, 'utf-8'));
     const base64 = buffer.toString('base64');
-    fs.writeFileSync('./jGiven-report/data/data0.js', `jgivenReport.addZippedScenarios('${base64}');\n`, 'utf-8');
+    fs.writeFileSync(`${reportDir}/data/data0.js`, `jgivenReport.addZippedScenarios('${base64}');\n`, 'utf-8');
 }
 
 function removeDir(dir: string): Promise<void> {
