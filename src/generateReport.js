@@ -8,7 +8,7 @@ import DecompressZip from 'decompress-zip';
 
 import {REPORTS_DESTINATION, ScenarioReport} from './reports';
 
-export const JGIVEN_APP_VERSION = '0.11.4';
+export const JGIVEN_APP_VERSION = '0.12.1';
 
 export default async function start(): Promise<void> {
     await installJGivenReportApp();
