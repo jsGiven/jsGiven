@@ -9,6 +9,7 @@ import DecompressZip from 'decompress-zip';
 
 import {REPORTS_DESTINATION, ScenarioReport} from './reports';
 import type {ScenarioModel} from './jgivenReport/ScenarioModel';
+import type {ScenarioCaseModel} from './jgivenReport/ScenarioCaseModel';
 
 export const JGIVEN_APP_VERSION = '0.12.1';
 
@@ -53,8 +54,9 @@ export function generateJGivenReportDataFiles(filter?: (fileName: string) => boo
         toScenarioModel(groupName, scenarioReports));
 
     fs.writeFileSync('./jGiven-report/data/metaData.js', `jgivenReport.setMetaData({"created":"${new Date().toLocaleString()}","title":"J(s)Given Report","data":["data0.js"]} );\n`, 'utf-8');
+    fs.writeFileSync('./jGiven-report/data/tags.js', `jgivenReport.setTags({});\n`, 'utf-8');
 
-    const json = JSON.stringify(scenarioModels);
+    const json = JSON.stringify({scenarios: scenarioModels});
     const buffer = zlib.gzipSync(new Buffer(json, 'utf-8'));
     const base64 = buffer.toString('base64');
     fs.writeFileSync('./jGiven-report/data/data0.js', `jgivenReport.addZippedScenarios('${base64}');\n`, 'utf-8');
@@ -103,7 +105,21 @@ function toScenarioModel(groupName: string, scenarioReports: ScenarioReport[]): 
         extendedDescription: '',
         tagIds: [],
         className: groupName,
-        scenarioCases: [],
+        scenarioCases: scenarioReports.map(toScenarioCaseModel),
         testMethodName: groupName,
+    };
+}
+
+function toScenarioCaseModel(scenarioReport: ScenarioReport, index: number): ScenarioCaseModel {
+    return {
+        caseNr: index,
+        derivedArguments: [],
+        description: scenarioReport.name,
+        durationInNanos: 42,
+        errorMessage: null,
+        explicitArguments: [],
+        stackTrace: null,
+        steps: [],
+        success: true,
     };
 }

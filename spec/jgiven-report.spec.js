@@ -73,9 +73,9 @@ class JGivenReportStage extends Stage {
 
     metaData: ?Object;
     the_metadata_js_file_can_be_executed(): this {
-        const data0Content = fs.readFileSync('./jGiven-report/data/metaData.js', 'utf-8');
+        const metaDataContent = fs.readFileSync('./jGiven-report/data/metaData.js', 'utf-8');
         global.jgivenReport = {setMetaData: data => this.metaData = data};
-        eval(data0Content);
+        eval(metaDataContent);
         delete global.jgivenReport;
         return this;
     }
@@ -88,6 +88,25 @@ class JGivenReportStage extends Stage {
             expect(metaData.title).to.equal('J(s)Given Report');
             expect(metaData.data).to.deep.equal(['data0.js']);
         }
+        return this;
+    }
+
+    the_tags_js_file_is_generated(): this {
+        expect(fs.existsSync('./jGiven-report/data/tags.js')).to.be.true;
+        return this;
+    }
+
+    tags: ?Object;
+    the_tags_js_file_can_be_executed(): this {
+        const tagsContent = fs.readFileSync('./jGiven-report/data/tags.js', 'utf-8');
+        global.jgivenReport = {setTags: tags => this.tags = tags};
+        eval(tagsContent);
+        delete global.jgivenReport;
+        return this;
+    }
+
+    it_has_called_the_jgivenReport_setTags_method(): this {
+        expect(this.tags).to.deep.equal({});
         return this;
     }
 
@@ -139,6 +158,9 @@ scenarios('JGiven report', JGivenReportStage, ({given, when, then}) => {
                 .the_data0_js_file_is_generated().and()
                 .the_data0_js_file_can_be_executed().and()
                 .it_has_called_the_jgivenReport_addZippedScenarios_method().and()
+                .the_tags_js_file_is_generated().and()
+                .the_tags_js_file_can_be_executed().and()
+                .it_has_called_the_jgivenReport_setTags_method().and()
                 .the_zipped_scenarios_can_be_decoded();
         },
     };
