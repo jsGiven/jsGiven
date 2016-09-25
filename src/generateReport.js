@@ -18,6 +18,7 @@ export default async function start(): Promise<void> {
 export async function installJGivenReportApp(): Promise<void> {
     await removeDir('./jGiven-report');
     fs.mkdirSync('./jGiven-report');
+    fs.mkdirSync('./jGiven-report/data');
 
     const mvn = maven.create();
     await mvn.execute('org.apache.maven.plugins:maven-dependency-plugin:2.10:copy', {
@@ -45,10 +46,12 @@ export function generateJGivenReportDataFiles(filter?: (fileName: string) => boo
     const scenarioReports: ScenarioReport[] = files.map(file =>
         JSON.parse(fs.readFileSync(`${REPORTS_DESTINATION}/${file}`, 'utf-8')));
 
+    fs.writeFileSync('./jGiven-report/data/metaData.js', `jgivenReport.setMetaData({"created":"${new Date().toLocaleString()}","title":"J(s)Given Report","data":["data0.js"]} );\n`, 'utf-8');
+
     const json = JSON.stringify(scenarioReports);
     const buffer = zlib.gzipSync(new Buffer(json, 'utf-8'));
     const base64 = buffer.toString('base64');
-    fs.writeFileSync('./jGiven-report/data0.js', `jgivenReport.addZippedScenarios('${base64}');\n`, 'utf-8');
+    fs.writeFileSync('./jGiven-report/data/data0.js', `jgivenReport.addZippedScenarios('${base64}');\n`, 'utf-8');
 }
 
 function removeDir(dir: string): Promise<void> {

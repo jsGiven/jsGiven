@@ -66,15 +66,39 @@ class JGivenReportStage extends Stage {
         return this;
     }
 
+    the_metadata_js_file_is_generated(): this {
+        expect(fs.existsSync('./jGiven-report/data/metaData.js')).to.be.true;
+        return this;
+    }
+
+    metaData: ?Object;
+    the_metadata_js_file_can_be_executed(): this {
+        const data0Content = fs.readFileSync('./jGiven-report/data/metaData.js', 'utf-8');
+        global.jgivenReport = {setMetaData: data => this.metaData = data};
+        eval(data0Content);
+        delete global.jgivenReport;
+        return this;
+    }
+
+    it_has_called_the_jgivenReport_setMetaData_method_with_the_appropriate_parameters(): this {
+        const metaData = this.metaData;
+        expect(metaData).to.exist;
+        if (metaData) {
+            expect(metaData.created).to.exist;
+            expect(metaData.title).to.equal('J(s)Given Report');
+            expect(metaData.data).to.deep.equal(['data0.js']);
+        }
+        return this;
+    }
+
     the_data0_js_file_is_generated(): this {
-        expect(fs.existsSync('./jGiven-report/data0.js')).to.be.true;
+        expect(fs.existsSync('./jGiven-report/data/data0.js')).to.be.true;
         return this;
     }
 
     zippedScenariosData: ?string = undefined;
-
     the_data0_js_file_can_be_executed(): this {
-        const data0Content = fs.readFileSync('./jGiven-report/data0.js', 'utf-8');
+        const data0Content = fs.readFileSync('./jGiven-report/data/data0.js', 'utf-8');
         global.jgivenReport = {addZippedScenarios: data => this.zippedScenariosData = data};
         eval(data0Content);
         delete global.jgivenReport;
@@ -92,7 +116,7 @@ class JGivenReportStage extends Stage {
             const buffer = zlib.gunzipSync(bufferZipped);
             const json = buffer.toString('utf-8');
             const scenarios = JSON.parse(json);
-            console.log(scenarios);
+            expect(scenarios).to.be.an.array;
         } else {
             expect('zippedScenariosData should not be null').to.be.true;
         }
@@ -108,7 +132,11 @@ scenarios('JGiven report', JGivenReportStage, ({given, when, then}) => {
 
             when().the_jgiven_report_is_generated();
 
-            then().the_data0_js_file_is_generated().and()
+            then()
+                .the_metadata_js_file_is_generated().and()
+                .the_metadata_js_file_can_be_executed().and()
+                .it_has_called_the_jgivenReport_setMetaData_method_with_the_appropriate_parameters().and()
+                .the_data0_js_file_is_generated().and()
                 .the_data0_js_file_can_be_executed().and()
                 .it_has_called_the_jgivenReport_addZippedScenarios_method().and()
                 .the_zipped_scenarios_can_be_decoded();

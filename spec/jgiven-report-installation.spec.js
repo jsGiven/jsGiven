@@ -38,6 +38,7 @@ async function testInstallJGivenReportApp(): Promise<void> {
 
     expect(fs.existsSync('./jGiven-report')).to.be.true;
     expect(fs.existsSync('./jGiven-report/index.html')).to.be.true;
+    expect(fs.existsSync('./jGiven-report/data')).to.be.true;
     expect(fs.existsSync('./jGiven-report/META-INF')).to.be.false;
     expect(fs.existsSync('./jGiven-report/com')).to.be.false;
     expect(fs.existsSync(`./jGiven-report/jgiven-html5-report-${JGIVEN_APP_VERSION}.jar`)).to.be.false;
