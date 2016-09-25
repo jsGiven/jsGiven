@@ -27,27 +27,22 @@ class JGivenReportStage extends Stage {
     scenarioName = 'Scenario';
 
     an_existing_jgiven_directory(): this {
-        try {
-            fs.mkdirSync('./jGiven-report');
-        } catch (error) {
-            if (error.code !== 'EEXIST') {
-                throw error;
-            } else {
-                // do nothing
-            }
-        }
-
-        try {
-            fs.mkdirSync('./jGiven-report/data');
-        } catch (error) {
-            if (error.code !== 'EEXIST') {
-                throw error;
-            } else {
-                // do nothing
-            }
-        }
+        this.createDirOrDoNothingIfExists('./jGiven-report');
+        this.createDirOrDoNothingIfExists('./jGiven-report/data');
 
         return this;
+    }
+
+    createDirOrDoNothingIfExists(dirName: string) {
+        try {
+            fs.mkdirSync(dirName);
+        } catch (error) {
+            if (error.code !== 'EEXIST') {
+                throw error;
+            } else {
+                // do nothing
+            }
+        }
     }
 
     a_simple_jsgiven_report(): this {
