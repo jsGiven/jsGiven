@@ -67,7 +67,8 @@
     "mocha": "3.0.2",
     "protractor": "4.0.9",
     "sinon": "1.17.6",
-    "sinon-chai": "2.8.0"
+    "sinon-chai": "2.8.0",
+    "tmp": "0.0.29"
   },
   "dependencies": {
     "decompress-zip": "0.3.0",

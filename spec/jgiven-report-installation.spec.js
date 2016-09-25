@@ -1,6 +1,7 @@
 // @flow
 import fs from 'fs';
 
+import tmp from 'tmp';
 import {expect} from 'chai';
 
 if (global.jasmine) {
@@ -34,12 +35,19 @@ if (global.describe && global.it) {
 }
 
 async function testInstallJGivenReportApp(): Promise<void> {
-    await installJGivenReportApp();
+    var tmpDir = tmp.dirSync({unsafeCleanup: true});
+    const reportDir = tmpDir.name;
 
-    expect(fs.existsSync('./jGiven-report')).to.be.true;
-    expect(fs.existsSync('./jGiven-report/index.html')).to.be.true;
-    expect(fs.existsSync('./jGiven-report/data')).to.be.true;
-    expect(fs.existsSync('./jGiven-report/META-INF')).to.be.false;
-    expect(fs.existsSync('./jGiven-report/com')).to.be.false;
-    expect(fs.existsSync(`./jGiven-report/jgiven-html5-report-${JGIVEN_APP_VERSION}.jar`)).to.be.false;
+    try {
+        await installJGivenReportApp(tmpDir.name);
+
+        expect(fs.existsSync(`${reportDir}/jGiven-report`)).to.be.true;
+        expect(fs.existsSync(`${reportDir}/jGiven-report/index.html`)).to.be.true;
+        expect(fs.existsSync(`${reportDir}/jGiven-report/data`)).to.be.true;
+        expect(fs.existsSync(`${reportDir}/jGiven-report/META-INF`)).to.be.false;
+        expect(fs.existsSync(`${reportDir}/jGiven-report/com`)).to.be.false;
+        expect(fs.existsSync(`${reportDir}/jGiven-report/jgiven-html5-report-${JGIVEN_APP_VERSION}.jar`)).to.be.false;
+    } finally {
+        tmpDir.removeCallback();
+    }
 }

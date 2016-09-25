@@ -18,28 +18,30 @@ export default async function start(): Promise<void> {
     generateJGivenReportDataFiles();
 }
 
-export async function installJGivenReportApp(): Promise<void> {
-    await removeDir('./jGiven-report');
-    fs.mkdirSync('./jGiven-report');
-    fs.mkdirSync('./jGiven-report/data');
+export async function installJGivenReportApp(reportPrefix: string = '.'): Promise<void> {
+    const reportDir = `${reportPrefix}/jGiven-report`;
+
+    await removeDir(reportDir);
+    fs.mkdirSync(reportDir);
+    fs.mkdirSync(`${reportDir}/data`);
 
     const mvn = maven.create();
     await mvn.execute('org.apache.maven.plugins:maven-dependency-plugin:2.10:copy', {
         repoUrl: 'http://download.java.net/maven/2/',
-        outputDirectory: './jGiven-report',
+        outputDirectory: reportDir,
         artifact: `com.tngtech.jgiven:jgiven-html5-report:${JGIVEN_APP_VERSION}`,
         'mdep.useBaseVersion': 'true',
         overWrite: 'true',
     });
 
-    await unzip(`./jGiven-report/jgiven-html5-report-${JGIVEN_APP_VERSION}.jar`,
-        './jGiven-report');
-    await unzip('./jGiven-report/com/tngtech/jgiven/report/html5/app.zip',
-        './jGiven-report');
+    await unzip(`${reportDir}/jgiven-html5-report-${JGIVEN_APP_VERSION}.jar`,
+        reportDir);
+    await unzip(`${reportDir}/com/tngtech/jgiven/report/html5/app.zip`,
+        reportDir);
 
-    await removeDir('./jGiven-report/META-INF');
-    await removeDir('./jGiven-report/com');
-    await removeDir(`./jGiven-report/jgiven-html5-report-${JGIVEN_APP_VERSION}.jar`);
+    await removeDir(`${reportDir}/META-INF`);
+    await removeDir(`${reportDir}/com`);
+    await removeDir(`${reportDir}/jgiven-html5-report-${JGIVEN_APP_VERSION}.jar`);
 
     console.log('Done installing JGiven report app');
 }
