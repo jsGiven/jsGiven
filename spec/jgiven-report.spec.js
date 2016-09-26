@@ -3,6 +3,7 @@ import fs from 'fs';
 import zlib from 'zlib';
 
 import {expect} from 'chai';
+import tmp from 'tmp';
 
 import {scenarios, setupForRspec, setupForAva, Stage} from '../index';
 import {
@@ -26,9 +27,16 @@ class JGivenReportStage extends Stage {
     groupName = 'Group';
     scenarioName = 'Scenario';
 
+    reportPrefix: ?string;
+    jgivenReportDir: ?string;
+
     an_existing_jgiven_directory(): this {
-        this.createDirOrDoNothingIfExists('./jGiven-report');
-        this.createDirOrDoNothingIfExists('./jGiven-report/data');
+        const tmpDir = tmp.dirSync({unsafeCleanup: true});
+        this.reportPrefix = `${tmpDir.name}`;
+        const jgivenReportDir = `${this.reportPrefix}/jGiven-report`;
+        this.jgivenReportDir = jgivenReportDir;
+        this.createDirOrDoNothingIfExists(`${jgivenReportDir}`);
+        this.createDirOrDoNothingIfExists(`${jgivenReportDir}/data`);
 
         return this;
     }
@@ -62,26 +70,42 @@ class JGivenReportStage extends Stage {
         const scenario = new ScenarioReport(groupReport, this.scenarioName,
             [givenPart, whenPart, thenPart]);
         scenario.dumpToFile();
+
         return this;
     }
 
     the_jgiven_report_is_generated(): this {
         const scenarioFileName = computeScenarioFileName(this.groupName, this.scenarioName);
-        generateJGivenReportDataFiles(fileName => fileName === scenarioFileName);
+        if (this.reportPrefix) {
+            generateJGivenReportDataFiles(fileName => fileName === scenarioFileName, this.reportPrefix);
+        } else {
+            expect(this.reportPrefix).to.exist;
+        }
+
         return this;
     }
 
     the_metadata_js_file_is_generated(): this {
-        expect(fs.existsSync('./jGiven-report/data/metaData.js')).to.be.true;
+        if (this.jgivenReportDir) {
+            expect(fs.existsSync(`${this.jgivenReportDir}/data/metaData.js`)).to.be.true;
+        } else {
+            expect(this.jgivenReportDir).to.exist;
+        }
+
         return this;
     }
 
     metaData: ?Object;
     the_metadata_js_file_can_be_executed(): this {
-        const metaDataContent = fs.readFileSync('./jGiven-report/data/metaData.js', 'utf-8');
-        global.jgivenReport = {setMetaData: data => this.metaData = data};
-        eval(metaDataContent);
-        delete global.jgivenReport;
+        if (this.jgivenReportDir) {
+            const metaDataContent = fs.readFileSync(`${this.jgivenReportDir}/data/metaData.js`, 'utf-8');
+            global.jgivenReport = {setMetaData: data => this.metaData = data};
+            eval(metaDataContent);
+            delete global.jgivenReport;
+        } else {
+            expect(this.jgivenReportDir).to.exist;
+        }
+
         return this;
     }
 
@@ -93,20 +117,31 @@ class JGivenReportStage extends Stage {
             expect(metaData.title).to.equal('J(s)Given Report');
             expect(metaData.data).to.deep.equal(['data0.js']);
         }
+
         return this;
     }
 
     the_tags_js_file_is_generated(): this {
-        expect(fs.existsSync('./jGiven-report/data/tags.js')).to.be.true;
+        if (this.jgivenReportDir) {
+            expect(fs.existsSync(`${this.jgivenReportDir}/data/tags.js`)).to.be.true;
+        } else {
+            expect(this.jgivenReportDir).to.exist;
+        }
+
         return this;
     }
 
     tags: ?Object;
     the_tags_js_file_can_be_executed(): this {
-        const tagsContent = fs.readFileSync('./jGiven-report/data/tags.js', 'utf-8');
-        global.jgivenReport = {setTags: tags => this.tags = tags};
-        eval(tagsContent);
-        delete global.jgivenReport;
+        if (this.jgivenReportDir) {
+            const tagsContent = fs.readFileSync(`${this.jgivenReportDir}/data/tags.js`, 'utf-8');
+            global.jgivenReport = {setTags: tags => this.tags = tags};
+            eval(tagsContent);
+            delete global.jgivenReport;
+        } else {
+            expect(this.jgivenReportDir).to.exist;
+        }
+
         return this;
     }
 
@@ -116,16 +151,26 @@ class JGivenReportStage extends Stage {
     }
 
     the_data0_js_file_is_generated(): this {
-        expect(fs.existsSync('./jGiven-report/data/data0.js')).to.be.true;
+        if (this.jgivenReportDir) {
+            expect(fs.existsSync(`${this.jgivenReportDir}/data/data0.js`)).to.be.true;
+        } else {
+            expect(this.jgivenReportDir).to.exist;
+        }
+
         return this;
     }
 
     zippedScenariosData: ?string = undefined;
     the_data0_js_file_can_be_executed(): this {
-        const data0Content = fs.readFileSync('./jGiven-report/data/data0.js', 'utf-8');
-        global.jgivenReport = {addZippedScenarios: data => this.zippedScenariosData = data};
-        eval(data0Content);
-        delete global.jgivenReport;
+        if (this.jgivenReportDir) {
+            const data0Content = fs.readFileSync(`${this.jgivenReportDir}/data/data0.js`, 'utf-8');
+            global.jgivenReport = {addZippedScenarios: data => this.zippedScenariosData = data};
+            eval(data0Content);
+            delete global.jgivenReport;
+        } else {
+            expect(this.jgivenReportDir).to.exist;
+        }
+
         return this;
     }
 
