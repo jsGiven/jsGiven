@@ -8,8 +8,8 @@ import rimraf from 'rimraf';
 import DecompressZip from 'decompress-zip';
 
 import {REPORTS_DESTINATION, ScenarioReport} from './reports';
+import type {ReportModel} from './jgivenReport/ReportModel';
 import type {ScenarioModel} from './jgivenReport/ScenarioModel';
-import type {ScenarioCaseModel} from './jgivenReport/ScenarioCaseModel';
 
 export const JGIVEN_APP_VERSION = '0.12.1';
 
@@ -53,7 +53,7 @@ export function generateJGivenReportDataFiles(filter?: (fileName: string) => boo
     const groupNamesAndScenarios: Array<[string, ScenarioReport[]]> =
         (Object.entries(_.groupBy(scenarioReports, ({groupReport: {name}}) => name)): any);
     const scenarioModels = groupNamesAndScenarios.map(([groupName, scenarioReports]) =>
-        toScenarioModel(groupName, scenarioReports));
+        toReportModel(groupName, scenarioReports));
 
     const reportDir = `${reportPrefix}/jGiven-report`;
 
@@ -98,32 +98,39 @@ function unzip(zipFile: string, targetDirectory: string): Promise<void> {
     });
 }
 
-function toScenarioModel(groupName: string, scenarioReports: ScenarioReport[]): ScenarioModel {
+function toReportModel(groupName: string, scenarioReports: ScenarioReport[]): ReportModel {
     return {
-        executionStatus: 'SUCCESS',
-        casesAsTable: false,
-        derivedParameters: [],
-        description: '',
-        durationInNanos: 42,
-        explicitParameters: [],
-        extendedDescription: '',
-        tagIds: [],
         className: groupName,
-        scenarioCases: scenarioReports.map(toScenarioCaseModel),
-        testMethodName: groupName,
+        description: groupName,
+        name: groupName,
+        scenarios: scenarioReports.map(toScenarioModel),
+        tagMap: {},
     };
 }
 
-function toScenarioCaseModel(scenarioReport: ScenarioReport, index: number): ScenarioCaseModel {
+function toScenarioModel(scenarioReport: ScenarioReport, index: number): ScenarioModel {
     return {
-        caseNr: index,
-        derivedArguments: [],
+        testMethodName: scenarioReport.name,
+        tagIds: [],
+        scenarioCases: [{
+            caseNr: 0,
+            derivedArguments: [],
+            description: '',
+            durationInNanos: 42,
+            errorMessage: null,
+            explicitParameters: [],
+            explicitArguments: [],
+            stackTrace: null,
+            success: true,
+            steps: [],
+        }],
+        casesAsTable: false,
+        className: scenarioReport.groupReport.name,
+        derivedParameters: [],
         description: scenarioReport.name,
         durationInNanos: 42,
-        errorMessage: null,
-        explicitArguments: [],
-        stackTrace: null,
-        steps: [],
-        success: true,
+        executionStatus: 'SUCCESS',
+        explicitParameters: [],
+        extendedDescription: '',
     };
 }
