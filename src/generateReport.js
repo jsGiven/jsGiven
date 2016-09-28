@@ -7,9 +7,10 @@ import maven from 'maven';
 import rimraf from 'rimraf';
 import DecompressZip from 'decompress-zip';
 
-import {REPORTS_DESTINATION, ScenarioReport} from './reports';
+import {REPORTS_DESTINATION, ScenarioReport, ScenarioPart} from './reports';
 import type {ReportModel} from './jgivenReport/ReportModel';
 import type {ScenarioModel} from './jgivenReport/ScenarioModel';
+import type {StepModel} from './jgivenReport/StepModel';
 
 export const JGIVEN_APP_VERSION = '0.12.1';
 
@@ -122,7 +123,7 @@ function toScenarioModel(scenarioReport: ScenarioReport, index: number): Scenari
             explicitArguments: [],
             stackTrace: null,
             success: true,
-            steps: [],
+            steps: _.flatMap(scenarioReport.parts, toSteps),
         }],
         casesAsTable: false,
         className: scenarioReport.groupReport.name,
@@ -133,4 +134,22 @@ function toScenarioModel(scenarioReport: ScenarioReport, index: number): Scenari
         explicitParameters: [],
         extendedDescription: '',
     };
+}
+
+function toSteps(scenarioPart: ScenarioPart): StepModel[] {
+    return scenarioPart.steps.map(step => ({
+        attachment: null,
+        durationInNanos: 42,
+        extendedDescription: '',
+        isSectionTitle: false,
+        name: step.name,
+        nestedSteps: [],
+        status: 'PASSED',
+        words: [{
+            argumentInfo: null,
+            isDifferent: null,
+            isIntroWord: false,
+            value: step.name,
+        }],
+    }));
 }
