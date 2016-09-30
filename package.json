@@ -61,7 +61,7 @@
     "eslint-plugin-import": "1.16.0",
     "eslint-plugin-promise": "2.0.1",
     "eslint-plugin-standard": "2.0.1",
-    "flow-bin": "0.32.0",
+    "flow-bin": "0.33.0",
     "jasmine": "2.5.2",
     "jasmine-spec-reporter": "2.7.0",
     "jest-cli": "15.1.1",
