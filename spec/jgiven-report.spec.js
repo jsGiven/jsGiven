@@ -56,16 +56,16 @@ class JGivenReportStage extends Stage {
     a_simple_jsgiven_report(): this {
         const groupReport = new GroupReport(this.groupName);
         const givenPart = new ScenarioPart('GIVEN', [
-            new Step("given", [], true),
-            new Step("some_eggs", [], false),
+            new Step("given", [], true, null),
+            new Step("some_eggs", [], false, null),
         ]);
         const whenPart = new ScenarioPart('WHEN', [
-            new Step("when", [], true),
-            new Step("i_break_the_eggs", [], false),
+            new Step("when", [], true, null),
+            new Step("i_break_the_eggs", [], false, null),
         ]);
         const thenPart = new ScenarioPart('THEN', [
-            new Step("then", [], true),
-            new Step("the_eggs_are_broken", [], false),
+            new Step("then", [], true, null),
+            new Step("the_eggs_are_broken", [], false, null),
         ]);
         const scenario = new ScenarioReport(groupReport, this.scenarioName,
             [givenPart, whenPart, thenPart]);

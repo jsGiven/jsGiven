@@ -18,7 +18,7 @@ export type Word = {
      * Is {@code null} if false to avoid unneeded entries in the JSON model
      * </p>
      */
-     isIntroWord: ?boolean;
+    isIntroWord: ?boolean;
 
     /**
      * Is set when this word is an argument, is <code>null</code> otherwise.

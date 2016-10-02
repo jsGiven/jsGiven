@@ -121,12 +121,9 @@ scenarios('reports', [ReportScenarioGivenStage, ScenarioWhenStage, ReportScenari
                 .and().its_name_is_readable_in_english()
                 .and().it_has_a_given_part()
                 .and().its_given_part_contains_the_steps([
-                    'Given',
-                    'an egg',
-                    'and',
-                    'some milk',
-                    'and',
-                    '100 grams of flour',
+                    'Given an egg',
+                    'and some milk',
+                    'and 100 grams of flour',
                 ])
                 .and().its_given_part_does_not_include_methods_that_return_something_else_than_this()
                 .and().it_has_a_when_part()

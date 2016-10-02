@@ -9,44 +9,63 @@ export const REPORTS_DESTINATION = 'jsGiven-reports';
 
 export type ScenarioPartKind = 'GIVEN' | 'WHEN' | 'THEN';
 
+const INTRO_WORD_METHODS = ['given', 'when', 'then', 'and', 'but', 'with'];
+
 export class ScenarioPart {
     kind: ScenarioPartKind;
     steps: Step[];
+    introWord: string | null;
 
     constructor(kind: ScenarioPartKind, steps?: Step[] = []) {
         this.kind = kind;
         this.steps = steps;
+        this.introWord = null;
     }
 
     addStep(methodName: string, parameters: mixed[]) {
-        const isFirstStep = this.steps.length === 0;
-        this.steps.push(new Step(methodName, parameters, isFirstStep));
+        if (INTRO_WORD_METHODS.find(introWord => introWord === methodName)) {
+            this.introWord = methodName;
+        } else {
+            const isFirstStep = this.steps.length === 0;
+            this.steps.push(new Step(methodName, parameters, isFirstStep, this.introWord));
+            this.introWord = null;
+        }
     }
 }
 
 export class Step {
     name: string;
     methodName: string;
+    words: Word[];
 
-    constructor(methodName: string, parameters: mixed[], isFirstStep: boolean) {
+    constructor(methodName: string, parameters: mixed[], isFirstStep: boolean, introWord: string | null) {
         const TWO_DOLLAR_PLACEHOLDER = 'zzblablaescapedollarsignplaceholdertpolm';
 
         const parametersCopy = [...parameters];
-        this.name = [
-            methodName
-                .replace('$$', TWO_DOLLAR_PLACEHOLDER)
-                .split('$')
-                .map((word, index) =>
-                    isFirstStep && index === 0 ? humanize(word) : _.lowerCase(humanize(word))
-                )
+        let words: Word[] = [
+            ...methodName // 'a_bill_of_$_$$'
+                .replace('$$', TWO_DOLLAR_PLACEHOLDER) // 'a_bill_of_$_TWO_DOLLAR_PLACEHOLDER'
+                .split('$') // ['a_bill_of', 'TWO_DOLLAR_PLACEHOLDER']
+                .map((word) => _.lowerCase(humanize(word))) //  ['a bill of', 'TWO_DOLLAR_PLACEHOLDER']
                 .reduce((previous, newString, index) => {
                     const [parameter] = parametersCopy.splice(0, 1);
                     return `${previous} ${formatParameter(parameter)} ${newString}`;
-                })
-                .trim()
-                .replace(TWO_DOLLAR_PLACEHOLDER, '$'),
-            ...parametersCopy.map(formatParameter),
-        ].join(' ');
+                }) // 'a bill of 500 TWO_DOLLAR_PLACEHOLDER '
+                .trim() // 'a bill of 500 TWO_DOLLAR_PLACEHOLDER'
+                .replace(TWO_DOLLAR_PLACEHOLDER, '$') // 'a bill of 500 $'
+                .split(' ') // ['a', 'bill', 'of', '500', '$']
+                .map(toWord),
+            ...parametersCopy.map(formatParameter).map(toWord),
+        ];
+        if (introWord) {
+            words = [toIntroWord(introWord), ...words];
+        }
+        if (isFirstStep) {
+            const [{value, isIntroWord}, ...rest] = words;
+            words = [new Word(_.upperFirst(value), isIntroWord), ...rest];
+        }
+        this.words = words;
+        this.name = words.map(({value}) => value).join(' ');
 
         function formatParameter(parameter: any): string {
             if (_.isObject(parameter) || Array.isArray(parameter)) {
@@ -60,6 +79,24 @@ export class Step {
                 return parameter && parameter.toString ? parameter.toString() : JSON.stringify(parameter);
             }
         }
+
+        function toWord(value: string): Word {
+            return new Word(value, false);
+        }
+
+        function toIntroWord(value: string): Word {
+            return new Word(value, true);
+        }
+    }
+}
+
+export class Word {
+    value: string;
+    isIntroWord: boolean;
+
+    constructor(value: string, isIntroWord: boolean) {
+        this.value = value;
+        this.isIntroWord = isIntroWord;
     }
 }
 
