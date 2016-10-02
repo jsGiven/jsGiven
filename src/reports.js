@@ -46,8 +46,8 @@ export class Step {
             ...methodName // 'a_bill_of_$_$$'
                 .replace('$$', TWO_DOLLAR_PLACEHOLDER) // 'a_bill_of_$_TWO_DOLLAR_PLACEHOLDER'
                 .split('$') // ['a_bill_of', 'TWO_DOLLAR_PLACEHOLDER']
-                .map((word) => _.lowerCase(humanize(word))) //  ['a bill of', 'TWO_DOLLAR_PLACEHOLDER']
-                .reduce((previous, newString, index) => {
+                .map(word => _.lowerCase(humanize(word))) //  ['a bill of', 'TWO_DOLLAR_PLACEHOLDER']
+                .reduce((previous, newString) => {
                     const [parameter] = parametersCopy.splice(0, 1);
                     return `${previous} ${formatParameter(parameter)} ${newString}`;
                 }) // 'a bill of 500 TWO_DOLLAR_PLACEHOLDER '
