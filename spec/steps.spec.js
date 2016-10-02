@@ -77,14 +77,14 @@ scenarios('intro_words', StepsStage, ({given, when, then}) => ({
     intro_words_can_be_used() {
         given().a_step_with_$_methodName_and_$_intro_word('an_object', 'given');
         then().the_step_is_named_$('given an object').and()
-            .it_contains_the_words('given', 'an', 'object').and()
+            .it_contains_the_words('given', 'an object').and()
             .only_its_first_word_is_an_intro_word();
     },
 
     intro_words_can_be_avoided() {
         given().a_step_with_$_methodName_and_no_intro_word('an_object');
         then().the_step_is_named_$('an object').and()
-            .it_contains_the_words('an', 'object').and()
+            .it_contains_the_words('an object').and()
             .it_does_not_contain_any_intro_word();
     },
 }));
@@ -93,7 +93,8 @@ scenarios('parametrized_steps', StepsStage, ({given, when, then}) => {
     return {
         basic_properties_can_be_used_as_parameters() {
             given().a_parametrized_step_with_$_methodName_and_$_arguments('$_grams_of_flour', 500);
-            then().the_step_is_named_$('500 grams of flour');
+            then().the_step_is_named_$('500 grams of flour').and()
+                .it_contains_the_words('500', 'grams of flour');
         },
 
         arrays_can_be_used_as_parameters() {

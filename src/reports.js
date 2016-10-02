@@ -47,19 +47,31 @@ export class Step {
                 .replace('$$', TWO_DOLLAR_PLACEHOLDER) // 'a_bill_of_$_TWO_DOLLAR_PLACEHOLDER'
                 .split('$') // ['a_bill_of', 'TWO_DOLLAR_PLACEHOLDER']
                 .map(word => _.lowerCase(humanize(word))) //  ['a bill of', 'TWO_DOLLAR_PLACEHOLDER']
-                .reduce((previous, newString) => {
-                    const [parameter] = parametersCopy.splice(0, 1);
-                    return `${previous} ${formatParameter(parameter)} ${newString}`;
-                }) // 'a bill of 500 TWO_DOLLAR_PLACEHOLDER '
-                .trim() // 'a bill of 500 TWO_DOLLAR_PLACEHOLDER'
-                .replace(TWO_DOLLAR_PLACEHOLDER, '$') // 'a bill of 500 $'
-                .split(' ') // ['a', 'bill', 'of', '500', '$']
-                .map(toWord),
+                .reduce((previous, newString, index) => {
+                    if (index === 0) {
+                        return [newString];
+                    }
+
+                    let formattedParameters;
+                    if (parametersCopy.length > 0) {
+                        const [parameter] = parametersCopy.splice(0, 1);
+                        formattedParameters = [formatParameter(parameter)];
+                    } else {
+                        formattedParameters = [];
+                    }
+
+                    return [...previous, ...formattedParameters, newString];
+                }, []) //  ['a bill of', '500', 'TWO_DOLLAR_PLACEHOLDER', '']
+                .filter(word => word !== '') //  ['a bill of', '500', 'TWO_DOLLAR_PLACEHOLDER']
+                .map(word => word.replace(TWO_DOLLAR_PLACEHOLDER, '$')) //  ['a bill of', '500', '$']
+                .map(toWord), // [Word, Word, Word]
             ...parametersCopy.map(formatParameter).map(toWord),
         ];
+
         if (introWord) {
             words = [toIntroWord(introWord), ...words];
         }
+        
         if (isFirstStep) {
             const [{value, isIntroWord}, ...rest] = words;
             words = [new Word(_.upperFirst(value), isIntroWord), ...rest];
