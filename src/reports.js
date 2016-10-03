@@ -22,7 +22,7 @@ export class ScenarioPart {
         this.introWord = null;
     }
 
-    addStep(methodName: string, parameters: mixed[]) {
+    stageMethodCalled(methodName: string, parameters: mixed[]) {
         if (INTRO_WORD_METHODS.find(introWord => introWord === methodName)) {
             this.introWord = methodName;
         } else {
@@ -61,8 +61,8 @@ export class Step {
                     }
 
                     return [...previous, ...formattedParameters, newString];
-                }, []) //  ['a bill of', '500', 'TWO_DOLLAR_PLACEHOLDER', '']
-                .filter(word => word !== '') //  ['a bill of', '500', 'TWO_DOLLAR_PLACEHOLDER']
+                }, []) //  ['a bill of', '500', 'TWO_DOLLAR_PLACEHOLDER']
+                .filter(word => word !== '') // If one puts a $ at the end of the method, this adds a useless '' at the end
                 .map(word => word.replace(TWO_DOLLAR_PLACEHOLDER, '$')) //  ['a bill of', '500', '$']
                 .map(toWord), // [Word, Word, Word]
             ...parametersCopy.map(formatParameter).map(toWord),
@@ -71,7 +71,7 @@ export class Step {
         if (introWord) {
             words = [toIntroWord(introWord), ...words];
         }
-        
+
         if (isFirstStep) {
             const [{value, isIntroWord}, ...rest] = words;
             words = [new Word(_.upperFirst(value), isIntroWord), ...rest];

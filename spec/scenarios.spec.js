@@ -153,7 +153,7 @@ class StatefullScenarioGivenStage extends BasicScenarioGivenStage {
         this.ThenStageStateFull = class ThenStageStateFull extends Stage {
             @State expectedValue: number;
             @State computedValue: number;
-            the_value_must_be_incremented(): this {
+            the_value_is_incremented(): this {
                 self.expectedValueFromWhenStage = this.computedValue;
                 self.expectedValueFromGivenStage = this.expectedValue;
                 return this;
@@ -168,7 +168,7 @@ class StatefullScenarioGivenStage extends BasicScenarioGivenStage {
                 scenario_using_stages() {
                     given().aValue();
                     when().it_gets_incremented();
-                    then().the_value_must_be_incremented();
+                    then().the_value_is_incremented();
                 },
             };
         });
