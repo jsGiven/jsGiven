@@ -7,7 +7,7 @@ import {expect} from 'chai';
 if (global.jasmine) {
     global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 1800000;
 }
-import {installJGivenReportApp, JGIVEN_APP_VERSION} from '../src/generateReport';
+import {installJGivenReportApp, JGIVEN_APP_VERSION} from '../src/generateJGivenReport';
 
 // Todo implement jsGiven test once it supports async tests
 if (global.describe && global.it) {

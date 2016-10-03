@@ -81,7 +81,7 @@ scenarios('intro_words', StepsStage, ({given, when, then}) => ({
             .only_its_first_word_is_an_intro_word();
     },
 
-    intro_words_can_be_avoided() {
+    intro_words_are_not_necessary() {
         given().a_step_with_$_methodName_and_no_intro_word('an_object');
         then().the_step_is_named_$('an object').and()
             .it_contains_the_words('an object').and()

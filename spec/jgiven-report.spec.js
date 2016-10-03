@@ -13,7 +13,7 @@ import {
     ScenarioReport,
     Step,
 } from '../src/reports';
-import {generateJGivenReportDataFiles} from '../src/generateReport';
+import {generateJGivenReportDataFiles} from '../src/generateJGivenReport';
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);

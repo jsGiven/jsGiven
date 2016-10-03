@@ -145,11 +145,9 @@ function toSteps(scenarioPart: ScenarioPart): StepModel[] {
         name: step.name,
         nestedSteps: [],
         status: 'PASSED',
-        words: [{
-            argumentInfo: null,
-            isDifferent: null,
-            isIntroWord: false,
-            value: step.name,
-        }],
+        words: step.words.map(word => ({
+            ...(word.isIntroWord ? {isIntroWord: true} : {}),
+            value: word.value,
+        })),
     }));
 }
