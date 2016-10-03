@@ -1,4 +1,6 @@
 // @flow
-require('babel-polyfill');
-require('babel-core/register');
-require('./src/generateJGivenReport').default();
+import 'babel-polyfill';
+import 'babel-core/register';
+import generateJGivenReport from './src/generateJGivenReport';
+
+generateJGivenReport();
