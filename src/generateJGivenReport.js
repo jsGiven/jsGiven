@@ -142,7 +142,7 @@ function toSteps(scenarioPart: ScenarioPart): StepModel[] {
         durationInNanos: 42,
         extendedDescription: '',
         isSectionTitle: false,
-        name: step.name,
+        name: step.methodName,
         nestedSteps: [],
         status: 'PASSED',
         words: step.words.map(word => ({
