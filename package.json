@@ -9,7 +9,7 @@
     "lintFix": "check-node-version -q --node '< 5.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint --fix . ./)",
     "pretest": "npm run flow && npm run lint",
     "test": "npm run test_mocha && npm run test_jest && npm run test_jasmine && npm run test_ava && npm run test_protractor",
-    "posttest": "npm run generateReport",
+    "posttest": "npm run generateReport && npm run build",
     "test_mocha": "mocha --opts spec/support/mocha-default.opts spec",
     "test_jest": "jest --config .jest.conf.json --colors",
     "test_jasmine": "node spec/support/jasmine-runner.js",
@@ -73,6 +73,7 @@
     "mocha": "3.1.0",
     "protractor": "4.0.9",
     "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-uglify": "1.0.1",
     "sinon": "1.17.6",
     "sinon-chai": "2.8.0",
     "tmp": "0.0.29"
