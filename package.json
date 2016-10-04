@@ -19,8 +19,8 @@
     "flow": "node_modules/flow-bin/cli.js",
     "generateReport": "node generateReport.es5.js",
     "build": "npm run buildLib && npm run buildGenerateReport",
-    "buildLib": "rollup -c rollup/lib.rollup.config.js",
-    "buildGenerateReport": "rollup -c rollup/generateReport.rollup.config.js"
+    "buildLib": "check-node-version -q --node '< 5.0' || rollup -c rollup/lib.rollup.config.js",
+    "buildGenerateReport": "check-node-version -q --node '< 5.0' || rollup -c rollup/generateReport.rollup.config.js"
   },
   "repository": {
     "type": "git",
