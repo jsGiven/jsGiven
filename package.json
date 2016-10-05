@@ -20,7 +20,8 @@
     "generateReport": "node src/generateReport.es5.js",
     "build": "npm run buildLib && npm run buildGenerateReport",
     "buildLib": "check-node-version -q --node '< 5.0' || rollup -c rollup/lib.rollup.config.js",
-    "buildGenerateReport": "check-node-version -q --node '< 5.0' || rollup -c rollup/generateReport.rollup.config.js"
+    "buildGenerateReport": "check-node-version -q --node '< 5.0' || rollup -c rollup/generateReport.rollup.config.js",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
