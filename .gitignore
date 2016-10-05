@@ -3,3 +3,5 @@ jGiven-report
 npm-debug.log
 dist
 node_modules
+./index.js
+./generateReport.js

@@ -1,3 +1,5 @@
 **/node_modules/**
 **/jGiven-report/**
 **/dist/**
+index.js
+generateReport.js

@@ -4,7 +4,7 @@ import fs from 'fs';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import {scenarios, setupForRspec, setupForAva, State, Stage} from '../index';
+import {scenarios, setupForRspec, setupForAva, State, Stage} from '../src';
 import {computeScenarioFileName} from '../src/reports';
 import type {ScenarioPart, ScenarioPartKind, ScenarioReport} from '../src/reports';
 
