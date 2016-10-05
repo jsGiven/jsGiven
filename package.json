@@ -1,6 +1,6 @@
 {
   "name": "js-given",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "JavaScript frontend to jgiven",
   "main": "index.js",
   "scripts": {
@@ -91,6 +91,13 @@
   "bin": {
     "generateJsGivenReport": "./generateReport.js"
   },
+  "files": [
+    "generateReport.js",
+    "index.js",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
   "ava": {
     "require": [
       "babel-core/register",
