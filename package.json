@@ -21,7 +21,7 @@
     "build": "npm run buildLib && npm run buildGenerateReport",
     "buildLib": "check-node-version -q --node '< 5.0' || rollup -c rollup/lib.rollup.config.js",
     "buildGenerateReport": "check-node-version -q --node '< 5.0' || rollup -c rollup/generateReport.rollup.config.js",
-    "prepublish": "npm run build"
+    "prepublish": "npm run test && npm run build"
   },
   "repository": {
     "type": "git",
