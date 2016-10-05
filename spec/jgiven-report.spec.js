@@ -5,7 +5,7 @@ import zlib from 'zlib';
 import {expect} from 'chai';
 import tmp from 'tmp';
 
-import {scenarios, setupForRspec, setupForAva, Stage} from '../index';
+import {scenarios, setupForRspec, setupForAva, Stage} from '../src';
 import {
     computeScenarioFileName,
     GroupReport,

@@ -4,7 +4,7 @@ import sinon from 'sinon';
 
 import {ScenarioRunner} from '../src/scenarios';
 import type {GroupFunc, TestFunc} from '../src/test-runners';
-import {Stage, State} from '../index';
+import {Stage, State} from '../src';
 
 type SinonStub = {
     callArg: (arg: number) => void;

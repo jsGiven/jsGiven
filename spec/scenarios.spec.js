@@ -2,7 +2,7 @@
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import {scenarios, setupForRspec, setupForAva, State, Stage} from '../index';
+import {scenarios, setupForRspec, setupForAva, State, Stage} from '../src';
 
 import {BasicScenarioGivenStage, ScenarioWhenStage, BasicScenarioThenStage} from './basic-stages';
 

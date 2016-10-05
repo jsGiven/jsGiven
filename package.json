@@ -9,7 +9,7 @@
     "lintFix": "check-node-version -q --node '< 5.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint --fix . ./)",
     "pretest": "npm run flow && npm run lint",
     "test": "npm run test_mocha && npm run test_jest && npm run test_jasmine && npm run test_ava && npm run test_protractor",
-    "posttest": "npm run generateReport",
+    "posttest": "npm run generateReport && npm run build",
     "test_mocha": "mocha --opts spec/support/mocha-default.opts spec",
     "test_jest": "jest --config .jest.conf.json --colors",
     "test_jasmine": "node spec/support/jasmine-runner.js",
@@ -17,7 +17,11 @@
     "test_protractor": "check-node-version -q --node '< 4.2' || protractor .protractor.conf.js",
     "testWatch": "npm run test_jest -- --watch",
     "flow": "node_modules/flow-bin/cli.js",
-    "generateReport": "node generateReport.js"
+    "generateReport": "node src/generateReport.es5.js",
+    "build": "npm run buildLib && npm run buildGenerateReport",
+    "buildLib": "check-node-version -q --node '< 5.0' || rollup -c rollup/lib.rollup.config.js",
+    "buildGenerateReport": "check-node-version -q --node '< 5.0' || rollup -c rollup/generateReport.rollup.config.js",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -51,6 +55,7 @@
     "babel-plugin-transform-regenerator": "6.16.1",
     "babel-polyfill": "6.16.0",
     "babel-preset-es2015": "6.16.0",
+    "babel-preset-es2015-rollup": "^1.2.0",
     "babel-preset-react": "6.16.0",
     "chai": "3.5.0",
     "check-node-version": "1.1.2",
@@ -68,6 +73,8 @@
     "jest-cli": "16.0.1",
     "mocha": "3.1.0",
     "protractor": "4.0.9",
+    "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-uglify": "1.0.1",
     "sinon": "1.17.6",
     "sinon-chai": "2.8.0",
     "tmp": "0.0.29"
@@ -78,7 +85,11 @@
     "machinepack-zip": "1.1.0",
     "maven": "4.0.3",
     "rimraf": "2.5.4",
+    "rollup": "0.36.1",
     "string-humanize": "1.0.0"
+  },
+  "bin": {
+    "generateJsGivenReport": "./generateReport.js"
   },
   "ava": {
     "require": [
