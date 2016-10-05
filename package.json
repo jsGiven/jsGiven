@@ -87,6 +87,9 @@
     "rollup": "0.36.1",
     "string-humanize": "1.0.0"
   },
+  "bin": {
+    "generateJsGivenReport": "./generateReport.js"
+  },
   "ava": {
     "require": [
       "babel-core/register",
