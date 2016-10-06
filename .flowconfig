@@ -1,8 +1,8 @@
 [ignore]
 .*/node_modules/json5/test/.*\.json
 .*/flow-typed/.*
-./index.js
-./generateReport.js
+.*/dist/.*
+.*/rollup/.*
 
 [libs]
 flow-declarations
