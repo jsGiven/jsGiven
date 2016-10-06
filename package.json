@@ -84,7 +84,7 @@
   "dependencies": {
     "babel-polyfill": "6.16.0",
     "decompress-zip": "0.3.0",
-    "lodash": "4.16.3",
+    "lodash": "4.16.4",
     "machinepack-zip": "1.1.0",
     "maven": "4.0.3",
     "rimraf": "2.5.4",
