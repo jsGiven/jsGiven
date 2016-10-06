@@ -1,6 +1,6 @@
 {
   "name": "js-given",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "JavaScript frontend to jgiven",
   "main": "index.js",
   "scripts": {
@@ -18,10 +18,10 @@
     "testWatch": "npm run test_jest -- --watch",
     "flow": "node_modules/flow-bin/cli.js",
     "generateReport": "node src/generateReport.es5.js",
-    "build": "check-node-version -q --node '< 5.0' || npm run buildLib && npm run buildGenerateReport && node copyFilesToDist.js",
+    "build": "check-node-version -q --node '< 5.0' || rm -vfr dist && npm run buildLib && npm run buildGenerateReport && node copyFilesToDist.js",
     "buildLib": "check-node-version -q --node '< 5.0' || rollup -c rollup/lib.rollup.config.js",
     "buildGenerateReport": "check-node-version -q --node '< 5.0' || rollup -c rollup/generateReport.rollup.config.js",
-    "__doPublish": "rm -vfr dist && (cd dist; npm publish)",
+    "__doPublish": "(cd dist; npm publish)",
     "release": "check-node-version -q --node '< 5.0' || npm test && npm run build && npm run __doPublish"
   },
   "repository": {
