@@ -1,8 +1,10 @@
 [ignore]
 .*/node_modules/json5/test/.*\.json
+.*/node_modules/nodegit/node_modules/js-beautify/node_modules/config-chain/test/.*\.json
 .*/flow-typed/.*
 .*/dist/.*
 .*/rollup/.*
+.*/preparePublish.js
 
 [libs]
 flow-declarations
