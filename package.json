@@ -4,7 +4,9 @@
   "description": "JavaScript frontend to jgiven",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node_modules/protractor/bin/webdriver-manager update",
+    "installProtractor": "node_modules/protractor/bin/webdriver-manager update",
+    "installJGivenReport": "node installJGivenReport.js",
+    "postinstall": "npm run installProtractor && npm run installJGivenReport",
     "lint": "check-node-version -q --node '< 5.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint . ./)",
     "lintFix": "check-node-version -q --node '< 5.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint --fix . ./)",
     "pretest": "npm run flow && npm run lint",
