@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const Git = require('nodegit');
 
-const pkg = require('./package.json');
+const pkg = require('../package.json');
 delete pkg.private;
 delete pkg.devDependencies;
 delete pkg.scripts;

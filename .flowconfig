@@ -3,8 +3,7 @@
 .*/node_modules/nodegit/node_modules/js-beautify/node_modules/config-chain/test/.*\.json
 .*/flow-typed/.*
 .*/dist/.*
-.*/rollup/.*
-.*/preparePublish.js
+.*/tools/.*
 
 [libs]
 flow-declarations

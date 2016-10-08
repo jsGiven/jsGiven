@@ -1,4 +1,4 @@
 **/node_modules/**
 **/jGiven-report/**
 **/dist/**
-/preparePublish.js
+/tools/preparePublish.js
