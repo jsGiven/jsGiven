@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "installProtractor": "node_modules/protractor/bin/webdriver-manager update",
-    "installJGivenReport": "node installJGivenReport.js",
+    "installJGivenReport": "node tools/installJGivenReport.js",
     "postinstall": "npm run installProtractor && npm run installJGivenReport",
     "lint": "check-node-version -q --node '< 5.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint . ./)",
     "lintFix": "check-node-version -q --node '< 5.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint --fix . ./)",
