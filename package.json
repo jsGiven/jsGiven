@@ -13,7 +13,7 @@
     "test": "npm run test_jest && npm run test_mocha && npm run test_jasmine && npm run test_ava && npm run test_protractor",
     "posttest": "npm run generateReport && npm run build",
     "test_mocha": "mocha --opts spec/support/mocha-default.opts spec",
-    "test_jest": "jest --config .jest.conf.json --colors",
+    "test_jest": "check-node-version -q --node '< 4.0' || jest --config .jest.conf.json --colors",
     "test_jasmine": "node spec/support/jasmine-runner.js",
     "test_ava": "AVA_CONFIG_DIR=$(pwd) ava spec/**.spec.js -v",
     "test_protractor": "check-node-version -q --node '< 4.2' || protractor .protractor.conf.js",
@@ -118,6 +118,6 @@
     "babel": "inherit"
   },
   "engines": {
-    "node": ">= 4.2.0"
+    "node": ">= 0.12.0"
   }
 }
