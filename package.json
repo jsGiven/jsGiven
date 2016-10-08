@@ -15,7 +15,7 @@
     "test_mocha": "mocha --opts spec/support/mocha-default.opts spec",
     "test_jest": "jest --config .jest.conf.json --colors",
     "test_jasmine": "node spec/support/jasmine-runner.js",
-    "test_ava": "ava spec/**.spec.js -v",
+    "test_ava": "AVA_CONFIG_DIR=$(pwd) ava spec/**.spec.js -v",
     "test_protractor": "check-node-version -q --node '< 4.2' || protractor .protractor.conf.js",
     "testWatch": "npm run test_jest -- --watch",
     "flow": "node_modules/flow-bin/cli.js",
@@ -93,9 +93,9 @@
   "dependencies": {
     "babel-polyfill": "6.16.0",
     "decompress-zip": "0.3.0",
+    "fs-extra": "0.30.0",
     "lodash": "4.16.4",
     "machinepack-zip": "1.1.0",
-    "maven": "4.0.3",
     "rimraf": "2.5.4",
     "string-humanize": "1.0.0"
   },
@@ -112,7 +112,8 @@
   "ava": {
     "require": [
       "babel-core/register",
-      "./spec/support/setup-tests.js"
+      "./spec/support/setup-tests.js",
+      "./spec/support/setup-ava.js"
     ],
     "babel": "inherit"
   },

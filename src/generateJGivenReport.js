@@ -3,9 +3,9 @@ import fs from 'fs';
 import zlib from 'zlib';
 
 import _ from 'lodash';
-import maven from 'maven';
-import rimraf from 'rimraf';
 import DecompressZip from 'decompress-zip';
+import fse from 'fs-extra';
+import rimraf from 'rimraf';
 
 import {REPORTS_DESTINATION, ScenarioReport, ScenarioPart} from './reports';
 import type {ReportModel} from './jgivenReport/ReportModel';
@@ -15,8 +15,13 @@ import type {StepModel} from './jgivenReport/StepModel';
 export const JGIVEN_APP_VERSION = '0.12.1';
 
 export default async function start(): Promise<void> {
+    console.log('Installing JGiven report app');
     await installJGivenReportApp();
+    console.log('Done installing JGiven report app');
+
+    console.log('Generating JGiven report data');
     generateJGivenReportDataFiles();
+    console.log('Done generating JGiven report data');
 }
 
 export async function installJGivenReportApp(reportPrefix: string = '.'): Promise<void> {
@@ -26,25 +31,30 @@ export async function installJGivenReportApp(reportPrefix: string = '.'): Promis
     fs.mkdirSync(reportDir);
     fs.mkdirSync(`${reportDir}/data`);
 
-    const mvn = maven.create();
-    await mvn.execute('org.apache.maven.plugins:maven-dependency-plugin:2.10:copy', {
-        repoUrl: 'http://download.java.net/maven/2/',
-        outputDirectory: reportDir,
-        artifact: `com.tngtech.jgiven:jgiven-html5-report:${JGIVEN_APP_VERSION}`,
-        'mdep.useBaseVersion': 'true',
-        overWrite: 'true',
-    });
+    let jarFile = './jgiven-html5-report.jar';
+    if (!fileExists(jarFile)) {
+        jarFile = 'node_modules/js-given/jgiven-html5-report.jar';
+        if (!fileExists(jarFile)) {
+            throw new Error('jgiven html 5 report not found');
+        }
+    }
+    fse.copySync(jarFile, `${reportDir}/jgiven-html5-report.jar`);
 
-    await unzip(`${reportDir}/jgiven-html5-report-${JGIVEN_APP_VERSION}.jar`,
-        reportDir);
+    await unzip(`${reportDir}/jgiven-html5-report.jar`, reportDir);
     await unzip(`${reportDir}/com/tngtech/jgiven/report/html5/app.zip`,
         reportDir);
 
     await removeDir(`${reportDir}/META-INF`);
     await removeDir(`${reportDir}/com`);
-    await removeDir(`${reportDir}/jgiven-html5-report-${JGIVEN_APP_VERSION}.jar`);
+    await removeDir(`${reportDir}/jgiven-html5-report.jar`);
+}
 
-    console.log('Done installing JGiven report app');
+function fileExists(fileName: string): boolean {
+    try {
+        return fs.statSync(fileName).isFile();
+    } catch(error) {
+        return false;
+    }
 }
 
 export function generateJGivenReportDataFiles(filter?: (fileName: string) => boolean = () => true, reportPrefix: string = '.') {
@@ -84,12 +94,11 @@ function unzip(zipFile: string, targetDirectory: string): Promise<void> {
         var unzipper = new DecompressZip(zipFile);
 
         unzipper.on('error', (err) => {
-            console.log('Caught an error');
+            console.log(`Caught an error when extracting: ${zipFile} to ${targetDirectory}`);
             reject(err);
         });
 
         unzipper.on('extract', (log) => {
-            console.log(`Finished extracting: ${zipFile} to ${targetDirectory}`);
             resolve();
         });
 
