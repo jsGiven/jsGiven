@@ -1,6 +1,4 @@
 [![Build Status](https://travis-ci.org/jsGiven/jsGiven.svg?branch=master)](https://travis-ci.org/jsGiven/jsGiven)
-[![Dependency Status](https://david-dm.org/jsGiven/jsGiven.svg)](https://david-dm.org/jsGiven/jsGiven)
-[![devDependency Status](https://david-dm.org/jsGiven/jsGiven/dev-status.svg)](https://david-dm.org/jsGiven/jsGiven#info=devDependencies)
 
 
 # jsGiven
