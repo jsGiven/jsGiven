@@ -4,6 +4,10 @@
   "description": "JS GIVEN ROOT DO NOT PUBLISH",
   "main": "index.js",
   "scripts": {
+    "lint": "check-node-version -q --node '< 5.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint . ./)",
+    "lintFix": "check-node-version -q --node '< 5.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint --fix . ./)",
+    "flow": "node_modules/flow-bin/cli.js",
+    "pretest": "npm run lint && npm run flow",
     "test": "(cd js-given; npm test)",
     "install": "(cd js-given; npm install)"
   },
@@ -16,5 +20,18 @@
   "bugs": {
     "url": "https://github.com/jsGiven/jsGiven/issues"
   },
-  "homepage": "https://github.com/jsGiven/jsGiven"
+  "homepage": "https://github.com/jsGiven/jsGiven",
+  "devDependencies": {
+    "babel-eslint": "7.0.0",
+    "check-node-version": "1.1.2",
+    "eslint": "3.7.1",
+    "eslint-config-standard": "6.2.0",
+    "eslint-loader": "1.5.0",
+    "eslint-plugin-babel": "3.3.0",
+    "eslint-plugin-flowtype": "2.20.0",
+    "eslint-plugin-import": "2.0.0",
+    "eslint-plugin-promise": "3.0.0",
+    "eslint-plugin-standard": "2.0.1",
+    "flow-bin": "0.33.0"
+  }
 }

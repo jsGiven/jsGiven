@@ -6,7 +6,7 @@
 .*/tools/.*
 
 [libs]
-flow-declarations
+js-given/flow-declarations
 
 [options]
 esproposal.class_instance_fields=enable
