@@ -1,31 +1,34 @@
 {
   "name": "js-given",
   "version": "0.0.8",
+  "__versionAlpha": "0.0.8-alpha.6",
   "description": "JavaScript frontend to jgiven",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node_modules/protractor/bin/webdriver-manager update",
+    "installProtractor": "node_modules/protractor/bin/webdriver-manager update",
+    "installJGivenReport": "node tools/installJGivenReport.js",
+    "postinstall": "npm run installProtractor && npm run installJGivenReport",
     "lint": "check-node-version -q --node '< 5.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint . ./)",
     "lintFix": "check-node-version -q --node '< 5.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint --fix . ./)",
     "pretest": "npm run flow && npm run lint",
     "test": "npm run test_jest && npm run test_mocha && npm run test_jasmine && npm run test_ava && npm run test_protractor",
     "posttest": "npm run generateReport && npm run build",
     "test_mocha": "mocha --opts spec/support/mocha-default.opts spec",
-    "test_jest": "jest --config .jest.conf.json --colors",
+    "test_jest": "check-node-version -q --node '< 4.0' || jest --config .jest.conf.json --colors",
     "test_jasmine": "node spec/support/jasmine-runner.js",
-    "test_ava": "ava spec/**.spec.js -v",
+    "test_ava": "AVA_CONFIG_DIR=$(pwd) ava spec/**.spec.js -v",
     "test_protractor": "check-node-version -q --node '< 4.2' || protractor .protractor.conf.js",
     "testWatch": "npm run test_jest -- --watch",
     "flow": "node_modules/flow-bin/cli.js",
     "generateReport": "node src/generateReport.es5.js",
-    "__doBuild": "npm run buildLib && npm run buildGenerateReport",
+    "__doBuild": "rm -vfr dist && npm run buildLib && npm run buildGenerateReport",
     "build": "check-node-version -q --node '< 5.0' || npm run __doBuild",
     "buildLib": "check-node-version -q --node '< 5.0' || rollup -c tools/lib.rollup.config.js",
     "buildGenerateReport": "check-node-version -q --node '< 5.0' || rollup -c tools/generateReport.rollup.config.js",
     "__doPreparePublish": "node tools/preparePublish.js",
     "__doTagRelease": "node tools/tarRelease.js",
     "__doPublishAlpha": "(cd dist; npm publish --tag next)",
-    "__doReleaseAlpha": "npm run __doPreparePublish && npm run __doPublishAlpha",
+    "__doReleaseAlpha": "npm run __doPreparePublish -- alpha && npm run __doPublishAlpha",
     "__doPublish": "(cd dist; npm publish)",
     "__doRelease": "npm run __doPreparePublish && npm run __doTagRelease && npm run __doPublish",
     "releaseAlpha": "check-node-version -q --node '< 5.0' || npm test && npm run build && npm run __doReleaseAlpha",
@@ -91,9 +94,9 @@
   "dependencies": {
     "babel-polyfill": "6.16.0",
     "decompress-zip": "0.3.0",
+    "fs-extra": "0.30.0",
     "lodash": "4.16.4",
     "machinepack-zip": "1.1.0",
-    "maven": "4.0.3",
     "rimraf": "2.5.4",
     "string-humanize": "1.0.0"
   },
@@ -102,6 +105,7 @@
   },
   "files": [
     "generateReport.js",
+    "installJGivenReport.js",
     "index.js",
     "LICENSE",
     "README.md",
@@ -110,11 +114,12 @@
   "ava": {
     "require": [
       "babel-core/register",
-      "./spec/support/setup-tests.js"
+      "./spec/support/setup-tests.js",
+      "./spec/support/setup-ava.js"
     ],
     "babel": "inherit"
   },
   "engines": {
-    "node": ">= 4.2.0"
+    "node": ">= 0.12.0"
   }
 }
