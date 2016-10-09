@@ -21,7 +21,7 @@
     "testWatch": "npm run test_jest -- --watch",
     "flow": "node_modules/flow-bin/cli.js",
     "generateReport": "node src/generateReport.es5.js",
-    "__doBuild": "npm run buildLib && npm run buildGenerateReport",
+    "__doBuild": "rm -vfr dist && npm run buildLib && npm run buildGenerateReport",
     "build": "check-node-version -q --node '< 5.0' || npm run __doBuild",
     "buildLib": "check-node-version -q --node '< 5.0' || rollup -c tools/lib.rollup.config.js",
     "buildGenerateReport": "check-node-version -q --node '< 5.0' || rollup -c tools/generateReport.rollup.config.js",
