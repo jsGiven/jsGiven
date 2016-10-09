@@ -1,5 +1,5 @@
 ---
-title: I'm a markdown file!
+title: JSGiven
 ---
 
 Markdown is pretty cool if you ask me.

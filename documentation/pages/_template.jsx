@@ -38,7 +38,7 @@ module.exports = React.createClass({
                 textDecoration: 'none',
               }}
             >
-              Gatsby!!!
+              jsGiven
             </Link>
           </Container>
         </Headroom>
