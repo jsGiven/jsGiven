@@ -1,5 +1,0 @@
-**/node_modules/**
-**/jGiven-report/**
-**/dist/**
-/tools/preparePublish.js
-/tools/tagRelease.js
