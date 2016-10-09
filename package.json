@@ -12,7 +12,7 @@
     "install": "npm run installJsGiven && npm run installDocumentation",
     "pretest": "npm run lint && npm run flow",
     "testJsGiven": "(cd js-given; npm test)",
-    "buildDocumentation": "(cd documentation; npm run build)",
+    "buildDocumentation": "check-node-version -q --node '< 4.0' || (cd documentation; npm run build)",
     "test": "npm run testJsGiven && npm run buildDocumentation"
   },
   "repository": {
