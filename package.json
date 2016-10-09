@@ -22,8 +22,14 @@
     "build": "check-node-version -q --node '< 5.0' || npm run __doBuild",
     "buildLib": "check-node-version -q --node '< 5.0' || rollup -c tools/lib.rollup.config.js",
     "buildGenerateReport": "check-node-version -q --node '< 5.0' || rollup -c tools/generateReport.rollup.config.js",
-    "__doPublish": "node tools/preparePublish.js && (cd dist; npm publish)",
-    "release": "check-node-version -q --node '< 5.0' || npm test && npm run build && npm run __doPublish"
+    "__doPreparePublish": "node tools/preparePublish.js",
+    "__doTagRelease": "node tools/tarRelease.js",
+    "__doPublishAlpha": "(cd dist; npm publish --tag next)",
+    "__doReleaseAlpha": "npm run __doPreparePublish && npm run __doPublishAlpha",
+    "__doPublish": "(cd dist; npm publish)",
+    "__doRelease": "npm run __doPreparePublish && npm run __doTagRelease && npm run __doPublish",
+    "releaseAlpha": "check-node-version -q --node '< 5.0' || npm test && npm run build && npm run __doReleaseAlpha",
+    "release": "check-node-version -q --node '< 5.0' || npm test && npm run build && npm run __doRelease"
   },
   "repository": {
     "type": "git",
