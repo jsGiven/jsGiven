@@ -4,6 +4,7 @@
 .*/flow-typed/.*
 .*/dist/.*
 .*/tools/.*
+.*/documentation/.*
 
 [libs]
 js-given/flow-declarations

@@ -7,9 +7,14 @@
     "lint": "check-node-version -q --node '< 5.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint . ./)",
     "lintFix": "check-node-version -q --node '< 5.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint --fix . ./)",
     "flow": "node_modules/flow-bin/cli.js",
+    "installJsGiven": "(cd js-given; npm install)",
+    "installDocumentation": "(cd documentation; npm install)",
+    "install": "npm run installJsGiven && npm run installDocumentation",
     "pretest": "npm run lint && npm run flow",
-    "test": "(cd js-given; npm test)",
-    "install": "(cd js-given; npm install)"
+    "testJsGiven": "(cd js-given; npm test)",
+    "buildDocumentation": "check-node-version -q --node '< 4.0' || (cd documentation; npm run build)",
+    "test": "npm run testJsGiven && npm run buildDocumentation",
+    "deployDocumentation": "(cd documentation; npm run deploy)"
   },
   "repository": {
     "type": "git",
