@@ -15,3 +15,4 @@ install:
   - npm run postinstall
   - cd ../documentation
   - yarn
+  - cd ..
