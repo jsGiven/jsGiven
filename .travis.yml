@@ -8,7 +8,6 @@ cache:
     - documentation/node_modules
 node_js:
   - "4.8.3"
-  - "5.12.0"
   - "6.10.3"
   - "7.10.0"
 before_install:
