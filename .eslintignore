@@ -4,3 +4,4 @@
 /js-given/tools/preparePublish.js
 /js-given/tools/tagRelease.js
 /documentation/**
+/example/**

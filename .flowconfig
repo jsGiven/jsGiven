@@ -5,6 +5,7 @@
 .*/dist/.*
 .*/tools/.*
 .*/documentation/.*
+.*/example/.*
 
 [libs]
 js-given/flow-declarations
