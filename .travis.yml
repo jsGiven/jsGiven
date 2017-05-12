@@ -18,9 +18,3 @@ before_install:
   - sleep 3 # give xvfb some time to start
 install:
   - yarn
-  - cd js-given
-  - yarn
-  - npm run postinstall
-  - cd ../documentation
-  - yarn
-  - cd ..
