@@ -5,7 +5,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 
 import {scenarios, setupForRspec, setupForAva, State, Stage} from '../src';
-import {computeScenarioFileName} from '../src/reports';
+import {computeScenarioFileName, REPORTS_DESTINATION} from '../src/reports';
 import type {ScenarioPart, ScenarioPartKind, ScenarioReport} from '../src/reports';
 
 import {BasicScenarioGivenStage, ScenarioWhenStage, BasicScenarioThenStage} from './basic-stages';
@@ -101,7 +101,7 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
     }
 
     getFileName(): string {
-        return `jsGiven-reports/${computeScenarioFileName('Group name', 'Pan cake recipe')}`;
+        return `${REPORTS_DESTINATION}/${computeScenarioFileName('Group name', 'Pan cake recipe')}`;
     }
 
     getScenario(): ScenarioReport {

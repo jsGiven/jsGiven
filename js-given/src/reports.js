@@ -5,7 +5,7 @@ import crypto from 'crypto';
 import _ from 'lodash';
 import humanize from 'string-humanize';
 
-export const REPORTS_DESTINATION = 'jsGiven-reports';
+export const REPORTS_DESTINATION = '.jsGiven-reports';
 
 export type ScenarioPartKind = 'GIVEN' | 'WHEN' | 'THEN';
 
@@ -140,7 +140,7 @@ export class GroupReport {
 
 function createDirOrDoNothingIfExists(path: string) {
     try {
-        fs.mkdirSync('jsGiven-reports');
+        fs.mkdirSync(REPORTS_DESTINATION);
     } catch (error) {
         if (error.code !== 'EEXIST') {
             throw error;
