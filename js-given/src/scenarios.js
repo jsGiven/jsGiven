@@ -159,6 +159,7 @@ export class ScenarioRunner {
     }
 
     buildObject<T>(tClass: Class<T>): T {
+        // $FlowIgnore
         class extendedClass extends tClass {}
 
         // Flowtype really can't type this constructor invocation
