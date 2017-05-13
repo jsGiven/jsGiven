@@ -19,7 +19,7 @@
     "__doInstallMasterJsGivenOnExamples": "for dir in `find examples -name 'package.json' -print0 | xargs -0 -n1 dirname | sort --unique | grep -v node_modules`; do (cp -v js-given/dist/* $dir/node_modules/js-given; rm -v $dir/node_modules/.yarn-integrity); done",
     "__doTestExamples": "for dir in `find examples -name 'package.json' -print0 | xargs -0 -n1 dirname | sort --unique | grep -v node_modules`; do (cd $dir; pwd; yarn test); done",
     "test": "yarn testJsGiven && yarn testExamples && yarn buildDocumentation",
-    "releaseAlpha": "(cd js-given; yarn releaseAlpha) && yarn upgradeExamples",
+    "releaseAlpha": "(cd js-given; yarn releaseAlpha)",
     "release": "(cd js-given; yarn release)",
     "buildDocumentation": "(cd documentation; yarn build)",
     "deployDocumentation": "(cd documentation; yarn deploy)"
