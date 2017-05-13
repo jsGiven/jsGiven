@@ -1,11 +1,19 @@
----
-title: jsGiven
----
+:source-highlighter: pygments
+:icons: font
+:nofooter:
+:docinfo: shared,private
 
-A JavaScript frontend to [JGiven](http://jgiven.org/)
+= JsGiven
+
+== Description
+
+A JavaScript frontend to link:http://jgiven.org/[JGiven]
 
 It aims to provide a BDD frontend (behaving very much like jGiven) producing json reports compatible with JGiven's web application.
-```javascript
+
+====
+[source, js]
+----
 scenarios('recipes', RecipesStage, ({given, when, then}) => ({
   a_pancake_can_be_fried_out_of_an_egg_milk_and_flour() {
     given().an_egg().
@@ -18,7 +26,7 @@ scenarios('recipes', RecipesStage, ({given, when, then}) => ({
     then().the_resulting_meal_is_a_pan_cake()
   }
 }))
-```
+====
 
 It's not a test runner, it's not replacing Jest, Ava, Tap, Mocha, Jasmine, Karma, Webdriver, Nightwatch or Protractor.
 It aims to be usable with those runners.
@@ -28,4 +36,8 @@ It aims to be usable with your favourite assertion library.
 
 It aims to provide the most confortable developper experience with optional ES6 syntax, and optional FlowType or TypeScript typings.
 
-It's not usable yet !
+It is not usable yet !
+
+== Changelog
+
+- v0.0.10 Add jest+es2015 example
