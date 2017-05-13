@@ -4,4 +4,4 @@
 /js-given/tools/preparePublish.js
 /js-given/tools/tagRelease.js
 /documentation/**
-/examples/jest-es2015-example/**
+/examples/**
