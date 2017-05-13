@@ -14,7 +14,7 @@
     "testJsGiven": "(cd js-given; npm test)",
     "testExamples": "for dir in `find examples -name 'package.json' -print0 | xargs -0 -n1 dirname | sort --unique | grep -v node_modules`; do (cd $dir; pwd; yarn test); done",
     "test": "npm run testJsGiven && npm run testExamples && npm run buildDocumentation",
-    "releaseAlpha": "(cd js-given; yarn releaseAlpha)",
+    "releaseAlpha": "(cd js-given; yarn releaseAlpha) && yarn upgradeExamples",
     "release": "(cd js-given; yarn release)",
     "buildDocumentation": "check-node-version -q --node '< 4.0' || (cd documentation; yarn build)",
     "deployDocumentation": "(cd documentation; yarn deploy)"
