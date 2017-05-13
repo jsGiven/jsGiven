@@ -7,6 +7,7 @@ delete pkg.scripts;
 delete pkg.eslintConfig;
 delete pkg.babel;
 delete pkg.ava;
+delete pkg.__versionAlpha
 pkg.scripts = {
     postinstall: 'node installJGivenReport.js',
 };
