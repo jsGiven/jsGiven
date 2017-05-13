@@ -5,7 +5,7 @@
 .*/dist/.*
 .*/tools/.*
 .*/documentation/.*
-.*/example/.*
+.*/examples/jest-es2015-example/.*
 
 [libs]
 js-given/flow-declarations

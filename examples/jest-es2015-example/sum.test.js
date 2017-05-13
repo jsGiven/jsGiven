@@ -28,7 +28,7 @@ class SumStage extends Stage {
 
 scenarios('sum', SumStage, ({given, when, then}) => {
     return {
-        two_numbers_can_be_saved() {
+        two_numbers_can_be_added() {
             given().a_number(1).and().another_number(2);
 
             when().they_are_summed();
