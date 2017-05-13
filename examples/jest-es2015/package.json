@@ -1,7 +1,7 @@
 {
   "name": "example",
   "version": "1.0.0",
-  "description": "jsGiven Example",
+  "description": "jsGiven example with jest & ES 2015",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
@@ -15,7 +15,8 @@
     "regenerator-runtime": "^0.10.5"
   },
   "scripts": {
+    "pretest": "jsgiven clean",
     "test": "jest",
-    "posttest": "generateJsGivenReport"
+    "posttest": "jsgiven report"
   }
 }

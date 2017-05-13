@@ -14,15 +14,21 @@ import type {StepModel} from './jgivenReport/StepModel';
 
 export const JGIVEN_APP_VERSION = '0.12.1';
 
-export default async function start(): Promise<void> {
+export async function generateJGivenReport(): Promise<void> {
     try {
-        console.log('Installing JGiven report app');
         await installJGivenReportApp();
-        console.log('Done installing JGiven report app');
-
-        console.log('Generating JGiven report data');
         generateJGivenReportDataFiles();
-        console.log('Done generating JGiven report data');
+
+        console.log(`jsGiven report available in ./jGiven-report`);
+    } catch (error) {
+        console.log(error);
+        process.exit(-1);
+    }
+}
+
+export async function cleanReports(): Promise<void> {
+    try {
+        await removeDir(`./${REPORTS_DESTINATION}`);
     } catch (error) {
         console.log(error);
         process.exit(-1);

@@ -1,13 +1,14 @@
 {
   "name": "js-given",
   "version": "0.0.9",
-  "__versionAlpha": "0.0.10-alpha.3",
+  "__versionAlpha": "0.0.10-alpha.7",
   "description": "JavaScript frontend to jgiven",
   "main": "index.js",
   "scripts": {
     "installProtractor": "node_modules/protractor/bin/webdriver-manager update",
     "installJGivenReport": "node tools/installJGivenReport.js",
     "postinstall": "npm run installProtractor && npm run installJGivenReport",
+    "pretest": "node src/cli.es5.js clean",
     "test": "npm run test_jest && npm run test_mocha && npm run test_jasmine && npm run test_ava && npm run test_protractor",
     "posttest": "npm run generateReport && npm run build",
     "test_mocha": "mocha --opts spec/support/mocha-default.opts spec",
@@ -16,11 +17,11 @@
     "test_ava": "AVA_CONFIG_DIR=$(pwd) ava spec/**.spec.js -v",
     "test_protractor": "check-node-version -q --node '< 4.2' || protractor .protractor.conf.js",
     "testWatch": "npm run test_jest -- --watch",
-    "generateReport": "node src/generateReport.es5.js",
-    "__doBuild": "rm -vfr dist && npm run buildLib && npm run buildGenerateReport",
+    "generateReport": "node src/cli.es5.js report",
+    "__doBuild": "rm -vfr dist && npm run buildLib && npm run buildCli",
     "build": "check-node-version -q --node '< 5.0' || npm run __doBuild",
     "buildLib": "check-node-version -q --node '< 5.0' || rollup -c tools/lib.rollup.config.js",
-    "buildGenerateReport": "check-node-version -q --node '< 5.0' || rollup -c tools/generateReport.rollup.config.js",
+    "buildCli": "check-node-version -q --node '< 5.0' || rollup -c tools/cli.rollup.config.js",
     "__doPreparePublish": "node tools/preparePublish.js",
     "__doTagRelease": "node tools/tagRelease.js",
     "__doPublishAlpha": "(cd dist; echo '' | yarn publish --tag next)",
@@ -75,7 +76,8 @@
     "rollup-plugin-uglify": "1.0.1",
     "sinon": "1.17.6",
     "sinon-chai": "2.8.0",
-    "tmp": "0.0.29"
+    "tmp": "0.0.29",
+    "yargs": "^8.0.1"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
@@ -87,10 +89,10 @@
     "string-humanize": "1.0.0"
   },
   "bin": {
-    "generateJsGivenReport": "./generateReport.js"
+    "jsgiven": "./cli.js"
   },
   "files": [
-    "generateReport.js",
+    "cli.js",
     "installJGivenReport.js",
     "index.js",
     "LICENSE",

@@ -2,7 +2,7 @@
 import babel from 'rollup-plugin-babel';
 
 export default {
-    entry: './src/generateReport.js',
+    entry: './src/cli.js',
     format: 'cjs',
     plugins: [ babel({
         babelrc: false,
@@ -10,5 +10,5 @@ export default {
         presets: ['es2015-rollup'],
         plugins: ["transform-decorators-legacy", "transform-flow-strip-types", "transform-class-properties", "transform-object-rest-spread", "transform-regenerator"],
     }) ],
-    dest: 'dist/generateReport.js',
+    dest: 'dist/cli.js',
 };
