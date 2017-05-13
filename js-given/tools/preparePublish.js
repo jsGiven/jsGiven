@@ -7,7 +7,6 @@ delete pkg.scripts;
 delete pkg.eslintConfig;
 delete pkg.babel;
 delete pkg.ava;
-delete pkg.__versionAlpha
 pkg.scripts = {
     postinstall: 'node installJGivenReport.js',
 };
@@ -21,6 +20,7 @@ process.argv.forEach(function (val) {
 if (isAlpha) {
     pkg.version = pkg.__versionAlpha;
 }
+delete pkg.__versionAlpha;
 
 fs.writeFileSync('dist/package.json', JSON.stringify(pkg, null, '  '), 'utf-8');
 fs.writeFileSync('dist/LICENSE', fs.readFileSync('../LICENSE', 'utf-8'), 'utf-8');
