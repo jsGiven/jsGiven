@@ -9,6 +9,7 @@ import {scenarios, setupForRspec, setupForAva, Stage} from '../src';
 import {
     computeScenarioFileName,
     GroupReport,
+    ScenarioCase,
     ScenarioPart,
     ScenarioReport,
     Step,
@@ -72,8 +73,9 @@ class JGivenReportStage extends Stage {
             new Step("then", [], true, null),
             new Step("the_eggs_are_broken", [], false, null),
         ]);
+        const scenarioCase = new ScenarioCase([], [givenPart, whenPart, thenPart]);
         const scenario = new ScenarioReport(groupReport, this.scenarioName,
-            [givenPart, whenPart, thenPart]);
+            [scenarioCase], []);
         scenario.dumpToFile(this.jsGivenReportsDir);
 
         return this;

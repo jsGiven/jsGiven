@@ -134,25 +134,25 @@ function toScenarioModel(scenarioReport: ScenarioReport, index: number): Scenari
     return {
         testMethodName: scenarioReport.name,
         tagIds: [],
-        scenarioCases: [{
-            caseNr: 0,
-            derivedArguments: [],
+        scenarioCases: scenarioReport.cases.map((scenarioCase, index) => ({
+            caseNr: index + 1,
+            derivedArguments: scenarioCase.args,
             description: '',
             durationInNanos: 42,
             errorMessage: null,
-            explicitParameters: [],
-            explicitArguments: [],
+            explicitParameters: scenarioCase.args,
+            explicitArguments: scenarioCase.args,
             stackTrace: null,
             success: true,
-            steps: _.flatMap(scenarioReport.parts, toSteps),
-        }],
-        casesAsTable: false,
+            steps: _.flatMap(scenarioCase.parts, toSteps),
+        })),
+        casesAsTable: scenarioReport.cases.length > 1,
         className: scenarioReport.groupReport.name,
-        derivedParameters: [],
+        derivedParameters: scenarioReport.argumentNames,
         description: scenarioReport.name,
         durationInNanos: 42,
         executionStatus: 'SUCCESS',
-        explicitParameters: [],
+        explicitParameters: scenarioReport.argumentNames,
         extendedDescription: '',
     };
 }
@@ -169,6 +169,13 @@ function toSteps(scenarioPart: ScenarioPart): StepModel[] {
         words: step.words.map(word => ({
             ...(word.isIntroWord ? {isIntroWord: true} : {}),
             value: word.value,
+            ...(word.parameterName ? {
+                argumentInfo: {
+                    argumentName: word.parameterName,
+                    parameterName: word.parameterName,
+                    formattedValue: word.value,
+                },
+            }: {}),
         })),
     }));
 }

@@ -1,10 +1,11 @@
 // @flow
 import _ from 'lodash';
 import humanize from 'string-humanize';
+import retrieveArguments from 'retrieve-arguments';
 
 import {Stage} from './Stage';
 import type {GroupFunc, TestFunc} from './test-runners';
-import {GroupReport, ScenarioReport, ScenarioPart} from './reports';
+import {formatParameter, GroupReport, ScenarioCase, ScenarioReport, ScenarioPart} from './reports';
 
 export const REPORTS_DESTINATION = '.jsGiven-reports';
 
@@ -18,8 +19,19 @@ type ScenariosFunc<G, W, T> = {
     (scenariosParam: ScenariosParam<G, W, T>): {[key:string]: ScenarioFunc};
 }
 
-export type ScenarioFunc = {
+export type ScenarioFunc = SimpleScenarioFunc | ParametrizedScenarioFuncWithParameters<*>;
+
+export type SimpleScenarioFunc = {
     (): void;
+}
+
+export type ParametrizedScenarioFuncWithParameters<T> = {
+    func: ParametrizedScenarioFunc<T>;
+    parameters: T[];
+}
+
+export type ParametrizedScenarioFunc<T> = {
+    (param: T): void;
 }
 
 type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G & W & T>;
@@ -27,7 +39,7 @@ type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G & W & T>;
 export class ScenarioRunner {
     groupFunc: GroupFunc;
     testFunc: TestFunc;
-    currentScenario: ScenarioReport;
+    currentCase: ScenarioCase;
     currentPart: ScenarioPart;
     reportsDestination: string;
 
@@ -109,22 +121,69 @@ export class ScenarioRunner {
         this.groupFunc(humanizedGroupName, () => {
             const scenarios = scenariosFunc(scenariosParam);
 
-            _.functions(scenarios).forEach(scenarioName => {
-                const scenarioNameForHumans = humanize(scenarioName);
-                this.testFunc(scenarioNameForHumans, () => {
-                    const scenario = this.addScenario(report, scenarioNameForHumans);
+            getScenarios(scenarios).forEach(({scenarioPropertyName, cases, argumentNames}) => {
+                const scenarioNameForHumans = humanize(scenarioPropertyName);
+                const scenario = this.addScenario(report, scenarioNameForHumans, argumentNames);
 
-                    // Reset stages
-                    currentGiven = currentWhen = currentThen = undefined;
+                let casesCount = 0;
+                cases.forEach(({caseFunction, args}, index) => {
+                    const caseDescription = cases.length === 1 ? scenarioNameForHumans : `${scenarioNameForHumans} #${index+1}`;
+                    this.testFunc(caseDescription, () => {
+                        this.addCase(scenario, args);
 
-                    // Execute scenario
-                    try {
-                        scenarios[scenarioName]();
-                    } finally {
-                        scenario.dumpToFile(this.reportsDestination);
-                    }
+                        // Reset stages
+                        currentGiven = currentWhen = currentThen = undefined;
+
+                        // Execute scenario
+                        try {
+                            caseFunction();
+                        } finally {
+                            casesCount++;
+                            if (casesCount === cases.length) {
+                                scenario.dumpToFile(this.reportsDestination);
+                            }
+                        }
+                    });
                 });
             });
+
+            type ScenarioDescription = {
+                scenarioPropertyName: string;
+                cases: CaseDescription[];
+                argumentNames: string[];
+            };
+            type CaseDescription = {
+                caseFunction: () => void;
+                args: string[];
+            };
+            function getScenarios(scenarios: {[key:string]: ScenarioFunc}): ScenarioDescription[] {
+                const scenarioDescriptions: ScenarioDescription[] = Object.keys(scenarios).map(scenarioPropertyName => {
+                    if (scenarios[scenarioPropertyName] instanceof Function) {
+                        return {
+                            scenarioPropertyName,
+                            cases: [{
+                                caseFunction: scenarios[scenarioPropertyName],
+                                args: [],
+                            }],
+                            argumentNames: [],
+                        };
+                    } else {
+                        const {parameters, func}: ParametrizedScenarioFuncWithParameters<*> = (scenarios[scenarioPropertyName]: any);
+                        const argumentNames = retrieveArguments(func);
+                        const [parameterName] = argumentNames;
+
+                        return {
+                            scenarioPropertyName,
+                            cases: parameters.map(p => ({
+                                caseFunction: () => func(wrapParameter(p, parameterName)),
+                                args: [formatParameter(p)],
+                            })),
+                            argumentNames,
+                        };
+                    }
+                });
+                return scenarioDescriptions;
+            }
         });
     }
 
@@ -145,24 +204,28 @@ export class ScenarioRunner {
         };
     }
 
-    addScenario(report: GroupReport, scenarioNameForHumans: string): ScenarioReport {
-        this.currentScenario = new ScenarioReport(report, scenarioNameForHumans);
-        return this.currentScenario;
+    addScenario(report: GroupReport, scenarioNameForHumans: string, argumentNames: string[]): ScenarioReport {
+        return new ScenarioReport(report, scenarioNameForHumans, [], argumentNames);
+    }
+
+    addCase(scenario: ScenarioReport, args: string[]) {
+        this.currentCase = new ScenarioCase(args);
+        scenario.cases.push(this.currentCase);
     }
 
     addGivenPart() {
         this.currentPart = new ScenarioPart('GIVEN');
-        this.currentScenario.parts.push(this.currentPart);
+        this.currentCase.parts.push(this.currentPart);
     }
 
     addWhenPart() {
         this.currentPart = new ScenarioPart('WHEN');
-        this.currentScenario.parts.push(this.currentPart);
+        this.currentCase.parts.push(this.currentPart);
     }
 
     addThenPart() {
         this.currentPart = new ScenarioPart('THEN');
-        this.currentScenario.parts.push(this.currentPart);
+        this.currentCase.parts.push(this.currentPart);
     }
 
     buildObject<T>(tClass: Class<T>): T {
@@ -180,9 +243,14 @@ export class ScenarioRunner {
             const self = this;
 
             extendedPrototype[methodName] = function (...args: any[]): any {
-                const result = classPrototype[methodName].apply(this, args);
+                const decodedParameters: DecodedParameter[] = args.map(decodeParameter);
+
+                // Pass the real arguments instead of the wrapped values
+                const values: any[] = decodedParameters.map(decodedParameter => decodedParameter.value);
+                const result = classPrototype[methodName].apply(this, values);
+
                 if (result === this) { // only records methods that return this
-                    self.currentPart.stageMethodCalled(methodName, args);
+                    self.currentPart.stageMethodCalled(methodName, decodedParameters);
                 }
                 return result;
             };
@@ -233,4 +301,40 @@ export function State(target: any, key: string, descriptor: any): any {
     }
     target.stateProperties.push(key);
     return {...descriptor, writable: true};
+}
+
+export function parametrized<T>(parameters: T[], func: ParametrizedScenarioFunc<T>): ParametrizedScenarioFuncWithParameters<T> {
+    return {
+        parameters,
+        func,
+    };
+}
+
+type WrappedParameter = {
+    parameterName: string;
+    value: any;
+    IS_JSGIVEN_WRAPPER_PARAMETER: true;
+}
+export function wrapParameter(value: any, parameterName: string): WrappedParameter {
+    return {
+        parameterName,
+        value,
+        IS_JSGIVEN_WRAPPER_PARAMETER: true,
+    };
+}
+
+export type DecodedParameter = {
+    value: any;
+    parameterName: string | null;
+}
+export function decodeParameter(parameter: any): DecodedParameter {
+    if (parameter instanceof Object && parameter.IS_JSGIVEN_WRAPPER_PARAMETER) {
+        const wrapped: WrappedParameter = (parameter: any);
+        return {...wrapped};
+    } else {
+        return {
+            value: parameter,
+            parameterName: null,
+        };
+    }
 }

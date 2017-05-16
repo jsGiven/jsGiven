@@ -12,7 +12,7 @@
     "upgradeExamples": "for dir in `find examples -name 'package.json' -print0 | xargs -0 -n1 dirname | sort --unique | grep -v node_modules`; do (cd $dir; pwd; yarn upgrade js-given@latest); done",
     "pretest": "yarn lint && yarn flow",
     "testJsGiven": "(cd js-given; yarn test)",
-    "testExamples": "yarn testExamplesOnLatest && yarn testExamplesOnMaster",
+    "testExamples": "yarn testExamplesOnLatest",
     "testExamplesOnLatest": "yarn __doInstallLatestJsGivenOnExamples && yarn __doTestExamples",
     "__doInstallLatestJsGivenOnExamples": "for dir in `find examples -name 'package.json' -print0 | xargs -0 -n1 dirname | sort --unique | grep -v node_modules`; do (cd $dir; pwd; yarn install); done",
     "testExamplesOnMaster": "check-node-version -q --node '< 6.0' || ((cd js-given; yarn build) && yarn __doInstallMasterJsGivenOnExamples && yarn __doTestExamples && yarn __doInstallLatestJsGivenOnExamples)",

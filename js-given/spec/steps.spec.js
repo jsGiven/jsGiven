@@ -2,6 +2,7 @@
 import {expect} from 'chai';
 
 import {scenarios, setupForRspec, setupForAva, Stage} from '../src';
+import {wrapParameter, decodeParameter} from '../src/scenarios';
 import {Step} from '../src/reports';
 
 if (global.describe && global.it) {
@@ -16,7 +17,12 @@ class StepsStage extends Stage {
     somethingWithToStringInstance: any;
 
     a_parametrized_step_with_$_methodName_and_$_arguments(methodName: string, ...values: mixed[]): this {
-        this.step = new Step(methodName, values, false, null);
+        this.step = new Step(methodName, values.map(decodeParameter), false, null);
+        return this;
+    }
+
+    a_parametrized_step_with_$_methodName_and_$_argument_and_$_parameter_name(methodName: string, argument: mixed, parameterName: string): this {
+        this.step = new Step(methodName, [decodeParameter(wrapParameter(argument, parameterName))], false, null);
         return this;
     }
 
@@ -31,7 +37,7 @@ class StepsStage extends Stage {
     }
 
     a_parametrized_step_with_$_methodName_that_receives_an_argument_of_that_class(methodName: string): this {
-        this.step = new Step(methodName, [this.somethingWithToStringInstance], false, null);
+        this.step = new Step(methodName, [decodeParameter(this.somethingWithToStringInstance)], false, null);
         return this;
     }
 
@@ -69,6 +75,17 @@ class StepsStage extends Stage {
         words.forEach(word =>
             expect(word.isIntroWord).to.be.false
         );
+        return this;
+    }
+
+    the_word_$_has_its_parameter_named_$(wordName: string, parameterName: string): this {
+        const {words} = this.step;
+        const wordFound = words.find(word => word.value === wordName);
+        expect(wordFound).to.be.defined;
+
+        if (wordFound) {
+            expect(wordFound.parameterName).to.equal(parameterName);
+        }
         return this;
     }
 }
@@ -138,6 +155,11 @@ scenarios('parametrized_steps', StepsStage, ({given, when, then}) => {
             given().a_parametrized_step_with_$_methodName_and_$_arguments('before', 500, 600);
             then().the_step_is_named_$('before 500 600')
                 .and().it_contains_the_words('before', '500', '600');
+        },
+
+        parameter_names_are_contained_in_words() {
+            given().a_parametrized_step_with_$_methodName_and_$_argument_and_$_parameter_name('$_grams_of_flour', 500, 'flourQuantity');
+            then().the_step_is_named_$('500 grams of flour').and().the_word_$_has_its_parameter_named_$('500', 'flourQuantity');
         },
     };
 });

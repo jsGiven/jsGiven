@@ -1,14 +1,11 @@
 // @flow
-import fs from 'fs';
-
 import {expect} from 'chai';
 import sinon from 'sinon';
 
 import {scenarios, setupForRspec, setupForAva, State, Stage} from '../src';
 import {computeScenarioFileName} from '../src/reports';
-import type {ScenarioPart, ScenarioPartKind, ScenarioReport} from '../src/reports';
 
-import {BasicScenarioGivenStage, ScenarioWhenStage, BasicScenarioThenStage} from './basic-stages';
+import {BasicScenarioGivenStage, BasicScenarioWhenStage, BasicScenarioThenStage} from './basic-stages';
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);
@@ -33,7 +30,7 @@ class ReportScenarioGivenStage extends BasicScenarioGivenStage {
         this.scenarioFunc = sinon.spy();
         this.scenarioRunner.scenarios('group_name', DefaultStage, ({given, when, then}) => {
             return {
-                pan_cake_recipe() {
+                scenario_name() {
                     given().an_egg().
                         and().some_milk().
                         and().$_grams_of_flour(100);
@@ -50,19 +47,11 @@ class ReportScenarioGivenStage extends BasicScenarioGivenStage {
 }
 
 class ReportScenarioThenStage extends BasicScenarioThenStage {
-    @State jsGivenReportsDir: string;
-
-    the_report_for_this_scenerio_has_been_generated(): this {
-        const stats = fs.statSync(this.getFileName());
-        expect(stats.isFile());
-        return this;
-    }
-
     its_name_is_readable_in_english(): this {
         const scenario = this.getScenario();
         const report = scenario.groupReport;
         expect(report.name).to.equal('Group name');
-        expect(scenario.name).to.equal('Pan cake recipe');
+        expect(scenario.name).to.equal('Scenario name');
         return this;
     }
 
@@ -92,26 +81,9 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
         expect(steps.map(({name}) => name)).not.to.include('internal method');
         return this;
     }
-
-    findPartByKind(scenarioKind: ScenarioPartKind): ScenarioPart {
-        const scenario = this.getScenario();
-        const part = scenario.parts.find(({kind}) => kind === scenarioKind);
-        if (!part) {
-            throw new Error(`No such part ${scenarioKind}`);
-        }
-        return part;
-    }
-
-    getFileName(): string {
-        return `${this.jsGivenReportsDir}/${computeScenarioFileName('Group name', 'Pan cake recipe')}`;
-    }
-
-    getScenario(): ScenarioReport {
-        return JSON.parse(fs.readFileSync(this.getFileName(), 'utf-8'));
-    }
 }
 
-scenarios('reports', [ReportScenarioGivenStage, ScenarioWhenStage, ReportScenarioThenStage], ({given, when, then}) => {
+scenarios('reports', [ReportScenarioGivenStage, BasicScenarioWhenStage, ReportScenarioThenStage], ({given, when, then}) => {
     return {
         a_report_is_generated_after_execution() {
             given().a_scenario_runner()
