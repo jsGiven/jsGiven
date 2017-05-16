@@ -6,6 +6,8 @@ import {Stage} from './Stage';
 import type {GroupFunc, TestFunc} from './test-runners';
 import {GroupReport, ScenarioReport, ScenarioPart} from './reports';
 
+export const REPORTS_DESTINATION = '.jsGiven-reports';
+
 type ScenariosParam<G, W, T> = {
     given: () => G;
     when: () => W;
@@ -27,6 +29,11 @@ export class ScenarioRunner {
     testFunc: TestFunc;
     currentScenario: ScenarioReport;
     currentPart: ScenarioPart;
+    reportsDestination: string;
+
+    constructor(reportsDestination: string = REPORTS_DESTINATION) {
+        this.reportsDestination = reportsDestination;
+    }
 
     setup(groupFunc: GroupFunc, testFunc: TestFunc) {
         this.groupFunc = groupFunc;
@@ -114,7 +121,7 @@ export class ScenarioRunner {
                     try {
                         scenarios[scenarioName]();
                     } finally {
-                        scenario.dumpToFile();
+                        scenario.dumpToFile(this.reportsDestination);
                     }
                 });
             });

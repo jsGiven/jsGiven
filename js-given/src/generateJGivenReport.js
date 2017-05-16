@@ -7,7 +7,8 @@ import DecompressZip from 'decompress-zip';
 import fse from 'fs-extra';
 import rimraf from 'rimraf';
 
-import {REPORTS_DESTINATION, ScenarioReport, ScenarioPart} from './reports';
+import {ScenarioReport, ScenarioPart} from './reports';
+import {REPORTS_DESTINATION} from './scenarios';
 import type {ReportModel} from './jgivenReport/ReportModel';
 import type {ScenarioModel} from './jgivenReport/ScenarioModel';
 import type {StepModel} from './jgivenReport/StepModel';
@@ -68,10 +69,10 @@ function fileExists(fileName: string): boolean {
     }
 }
 
-export function generateJGivenReportDataFiles(filter?: (fileName: string) => boolean = () => true, reportPrefix: string = '.') {
-    const files = fs.readdirSync(`./${REPORTS_DESTINATION}`).filter(filter);
+export function generateJGivenReportDataFiles(filter?: (fileName: string) => boolean = () => true, reportPrefix: string = '.', jsGivenReportsDir: string = REPORTS_DESTINATION) {
+    const files = fs.readdirSync(`${jsGivenReportsDir}`).filter(filter);
     const scenarioReports: ScenarioReport[] = files.map(file =>
-        JSON.parse(fs.readFileSync(`${REPORTS_DESTINATION}/${file}`, 'utf-8')));
+        JSON.parse(fs.readFileSync(`${jsGivenReportsDir}/${file}`, 'utf-8')));
     const groupNamesAndScenarios: Array<[string, ScenarioReport[]]> =
         (Object.entries(_.groupBy(scenarioReports, ({groupReport: {name}}) => name)): any);
     const scenarioModels = groupNamesAndScenarios.map(([groupName, scenarioReports]) =>

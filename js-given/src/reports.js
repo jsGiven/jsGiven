@@ -5,8 +5,6 @@ import crypto from 'crypto';
 import _ from 'lodash';
 import humanize from 'string-humanize';
 
-export const REPORTS_DESTINATION = '.jsGiven-reports';
-
 export type ScenarioPartKind = 'GIVEN' | 'WHEN' | 'THEN';
 
 const INTRO_WORD_METHODS = ['given', 'when', 'then', 'and', 'but', 'with'];
@@ -123,10 +121,10 @@ export class ScenarioReport {
         this.parts = parts;
     }
 
-    dumpToFile() {
-        createDirOrDoNothingIfExists(REPORTS_DESTINATION);
+    dumpToFile(reportsDestination: string) {
+        createDirOrDoNothingIfExists(reportsDestination);
         const fileName = computeScenarioFileName(this.groupReport.name, this.name);
-        fs.writeFileSync(`${REPORTS_DESTINATION}/${fileName}`, JSON.stringify(this), 'utf-8');
+        fs.writeFileSync(`${reportsDestination}/${fileName}`, JSON.stringify(this), 'utf-8');
     }
 }
 
@@ -140,7 +138,7 @@ export class GroupReport {
 
 function createDirOrDoNothingIfExists(path: string) {
     try {
-        fs.mkdirSync(REPORTS_DESTINATION);
+        fs.mkdirSync(path);
     } catch (error) {
         if (error.code !== 'EEXIST') {
             throw error;

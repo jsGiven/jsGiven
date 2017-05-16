@@ -14,6 +14,7 @@ import {
     Step,
 } from '../src/reports';
 import {generateJGivenReportDataFiles} from '../src/generateJGivenReport';
+import {REPORTS_DESTINATION} from '../src/scenarios';
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);
@@ -29,14 +30,18 @@ class JGivenReportStage extends Stage {
 
     reportPrefix: ?string;
     jgivenReportDir: ?string;
+    jsGivenReportsDir: string;
 
     an_existing_jgiven_directory(): this {
         const tmpDir = tmp.dirSync({unsafeCleanup: true});
         this.reportPrefix = `${tmpDir.name}`;
         const jgivenReportDir = `${this.reportPrefix}/jGiven-report`;
         this.jgivenReportDir = jgivenReportDir;
+        const jsGivenReportsDir = `${this.reportPrefix}/${REPORTS_DESTINATION}`;
+        this.jsGivenReportsDir = jsGivenReportsDir;
         this.createDirOrDoNothingIfExists(`${jgivenReportDir}`);
         this.createDirOrDoNothingIfExists(`${jgivenReportDir}/data`);
+        this.createDirOrDoNothingIfExists(jsGivenReportsDir);
 
         return this;
     }
@@ -69,7 +74,7 @@ class JGivenReportStage extends Stage {
         ]);
         const scenario = new ScenarioReport(groupReport, this.scenarioName,
             [givenPart, whenPart, thenPart]);
-        scenario.dumpToFile();
+        scenario.dumpToFile(this.jsGivenReportsDir);
 
         return this;
     }
@@ -77,7 +82,7 @@ class JGivenReportStage extends Stage {
     the_jgiven_report_is_generated(): this {
         const scenarioFileName = computeScenarioFileName(this.groupName, this.scenarioName);
         if (this.reportPrefix) {
-            generateJGivenReportDataFiles(fileName => fileName === scenarioFileName, this.reportPrefix);
+            generateJGivenReportDataFiles(fileName => fileName === scenarioFileName, this.reportPrefix, this.jsGivenReportsDir);
         } else {
             expect(this.reportPrefix).to.exist;
         }

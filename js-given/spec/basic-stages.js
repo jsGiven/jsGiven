@@ -1,4 +1,5 @@
 // @flow
+import tmp from 'tmp';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
@@ -14,9 +15,12 @@ export class BasicScenarioGivenStage extends Stage {
     @State scenarioRunner: ScenarioRunner;
     @State describe: GroupFunc;
     @State it: TestFunc;
+    @State jsGivenReportsDir: string;
 
     a_scenario_runner(): this {
-        this.scenarioRunner = new ScenarioRunner();
+        const tmpDir = tmp.dirSync({unsafeCleanup: true});
+        this.jsGivenReportsDir = tmpDir.name;
+        this.scenarioRunner = new ScenarioRunner(tmpDir.name);
         this.describe = sinon.stub();
         this.it = sinon.stub();
         this.scenarioRunner.setup(this.describe, this.it);
