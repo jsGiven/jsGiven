@@ -40,5 +40,6 @@ It is not usable yet !
 
 == Changelog
 
+- v0.0.12 Add flow type definition
 - v0.0.11 Add parametrized tests support
 - v0.0.10 Add jest+es2015 example
