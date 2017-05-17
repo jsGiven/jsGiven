@@ -1,5 +1,4 @@
 // @flow
-import 'babel-polyfill';
 export {
     parametrized,
     parametrized1,
