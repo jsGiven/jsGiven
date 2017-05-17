@@ -1769,9 +1769,9 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
-js-given@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.0.11.tgz#00976d19f1711d74a4af9c0c8a858592c843e338"
+js-given@next:
+  version "0.0.11-alpha.7"
+  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.0.11-alpha.7.tgz#69e9a3fe6e523c2a7f7cd6a05b86177f1db0878c"
   dependencies:
     babel-polyfill "^6.23.0"
     decompress-zip "0.3.0"
