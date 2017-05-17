@@ -1,0 +1,31 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "jsGiven example with jest & ES 2015 & flow",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "js-given": "^0.0.11"
+  },
+  "devDependencies": {
+    "babel-jest": "^20.0.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-regenerator": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "flow-bin": "^0.46.0",
+    "flow-typed": "^2.1.2",
+    "jest": "^20.0.1",
+    "regenerator-runtime": "^0.10.5"
+  },
+  "scripts": {
+    "flow": "flow",
+    "updateFlowTyped": "flow-typed update",
+    "pretest": "jsgiven clean && yarn flow",
+    "test": "jest",
+    "posttest": "jsgiven report"
+  }
+}
