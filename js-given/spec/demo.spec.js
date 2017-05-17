@@ -1,14 +1,13 @@
 // @flow
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import {
     scenarios,
     setupForRspec,
     setupForAva,
-    parametrized,
+    parametrized2,
     Stage,
 } from '../src';
-
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);
@@ -43,11 +42,19 @@ class DemoStage extends Stage {
     }
 }
 
-scenarios('demo', DemoStage, ({given, when, then}) => {
+scenarios('demo', DemoStage, ({ given, when, then }) => {
     return {
-        scenarios_can_be_parametrized: parametrized([1, 2, 3], (value) => {
-            given().a_number(value).and().another_number(value);
-            when().they_are_summed();
-        }),
+        scenarios_can_be_parametrized: parametrized2(
+            [
+                [1, 2],
+                [2, 4],
+                [3, 6],
+            ],
+            (value, result) => {
+                given().a_number(value).and().another_number(value);
+                when().they_are_summed();
+                then().the_result_is(result);
+            },
+        ),
     };
 });

@@ -6,7 +6,7 @@ import {
     scenarios,
     setupForRspec,
     setupForAva,
-    parametrized,
+    parametrized1,
     State,
     Stage,
 } from '../src';
@@ -230,7 +230,7 @@ class ParametrizedScenarioGivenStage extends BasicScenarioGivenStage {
         }
         this.scenarioRunner.scenarios('group_name', MyStage, ({given, when, then}) => {
             return {
-                scenario_name: parametrized([1,2,3], (coffeeValue) => {
+                scenario_name: parametrized1([1,2,3], (coffeeValue) => {
                     given().a_coffee_that_costs_$_euros(coffeeValue);
                     when().billed();
                     then().the_billed_price_is_$_euros(coffeeValue);

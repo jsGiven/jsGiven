@@ -19,19 +19,15 @@ type ScenariosFunc<G, W, T> = {
     (scenariosParam: ScenariosParam<G, W, T>): {[key:string]: ScenarioFunc};
 }
 
-export type ScenarioFunc = SimpleScenarioFunc | ParametrizedScenarioFuncWithParameters<*>;
+export type ScenarioFunc = SimpleScenarioFunc | ParametrizedScenarioFuncWithParameters;
 
 export type SimpleScenarioFunc = {
     (): void;
 }
 
-export type ParametrizedScenarioFuncWithParameters<T> = {
-    func: ParametrizedScenarioFunc<T>;
-    parameters: T[];
-}
-
-export type ParametrizedScenarioFunc<T> = {
-    (param: T): void;
+export type ParametrizedScenarioFuncWithParameters = {
+    func: (...args: any[]) => void;
+    parameters: Array<Array<any>>;
 }
 
 type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G & W & T>;
@@ -168,16 +164,19 @@ export class ScenarioRunner {
                             argumentNames: [],
                         };
                     } else {
-                        const {parameters, func}: ParametrizedScenarioFuncWithParameters<*> = (scenarios[scenarioPropertyName]: any);
+                        const {parameters, func}: ParametrizedScenarioFuncWithParameters = (scenarios[scenarioPropertyName]: any);
                         const argumentNames = retrieveArguments(func);
-                        const [parameterName] = argumentNames;
 
                         return {
                             scenarioPropertyName,
-                            cases: parameters.map(p => ({
-                                caseFunction: () => func(wrapParameter(p, parameterName)),
-                                args: [formatParameter(p)],
-                            })),
+                            cases: parameters.map((parametersForCase: Array<*>) => {
+                                const parametersForTestFunction = parametersForCase.map((parameter, index) => wrapParameter(parameter, argumentNames[index]));
+                                const args: string[] = parametersForCase.map(formatParameter);
+                                return {
+                                    caseFunction: () => func(...parametersForTestFunction),
+                                    args,
+                                };
+                            }),
                             argumentNames,
                         };
                     }
@@ -303,9 +302,52 @@ export function State(target: any, key: string, descriptor: any): any {
     return {...descriptor, writable: true};
 }
 
-export function parametrized<T>(parameters: T[], func: ParametrizedScenarioFunc<T>): ParametrizedScenarioFuncWithParameters<T> {
+export function parametrized(parameters: Array<Array<any>>, func: () => void): ParametrizedScenarioFuncWithParameters {
     return {
-        parameters,
+        parameters: (parameters: any),
+        func,
+    };
+}
+
+export function parametrized1<T>(parameters: T[], func: (a: T) => void): ParametrizedScenarioFuncWithParameters {
+    return {
+        parameters: parameters.map(param => [param]),
+        func,
+    };
+}
+export function parametrized2<A, B>(parameters: Array<[A, B]>, func: (a: A, b: B) => void): ParametrizedScenarioFuncWithParameters {
+    return {
+        parameters: (parameters: any),
+        func,
+    };
+}
+export function parametrized3<A, B, C>(parameters: Array<[A, B, C]>, func: (a: A, b: B, c: C) => void): ParametrizedScenarioFuncWithParameters {
+    return {
+        parameters: (parameters: any),
+        func,
+    };
+}
+export function parametrized4<A, B, C, D>(parameters: Array<[A, B, C, D]>, func: (a: A, b: B, c: C, d: D) => void): ParametrizedScenarioFuncWithParameters {
+    return {
+        parameters: (parameters: any),
+        func,
+    };
+}
+export function parametrized5<A, B, C, D, E>(parameters: Array<[A, B, C, D, E]>, func: (a: A, b: B, c: C, d: D, e: E) => void): ParametrizedScenarioFuncWithParameters {
+    return {
+        parameters: (parameters: any),
+        func,
+    };
+}
+export function parametrized6<A, B, C, D, E, F>(parameters: Array<[A, B, C, D, E, F]>, func: (a: A, b: B, c: C, d: D, e: E, f: F) => void): ParametrizedScenarioFuncWithParameters {
+    return {
+        parameters: (parameters: any),
+        func,
+    };
+}
+export function parametrized7<A, B, C, D, E, F, G>(parameters: Array<[A, B, C, D, E, F, G]>, func: (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => void): ParametrizedScenarioFuncWithParameters {
+    return {
+        parameters: (parameters: any),
         func,
     };
 }
