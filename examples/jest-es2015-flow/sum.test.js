@@ -1,7 +1,7 @@
 // @flow
-import {scenarios, setupForRspec, Stage} from 'js-given';
+import { scenarios, setupForRspec, Stage } from 'js-given';
 
-import {sum} from './sum';
+import { sum } from './sum';
 
 setupForRspec(describe, it);
 
@@ -31,14 +31,12 @@ class SumStage extends Stage {
     }
 }
 
-scenarios('sum', SumStage, ({given, when, then}) => {
-    return {
-        two_numbers_can_be_added() {
-            given().a_number(1).and().another_number(2);
+scenarios('sum', SumStage, ({ given, when, then }) => ({
+    two_numbers_can_be_added() {
+        given().a_number(1).and().another_number(2);
 
-            when().they_are_summed();
+        when().they_are_summed();
 
-            then().the_result_is(3);
-        },
-    };
-});
+        then().the_result_is(3);
+    },
+}));

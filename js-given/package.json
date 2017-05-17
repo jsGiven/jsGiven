@@ -1,7 +1,7 @@
 {
   "name": "js-given",
   "version": "0.0.11",
-  "__versionAlpha": "0.0.12-alpha.0",
+  "__versionAlpha": "0.0.12-alpha.1",
   "description": "JavaScript frontend to jgiven",
   "main": "index.js",
   "scripts": {
@@ -96,6 +96,7 @@
     "cli.js",
     "installJGivenReport.js",
     "index.js",
+    "index.js.flow",
     "LICENSE",
     "README.md",
     "package.json"
