@@ -18,7 +18,7 @@
     "test_protractor": "check-node-version -q --node '< 4.2' || protractor .protractor.conf.js",
     "testWatch": "yarn test_jest -- --watch",
     "generateReport": "node src/cli.es5.js report",
-    "__doBuild": "rm -vfr dist && yarn buildLib && yarn buildCli",
+    "__doBuild": "rm -vfr dist && yarn buildLib && yarn buildCli && cp type-definitions/*.js.flow dist",
     "build": "check-node-version -q --node '< 6.0' || (yarn __doBuild && yarn __doPreparePublish -- alpha)",
     "buildLib": "check-node-version -q --node '< 6.0' || rollup -c tools/lib.rollup.config.js",
     "buildCli": "check-node-version -q --node '< 6.0' || rollup -c tools/cli.rollup.config.js",
