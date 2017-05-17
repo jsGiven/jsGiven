@@ -4,9 +4,6 @@
   "description": "jsGiven example with jest & ES 2015 & flow",
   "main": "index.js",
   "license": "MIT",
-  "dependencies": {
-    "js-given": "^0.0.12"
-  },
   "devDependencies": {
     "babel-jest": "^20.0.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -19,6 +16,7 @@
     "flow-bin": "^0.46.0",
     "flow-typed": "^2.1.2",
     "jest": "^20.0.1",
+    "js-given": "^0.0.12",
     "regenerator-runtime": "^0.10.5"
   },
   "scripts": {
