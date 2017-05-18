@@ -17,7 +17,7 @@ export const JGIVEN_APP_VERSION = '0.12.1';
 
 export async function generateJGivenReport(): Promise<void> {
     try {
-        if (!fileExists(REPORTS_DESTINATION)) {
+        if (!directoryExists(`./${REPORTS_DESTINATION}`)) {
             console.log('No jsGiven reports found, skipping jgiven report generation');
             return;
         }
@@ -69,6 +69,14 @@ export async function installJGivenReportApp(reportPrefix: string = '.'): Promis
 function fileExists(fileName: string): boolean {
     try {
         return fs.statSync(fileName).isFile();
+    } catch(error) {
+        return false;
+    }
+}
+
+function directoryExists(dirName: string): boolean {
+    try {
+        return fs.statSync(dirName).isDirectory();
     } catch(error) {
         return false;
     }
