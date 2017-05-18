@@ -17,6 +17,11 @@ export const JGIVEN_APP_VERSION = '0.12.1';
 
 export async function generateJGivenReport(): Promise<void> {
     try {
+        if (!fileExists(REPORTS_DESTINATION)) {
+            console.log('No jsGiven reports found, skipping jgiven report generation');
+            return;
+        }
+
         await installJGivenReportApp();
         generateJGivenReportDataFiles();
 
