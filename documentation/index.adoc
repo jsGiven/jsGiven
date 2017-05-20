@@ -20,7 +20,7 @@ scenarios('recipes', RecipesStage, ({given, when, then}) => ({
       and().some_milk().
       and().the_ingredient('flour')
 
-    when().the_cook_mangles_everthing_to_a_dough().
+    when().the_cook_mangles_everything_to_a_dough().
       and().the_cook_fries_the_dough_in_a_pan()
 
     then().the_resulting_meal_is_a_pan_cake()
@@ -32,11 +32,11 @@ It's not a test runner, it's not replacing Jest, Ava, Tap, Mocha, Jasmine, Karma
 It aims to be usable with those runners.
 
 It's neither a test assertion library, it's not aimed to replace ChaiJS, Jasmine or the test runner assertion library.
-It aims to be usable with your favourite assertion library.
+It aims to be usable with your favorite assertion library.
 
-It aims to provide the most confortable developper experience with optional ES6 syntax, and optional FlowType or TypeScript typings.
+It aims to provide the most comfortable developper experience with optional ES6 syntax, and optional FlowType or TypeScript typings.
 
-It is not usable yet !
+It is not usable yet.
 
 == Changelog
 
