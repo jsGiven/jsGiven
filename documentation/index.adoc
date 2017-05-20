@@ -7,9 +7,13 @@
 
 == Description
 
-A JavaScript frontend to link:http://jgiven.org/[JGiven]
+JsGiven aims to bring BDD (Behavior-Driven Development) to plain (or typed) JavaScript developers.
 
-It aims to provide a BDD frontend (behaving very much like jGiven) producing json reports compatible with JGiven's web application.
+It is a developer-friendly and pragmatic BDD tool for JavaScript.
+
+Developers write scenarios in plain JavaScript using a fluent, domain-specific API, JsGiven generates reports that are readable by domain experts.
+
+It's a JavaScript port of JGiven (written in Java). JsGiven keeps the JGiven philosophy, concepts and uses its html5 reporting tool. Developers write scenarios in plain JavaScript using a fluent, domain-specific API, JsGiven generates reports that are readable by domain experts.
 
 ====
 [source, js]
@@ -28,15 +32,13 @@ scenarios('recipes', RecipesStage, ({given, when, then}) => ({
 }))
 ====
 
-It's not a test runner, it's not replacing Jest, Ava, Tap, Mocha, Jasmine, Karma, Webdriver, Nightwatch or Protractor.
-It aims to be usable with those runners.
+It can be used with any javascript test runner (like Jest, Ava, Mocha, Jasmine, or Protractor).
 
-It's neither a test assertion library, it's not aimed to replace ChaiJS, Jasmine or the test runner assertion library.
-It aims to be usable with your favorite assertion library.
+It can be used with your favorite assertion library (like ChaiJS, Jasmine, or your framework's assertion library).
 
 It aims to provide the most comfortable developper experience with optional ES6 syntax, and optional FlowType or TypeScript typings.
 
-It is not usable yet.
+It's an alpha version. Don't hesitate to give any feedback and to open a GitHub issue https://github.com/jsGiven/jsGiven/issues
 
 == Changelog
 
