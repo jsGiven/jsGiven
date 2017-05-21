@@ -9,6 +9,8 @@ Developers write scenarios in plain JavaScript using a fluent, domain-specific A
 It's a JavaScript port of [JsGiven](http://jgiven.org) (written in Java).
 JsGiven keeps the JGiven philosophy, concepts and uses its html5 reporting tool.
 
+You can have a look at [JSGiven's own report](https://jsgiven.org/jsgiven-report/)
+
 ```javascript
 scenarios('recipes', RecipesStage, ({given, when, then}) => ({
   a_pancake_can_be_fried_out_of_an_egg_milk_and_flour() {
