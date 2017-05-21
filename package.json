@@ -23,6 +23,7 @@
     "releaseAlpha": "(cd js-given; yarn releaseAlpha)",
     "release": "(cd js-given; yarn release)",
     "buildDocumentation": "(cd documentation; yarn build)",
+    "openDocumentation": "(cd documentation && yarn build && open html/index.html)",
     "deployDocumentation": "(cd documentation; yarn deploy)"
   },
   "repository": {
