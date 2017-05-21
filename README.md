@@ -6,7 +6,7 @@ It is a developer-friendly and pragmatic BDD tool for JavaScript.
 
 Developers write scenarios in plain JavaScript using a fluent, domain-specific API, JsGiven generates reports that are readable by domain experts.
 
-It's a JavaScript port of [JsGiven](http://jgiven.org) (written in Java).
+It's a JavaScript port of [JGiven](http://jgiven.org) (written in Java).
 JsGiven keeps the JGiven philosophy, concepts and uses its html5 reporting tool.
 
 You can have a look at [JSGiven's own report](https://jsgiven.org/jsgiven-report/)
