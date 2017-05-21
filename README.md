@@ -1,5 +1,7 @@
 # [JsGiven](https://jsgiven.org) &middot; [![Build Status](https://travis-ci.org/jsGiven/jsGiven.svg?branch=master)](https://travis-ci.org/jsGiven/jsGiven)
 
+[//]: # (tag::jsGivenIntro[])
+
 JsGiven aims to bring BDD (Behavior-Driven Development) to plain (or typed) JavaScript developers.
 
 It is a developer-friendly and pragmatic BDD tool for JavaScript. 
@@ -9,6 +11,11 @@ Developers write scenarios in plain JavaScript using a fluent, domain-specific A
 It's a JavaScript port of JGiven (written in Java).
 JsGiven keeps the JGiven philosophy, concepts and uses its html5 reporting tool.
 Developers write scenarios in plain JavaScript using a fluent, domain-specific API, JsGiven generates reports that are readable by domain experts.
+
+[//]: # (end::jsGivenIntro[])
+
+
+[//]: # (tag::jsGivenSample[])
 
 ```javascript
 scenarios('recipes', RecipesStage, ({given, when, then}) => ({
@@ -24,6 +31,10 @@ scenarios('recipes', RecipesStage, ({given, when, then}) => ({
   }
 }))
 ```
+
+[//]: # (end::jsGivenSample[])
+
+[//]: # (tag::jsGivenIntroExplanation[])
 It can be used with any javascript test runner (like Jest, Ava, Mocha, Jasmine, or Protractor).
 
 It can be used with your favorite assertion library (like ChaiJS, Jasmine, or your framework's assertion library).
@@ -31,3 +42,5 @@ It can be used with your favorite assertion library (like ChaiJS, Jasmine, or yo
 It aims to provide the most comfortable developper experience with optional ES6 syntax, and optional FlowType or TypeScript typings.
 
 It's an alpha version. Don't hesitate to give any feedback and to open a GitHub issue https://github.com/jsGiven/jsGiven/issues
+
+[//]: # (end::jsGivenIntroExplanation[])
