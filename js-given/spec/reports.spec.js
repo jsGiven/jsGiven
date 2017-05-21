@@ -50,7 +50,7 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
     its_name_is_readable_in_english(): this {
         const scenario = this.getScenario();
         const report = scenario.groupReport;
-        expect(report.name).to.equal('Group name');
+        expect(report.name).to.equal('group_name');
         expect(scenario.name).to.equal('Scenario name');
         return this;
     }
@@ -83,7 +83,7 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
     }
 }
 
-scenarios('reports', [ReportScenarioGivenStage, BasicScenarioWhenStage, ReportScenarioThenStage], ({given, when, then}) => {
+scenarios('core.reports.jsgiven', [ReportScenarioGivenStage, BasicScenarioWhenStage, ReportScenarioThenStage], ({given, when, then}) => {
     return {
         a_report_is_generated_after_execution() {
             given().a_scenario_runner()
@@ -127,7 +127,7 @@ class ReportsFileStage extends Stage {
     }
 }
 
-scenarios('reportsFile', ReportsFileStage, ({given, when, then}) => ({
+scenarios('core.reports.jsgiven.file', ReportsFileStage, ({given, when, then}) => ({
     the_report_file_name_is_generated_according_to_the_group_name_and_the_scenario_name() {
         given().a_group_named_$('Group name')
             .and().a_scenario_named_$('Scenario name');

@@ -200,7 +200,7 @@ class JGivenReportStage extends Stage {
     }
 }
 
-scenarios('JGiven report', JGivenReportStage, ({given, when, then}) => {
+scenarios('core.reports.jgiven', JGivenReportStage, ({given, when, then}) => {
     return {
         a_simple_report_is_generated() {
             given().an_existing_jgiven_directory().and()

@@ -53,8 +53,7 @@ export class ScenarioRunner {
             stagesParams: StagesParam<G, W, T>,
             scenariosFunc: ScenariosFunc<G, W, T>) {
 
-        const humanizedGroupName = humanize(groupName);
-        const report = new GroupReport(humanizedGroupName);
+        const report = new GroupReport(groupName);
 
         let currentGiven: ?G;
         let currentWhen: ?W;
@@ -114,7 +113,7 @@ export class ScenarioRunner {
             });
         }
 
-        this.groupFunc(humanizedGroupName, () => {
+        this.groupFunc(groupName, () => {
             const scenarios = scenariosFunc(scenariosParam);
 
             getScenarios(scenarios).forEach(({scenarioPropertyName, cases, argumentNames}) => {

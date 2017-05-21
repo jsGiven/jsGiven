@@ -42,7 +42,7 @@ class DemoStage extends Stage {
     }
 }
 
-scenarios('demo', DemoStage, ({ given, when, then }) => {
+scenarios('jsgiven.demo', DemoStage, ({ given, when, then }) => {
     return {
         scenarios_can_be_parametrized: parametrized2(
             [

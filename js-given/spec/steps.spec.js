@@ -90,7 +90,7 @@ class StepsStage extends Stage {
     }
 }
 
-scenarios('intro_words', StepsStage, ({given, when, then}) => ({
+scenarios('core.steps', StepsStage, ({given, when, then}) => ({
     intro_words_can_be_used() {
         given().a_step_with_$_methodName_and_$_intro_word('an_object', 'given');
         then().the_step_is_named_$('given an object')
@@ -106,7 +106,7 @@ scenarios('intro_words', StepsStage, ({given, when, then}) => ({
     },
 }));
 
-scenarios('parametrized_steps', StepsStage, ({given, when, then}) => {
+scenarios('core.steps', StepsStage, ({given, when, then}) => {
     return {
         basic_properties_can_be_used_as_parameters() {
             given().a_parametrized_step_with_$_methodName_and_$_arguments('$_grams_of_flour', 500);

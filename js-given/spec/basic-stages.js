@@ -51,7 +51,7 @@ export class BasicScenarioThenStage extends Stage {
     @State jsGivenReportsDir: string;
 
     the_describe_method_has_been_called(): this {
-        expect(this.describe).to.have.been.calledWith('Group name');
+        expect(this.describe).to.have.been.calledWith('group_name');
         return this;
     }
 
@@ -94,7 +94,7 @@ export class BasicScenarioThenStage extends Stage {
     }
 
     getFileName(): string {
-        return `${this.jsGivenReportsDir}/${computeScenarioFileName('Group name', 'Scenario name')}`;
+        return `${this.jsGivenReportsDir}/${computeScenarioFileName('group_name', 'Scenario name')}`;
     }
 
     getScenario(): ScenarioReport {

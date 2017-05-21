@@ -44,7 +44,7 @@ class DummyScenarioThenStage extends BasicScenarioThenStage {
     }
 }
 
-scenarios('scenario_runner', [DummyScenarioGivenStage, BasicScenarioWhenStage, DummyScenarioThenStage], ({given, when, then}) => {
+scenarios('core.scenarios', [DummyScenarioGivenStage, BasicScenarioWhenStage, DummyScenarioThenStage], ({given, when, then}) => {
     return {
         scenarios_can_be_run_over_any_scenario_runner() {
             given().a_scenario_runner()
@@ -115,7 +115,7 @@ class StageRecorderThenStage extends BasicScenarioThenStage {
     }
 }
 
-scenarios('scenario_runner', [StageRecorderGivenStage, BasicScenarioWhenStage, StageRecorderThenStage], ({given, when, then}) => {
+scenarios('core.scenarios.stages', [StageRecorderGivenStage, BasicScenarioWhenStage, StageRecorderThenStage], ({given, when, then}) => {
     return {
         scenarios_can_use_given_when_then_stages_with_methods() {
             given().a_scenario_runner()
@@ -194,7 +194,7 @@ class StatefullScenarioThenStage extends BasicScenarioThenStage {
     }
 }
 
-scenarios('scenario_runner', [StatefullScenarioGivenStage, BasicScenarioWhenStage, StatefullScenarioThenStage], ({given, when, then}) => {
+scenarios('core.scenarios.state', [StatefullScenarioGivenStage, BasicScenarioWhenStage, StatefullScenarioThenStage], ({given, when, then}) => {
     return {
         scenarios_can_share_state_between_stages() {
             given().a_scenario_runner()
@@ -270,7 +270,7 @@ class ParametrizedScenarioThenStage extends BasicScenarioThenStage {
     }
 }
 
-scenarios('Scenario runner', [ParametrizedScenarioGivenStage, BasicScenarioWhenStage, ParametrizedScenarioThenStage], ({given, when, then}) => ({
+scenarios('core.scenarios.parametrized', [ParametrizedScenarioGivenStage, BasicScenarioWhenStage, ParametrizedScenarioThenStage], ({given, when, then}) => ({
     scenarios_can_be_parametrized() {
         given()
             .a_scenario_runner().and()
