@@ -23,7 +23,7 @@ JsGiven should usually be installed as a https://docs.npmjs.com/files/package.js
 
 ----
 $ yarn add -D js-given <1>
-$ npm install --save-dev js-given<2>
+$ npm install --save-dev js-given <2>
 ----
 <1> With https://yarnpkg.com[Yarn]
 <2> With https://www.npmjs.com/[NPM]
