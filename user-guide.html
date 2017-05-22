@@ -562,7 +562,7 @@ JsGiven keeps the JGiven philosophy, concepts and uses its html5 reporting tool.
 <div class="listingblock">
 <div class="content">
 <pre>$ yarn add -D js-given <i class="conum" data-value="1"></i><b>(1)</b>
-$ npm install --save-dev <i class="conum" data-value="2"></i><b>(2)</b></pre>
+$ npm install --save-dev js-given<i class="conum" data-value="2"></i><b>(2)</b></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -598,8 +598,17 @@ $ npm install --save-dev <i class="conum" data-value="2"></i><b>(2)</b></pre>
 <div class="paragraph">
 <p>JsGiven needs to be setup in each test source file by calling a setup function.</p>
 </div>
-<div class="paragraph">
-<p>It is necessary to do this in each test source file as some tests frameworks (Jest and probably Ava) actually run each test source file in a worker process in order to get parallel execution of tests.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+It is necessary to do this in each test source file as some tests frameworks (Jest and probably Ava) actually run each test source file in a worker process in order to get parallel execution of tests.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_for_rspec_inspired_frameworks_jest_mocha_jasmine_protractor">For Rspec inspired frameworks (Jest, Mocha, Jasmine, Protractor)</h4>
@@ -645,7 +654,7 @@ This function takes the describe and the it function from the test framework.</p
 <div class="ulist">
 <ul>
 <li>
-<p>You can use a namespace-like naming with dots to introduce a hierarchy (eg: analytics.funnels.tickets_sales)</p>
+<p>You can use a "namespace" or "java package" naming with dots to introduce a hierarchy that will be presented in the html5 report (eg: analytics.funnels.tickets_sales)</p>
 </li>
 </ul>
 </div>
@@ -691,7 +700,7 @@ This function takes the describe and the it function from the test framework.</p
 </div>
 <div class="paragraph">
 <p>A stage class contains multiple step methods that can be called in a scenario and that will appear in the report.
-Step methods are the heart of JsGiven. The test initialization, execution and assertions <strong>must</strong> be implemented in step methods.</p>
+Step methods are the heart of JsGiven. The test initialization, execution and assertions <strong>must</strong> be implemented within step methods.</p>
 </div>
 <div class="paragraph">
 <p>Every non-static method of a stage class that returns the stage instance (<strong>this</strong>) can be used as a step method.</p>
@@ -715,8 +724,7 @@ Step methods are the heart of JsGiven. The test initialization, execution and as
 </table>
 </div>
 <div class="paragraph">
-<p>There are no further requirements.
-In particular, no annotations are needed.</p>
+<p>There are no further requirements.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -814,6 +822,9 @@ Ran all test suites.</pre>
   <span class="tok-nt">&quot;posttest&quot;</span><span class="tok-p">:</span> <span class="tok-s2">&quot;jsgiven report&quot;</span>
 <span class="tok-p">}</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>The <strong>jsgiven</strong> command is a CLI command tool provided by the module.</p>
 </div>
 </div>
 </div>
