@@ -12,8 +12,10 @@ import {
 if (global.describe && global.it) {
     setupForRspec(describe, it);
 } else {
+    // tag::setupForAva[]
     const test = require('ava');
     setupForAva(test);
+    // end::setupForAva[]
 }
 
 class DemoStage extends Stage {

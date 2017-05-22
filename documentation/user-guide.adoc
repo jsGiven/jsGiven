@@ -1,0 +1,208 @@
+:source-highlighter: pygments
+:icons: font
+:nofooter:
+:docinfo: shared,private
+
+= JsGiven User Guide
+:toc: left
+:toclevels: 5
+
+== Introduction
+
+JsGiven is a JavaScript library that helps you to design a high-level, domain-specific language for writing BDD scenarios.
+You still use your favorite javascript test runner, your favorite assertion library and mocking library for writing your test implementations, but you use JsGiven to write a readable abstraction layer on top of it.
+
+It's a JavaScript port of http://jgiven.org[JGiven] (written in Java).
+JsGiven keeps the JGiven philosophy, concepts and uses its html5 reporting tool.
+
+== Installation
+
+JsGiven is released on https://www.npmjs.com/[NPM] and can be installed with both NPM & Yarn.
+
+JsGiven should usually be installed as a https://docs.npmjs.com/files/package.json#devdependencies[devDependency] as it's not directly contributing as project dependency.
+
+----
+$ yarn add -D js-given <1>
+$ npm install --save-dev <2>
+----
+<1> With https://yarnpkg.com[Yarn]
+<2> With https://www.npmjs.com/[NPM]
+
+== Getting started
+
+=== Importing jsGiven
+
+JsGiven components are available as https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export[named exports] of the 'js-given' module.
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/sum.test.js[tags=ImportJsGiven]
+----
+
+=== Setup JsGiven
+
+JsGiven needs to be setup in each test source file by calling a setup function.
+
+It is necessary to do this in each test source file as some tests frameworks (Jest and probably Ava) actually run each test source file in a worker process in order to get parallel execution of tests.
+
+==== For Rspec inspired frameworks (Jest, Mocha, Jasmine, Protractor)
+
+In frameworks inspired by RSpec, JsGiven must be setup by calling the setupForRspec() function.
+This function takes the describe and the it function from the test framework.
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/sum.test.js[tags=setupForRspec]
+----
+
+==== For Ava framework
+
+In Ava, JsGiven must be setup by calling the setupForAva() function.
+This function takes the describe and the it function from the test framework.
+
+[source, js, indent=0]
+----
+include::../js-given/spec/demo.spec.js[tags=setupForAva]
+----
+
+=== Create a scenario group
+
+First of all you create a scenario group by calling the scenarios() function.
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/sum.test.js[tags=scenariosCallFirstPart]
+include::../examples/jest-es2015/sum.test.js[tags=scenariosCallSecondPart]
+----
+
+. The first parameter is the group name, it identifies your scenario within the report.
+    - You can use a namespace-like naming with dots to introduce a hierarchy (eg: analytics.funnels.tickets_sales)
+. The second parameter is the stage class you will create in the next step
+. The last parameter is a function that takes an object containing the given(), when(), then() methods and returns the scenarios object.
+
+=== Create a Stage class
+
+You now have to create a "Stage" class that extends the Stage base class.
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/sum.test.js[tags=SumStage]
+----
+
+A stage class contains multiple step methods that can be called in a scenario and that will appear in the report.
+Step methods are the heart of JsGiven. The test initialization, execution and assertions **must** be implemented in step methods.
+
+Every non-static method of a stage class that returns the stage instance (**this**) can be used as a step method.
+
+[WARNING]
+.Step methods must return the **this** reference!
+====
+This way JsGiven knowns which methods should be included in the report. Internal private methods usually do not return this.
+
+Since there are is no concept of private methods in JavaScript, this is a major difference from JGiven.
+====
+
+There are no further requirements.
+In particular, no annotations are needed.
+
+[NOTE]
+.In addition, a step method should be written in snake_case
+====
+This way JsGiven knows the correct casing of each word of the step.
+====
+
+=== Write your first scenario
+
+Now you can write your first scenario
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/sum.test.js[tags=scenarios]
+----
+
+=== Execute your scenario
+
+You can execute your scenario by running your test runner as you usually run the tests.
+
+----
+$ jest
+ PASS  ./sum.test.js
+  sum
+    ✓ Two numbers can be added (9ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        0.7s, estimated 1s
+Ran all test suites.
+----
+
+== Report generation
+
+JsGiven produces internal reports in JSON, that are not meant to be presented to users.
+
+JsGiven converts these internal reports to a fully usable JGiven report.
+
+=== Setting up pretest & posttest npm scripts
+
+Due to the parallel nature of some test runners (Jest & Ava), there is no simple way to remove the internal reports before running tests & generate the html5 report at the end.
+
+Therefore, you have to set up pretest & posttest npm scripts that will :
+
+- Clean the internal reports before starting the tests.
+- Generate the html5 report after the tests have run.
+
+You have to include the following two tasks in you *package.json* file:
+
+[source, json]
+----
+"scripts": {
+  "pretest": "jsgiven clean",
+  "posttest": "jsgiven report"
+}
+----
+
+== Stages and state sharing
+
+**TODO**
+
+=== Create Given/When/Then Stage classes
+
+**TODO**
+
+=== Sharing state between stages
+
+**TODO**
+
+== Parameterized steps
+
+**TODO**
+
+== Parameterized scenarios
+
+**TODO**
+
+== Using JsGiven with Type checkers
+
+**TODO**
+
+=== With Flow
+
+**TODO**
+
+=== With TypeScript
+
+**TODO**
+
+== Using JSGiven with ES5
+
+**TODO**
+
+== Fully working examples
+
+Some examples are committed on the https://github.com/jsGiven/jsGiven[JsGiven repository]
+
+These examples are tested on each commit against the latest stable version and against the current code by the https://travis-ci.org/jsGiven/jsGiven[Travis CI] integration
+
+- https://github.com/jsGiven/jsGiven/tree/master/examples/jest-es2015[Jest + ES2015]
+- https://github.com/jsGiven/jsGiven/tree/master/examples/jest-es2015-flow[Jest + ES2015 + Flow]

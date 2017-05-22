@@ -1,9 +1,14 @@
+// tag::ImportJsGiven[]
 import {scenarios, setupForRspec, Stage} from 'js-given';
+// end::ImportJsGiven[]
 
 import {sum} from './sum';
 
+// tag::setupForRspec[]
 setupForRspec(describe, it);
+// end::setupForRspec[]
 
+// tag::SumStage[]
 class SumStage extends Stage {
     a_number(value) {
         this.number1 = value;
@@ -25,8 +30,12 @@ class SumStage extends Stage {
         return this;
     }
 }
+// end::SumStage[]
 
+// tag::scenarios[]
+// tag::scenariosCallFirstPart[]
 scenarios('sum', SumStage, ({given, when, then}) => {
+// end::scenariosCallFirstPart[]
     return {
         two_numbers_can_be_added() {
             given().a_number(1).and().another_number(2);
@@ -36,4 +45,7 @@ scenarios('sum', SumStage, ({given, when, then}) => {
             then().the_result_is(3);
         },
     };
+// tag::scenariosCallSecondPart[]
 });
+// end::scenariosCallSecondPart[]
+// end::scenarios[]
