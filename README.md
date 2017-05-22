@@ -33,3 +33,7 @@ It can be used with your favorite assertion library (like ChaiJS, Jasmine), or y
 It aims to provide the most comfortable developer experience with optional ES6 syntax, and optional FlowType or TypeScript typings.
 
 It's an alpha version. Don't hesitate to give any feedback and to open a GitHub issue https://github.com/jsGiven/jsGiven/issues
+
+## Getting started
+
+You can start using JsGiven with the user guide https://jsgiven.org/user-guide.html
