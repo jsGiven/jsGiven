@@ -46,7 +46,7 @@ It's an alpha version. Don't hesitate to give any feedback and to open a GitHub 
 
 == Getting started
 
-You can start using JsGiven with the link:./user-guide.html[User guide]
+You can start using JsGiven with the link:./user-guide.html[user guide]
 
 == Changelog
 
