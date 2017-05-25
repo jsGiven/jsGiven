@@ -572,6 +572,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_create_given_when_then_stage_classes">Create Given/When/Then Stage classes</a></li>
 <li><a href="#_sharing_state_between_stages">Sharing state between stages</a></li>
+<li><a href="#_babel_configuration_for_state_sharing_between_stages">Babel configuration for state sharing between stages</a></li>
 </ul>
 </li>
 <li><a href="#_parameterized_steps">Parameterized steps</a></li>
@@ -889,18 +890,115 @@ Ran all test suites.</pre>
 <h2 id="_stages_and_state_sharing">Stages and state sharing</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>In the previous example you have included all step methods in the same class.
+While this is a simple solution, it&#8217;s often suitable to have several stage classes.</p>
 </div>
 <div class="sect2">
 <h3 id="_create_given_when_then_stage_classes">Create Given/When/Then Stage classes</h3>
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>JsGiven allows to use 3 Stage classes.</p>
+</div>
+<div class="paragraph">
+<p>You can declare the classes in your scenario</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span> <span class="tok-p">[</span><span class="tok-nx">SumGivenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumWhenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumThenStage</span><span class="tok-p">],</span> <span class="tok-p">({</span><span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span><span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And use all the methods of each stage in the given(), when(), then() chains:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span> <span class="tok-p">[</span><span class="tok-nx">SumGivenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumWhenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumThenStage</span><span class="tok-p">],</span> <span class="tok-p">({</span><span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span><span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
+    <span class="tok-k">return</span> <span class="tok-p">{</span>
+        <span class="tok-nx">two_numbers_can_be_added</span><span class="tok-p">()</span> <span class="tok-p">{</span>
+            <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">).</span><span class="tok-nx">and</span><span class="tok-p">().</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
+
+            <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
+
+            <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-mi">3</span><span class="tok-p">);</span>
+        <span class="tok-p">},</span>
+    <span class="tok-p">};</span>
+<span class="tok-p">});</span></code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_sharing_state_between_stages">Sharing state between stages</h3>
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>Very often it is necessary to share state between steps.
+As long as the steps are implemented in the same Stage class you can just use the fields of the Stage class.
+But what can you do if your steps are defined in different Stage classes?</p>
+</div>
+<div class="paragraph">
+<p>In this case you just define the same field in both Stage classes.
+Both fields also have to be annotated with the special decoration @State to tell JsGiven that this field will be used for state sharing between stages.</p>
+</div>
+<div class="paragraph">
+<p>The values of these fields are shared between all stages that have the same field with the @Stage decoration.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-kr">class</span> <span class="tok-nx">SumGivenStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
+    <span class="tok-err">@</span><span class="tok-nx">State</span>
+    <span class="tok-nx">number1</span><span class="tok-p">;</span>
+
+    <span class="tok-err">@</span><span class="tok-nx">State</span>
+    <span class="tok-nx">number2</span><span class="tok-p">;</span>
+
+    <span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
+        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+
+    <span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
+        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+<span class="tok-p">}</span>
+
+<span class="tok-kr">class</span> <span class="tok-nx">SumWhenStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
+    <span class="tok-err">@</span><span class="tok-nx">State</span>
+    <span class="tok-nx">number1</span><span class="tok-p">;</span>
+
+    <span class="tok-err">@</span><span class="tok-nx">State</span>
+    <span class="tok-nx">number2</span><span class="tok-p">;</span>
+
+    <span class="tok-err">@</span><span class="tok-nx">State</span>
+    <span class="tok-nx">result</span><span class="tok-p">;</span>
+
+    <span class="tok-nx">they_are_summed</span><span class="tok-p">()</span> <span class="tok-p">{</span>
+        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span> <span class="tok-o">=</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">+</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span><span class="tok-p">;</span>
+        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+<span class="tok-p">}</span>
+
+<span class="tok-kr">class</span> <span class="tok-nx">SumThenStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
+    <span class="tok-err">@</span><span class="tok-nx">State</span>
+    <span class="tok-nx">result</span><span class="tok-o">:</span> <span class="tok-mi">0</span><span class="tok-p">;</span>
+
+    <span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+        <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span><span class="tok-p">).</span><span class="tok-nx">toEqual</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">);</span>
+        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+<span class="tok-p">}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_babel_configuration_for_state_sharing_between_stages">Babel configuration for state sharing between stages</h3>
+<div class="paragraph">
+<p>In order to use state sharing, you have to include the following babel transform plugins in your .babelrc :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="json"><span class="tok-p">{</span>
+  <span class="tok-nt">&quot;presets&quot;</span><span class="tok-p">:</span> <span class="tok-p">[</span><span class="tok-s2">&quot;es2015&quot;</span><span class="tok-p">,</span> <span class="tok-s2">&quot;react&quot;</span><span class="tok-p">],</span>
+  <span class="tok-nt">&quot;plugins&quot;</span><span class="tok-p">:</span> <span class="tok-p">[</span><span class="tok-s2">&quot;transform-decorators-legacy&quot;</span><span class="tok-p">,</span> <span class="tok-s2">&quot;transform-class-properties&quot;</span><span class="tok-p">]</span>
+<span class="tok-p">}</span></code></pre>
+</div>
 </div>
 </div>
 </div>
