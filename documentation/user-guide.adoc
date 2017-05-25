@@ -166,15 +166,51 @@ The *jsgiven* command is a CLI command tool provided by the module.
 
 == Stages and state sharing
 
-**TODO**
+In the previous example you have included all step methods in the same class.
+While this is a simple solution, it's often suitable to have several stage classes.
 
 === Create Given/When/Then Stage classes
 
-**TODO**
+JsGiven allows to use 3 Stage classes.
+
+You can declare the classes in your scenario
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/sum-multiple-stages.test.js[tags=SumMultipleStagesScenarioDeclaration]
+----
+
+And use all the methods of each stage in the given(), when(), then() chains:
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/sum-multiple-stages.test.js[tags=SumMultipleStagesScenario]
+----
 
 === Sharing state between stages
 
-**TODO**
+Very often it is necessary to share state between steps.
+As long as the steps are implemented in the same Stage class you can just use the fields of the Stage class.
+But what can you do if your steps are defined in different Stage classes?
+
+In this case you just define the same field in both Stage classes.
+Both fields also have to be annotated with the special decoration @State to tell JsGiven that this field will be used for state sharing between stages.
+
+The values of these fields are shared between all stages that have the same field with the @Stage decoration.
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/sum-multiple-stages.test.js[tags=SumStages]
+----
+
+=== Babel configuration for state sharing between stages
+
+In order to use state sharing, you have to include the following babel transform plugins in your .babelrc :
+
+[source, json, indent=0]
+----
+include::../examples/jest-es2015/.babelrc[]
+----
 
 == Parameterized steps
 
