@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rm -vfr html",
-    "build": "asciidoctor *.adoc -D html && yarn copyJsGivenReports",
+    "buildDoc": "asciidoctor *.adoc -D html",
+    "build": "yarn buildDoc && yarn copyJsGivenReports",
     "copyJsGivenReports": "(cd ../js-given && yarn pretest && yarn test_jest && yarn generateReport && cp -vfr jGiven-report ../documentation/html/jsgiven-report)",
     "deploy": "yarn build && yarn deployToGhPages && yarn deployToS3 && yarn enableCloudFrontCli && yarn createInvalidationOnCloudFront",
     "deployToGhPages": "gh-pages -d html",
