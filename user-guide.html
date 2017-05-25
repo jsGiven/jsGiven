@@ -500,7 +500,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_getting_started">Getting started</a>
 <ul class="sectlevel2">
 <li><a href="#_importing_jsgiven">Importing jsGiven</a></li>
-<li><a href="#_setup_jsgiven">Setup JsGiven</a>
+<li><a href="#_set_up_jsgiven">Set up JsGiven</a>
 <ul class="sectlevel3">
 <li><a href="#_for_rspec_inspired_frameworks_jest_mocha_jasmine_protractor">For Rspec inspired frameworks (Jest, Mocha, Jasmine, Protractor)</a></li>
 <li><a href="#_for_ava_framework">For Ava framework</a></li>
@@ -525,14 +525,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_parameterized_steps">Parameterized steps</a></li>
 <li><a href="#_parameterized_scenarios">Parameterized scenarios</a></li>
-<li><a href="#_using_jsgiven_with_type_checkers">Using JsGiven with Type checkers</a>
+<li><a href="#_using_jsgiven">Using JsGiven</a>
 <ul class="sectlevel2">
+<li><a href="#_supported_test_runners">Supported Test runners</a></li>
+<li><a href="#_type_checkers">Type checkers</a>
+<ul class="sectlevel3">
 <li><a href="#_with_flow">With Flow</a></li>
 <li><a href="#_with_typescript">With TypeScript</a></li>
 </ul>
 </li>
 <li><a href="#_using_jsgiven_with_es5">Using JSGiven with ES5</a></li>
 <li><a href="#_fully_working_examples">Fully working examples</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -594,7 +599,7 @@ $ npm install --save-dev js-given <i class="conum" data-value="2"></i><b>(2)</b>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_setup_jsgiven">Setup JsGiven</h3>
+<h3 id="_set_up_jsgiven">Set up JsGiven</h3>
 <div class="paragraph">
 <p>JsGiven needs to be setup in each test source file by calling a setup function.</p>
 </div>
@@ -866,36 +871,69 @@ Ran all test suites.</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_using_jsgiven_with_type_checkers">Using JsGiven with Type checkers</h2>
+<h2 id="_using_jsgiven">Using JsGiven</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_supported_test_runners">Supported Test runners</h3>
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>JsGiven supports the following test runners :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://facebook.github.io/jest/">Jest</a></p>
+</li>
+<li>
+<p><a href="https://mochajs.org/">Mocha</a></p>
+</li>
+<li>
+<p><a href="https://jasmine.github.io/">Jasmine</a></p>
+</li>
+<li>
+<p><a href="https://github.com/avajs/ava">Ava</a></p>
+</li>
+<li>
+<p><a href="http://www.protractortest.org/#/">Protractor</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>JsGiven is tested internally using those frameworks <span class="image"><a class="image" href="https://travis-ci.org/jsGiven/jsGiven"><img src="https://travis-ci.org/jsGiven/jsGiven.svg?branch=master" alt="Build Status"></a></span></p>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_with_flow">With Flow</h3>
+<h3 id="_type_checkers">Type checkers</h3>
+<div class="sect3">
+<h4 id="_with_flow">With Flow</h4>
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>JsGiven includes build-in support for the <a href="https://flow.org/">Flow</a> type checker.
+You don&#8217;t have to install any type definitions.</p>
+</div>
+<div class="paragraph">
+<p>A working example using Flow is provided : <a href="https://github.com/jsGiven/jsGiven/tree/master/examples/jest-es2015-flow" class="bare">https://github.com/jsGiven/jsGiven/tree/master/examples/jest-es2015-flow</a></p>
+</div>
+<div class="paragraph">
+<p>JsGiven is internally written with Flow.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_with_typescript">With TypeScript</h4>
+<div class="paragraph">
+<p>JsGiven does not include yet TypeScript definitions but it is already usable with TypeScript.</p>
+</div>
+<div class="paragraph">
+<p>A working example is still to be produced.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_with_typescript">With TypeScript</h3>
+<h3 id="_using_jsgiven_with_es5">Using JSGiven with ES5</h3>
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>Js Given is usable with ES5, a working example is still to be produced.</p>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_using_jsgiven_with_es5">Using JSGiven with ES5</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_fully_working_examples">Fully working examples</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fully_working_examples">Fully working examples</h3>
 <div class="paragraph">
 <p>Some examples are committed on the <a href="https://github.com/jsGiven/jsGiven">JsGiven repository</a></p>
 </div>
@@ -911,6 +949,7 @@ Ran all test suites.</pre>
 <p><a href="https://github.com/jsGiven/jsGiven/tree/master/examples/jest-es2015-flow">Jest + ES2015 + Flow</a></p>
 </li>
 </ul>
+</div>
 </div>
 </div>
 </div>
