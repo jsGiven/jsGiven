@@ -39,7 +39,7 @@ JsGiven components are available as https://developer.mozilla.org/en-US/docs/Web
 include::../examples/jest-es2015/sum.test.js[tags=ImportJsGiven]
 ----
 
-=== Setup JsGiven
+=== Set up JsGiven
 
 JsGiven needs to be setup in each test source file by calling a setup function.
 
@@ -184,23 +184,42 @@ The *jsgiven* command is a CLI command tool provided by the module.
 
 **TODO**
 
-== Using JsGiven with Type checkers
+== Using JsGiven
 
-**TODO**
+=== Supported Test runners
 
-=== With Flow
+JsGiven supports the following test runners :
 
-**TODO**
+- https://facebook.github.io/jest/[Jest]
+- https://mochajs.org/[Mocha]
+- https://jasmine.github.io/[Jasmine]
+- https://github.com/avajs/ava[Ava]
+- http://www.protractortest.org/#/[Protractor]
 
-=== With TypeScript
+JsGiven is tested internally using those frameworks image:https://travis-ci.org/jsGiven/jsGiven.svg?branch=master["Build Status", link="https://travis-ci.org/jsGiven/jsGiven"]
 
-**TODO**
+=== Type checkers
 
-== Using JSGiven with ES5
+==== With Flow
 
-**TODO**
+JsGiven includes build-in support for the https://flow.org/[Flow] type checker.
+You don't have to install any type definitions.
 
-== Fully working examples
+A working example using Flow is provided : https://github.com/jsGiven/jsGiven/tree/master/examples/jest-es2015-flow
+
+JsGiven is internally written with Flow.
+
+==== With TypeScript
+
+JsGiven does not include yet TypeScript definitions but it is already usable with TypeScript.
+
+A working example is still to be produced.
+
+=== Using JSGiven with ES5
+
+Js Given is usable with ES5, a working example is still to be produced.
+
+=== Fully working examples
 
 Some examples are committed on the https://github.com/jsGiven/jsGiven[JsGiven repository]
 

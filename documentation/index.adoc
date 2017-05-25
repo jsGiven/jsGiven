@@ -5,6 +5,8 @@
 
 = JsGiven
 
+image:https://travis-ci.org/jsGiven/jsGiven.svg?branch=master["Build Status", link="https://travis-ci.org/jsGiven/jsGiven"]
+
 == Description
 
 
