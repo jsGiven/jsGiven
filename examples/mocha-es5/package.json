@@ -1,0 +1,18 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "jsGiven example with jest & ES 2015",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.0.0",
+    "js-given": "^0.0.18",
+    "mocha": "^3.4.2",
+    "regenerator-runtime": "^0.10.5"
+  },
+  "scripts": {
+    "pretest": "jsgiven clean",
+    "test": "mocha *.test.js",
+    "posttest": "jsgiven report"
+  }
+}
