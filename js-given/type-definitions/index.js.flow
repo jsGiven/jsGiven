@@ -11,6 +11,7 @@ declare class Stage {
     given(): this;
     when(): this;
     then(): this;
+    static addExtension<T>(subClass: Class<T>): void;
 }
 
 type ScenariosParam<G, W, T> = {

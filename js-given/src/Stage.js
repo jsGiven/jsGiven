@@ -23,4 +23,9 @@ export class Stage {
     then(): this {
         return this;
     }
+
+    static addExtension<T>(subClass: Class<T>) {
+        Object.setPrototypeOf(subClass.prototype, Stage.prototype);
+        Object.setPrototypeOf(subClass, Stage);
+    }
 }
