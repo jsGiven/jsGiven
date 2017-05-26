@@ -41,7 +41,7 @@ class SumWhenStage extends Stage {
 
 class SumThenStage extends Stage {
     @State
-    result: 0;
+    result;
 
     the_result_is(expectedResult) {
         expect(this.result).toEqual(expectedResult);
