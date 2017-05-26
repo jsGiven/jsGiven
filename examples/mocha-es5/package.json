@@ -1,7 +1,7 @@
 {
   "name": "example",
   "version": "1.0.0",
-  "description": "jsGiven example with jest & ES 2015",
+  "description": "jsGiven example with Mocha & ES5",
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
