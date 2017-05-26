@@ -14,6 +14,7 @@ setupForRspec(describe, it);
 // tag::SumStageES5[]
 function SumStage() {
 }
+
 SumStage.prototype = {
     a_number(value) {
         this.number1 = value;
@@ -35,6 +36,7 @@ SumStage.prototype = {
         return this;
     },
 }
+
 Object.setPrototypeOf(SumStage.prototype, Stage.prototype);
 Object.setPrototypeOf(SumStage, Stage);
 // end::SumStageES5[]

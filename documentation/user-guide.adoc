@@ -287,7 +287,30 @@ A working example is still to be produced.
 
 === Using JSGiven with ES5
 
-Js Given is usable with ES5, a working example is still to be produced.
+Js Given is usable with ES5.
+
+You can import JsGiven using regular *require()* calls:
+
+[source, js, indent=0]
+----
+include::../examples/mocha-es5/sum.test.js[tags=ImportJsGivenES5]
+----
+
+You can declare the stage classes using classical prototypal inheritance.
+
+[source, js, indent=0]
+----
+include::../examples/mocha-es5/sum.test.js[tags=SumStageES5]
+----
+
+You use JSGiven almost like in ES6
+
+[source, js, indent=0]
+----
+include::../examples/mocha-es5/sum.test.js[tags=scenariosES5]
+----
+
+You can find a https://github.com/jsGiven/jsGiven/tree/master/examples/mocha-es5[working example] based on Mocha.
 
 === Fully working examples
 
@@ -297,3 +320,4 @@ These examples are tested on each commit against the latest stable version and a
 
 - https://github.com/jsGiven/jsGiven/tree/master/examples/jest-es2015[Jest + ES2015]
 - https://github.com/jsGiven/jsGiven/tree/master/examples/jest-es2015-flow[Jest + ES2015 + Flow]
+- https://github.com/jsGiven/jsGiven/tree/master/examples/mocha-es5[Mocha + ES5]
