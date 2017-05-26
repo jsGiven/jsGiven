@@ -30,7 +30,7 @@ $ npm install --save-dev js-given <2>
 
 == Getting started
 
-=== Importing jsGiven
+=== Importing JsGiven
 
 JsGiven components are available as https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export[named exports] of the 'js-given' module.
 
