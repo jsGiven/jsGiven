@@ -214,7 +214,41 @@ include::../examples/jest-es2015/.babelrc[]
 
 == Parameterized steps
 
-**TODO**
+Step methods can have parameters.
+Parameters are formatted in reports by using the toString() method, applied to the arguments.
+
+The formatted arguments are added to the end of the step description.
+
+[source, js, indent=0]
+----
+given().the_ingredient( "flour" ); // Given the ingredient flour
+given().multiple_arguments( 5, 6 ); // Given multiple arguments 5 6
+----
+
+=== Parameters within a sentence
+
+To place parameters within a sentence instead the end of the sentence you can use the $ character.
+
+[source, js, indent=0]
+----
+given().$_eggs( 5 );
+----
+
+In the generated report $ is replaced with the corresponding formatted parameter. So the generated report will look as follows:
+
+[source, js, indent=0]
+----
+Given 5 eggs
+----
+
+If there are more parameters than $ characters, the remaining parameters are added to the end of the sentence.
+
+If a $ should not be treated as a placeholder for a parameter, but printed verbatim, you can write $$, which will appear as a single $ in the report.
+
+[source, js, indent=0]
+----
+given().$$_$( 5); // Given $ 5
+----
 
 == Parameterized scenarios
 
