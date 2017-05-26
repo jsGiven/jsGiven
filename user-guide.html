@@ -977,7 +977,7 @@ Both fields also have to be annotated with the special decoration @State to tell
 
 <span class="tok-kr">class</span> <span class="tok-nx">SumThenStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
     <span class="tok-err">@</span><span class="tok-nx">State</span>
-    <span class="tok-nx">result</span><span class="tok-o">:</span> <span class="tok-mi">0</span><span class="tok-p">;</span>
+    <span class="tok-nx">result</span><span class="tok-p">;</span>
 
     <span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">)</span> <span class="tok-p">{</span>
         <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span><span class="tok-p">).</span><span class="tok-nx">toEqual</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">);</span>
