@@ -550,7 +550,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_installation">Installation</a></li>
 <li><a href="#_getting_started">Getting started</a>
 <ul class="sectlevel2">
-<li><a href="#_importing_jsgiven">Importing jsGiven</a></li>
+<li><a href="#_importing_jsgiven">Importing JsGiven</a></li>
 <li><a href="#_set_up_jsgiven">Set up JsGiven</a>
 <ul class="sectlevel3">
 <li><a href="#_for_rspec_inspired_frameworks_jest_mocha_jasmine_protractor">For Rspec inspired frameworks (Jest, Mocha, Jasmine, Protractor)</a></li>
@@ -575,7 +575,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_babel_configuration_for_state_sharing_between_stages">Babel configuration for state sharing between stages</a></li>
 </ul>
 </li>
-<li><a href="#_parameterized_steps">Parameterized steps</a></li>
+<li><a href="#_parameterized_steps">Parameterized steps</a>
+<ul class="sectlevel2">
+<li><a href="#_parameters_within_a_sentence">Parameters within a sentence</a></li>
+</ul>
+</li>
 <li><a href="#_parameterized_scenarios">Parameterized scenarios</a></li>
 <li><a href="#_using_jsgiven">Using JsGiven</a>
 <ul class="sectlevel2">
@@ -640,7 +644,7 @@ $ npm install --save-dev js-given <i class="conum" data-value="2"></i><b>(2)</b>
 <h2 id="_getting_started">Getting started</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_importing_jsgiven">Importing jsGiven</h3>
+<h3 id="_importing_jsgiven">Importing JsGiven</h3>
 <div class="paragraph">
 <p>JsGiven components are available as <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">named exports</a> of the 'js-given' module.</p>
 </div>
@@ -1007,7 +1011,47 @@ Both fields also have to be annotated with the special decoration @State to tell
 <h2 id="_parameterized_steps">Parameterized steps</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>Step methods can have parameters.
+Parameters are formatted in reports by using the toString() method, applied to the arguments.</p>
+</div>
+<div class="paragraph">
+<p>The formatted arguments are added to the end of the step description.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">the_ingredient</span><span class="tok-p">(</span> <span class="tok-s2">&quot;flour&quot;</span> <span class="tok-p">);</span> <span class="tok-c1">// Given the ingredient flour</span>
+<span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">multiple_arguments</span><span class="tok-p">(</span> <span class="tok-mi">5</span><span class="tok-p">,</span> <span class="tok-mi">6</span> <span class="tok-p">);</span> <span class="tok-c1">// Given multiple arguments 5 6</span></code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parameters_within_a_sentence">Parameters within a sentence</h3>
+<div class="paragraph">
+<p>To place parameters within a sentence instead the end of the sentence you can use the $ character.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">$_eggs</span><span class="tok-p">(</span> <span class="tok-mi">5</span> <span class="tok-p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the generated report $ is replaced with the corresponding formatted parameter. So the generated report will look as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">Given</span> <span class="tok-mi">5</span> <span class="tok-nx">eggs</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If there are more parameters than $ characters, the remaining parameters are added to the end of the sentence.</p>
+</div>
+<div class="paragraph">
+<p>If a $ should not be treated as a placeholder for a parameter, but printed verbatim, you can write $$, which will appear as a single $ in the report.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">$$_$</span><span class="tok-p">(</span> <span class="tok-mi">5</span><span class="tok-p">);</span> <span class="tok-c1">// Given $ 5</span></code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
