@@ -812,7 +812,7 @@ readable-stream@~1.0.0, readable-stream@~1.0.2, readable-stream@~1.0.24, readabl
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
-regenerator-runtime@^0.10.0, regenerator-runtime@^0.10.5:
+regenerator-runtime@^0.10.0:
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.10.5.tgz#336c3efc1220adcedda2c9fab67b5a7955a33658"
 

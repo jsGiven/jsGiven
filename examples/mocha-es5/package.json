@@ -7,8 +7,7 @@
   "devDependencies": {
     "chai": "^4.0.0",
     "js-given": "^0.0.18",
-    "mocha": "^3.4.2",
-    "regenerator-runtime": "^0.10.5"
+    "mocha": "^3.4.2"
   },
   "scripts": {
     "pretest": "jsgiven clean",
