@@ -19,18 +19,22 @@ if (global.describe && global.it) {
 }
 
 class ES5GivenStage extends BasicScenarioGivenStage {
-    @State called;
+    @State calledRecorder: {
+        called: boolean;
+    };
     ES5Stage: Class<any>;
 
     an_es5_stage_class(): this {
-        this.called = false;
+        this.calledRecorder = {
+            called: false,
+        };
         const self = this;
 
         function ES5Stage() {
         }
         ES5Stage.prototype = {
             an_action_is_performed() {
-                self.called = true;
+                self.calledRecorder.called = true;
             },
         };
         Object.setPrototypeOf(ES5Stage.prototype, Stage.prototype);
@@ -56,10 +60,12 @@ class ES5GivenStage extends BasicScenarioGivenStage {
 }
 
 class ES5ThenStage extends BasicScenarioThenStage {
-    @State called;
+    @State calledRecorder: {
+        called: boolean;
+    };
 
     the_es_5_stage_has_been_used(): this {
-        expect(this.called).to.be.true;
+        expect(this.calledRecorder.called).to.be.true;
         return this;
     }
 }

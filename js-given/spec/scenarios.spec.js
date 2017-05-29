@@ -60,29 +60,33 @@ scenarios('core.scenarios', [DummyScenarioGivenStage, BasicScenarioWhenStage, Du
 });
 
 class StageRecorderGivenStage extends BasicScenarioGivenStage {
-    @State somethingGivenCalled;
-    @State somethingWhenCalled;
-    @State somethingThenCalled;
+    @State callRecorder: {
+        somethingGivenCalled: boolean;
+        somethingWhenCalled: boolean;
+        somethingThenCalled: boolean;
+    }
     GivenStageThatRecordBeenCalled: Class<any>;
     WhenStageThatRecordBeenCalled: Class<any>;
     ThenStageThatRecordBeenCalled: Class<any>;
 
     three_stages_that_record_been_called(): this {
-        this.somethingGivenCalled = false;
+        this.callRecorder = {
+            somethingGivenCalled: false,
+            somethingWhenCalled: false,
+            somethingThenCalled: false,
+        };
         const self = this;
         this.GivenStageThatRecordBeenCalled = class GivenStageThatRecordBeenCalled extends Stage {
             somethingGiven(): this {
-                self.somethingGivenCalled = true;
+                self.callRecorder.somethingGivenCalled = true;
                 return this;
             }
         };
-        this.somethingWhenCalled = false;
         this.WhenStageThatRecordBeenCalled = class WhenStageThatRecordBeenCalled extends Stage {
-            somethingWhen(): this { self.somethingWhenCalled = true; return this; }
+            somethingWhen(): this { self.callRecorder.somethingWhenCalled = true; return this; }
         };
-        this.somethingThenCalled = false;
         this.ThenStageThatRecordBeenCalled = class ThenStageThatRecordBeenCalled extends Stage {
-            somethingThen(): this { self.somethingThenCalled = true; return this; }
+            somethingThen(): this { self.callRecorder.somethingThenCalled = true; return this; }
         };
 
         return this;
@@ -103,14 +107,16 @@ class StageRecorderGivenStage extends BasicScenarioGivenStage {
 }
 
 class StageRecorderThenStage extends BasicScenarioThenStage {
-    @State somethingGivenCalled;
-    @State somethingWhenCalled;
-    @State somethingThenCalled;
+    @State callRecorder: {
+        somethingGivenCalled: boolean;
+        somethingWhenCalled: boolean;
+        somethingThenCalled: boolean;
+    }
 
     the_three_stages_have_been_called(): this {
-        expect(this.somethingGivenCalled).to.be.true;
-        expect(this.somethingWhenCalled).to.be.true;
-        expect(this.somethingThenCalled).to.be.true;
+        expect(this.callRecorder.somethingGivenCalled).to.be.true;
+        expect(this.callRecorder.somethingWhenCalled).to.be.true;
+        expect(this.callRecorder.somethingThenCalled).to.be.true;
         return this;
     }
 }
@@ -133,11 +139,15 @@ class StatefullScenarioGivenStage extends BasicScenarioGivenStage {
     GivenStageStateFull: Class<any>;
     WhenStageStateFull: Class<any>;
     ThenStageStateFull: Class<any>;
-    @State expectedValueFromWhenStage;
-    @State expectedValueFromGivenStage;
+
+    @State valueRecorder: {
+        expectedValueFromWhenStage?: number;
+        expectedValueFromGivenStage?: number;
+    };
 
     three_stateful_stages(): this {
         const self = this;
+        this.valueRecorder = {};
         this.GivenStageStateFull = class GivenStageStateFull extends Stage {
             @State givenValue: number;
             @State expectedValue: number;
@@ -155,14 +165,12 @@ class StatefullScenarioGivenStage extends BasicScenarioGivenStage {
                 return this;
             }
         };
-        this.expectedValueFromWhenStage;
-        this.expectedValueFromGivenStage;
         this.ThenStageStateFull = class ThenStageStateFull extends Stage {
             @State expectedValue: number;
             @State computedValue: number;
             the_value_is_incremented(): this {
-                self.expectedValueFromWhenStage = this.computedValue;
-                self.expectedValueFromGivenStage = this.expectedValue;
+                self.valueRecorder.expectedValueFromWhenStage = this.computedValue;
+                self.valueRecorder.expectedValueFromGivenStage = this.expectedValue;
                 return this;
             }
         };
@@ -184,12 +192,14 @@ class StatefullScenarioGivenStage extends BasicScenarioGivenStage {
 }
 
 class StatefullScenarioThenStage extends BasicScenarioThenStage {
-    @State expectedValueFromWhenStage;
-    @State expectedValueFromGivenStage;
+    @State valueRecorder: {
+        expectedValueFromWhenStage?: number;
+        expectedValueFromGivenStage?: number;
+    };
 
     the_state_has_been_propagated(): this {
-        expect(this.expectedValueFromGivenStage).to.equal(2);
-        expect(this.expectedValueFromWhenStage).to.equal(2);
+        expect(this.valueRecorder.expectedValueFromGivenStage).to.equal(2);
+        expect(this.valueRecorder.expectedValueFromWhenStage).to.equal(2);
         return this;
     }
 }

@@ -55,63 +55,63 @@ export class ScenarioRunner {
 
         const report = new GroupReport(groupName);
 
-        let currentGiven: ?G;
-        let currentWhen: ?W;
-        let currentThen: ?T;
+        let currentStages: ?{givenStage: G, whenStage: W, thenStage: T} = undefined;
 
-        let scenariosParam: ScenariosParam<G, W, T>;
+        let stageBuilder: (stages: Stage[]) => {
+            givenStage: G;
+            whenStage: W;
+            thenStage: T;
+        };
+
         if (Array.isArray(stagesParams)) {
             const self = this;
 
             const [givenClass, whenClass, thenClass] = stagesParams;
-            const getOrBuildGiven: () => G = () => {
-                if (!currentGiven) {
-                    currentGiven = self.buildObject(givenClass);
-                }
-                return currentGiven.given();
-            };
 
-            const getOrBuildWhen: () => W = () => {
-                if (!currentWhen) {
-                    currentWhen = self.buildObject(whenClass);
-                    copyStateProperties(currentGiven, currentWhen);
-                }
-                return currentWhen.when();
+            stageBuilder = (stages: Stage[]) => {
+                const givenStage = self.buildObject(givenClass, stages);
+                const whenStage = self.buildObject(whenClass, stages);
+                const thenStage = self.buildObject(thenClass, stages);
+                return {givenStage,whenStage,thenStage};
             };
-
-            const getOrBuildThen: () => T = () => {
-                if (!currentThen) {
-                    currentThen = self.buildObject(thenClass);
-                    copyStateProperties(currentGiven, currentThen);
-                    copyStateProperties(currentWhen, currentThen);
-                }
-                return currentThen.then();
-            };
-
-            scenariosParam = this.addGivenWhenThenParts({
-                given: getOrBuildGiven,
-                when: getOrBuildWhen,
-                then: getOrBuildThen,
-            });
         } else {
             const self = this;
             const givenClass = (stagesParams: any);
 
-            const getOrBuildGWT: () => G & W & T = () => {
-                if (!currentGiven) {
-                    currentGiven = self.buildObject(givenClass);
-                    currentWhen = currentGiven;
-                    currentThen = currentWhen;
-                }
-                return (currentGiven: any);
+            stageBuilder = (stages: Stage[]) => {
+                const givenStage = self.buildObject(givenClass, stages);
+                const whenStage = givenStage;
+                const thenStage = givenStage;
+                return {givenStage,whenStage,thenStage};
             };
-
-            scenariosParam = this.addGivenWhenThenParts({
-                given: () => getOrBuildGWT().given(),
-                when: () => getOrBuildGWT().when(),
-                then: () => getOrBuildGWT().then(),
-            });
         }
+
+        const scenariosParam: ScenariosParam<G, W, T> = {
+            given: () => {
+                if (currentStages) {
+                    this.addGivenPart();
+                    return currentStages.givenStage.given();
+                } else {
+                    throw new Error('given() may only be called in scenario');
+                }
+            },
+            when: () => {
+                if (currentStages) {
+                    this.addWhenPart();
+                    return currentStages.whenStage.when();
+                } else {
+                    throw new Error('when() may only be called in scenario');
+                }
+            },
+            then: () => {
+                if (currentStages) {
+                    this.addThenPart();
+                    return currentStages.thenStage.then();
+                } else {
+                    throw new Error('then() may only be called in scenario');
+                }
+            },
+        };
 
         this.groupFunc(groupName, () => {
             const scenarios = scenariosFunc(scenariosParam);
@@ -126,8 +126,8 @@ export class ScenarioRunner {
                     this.testFunc(caseDescription, () => {
                         this.addCase(scenario, args);
 
-                        // Reset stages
-                        currentGiven = currentWhen = currentThen = undefined;
+                        // Build stages
+                        currentStages = stageBuilder([]);
 
                         // Execute scenario
                         try {
@@ -137,6 +137,7 @@ export class ScenarioRunner {
                             if (casesCount === cases.length) {
                                 scenario.dumpToFile(this.reportsDestination);
                             }
+                            currentStages = undefined;
                         }
                     });
                 });
@@ -185,23 +186,6 @@ export class ScenarioRunner {
         });
     }
 
-    addGivenWhenThenParts<G, W, T>(scenariosParam: ScenariosParam<G, W, T>): ScenariosParam<G, W, T> {
-        return {
-            given: () => {
-                this.addGivenPart();
-                return scenariosParam.given();
-            },
-            when: () => {
-                this.addWhenPart();
-                return scenariosParam.when();
-            },
-            then: () => {
-                this.addThenPart();
-                return scenariosParam.then();
-            },
-        };
-    }
-
     addScenario(report: GroupReport, scenarioNameForHumans: string, argumentNames: string[]): ScenarioReport {
         return new ScenarioReport(report, scenarioNameForHumans, [], argumentNames);
     }
@@ -226,7 +210,7 @@ export class ScenarioRunner {
         this.currentCase.parts.push(this.currentPart);
     }
 
-    buildObject<T>(tClass: Class<T>): T {
+    buildObject<T>(tClass: Class<T>, stages: Stage[]): T {
         // $FlowIgnore
         class extendedClass extends tClass {}
 
@@ -247,12 +231,16 @@ export class ScenarioRunner {
                 const values: any[] = decodedParameters.map(decodedParameter => decodedParameter.value);
                 const result = classPrototype[methodName].apply(this, values);
 
+                copyStateToOtherStages(instance, stages);
+
                 if (result === this) { // only records methods that return this
                     self.currentPart.stageMethodCalled(methodName, decodedParameters);
                 }
                 return result;
             };
         });
+
+        stages.push(instance);
 
         return instance;
 
@@ -279,6 +267,14 @@ export const INSTANCE = new ScenarioRunner();
 
 export function scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, stagesParam: StagesParam<G, W, T>, scenarioFunc: ScenariosFunc<G, W, T>): void {
     return INSTANCE.scenarios(groupName, stagesParam, scenarioFunc);
+}
+
+function copyStateToOtherStages(originalStage: Stage, allStages: Stage[]) {
+    allStages.forEach(targetStage => {
+        if (originalStage !== targetStage) {
+            copyStateProperties(originalStage, targetStage);
+        }
+    });
 }
 
 function copyStateProperties<S, T>(source: ?S, target: ?T) {
