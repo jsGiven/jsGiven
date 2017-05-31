@@ -71,8 +71,8 @@ class AsyncScenarioThenStage extends BasicScenarioThenStage {
     }
 }
 
-scenarios('core.scenarios.parametrized', [AsyncScenarioGivenStage, BasicScenarioWhenStage, AsyncScenarioThenStage], ({given, when, then}) => ({
-    scenarios_can_be_parametrized() {
+scenarios('core.scenarios.async', [AsyncScenarioGivenStage, BasicScenarioWhenStage, AsyncScenarioThenStage], ({given, when, then}) => ({
+    scenarios_can_be_run_asynchronously() {
         given()
             .a_scenario_runner().and()
             .a_stage_with_async_actions();
