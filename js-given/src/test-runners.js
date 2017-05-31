@@ -6,11 +6,11 @@ export type GroupFunc = {
 }
 
 export type RunnableFunc = {
-    (): void;
+    (): void | Promise<void>;
 }
 
 export type TestFunc = {
-    (testName: string, testFunc: RunnableFunc): void;
+    (testName: string, testFunc: RunnableFunc): void | Promise<void>;
 }
 
 export function setupForRspec(describe: any, it: any): void {

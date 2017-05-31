@@ -10,6 +10,7 @@ export {
     parametrized7,
     scenarios,
     State,
+    doAsync,
 } from './scenarios';
 export {setupForRspec, setupForAva} from './test-runners';
 export {Stage} from './Stage';

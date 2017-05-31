@@ -5,14 +5,14 @@ import tmp from 'tmp';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import {ScenarioRunner} from '../src/scenarios';
+import {ScenarioRunner, doAsync} from '../src/scenarios';
 import type {ScenarioCase, ScenarioPart, ScenarioPartKind, ScenarioReport} from '../src/reports';
 import {computeScenarioFileName} from '../src/reports';
 import type {GroupFunc, TestFunc} from '../src/test-runners';
 import {Stage, State} from '../src';
 
 type SinonStub = {
-    callArg: (arg: number) => void;
+    callArg: (arg: number) => any;
 }
 
 export class BasicScenarioGivenStage extends Stage {
@@ -39,7 +39,10 @@ export class BasicScenarioWhenStage extends Stage {
 
     the_scenario_is_executed(): this {
         this.describe.callArg(1); // Emulate rspec describe()
-        this.it.callArg(1); // Emulate rspec it()
+        const promiseOrNull = this.it.callArg(1); // Emulate rspec it()
+        doAsync(async () => {
+            await promiseOrNull;
+        });
         return this;
     }
 }

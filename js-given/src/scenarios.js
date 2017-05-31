@@ -32,6 +32,14 @@ export type ParametrizedScenarioFuncWithParameters = {
 
 type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G & W & T>;
 
+type StepAction = () => void;
+
+type RunningScenario = {
+    state: 'COLLECTING_STEPS' | 'RUNNING';
+    stages: Stage[];
+    stepActions: Array<StepAction>;
+};
+
 export class ScenarioRunner {
     groupFunc: GroupFunc;
     testFunc: TestFunc;
@@ -57,7 +65,7 @@ export class ScenarioRunner {
 
         let currentStages: ?{givenStage: G, whenStage: W, thenStage: T} = undefined;
 
-        let stageBuilder: (stages: Stage[]) => {
+        let stageBuilder: (runningScenario: RunningScenario) => {
             givenStage: G;
             whenStage: W;
             thenStage: T;
@@ -68,18 +76,18 @@ export class ScenarioRunner {
 
             const [givenClass, whenClass, thenClass] = stagesParams;
 
-            stageBuilder = (stages: Stage[]) => {
-                const givenStage = self.buildObject(givenClass, stages);
-                const whenStage = self.buildObject(whenClass, stages);
-                const thenStage = self.buildObject(thenClass, stages);
+            stageBuilder = (runningScenario) => {
+                const givenStage = self.buildObject(givenClass, runningScenario);
+                const whenStage = self.buildObject(whenClass, runningScenario);
+                const thenStage = self.buildObject(thenClass, runningScenario);
                 return {givenStage,whenStage,thenStage};
             };
         } else {
             const self = this;
             const givenClass = (stagesParams: any);
 
-            stageBuilder = (stages: Stage[]) => {
-                const givenStage = self.buildObject(givenClass, stages);
+            stageBuilder = (runningScenario) => {
+                const givenStage = self.buildObject(givenClass, runningScenario);
                 const whenStage = givenStage;
                 const thenStage = givenStage;
                 return {givenStage,whenStage,thenStage};
@@ -89,7 +97,6 @@ export class ScenarioRunner {
         const scenariosParam: ScenariosParam<G, W, T> = {
             given: () => {
                 if (currentStages) {
-                    this.addGivenPart();
                     return currentStages.givenStage.given();
                 } else {
                     throw new Error('given() may only be called in scenario');
@@ -97,7 +104,6 @@ export class ScenarioRunner {
             },
             when: () => {
                 if (currentStages) {
-                    this.addWhenPart();
                     return currentStages.whenStage.when();
                 } else {
                     throw new Error('when() may only be called in scenario');
@@ -105,7 +111,6 @@ export class ScenarioRunner {
             },
             then: () => {
                 if (currentStages) {
-                    this.addThenPart();
                     return currentStages.thenStage.then();
                 } else {
                     throw new Error('then() may only be called in scenario');
@@ -123,15 +128,31 @@ export class ScenarioRunner {
                 let casesCount = 0;
                 cases.forEach(({caseFunction, args}, index) => {
                     const caseDescription = cases.length === 1 ? scenarioNameForHumans : `${scenarioNameForHumans} #${index+1}`;
-                    this.testFunc(caseDescription, () => {
+                    this.testFunc(caseDescription, async () => {
+                        const runningScenario: RunningScenario = {
+                            state: 'COLLECTING_STEPS',
+                            stages: [],
+                            stepActions: [],
+                        };
+
                         this.addCase(scenario, args);
 
                         // Build stages
-                        currentStages = stageBuilder([]);
+                        currentStages = stageBuilder(runningScenario);
+
+                        // Collecting steps
+                        caseFunction();
+
+                        runningScenario.state = 'RUNNING';
 
                         // Execute scenario
                         try {
-                            caseFunction();
+                            for (const stepAction of runningScenario.stepActions) {
+                                const asyncActions = collectAsyncActions(stepAction);
+                                for (const asyncAction of asyncActions) {
+                                    await asyncAction();
+                                }
+                            }
                         } finally {
                             casesCount++;
                             if (casesCount === cases.length) {
@@ -210,7 +231,7 @@ export class ScenarioRunner {
         this.currentCase.parts.push(this.currentPart);
     }
 
-    buildObject<T>(tClass: Class<T>, stages: Stage[]): T {
+    buildObject<T>(tClass: Class<T>, runningScenario: RunningScenario): T {
         // $FlowIgnore
         class extendedClass extends tClass {}
 
@@ -221,22 +242,47 @@ export class ScenarioRunner {
         const extendedPrototype = Object.getPrototypeOf(instance);
         const classPrototype = Object.getPrototypeOf(extendedPrototype);
 
+        const {stages} = runningScenario;
+
         getAllMethods(classPrototype).forEach((methodName) => {
             const self = this;
 
             extendedPrototype[methodName] = function (...args: any[]): any {
-                const decodedParameters: DecodedParameter[] = args.map(decodeParameter);
+                const {state, stepActions} = runningScenario;
+                switch(state) {
+                    case 'COLLECTING_STEPS': {
+                        stepActions.push(() => {
+                            return extendedPrototype[methodName].apply(this, args);
+                        });
+                        return this;
+                    }
+                    default: {
+                        // eslint-disable-next-line no-unused-vars
+                        const typeCheck: 'RUNNING' = state;
 
-                // Pass the real arguments instead of the wrapped values
-                const values: any[] = decodedParameters.map(decodedParameter => decodedParameter.value);
-                const result = classPrototype[methodName].apply(this, values);
+                        if (methodName === 'given') {
+                            self.addGivenPart();
+                        }
+                        if (methodName === 'when') {
+                            self.addWhenPart();
+                        }
+                        if (methodName === 'then') {
+                            self.addThenPart();
+                        }
 
-                copyStateToOtherStages(instance, stages);
+                        const decodedParameters: DecodedParameter[] = args.map(decodeParameter);
 
-                if (result === this) { // only records methods that return this
-                    self.currentPart.stageMethodCalled(methodName, decodedParameters);
+                        // Pass the real arguments instead of the wrapped values
+                        const values: any[] = decodedParameters.map(decodedParameter => decodedParameter.value);
+                        const result = classPrototype[methodName].apply(this, values);
+
+                        if (result === this) { // only records methods that return this
+                            self.currentPart.stageMethodCalled(methodName, decodedParameters);
+                            copyStateToOtherStages(instance, stages);
+                        }
+                        return result;
+                    }
                 }
-                return result;
             };
         });
 
@@ -374,4 +420,23 @@ export function decodeParameter(parameter: any): DecodedParameter {
             parameterName: null,
         };
     }
+}
+
+let asyncActionsSingleton: Array<() => Promise<*>> = [];
+function collectAsyncActions(syncActionThatMayCallDoAsync: () => any): Array<() => Promise<*>> {
+    asyncActionsSingleton = [];
+    const collectedAsyncActions = [];
+
+    try {
+        syncActionThatMayCallDoAsync();
+    } finally {
+        collectedAsyncActions.push(...asyncActionsSingleton);
+        asyncActionsSingleton = [];
+    }
+
+    return collectedAsyncActions;
+}
+
+export function doAsync(action: () => Promise<*>) {
+    asyncActionsSingleton.push(action);
 }
