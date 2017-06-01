@@ -1391,6 +1391,10 @@ is-primitive@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/is-primitive/-/is-primitive-2.0.0.tgz#207bab91638499c07b2adf240a41a87210034575"
 
+is-promise@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/is-promise/-/is-promise-2.1.0.tgz#79a2a9ece7f096e80f36d2b2f3bc16c1ff4bf3fa"
+
 is-stream@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
@@ -1705,13 +1709,14 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
-js-given@^0.0.18:
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.0.18.tgz#cd4e7bff9a4cf62e9ada282f96ee1ed11451d3c0"
+js-given@next:
+  version "0.0.19-alpha.0"
+  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.0.19-alpha.0.tgz#dc6c4c8d5b31f0f657bd5fd2f84e7ff8ad1d68e1"
   dependencies:
     babel-polyfill "^6.23.0"
     decompress-zip "0.3.0"
     fs-extra "^3.0.1"
+    is-promise "^2.1.0"
     lodash "^4.17.4"
     machinepack-zip "1.1.0"
     retrieve-arguments "^1.0.1"
