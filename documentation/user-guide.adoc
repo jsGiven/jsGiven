@@ -254,6 +254,10 @@ given().$$_$( 5); // Given $ 5
 
 **TODO**
 
+== Asynchronous testing
+
+**TODO**
+
 == Using JsGiven
 
 === Supported Test runners
