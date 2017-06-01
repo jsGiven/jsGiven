@@ -1,0 +1,8 @@
+[include]
+../index.js
+
+[options]
+emoji=true
+esproposal.class_instance_fields=enable
+esproposal.decorators=ignore
+suppress_comment=\\(.\\|\n\\)*\\$ExpectError

@@ -6,6 +6,7 @@
 .*/tools/.*
 .*/documentation/.*
 .*/examples/.*
+.*/js-given/type-definitions/.*
 
 [libs]
 js-given/flow-declarations
