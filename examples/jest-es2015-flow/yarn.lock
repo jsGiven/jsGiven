@@ -1773,9 +1773,9 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
-js-given@^0.0.19:
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.0.19.tgz#547bbac2fbe4c56b9952ecd58c0d6765f97aee2c"
+js-given@next:
+  version "0.0.20-alpha.0"
+  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.0.20-alpha.0.tgz#74edf0a60893cd8782d1cc7c00dce4a8b6c89b18"
   dependencies:
     babel-polyfill "^6.23.0"
     decompress-zip "0.3.0"
@@ -2119,13 +2119,13 @@ minimatch@^3.0.2, minimatch@^3.0.3:
   dependencies:
     brace-expansion "^1.1.7"
 
-minimist@*, minimist@0.0.8, minimist@~0.0.1:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
-
-minimist@^1.1.1:
+minimist@*, minimist@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
+
+minimist@0.0.8, minimist@~0.0.1:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
 
 mkdirp@0.5, mkdirp@^0.5.0, mkdirp@^0.5.1:
   version "0.5.1"
