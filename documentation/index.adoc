@@ -55,6 +55,7 @@ You can start using JsGiven with the link:./user-guide.html[user guide]
 
 == Changelog
 
+- v0.0.19 Implement asynchronous testing support
 - v0.0.18 Download jgiven with https to fix vulnerability discovered by snyk : https://snyk.io/vuln/npm:js-given
 - v0.0.17 Remove humanization of group names as it prevents grouping in JGiven's report
 - v0.0.15 Fix report generation issue introduced in v0.0.14
