@@ -34,6 +34,8 @@ It aims to provide the most comfortable developer experience with optional ES6 s
 
 It's an alpha version. Don't hesitate to give any feedback and to open a GitHub issue https://github.com/jsGiven/jsGiven/issues
 
+I'm already using it in my daily job at https://www.fluo.com
+
 ## Getting started
 
 You can start using JsGiven with the user guide https://jsgiven.org/user-guide.html
