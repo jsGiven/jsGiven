@@ -52,6 +52,8 @@ declare function parametrized5<A, B, C, D, E>(parameters: Array<[A, B, C, D, E]>
 declare function parametrized6<A, B, C, D, E, F>(parameters: Array<[A, B, C, D, E, F]>, func: (a: A, b: B, c: C, d: D, e: E, f: F) => void): ParametrizedScenarioFuncWithParameters;
 declare function parametrized7<A, B, C, D, E, F, G>(parameters: Array<[A, B, C, D, E, F, G]>, func: (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => void): ParametrizedScenarioFuncWithParameters;
 
+declare function doAsync(action: () => Promise<*>): void;
+
 export {
     scenarios,
     Stage,
@@ -66,4 +68,5 @@ export {
     parametrized5,
     parametrized6,
     parametrized7,
+    doAsync,
 };

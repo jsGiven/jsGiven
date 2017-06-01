@@ -128,7 +128,7 @@ export class ScenarioRunner {
                 let casesCount = 0;
                 cases.forEach(({caseFunction, args}, index) => {
                     const caseDescription = cases.length === 1 ? scenarioNameForHumans : `${scenarioNameForHumans} #${index+1}`;
-                    this.testFunc(caseDescription, async () => {
+                    this.testFunc(caseDescription, () => {
                         const runningScenario: RunningScenario = {
                             state: 'COLLECTING_STEPS',
                             stages: [],
@@ -143,20 +143,53 @@ export class ScenarioRunner {
                         // Collecting steps
                         caseFunction();
 
-                        runningScenario.state = 'RUNNING';
-
                         // Execute scenario
+                        runningScenario.state = 'RUNNING';
+                        let runningSynchronously = true;
                         try {
-                            for (const stepAction of runningScenario.stepActions) {
-                                const asyncActions = collectAsyncActions(stepAction);
-                                for (const asyncAction of asyncActions) {
-                                    await asyncAction();
+                            const {stepActions} = runningScenario;
+                            for (let i = 0; i < stepActions.length; i++) {
+                                const stepAction = stepActions[i];
+                                const asyncActions = executeStepAndCollectAsyncActions(stepAction);
+
+                                if (asyncActions.length > 0) {
+                                    // If we have asynchronous actions, we switch to asynchronous mode
+                                    // We return immediately a promise and the execution is now asynchronous
+                                    // This ensures that scenarios that do not require asynchronous processing are still executed synchronously
+                                    runningSynchronously = false;
+                                    return (async () => {
+                                        try {
+                                            // Execute async actions for current step
+                                            await executeAsyncActions(asyncActions);
+
+                                            // Execute further steps and their async actions
+                                            for (let j = i + 1; j < stepActions.length; j++) {
+                                                const stepAction = stepActions[j];
+                                                const actions = executeStepAndCollectAsyncActions(stepAction);
+                                                await executeAsyncActions(actions);
+                                            }
+                                        } finally {
+                                            cleanUp(this);
+                                        }
+
+                                        async function executeAsyncActions(asyncActions: Array<() => Promise<*>>): Promise<void> {
+                                            for (const asyncAction of asyncActions) {
+                                                await asyncAction();
+                                            }
+                                        }
+                                    })();
                                 }
                             }
                         } finally {
+                            if (runningSynchronously) {
+                                cleanUp(this);
+                            }
+                        }
+
+                        function cleanUp(self: ScenarioRunner) {
                             casesCount++;
                             if (casesCount === cases.length) {
-                                scenario.dumpToFile(this.reportsDestination);
+                                scenario.dumpToFile(self.reportsDestination);
                             }
                             currentStages = undefined;
                         }
@@ -423,12 +456,12 @@ export function decodeParameter(parameter: any): DecodedParameter {
 }
 
 let asyncActionsSingleton: Array<() => Promise<*>> = [];
-function collectAsyncActions(syncActionThatMayCallDoAsync: () => any): Array<() => Promise<*>> {
+function executeStepAndCollectAsyncActions(stepActionThatMayCallDoAsync: () => any): Array<() => Promise<*>> {
     asyncActionsSingleton = [];
     const collectedAsyncActions = [];
 
     try {
-        syncActionThatMayCallDoAsync();
+        stepActionThatMayCallDoAsync();
     } finally {
         collectedAsyncActions.push(...asyncActionsSingleton);
         asyncActionsSingleton = [];

@@ -4,6 +4,7 @@ import fs from 'fs';
 import tmp from 'tmp';
 import {expect} from 'chai';
 import sinon from 'sinon';
+import isPromise from 'is-promise';
 
 import {ScenarioRunner, doAsync} from '../src/scenarios';
 import type {ScenarioCase, ScenarioPart, ScenarioPartKind, ScenarioReport} from '../src/reports';
@@ -13,7 +14,13 @@ import {Stage, State} from '../src';
 
 type SinonStub = {
     callArg: (arg: number) => any;
-}
+    getCall: (callCount: number) => Call;
+    callCount: number;
+};
+
+type Call = {
+    args: Array<any>;
+};
 
 export class BasicScenarioGivenStage extends Stage {
     @State scenarioRunner: ScenarioRunner;
@@ -38,11 +45,23 @@ export class BasicScenarioWhenStage extends Stage {
     @State it: TestFunc & SinonStub;
 
     the_scenario_is_executed(): this {
+        expect(this.describe).calledOnce;
         this.describe.callArg(1); // Emulate rspec describe()
-        const promiseOrNull = this.it.callArg(1); // Emulate rspec it()
-        doAsync(async () => {
-            await promiseOrNull;
-        });
+
+        expect(this.it).called;
+
+        const callCount = this.it.callCount;
+        for (let i = 0; i < callCount; i++) {
+            const testFunction = this.it.getCall(0).args[1];
+            const promiseOrNull = testFunction(); // Emulate rspec it()
+
+            if (isPromise(promiseOrNull)) {
+                doAsync(async () => {
+                    await promiseOrNull;
+                });
+            }
+        }
+
         return this;
     }
 }
