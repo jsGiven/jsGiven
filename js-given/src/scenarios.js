@@ -34,10 +34,15 @@ type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G & W & T>;
 
 type StepAction = () => void;
 
+type Step = {
+    stepAction: StepAction;
+    stage: Stage;
+};
+
 type RunningScenario = {
     state: 'COLLECTING_STEPS' | 'RUNNING';
     stages: Stage[];
-    stepActions: Array<StepAction>;
+    steps: Step[];
 };
 
 export class ScenarioRunner {
@@ -132,7 +137,7 @@ export class ScenarioRunner {
                         const runningScenario: RunningScenario = {
                             state: 'COLLECTING_STEPS',
                             stages: [],
-                            stepActions: [],
+                            steps: [],
                         };
 
                         this.addCase(scenario, args);
@@ -147,10 +152,11 @@ export class ScenarioRunner {
                         runningScenario.state = 'RUNNING';
                         let runningSynchronously = true;
                         try {
-                            const {stepActions} = runningScenario;
-                            for (let i = 0; i < stepActions.length; i++) {
-                                const stepAction = stepActions[i];
+                            const {steps} = runningScenario;
+                            for (let i = 0; i < steps.length; i++) {
+                                const {stepAction, stage} = steps[i];
                                 const asyncActions = executeStepAndCollectAsyncActions(stepAction);
+                                copyStateToOtherStages(stage, runningScenario.stages);
 
                                 if (asyncActions.length > 0) {
                                     // If we have asynchronous actions, we switch to asynchronous mode
@@ -161,12 +167,14 @@ export class ScenarioRunner {
                                         try {
                                             // Execute async actions for current step
                                             await executeAsyncActions(asyncActions);
+                                            copyStateToOtherStages(stage, runningScenario.stages);
 
                                             // Execute further steps and their async actions
-                                            for (let j = i + 1; j < stepActions.length; j++) {
-                                                const stepAction = stepActions[j];
+                                            for (let j = i + 1; j < steps.length; j++) {
+                                                const {stepAction, stage} = steps[j];
                                                 const actions = executeStepAndCollectAsyncActions(stepAction);
                                                 await executeAsyncActions(actions);
+                                                copyStateToOtherStages(stage, runningScenario.stages);
                                             }
                                         } finally {
                                             cleanUp(this);
@@ -281,11 +289,14 @@ export class ScenarioRunner {
             const self = this;
 
             extendedPrototype[methodName] = function (...args: any[]): any {
-                const {state, stepActions} = runningScenario;
+                const {state, steps} = runningScenario;
                 switch(state) {
                     case 'COLLECTING_STEPS': {
-                        stepActions.push(() => {
-                            return extendedPrototype[methodName].apply(this, args);
+                        steps.push({
+                            stepAction: () => {
+                                return extendedPrototype[methodName].apply(this, args);
+                            },
+                            stage: this,
                         });
                         return this;
                     }
@@ -311,7 +322,6 @@ export class ScenarioRunner {
 
                         if (result === this) { // only records methods that return this
                             self.currentPart.stageMethodCalled(methodName, decodedParameters);
-                            copyStateToOtherStages(instance, stages);
                         }
                         return result;
                     }

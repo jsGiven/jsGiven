@@ -24,7 +24,7 @@ class AsyncScenarioGivenStage extends BasicScenarioGivenStage {
     @State
     asyncExecution: {success: boolean} = {success: false};
 
-    a_stage_with_async_actions(): this {
+    a_scenario_with_a_single_stage_with_async_actions(): this {
         const asyncExecution = this.asyncExecution;
 
         class MyStage extends Stage {
@@ -59,6 +59,53 @@ class AsyncScenarioGivenStage extends BasicScenarioGivenStage {
         });
         return this;
     }
+
+    a_scenario_with_a_multiple_stages_with_async_actions(): this {
+        const asyncExecution = this.asyncExecution;
+
+        class GivenStage extends Stage {
+            @State
+            counter: number = 0;
+
+            the_counter_is_initialized_to_(value: number): this {
+                this.counter = value;
+                return this;
+            }
+        }
+
+        class WhenStage extends Stage {
+            @State
+            counter: number;
+
+            the_counter_is_incremented_asynchronously(): this {
+                doAsync(async () => {
+                    this.counter++;
+                });
+                return this;
+            }
+        }
+
+        class ThenStage extends Stage {
+            @State
+            counter: number;
+
+            the_counter_value_is(expectedValue: number): this {
+                expect(this.counter).to.equal(expectedValue);
+                asyncExecution.success = true;
+                return this;
+            }
+        }
+        this.scenarioRunner.scenarios('group_name', [GivenStage, WhenStage, ThenStage], ({given, when, then}) => {
+            return {
+                scenario_name: () => {
+                    given().the_counter_is_initialized_to_(1337);
+                    when().the_counter_is_incremented_asynchronously();
+                    then().the_counter_value_is(1338);
+                },
+            };
+        });
+        return this;
+    }
 }
 
 class AsyncScenarioThenStage extends BasicScenarioThenStage {
@@ -75,7 +122,18 @@ scenarios('core.scenarios.async', [AsyncScenarioGivenStage, BasicScenarioWhenSta
     scenarios_can_be_run_asynchronously() {
         given()
             .a_scenario_runner().and()
-            .a_stage_with_async_actions();
+            .a_scenario_with_a_single_stage_with_async_actions();
+
+        when().the_scenario_is_executed();
+
+        then()
+            .the_async_actions_have_been_executed();
+    },
+
+    state_can_be_shared_between_stages_of_an_scenario_runing_asynchronously() {
+        given()
+            .a_scenario_runner().and()
+            .a_scenario_with_a_multiple_stages_with_async_actions();
 
         when().the_scenario_is_executed();
 
