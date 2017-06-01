@@ -1,4 +1,4 @@
-# [JsGiven](https://jsgiven.org) &middot; [![Build Status](https://travis-ci.org/jsGiven/jsGiven.svg?branch=master)](https://travis-ci.org/jsGiven/jsGiven)
+# [JsGiven](https://jsgiven.org) &middot; [![Build Status](https://travis-ci.org/jsGiven/jsGiven.svg?branch=master)](https://travis-ci.org/jsGiven/jsGiven) [![npm version](https://badge.fury.io/js/js-given.svg)](https://badge.fury.io/js/js-given)
 
 JsGiven aims to bring BDD (Behavior-Driven Development) to plain (or typed) JavaScript.
 
