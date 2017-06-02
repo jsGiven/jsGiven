@@ -1,10 +1,10 @@
 // @flow
-import {scenarios, Stage} from '../index.js';
+import {scenario, scenarios, Stage} from '../index.js';
 
-// $ExpectError missing param
+// $ExpectError
 scenarios();
 
-// $ExpectError missing param
+// $ExpectError
 scenarios('group.name');
 
 class SingleStage extends Stage {
@@ -13,15 +13,16 @@ class SingleStage extends Stage {
     }
 }
 
-// $ExpectError missing param
+// $ExpectError
 scenarios('group.name', SingleStage);
 
-// $ExpectError invalid function
+// $ExpectError
 scenarios('group.name', SingleStage, ({given, when, then}) => {
 
 });
 
 scenarios('group.name', SingleStage, ({given, when, then}) => ({
+    // $ExpectError
     a_scenario() {
         given().something();
         when().something();
@@ -30,10 +31,18 @@ scenarios('group.name', SingleStage, ({given, when, then}) => ({
 }));
 
 scenarios('group.name', SingleStage, ({given, when, then}) => ({
-    a_scenario() {
+    a_scenario: scenario({}, () => {
+        given().something();
+        when().something();
+        then().something();
+    }),
+}));
+
+scenarios('group.name', SingleStage, ({given, when, then}) => ({
+    a_scenario: scenario({}, () => {
         // $ExpectError
         given().a_step_not_present_in_stage();
-    },
+    }),
 }));
 
 class GivenStage extends Stage {
@@ -59,7 +68,7 @@ scenarios('group.name', [GivenStage, WhenStage], ({given, when, then}) => ({
 }));
 
 scenarios('group.name', [GivenStage, WhenStage, ThenStage], ({given, when, then}) => ({
-    a_scenario() {
+    a_scenario: scenario({}, () => {
         given().something_in_given();
         // $ExpectError
         when().something_in_given();
@@ -67,5 +76,5 @@ scenarios('group.name', [GivenStage, WhenStage, ThenStage], ({given, when, then}
         when().something_in_when();
 
         then().something_in_then();
-    },
+    }),
 }));

@@ -3,6 +3,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 
 import {
+    scenario,
     scenarios,
     setupForRspec,
     setupForAva,
@@ -28,7 +29,7 @@ class DummyScenarioGivenStage extends BasicScenarioGivenStage {
         this.scenarioFunc = sinon.spy();
         this.scenarioRunner.scenarios('group_name', DefaultStage, () => {
             return {
-                scenario_name: this.scenarioFunc,
+                scenario_name: scenario({}, this.scenarioFunc),
             };
         });
         return this;
@@ -46,7 +47,7 @@ class DummyScenarioThenStage extends BasicScenarioThenStage {
 
 scenarios('core.scenarios', [DummyScenarioGivenStage, BasicScenarioWhenStage, DummyScenarioThenStage], ({given, when, then}) => {
     return {
-        scenarios_can_be_run_over_any_scenario_runner() {
+        scenarios_can_be_run_over_any_scenario_runner: scenario({}, () => {
             given().a_scenario_runner()
                 .and().a_dummy_scenario();
 
@@ -55,7 +56,7 @@ scenarios('core.scenarios', [DummyScenarioGivenStage, BasicScenarioWhenStage, Du
             then().the_describe_method_has_been_called()
                 .and().the_it_method_has_been_called()
                 .and().the_dummy_scenario_function_has_been_called();
-        },
+        }),
     };
 });
 
@@ -95,11 +96,11 @@ class StageRecorderGivenStage extends BasicScenarioGivenStage {
     a_scenario_that_uses_the_stages_that_records(): this {
         this.scenarioRunner.scenarios('group_name', [this.GivenStageThatRecordBeenCalled, this.WhenStageThatRecordBeenCalled, this.ThenStageThatRecordBeenCalled], ({given, when, then}) => {
             return {
-                scenario_using_stages() {
+                scenario_using_stages: scenario({}, () => {
                     given().somethingGiven();
                     when().somethingWhen();
                     then().somethingThen();
-                },
+                }),
             };
         });
         return this;
@@ -123,7 +124,7 @@ class StageRecorderThenStage extends BasicScenarioThenStage {
 
 scenarios('core.scenarios.stages', [StageRecorderGivenStage, BasicScenarioWhenStage, StageRecorderThenStage], ({given, when, then}) => {
     return {
-        scenarios_can_use_given_when_then_stages_with_methods() {
+        scenarios_can_use_given_when_then_stages_with_methods: scenario({}, () => {
             given().a_scenario_runner()
                 .and().three_stages_that_record_been_called()
                 .and().a_scenario_that_uses_the_stages_that_records();
@@ -131,7 +132,7 @@ scenarios('core.scenarios.stages', [StageRecorderGivenStage, BasicScenarioWhenSt
             when().the_scenario_is_executed();
 
             then().the_three_stages_have_been_called();
-        },
+        }),
     };
 });
 
@@ -180,11 +181,11 @@ class StatefullScenarioGivenStage extends BasicScenarioGivenStage {
     a_scenario_that_uses_stateful_stages(): this {
         this.scenarioRunner.scenarios('group_name', [this.GivenStageStateFull, this.WhenStageStateFull, this.ThenStageStateFull], ({given, when, then}) => {
             return {
-                scenario_using_stages() {
+                scenario_using_stages: scenario({}, () => {
                     given().aValue();
                     when().it_gets_incremented();
                     then().the_value_is_incremented();
-                },
+                }),
             };
         });
         return this;
@@ -206,7 +207,7 @@ class StatefullScenarioThenStage extends BasicScenarioThenStage {
 
 scenarios('core.scenarios.state', [StatefullScenarioGivenStage, BasicScenarioWhenStage, StatefullScenarioThenStage], ({given, when, then}) => {
     return {
-        scenarios_can_share_state_between_stages() {
+        scenarios_can_share_state_between_stages: scenario({}, () => {
             given().a_scenario_runner()
                 .and().three_stateful_stages()
                 .and().a_scenario_that_uses_stateful_stages();
@@ -214,7 +215,7 @@ scenarios('core.scenarios.state', [StatefullScenarioGivenStage, BasicScenarioWhe
             when().the_scenario_is_executed();
 
             then().the_state_has_been_propagated();
-        },
+        }),
     };
 });
 
@@ -240,11 +241,11 @@ class ParametrizedScenarioGivenStage extends BasicScenarioGivenStage {
         }
         this.scenarioRunner.scenarios('group_name', MyStage, ({given, when, then}) => {
             return {
-                scenario_name: parametrized1([1,2,3], (coffeeValue) => {
+                scenario_name: scenario({}, parametrized1([1,2,3], (coffeeValue) => {
                     given().a_coffee_that_costs_$_euros(coffeeValue);
                     when().billed();
                     then().the_billed_price_is_$_euros(coffeeValue);
-                }),
+                })),
             };
         });
         return this;
@@ -281,7 +282,7 @@ class ParametrizedScenarioThenStage extends BasicScenarioThenStage {
 }
 
 scenarios('core.scenarios.parametrized', [ParametrizedScenarioGivenStage, BasicScenarioWhenStage, ParametrizedScenarioThenStage], ({given, when, then}) => ({
-    scenarios_can_be_parametrized() {
+    scenarios_can_be_parametrized: scenario({}, () => {
         given()
             .a_scenario_runner().and()
             .a_parametrized_scenario_with_3_parts_and_3_cases();
@@ -294,5 +295,5 @@ scenarios('core.scenarios.parametrized', [ParametrizedScenarioGivenStage, BasicS
             .the_scenario_contains_3_cases().and()
             .each_case_contains_3_parts().and()
             .the_given_part_contains_a_word_including_the_parameter_name();
-    },
+    }),
 }));

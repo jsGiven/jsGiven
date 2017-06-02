@@ -2,7 +2,7 @@
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import {scenarios, setupForRspec, setupForAva, State, Stage} from '../src';
+import {scenario, scenarios, setupForRspec, setupForAva, State, Stage} from '../src';
 import {computeScenarioFileName} from '../src/reports';
 
 import {BasicScenarioGivenStage, BasicScenarioWhenStage, BasicScenarioThenStage} from './basic-stages';
@@ -30,7 +30,7 @@ class ReportScenarioGivenStage extends BasicScenarioGivenStage {
         this.scenarioFunc = sinon.spy();
         this.scenarioRunner.scenarios('group_name', DefaultStage, ({given, when, then}) => {
             return {
-                scenario_name() {
+                scenario_name: scenario({}, () => {
                     given().an_egg().
                         and().some_milk().
                         and().$_grams_of_flour(100);
@@ -39,7 +39,7 @@ class ReportScenarioGivenStage extends BasicScenarioGivenStage {
                         and().the_cook_fries_the_dough_in_a_pan();
 
                     then().the_resulting_meal_is_a_pan_cake();
-                },
+                }),
             };
         });
         return this;
@@ -85,7 +85,7 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
 
 scenarios('core.reports.jsgiven', [ReportScenarioGivenStage, BasicScenarioWhenStage, ReportScenarioThenStage], ({given, when, then}) => {
     return {
-        a_report_is_generated_after_execution() {
+        a_report_is_generated_after_execution: scenario({}, () => {
             given().a_scenario_runner()
                 .and().a_dummy_scenario();
 
@@ -102,7 +102,7 @@ scenarios('core.reports.jsgiven', [ReportScenarioGivenStage, BasicScenarioWhenSt
                 .and().its_given_part_does_not_include_methods_that_return_something_else_than_this()
                 .and().it_has_a_when_part()
                 .and().it_has_a_then_part();
-        },
+        }),
     };
 });
 
@@ -128,10 +128,10 @@ class ReportsFileStage extends Stage {
 }
 
 scenarios('core.reports.jsgiven.file', ReportsFileStage, ({given, when, then}) => ({
-    the_report_file_name_is_generated_according_to_the_group_name_and_the_scenario_name() {
+    the_report_file_name_is_generated_according_to_the_group_name_and_the_scenario_name: scenario({}, () => {
         given().a_group_named_$('Group name')
             .and().a_scenario_named_$('Scenario name');
 
         then().the_computed_scenario_file_name_is_$('a539d97b55e020986d243b5a8cc7a3327374ae1ffcc8c120f1beab52a5921fc3');
-    },
+    }),
 }));

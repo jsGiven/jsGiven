@@ -6,6 +6,7 @@ import retrieveArguments from 'retrieve-arguments';
 import {Stage} from './Stage';
 import type {GroupFunc, TestFunc} from './test-runners';
 import {formatParameter, GroupReport, ScenarioCase, ScenarioReport, ScenarioPart} from './reports';
+import type {TagDescription} from './tags';
 
 export const REPORTS_DESTINATION = '.jsGiven-reports';
 
@@ -15,20 +16,39 @@ type ScenariosParam<G, W, T> = {
     then: () => T;
 }
 
-type ScenariosFunc<G, W, T> = {
-    (scenariosParam: ScenariosParam<G, W, T>): {[key:string]: ScenarioFunc};
+type ScenariosDescriptions<G, W, T> = {
+    (scenariosParam: ScenariosParam<G, W, T>): {[key:string]: ScenarioDescription};
+};
+
+type ScenarioDescription = {
+    scenarioFunction: ScenarioFunc;
+    tags: TagDescription[];
+};
+
+type ScenarioOptions = {
+    tags: TagDescription[];
+};
+export function scenario(options: $Shape<ScenarioOptions>, scenarioFunction: ScenarioFunc): ScenarioDescription {
+    const scenarioOptions: ScenarioOptions = {
+        tags: [],
+        ...options,
+    };
+    return {
+        scenarioFunction,
+        tags: scenarioOptions.tags,
+    };
 }
 
 export type ScenarioFunc = SimpleScenarioFunc | ParametrizedScenarioFuncWithParameters;
 
 export type SimpleScenarioFunc = {
     (): void;
-}
+};
 
 export type ParametrizedScenarioFuncWithParameters = {
     func: (...args: any[]) => void;
     parameters: Array<Array<any>>;
-}
+};
 
 type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G & W & T>;
 
@@ -64,7 +84,7 @@ export class ScenarioRunner {
     scenarios<G: Stage, W: Stage, T: Stage>(
             groupName: string,
             stagesParams: StagesParam<G, W, T>,
-            scenariosFunc: ScenariosFunc<G, W, T>) {
+            scenariosDescriptions: ScenariosDescriptions<G, W, T>) {
 
         const report = new GroupReport(groupName);
 
@@ -124,7 +144,7 @@ export class ScenarioRunner {
         };
 
         this.groupFunc(groupName, () => {
-            const scenarios = scenariosFunc(scenariosParam);
+            const scenarios = scenariosDescriptions(scenariosParam);
 
             getScenarios(scenarios).forEach(({scenarioPropertyName, cases, argumentNames}) => {
                 const scenarioNameForHumans = humanize(scenarioPropertyName);
@@ -205,7 +225,7 @@ export class ScenarioRunner {
                 });
             });
 
-            type ScenarioDescription = {
+            type ScenarioDescriptionWithName = {
                 scenarioPropertyName: string;
                 cases: CaseDescription[];
                 argumentNames: string[];
@@ -214,19 +234,21 @@ export class ScenarioRunner {
                 caseFunction: () => void;
                 args: string[];
             };
-            function getScenarios(scenarios: {[key:string]: ScenarioFunc}): ScenarioDescription[] {
-                const scenarioDescriptions: ScenarioDescription[] = Object.keys(scenarios).map(scenarioPropertyName => {
-                    if (scenarios[scenarioPropertyName] instanceof Function) {
+            function getScenarios(scenarios: {[key:string]: ScenarioDescription}): ScenarioDescriptionWithName[] {
+                const scenarioDescriptions: ScenarioDescriptionWithName[] = Object.keys(scenarios).map(scenarioPropertyName => {
+                    const scenarioDescription: ScenarioDescription = scenarios[scenarioPropertyName];
+                    const {scenarioFunction} = scenarioDescription;
+                    if (scenarioFunction instanceof Function) {
                         return {
                             scenarioPropertyName,
                             cases: [{
-                                caseFunction: scenarios[scenarioPropertyName],
+                                caseFunction: scenarioFunction,
                                 args: [],
                             }],
                             argumentNames: [],
                         };
                     } else {
-                        const {parameters, func}: ParametrizedScenarioFuncWithParameters = (scenarios[scenarioPropertyName]: any);
+                        const {parameters, func}: ParametrizedScenarioFuncWithParameters = (scenarioFunction: any);
                         const argumentNames = retrieveArguments(func);
 
                         return {
@@ -354,7 +376,7 @@ export class ScenarioRunner {
 
 export const INSTANCE = new ScenarioRunner();
 
-export function scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, stagesParam: StagesParam<G, W, T>, scenarioFunc: ScenariosFunc<G, W, T>): void {
+export function scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, stagesParam: StagesParam<G, W, T>, scenarioFunc: ScenariosDescriptions<G, W, T>): void {
     return INSTANCE.scenarios(groupName, stagesParam, scenarioFunc);
 }
 

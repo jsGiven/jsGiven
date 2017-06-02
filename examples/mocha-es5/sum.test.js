@@ -1,6 +1,7 @@
 // tag::ImportJsGivenES5[]
 var JsGiven = require('js-given');
 var scenarios = JsGiven.scenarios;
+var scenario = JsGiven.scenario;
 var setupForRspec = JsGiven.setupForRspec;
 var Stage = JsGiven.Stage;
 // end::ImportJsGivenES5[]
@@ -44,13 +45,13 @@ Object.setPrototypeOf(SumStage, Stage);
 // tag::scenariosES5[]
 scenarios('sum', SumStage, function (it) {
     return {
-        two_numbers_can_be_added() {
+        two_numbers_can_be_added: scenario({}, function() {
             it.given().a_number(1).and().another_number(2);
 
             it.when().they_are_summed();
 
             it.then().the_result_is(3);
-        },
+        }),
     };
 });
 // end::scenariosES5[]

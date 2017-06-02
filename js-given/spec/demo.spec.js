@@ -2,6 +2,7 @@
 import { expect } from 'chai';
 
 import {
+    scenario,
     scenarios,
     setupForRspec,
     setupForAva,
@@ -46,7 +47,7 @@ class DemoStage extends Stage {
 
 scenarios('jsgiven.demo', DemoStage, ({ given, when, then }) => {
     return {
-        scenarios_can_be_parametrized: parametrized2(
+        scenarios_can_be_parametrized: scenario({}, parametrized2(
             [
                 [1, 2],
                 [2, 4],
@@ -57,6 +58,6 @@ scenarios('jsgiven.demo', DemoStage, ({ given, when, then }) => {
                 when().they_are_summed();
                 then().the_result_is(result);
             },
-        ),
+        )),
     };
 });

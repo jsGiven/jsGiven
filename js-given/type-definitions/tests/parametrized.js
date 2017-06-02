@@ -1,5 +1,5 @@
 // @flow
-import {scenarios, Stage, parametrized1, parametrized2} from '../index.js';
+import {scenario, scenarios, Stage, parametrized1, parametrized2} from '../index.js';
 
 class ParamStage extends Stage {
     do_something_with_number(value: number): this {
@@ -12,20 +12,20 @@ class ParamStage extends Stage {
 }
 
 scenarios('group.name', ParamStage, ({given, when, then}) => ({
-    a_scenario: parametrized1([1,2,3], (value: number) => {
+    a_scenario: scenario({}, parametrized1([1,2,3], (value: number) => {
         given().do_something_with_number(value);
         when().do_something_with_number(value);
         then().do_something_with_number(value);
-    }),
+    })),
 
     // $ExpectError
-    a_scenario_with_strings: parametrized1(['1','2','3'], (value: number) => {
+    a_scenario_with_strings: scenario({}, parametrized1(['1','2','3'], (value: number) => {
         given().do_something_with_number(value);
         when().do_something_with_number(value);
         then().do_something_with_number(value);
-    }),
+    })),
 
-    a_scenario_with_two_values: parametrized2([
+    a_scenario_with_two_values: scenario({}, parametrized2([
         [1, 'one'],
         [2, 'two'],
         [3, 'three'],
@@ -33,9 +33,9 @@ scenarios('group.name', ParamStage, ({given, when, then}) => ({
         given().do_something_with_number_and_string(value, str);
         when().do_something_with_number_and_string(value, str);
         then().do_something_with_number_and_string(value, str);
-    }),
+    })),
 
-    a_scenario_with_two_values_and_missmatching_param: parametrized2([
+    a_scenario_with_two_values_and_missmatching_param: scenario({}, parametrized2([
         // $ExpectError
         [1, true],
         [2, 'two'],
@@ -44,9 +44,9 @@ scenarios('group.name', ParamStage, ({given, when, then}) => ({
         given().do_something_with_number_and_string(value, str);
         when().do_something_with_number_and_string(value, str);
         then().do_something_with_number_and_string(value, str);
-    }),
+    })),
 
-    a_scenario_with_two_values_and_missmatching_case_function_param: parametrized2([
+    a_scenario_with_two_values_and_missmatching_case_function_param: scenario({}, parametrized2([
         // $ExpectError
         [1, 'one'],
         // $ExpectError
@@ -58,5 +58,5 @@ scenarios('group.name', ParamStage, ({given, when, then}) => ({
         given().do_something_with_number_and_string(value, str);
         when().do_something_with_number_and_string(value, str);
         then().do_something_with_number_and_string(value, str);
-    }),
+    })),
 }));

@@ -2,6 +2,7 @@
 import {expect} from 'chai';
 
 import {
+    scenario,
     scenarios,
     setupForRspec,
     setupForAva,
@@ -50,11 +51,11 @@ class AsyncScenarioGivenStage extends BasicScenarioGivenStage {
         }
         this.scenarioRunner.scenarios('group_name', MyStage, ({given, when, then}) => {
             return {
-                scenario_name: () => {
+                scenario_name: scenario({}, () => {
                     given().the_counter_is_initialized_to_(1337);
                     when().the_counter_is_incremented_asynchronously();
                     then().the_counter_value_is(1338);
-                },
+                }),
             };
         });
         return this;
@@ -97,11 +98,11 @@ class AsyncScenarioGivenStage extends BasicScenarioGivenStage {
         }
         this.scenarioRunner.scenarios('group_name', [GivenStage, WhenStage, ThenStage], ({given, when, then}) => {
             return {
-                scenario_name: () => {
+                scenario_name: scenario({}, () => {
                     given().the_counter_is_initialized_to_(1337);
                     when().the_counter_is_incremented_asynchronously();
                     then().the_counter_value_is(1338);
-                },
+                }),
             };
         });
         return this;
@@ -119,7 +120,7 @@ class AsyncScenarioThenStage extends BasicScenarioThenStage {
 }
 
 scenarios('core.scenarios.async', [AsyncScenarioGivenStage, BasicScenarioWhenStage, AsyncScenarioThenStage], ({given, when, then}) => ({
-    scenarios_can_be_run_asynchronously() {
+    scenarios_can_be_run_asynchronously: scenario({}, () => {
         given()
             .a_scenario_runner().and()
             .a_scenario_with_a_single_stage_with_async_actions();
@@ -128,9 +129,9 @@ scenarios('core.scenarios.async', [AsyncScenarioGivenStage, BasicScenarioWhenSta
 
         then()
             .the_async_actions_have_been_executed();
-    },
+    }),
 
-    state_can_be_shared_between_stages_of_an_scenario_runing_asynchronously() {
+    state_can_be_shared_between_stages_of_an_scenario_runing_asynchronously: scenario({}, () => {
         given()
             .a_scenario_runner().and()
             .a_scenario_with_a_multiple_stages_with_async_actions();
@@ -139,5 +140,5 @@ scenarios('core.scenarios.async', [AsyncScenarioGivenStage, BasicScenarioWhenSta
 
         then()
             .the_async_actions_have_been_executed();
-    },
+    }),
 }));

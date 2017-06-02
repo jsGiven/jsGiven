@@ -5,7 +5,7 @@ import zlib from 'zlib';
 import {expect} from 'chai';
 import tmp from 'tmp';
 
-import {scenarios, setupForRspec, setupForAva, Stage} from '../src';
+import {scenario, scenarios, setupForRspec, setupForAva, Stage} from '../src';
 import {
     computeScenarioFileName,
     GroupReport,
@@ -202,7 +202,7 @@ class JGivenReportStage extends Stage {
 
 scenarios('core.reports.jgiven', JGivenReportStage, ({given, when, then}) => {
     return {
-        a_simple_report_is_generated() {
+        a_simple_report_is_generated: scenario({}, () => {
             given().an_existing_jgiven_directory().and()
                 .a_simple_jsgiven_report();
 
@@ -219,6 +219,6 @@ scenarios('core.reports.jgiven', JGivenReportStage, ({given, when, then}) => {
                 .the_tags_js_file_can_be_executed().and()
                 .it_has_called_the_jgivenReport_setTags_method().and()
                 .the_zipped_scenarios_can_be_decoded();
-        },
+        }),
     };
 });

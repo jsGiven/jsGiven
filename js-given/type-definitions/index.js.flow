@@ -19,6 +19,13 @@ type ScenariosParam<G, W, T> = {
     then: () => T;
  }
 
+type TagValue = string | string[];
+
+type TagDescription = {
+    name: string;
+    value: TagValue;
+};
+
 type ScenarioFunc = SimpleScenarioFunc | ParametrizedScenarioFuncWithParameters;
 
 type SimpleScenarioFunc = {
@@ -32,11 +39,21 @@ type ParametrizedScenarioFuncWithParameters = {
 
 type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G & W & T>;
 
-type ScenariosFunc<G, W, T> = {
-    (scenariosParam: ScenariosParam<G, W, T>): {[key:string]: ScenarioFunc};
- };
+type ScenariosDescriptions<G, W, T> = {
+    (scenariosParam: ScenariosParam<G, W, T>): {[key:string]: ScenarioDescription};
+};
 
-declare function scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, stagesParam: StagesParam<G, W, T>, scenarioFunc: ScenariosFunc<G, W, T>): void;
+type ScenarioDescription = {
+    scenarioFunction: ScenarioFunc;
+    tags: TagDescription[];
+};
+
+type ScenarioOptions = {
+    tags: TagDescription[];
+};
+declare function scenario(options: $Shape<ScenarioOptions>, scenarioFunction: ScenarioFunc): ScenarioDescription;
+
+declare function scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, stagesParam: StagesParam<G, W, T>, scenarioFunc: ScenariosDescriptions<G, W, T>): void;
 
 declare function State(target: any, key: string, descriptor: any): any;
 
@@ -55,6 +72,7 @@ declare function parametrized7<A, B, C, D, E, F, G>(parameters: Array<[A, B, C, 
 declare function doAsync(action: () => Promise<*>): void;
 
 export {
+    scenario,
     scenarios,
     Stage,
     State,

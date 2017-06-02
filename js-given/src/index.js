@@ -8,6 +8,7 @@ export {
     parametrized5,
     parametrized6,
     parametrized7,
+    scenario,
     scenarios,
     State,
     doAsync,

@@ -2,6 +2,7 @@
 import { expect } from 'chai';
 
 import {
+    scenario,
     scenarios,
     setupForRspec,
     setupForAva,
@@ -48,11 +49,11 @@ class ES5GivenStage extends BasicScenarioGivenStage {
     a_scenario_that_uses_this_stage_class(): this {
         this.scenarioRunner.scenarios('group_name', this.ES5Stage, ({given, when, then}) => {
             return {
-                scenario_using_stages() {
+                scenario_using_stages: scenario({}, () => {
                     given();
                     when().an_action_is_performed();
                     then();
-                },
+                }),
             };
         });
         return this;
@@ -73,7 +74,7 @@ class ES5ThenStage extends BasicScenarioThenStage {
 
 scenarios('core.support.es5', [ES5GivenStage, BasicScenarioWhenStage, ES5ThenStage], ({ given, when, then }) => {
     return {
-        scenarios_can_use_es5_stage_classes() {
+        scenarios_can_use_es5_stage_classes: scenario({}, () => {
             given().a_scenario_runner()
                 .and().an_es5_stage_class()
                 .and().a_scenario_that_uses_this_stage_class();
@@ -81,6 +82,6 @@ scenarios('core.support.es5', [ES5GivenStage, BasicScenarioWhenStage, ES5ThenSta
             when().the_scenario_is_executed();
 
             then().the_es_5_stage_has_been_used();
-        },
+        }),
     };
 });
