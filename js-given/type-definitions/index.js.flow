@@ -1,4 +1,3 @@
-
 /**
  * This file provides type definitions for use with the Flow type checker.
  *
@@ -17,25 +16,18 @@ type ScenariosParam<G, W, T> = {
     given: () => G;
     when: () => W;
     then: () => T;
- }
-
-type TagValue = string | string[];
-
-type TagDescription = {
-    name: string;
-    value: TagValue;
 };
 
 type ScenarioFunc = SimpleScenarioFunc | ParametrizedScenarioFuncWithParameters;
 
 type SimpleScenarioFunc = {
     (): void;
- }
+};
 
 type ParametrizedScenarioFuncWithParameters = {
     func: (...args: any[]) => void;
     parameters: Array<Array<any>>;
- }
+};
 
 type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G & W & T>;
 
@@ -48,9 +40,7 @@ type ScenarioDescription = {
     tags: TagDescription[];
 };
 
-type ScenarioOptions = {
-    tags: TagDescription[];
-};
+type ScenarioOptions = {};
 declare function scenario(options: $Shape<ScenarioOptions>, scenarioFunction: ScenarioFunc): ScenarioDescription;
 
 declare function scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, stagesParam: StagesParam<G, W, T>, scenarioFunc: ScenariosDescriptions<G, W, T>): void;
