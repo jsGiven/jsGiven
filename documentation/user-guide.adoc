@@ -58,8 +58,8 @@ include::../examples/jest-es2015/sum.test.js[tags=setupForRspec]
 
 ==== For Ava framework
 
-In Ava, JsGiven must be setup by calling the setupForAva() function.
-This function takes the describe and the it function from the test framework.
+In https://github.com/avajs/ava[Ava], JsGiven must be setup by calling the setupForAva() function.
+This function takes the test from Ava.
 
 [source, js, indent=0]
 ----
@@ -119,6 +119,11 @@ Now you can write your first scenario
 ----
 include::../examples/jest-es2015/sum.test.js[tags=scenarios]
 ----
+
+The scenario() methods takes two parameters :
+
+. The first parameter is an object with the optional parameters (such as tags or scenario extended description) (Both are not implemeted yet).
+. The second parameter is the scenario description function.
 
 === Execute your scenario
 
