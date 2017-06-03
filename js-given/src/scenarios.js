@@ -10,6 +10,8 @@ import type {TagDescription} from './tags';
 
 export const REPORTS_DESTINATION = '.jsGiven-reports';
 
+const STATE_PROPERTIES_KEY = '__JSGIVEN_STATE_PROPERTIES';
+
 type ScenariosParam<G, W, T> = {
     given: () => G;
     when: () => W;
@@ -388,9 +390,9 @@ function copyStateToOtherStages(originalStage: Stage, allStages: Stage[]) {
     });
 }
 
-function copyStateProperties<S, T>(source: ?S, target: ?T) {
-    if (source && target && source.stateProperties && target.stateProperties) {
-        const propertyNames = _.intersection(source.stateProperties, target.stateProperties);
+function copyStateProperties(source: any, target: any) {
+    if (source && target && source[STATE_PROPERTIES_KEY] && target[STATE_PROPERTIES_KEY]) {
+        const propertyNames = _.intersection(source[STATE_PROPERTIES_KEY], target[STATE_PROPERTIES_KEY]);
         propertyNames.forEach(propertyName => {
             // Need to convert to any to avoid typechecking
             const sourceAny: any = source;
@@ -401,12 +403,19 @@ function copyStateProperties<S, T>(source: ?S, target: ?T) {
 }
 
 export function State(target: any, key: string, descriptor: any): any {
-    if (! target.stateProperties) {
-        target.stateProperties = [];
-    }
-    target.stateProperties.push(key);
+    State.__addProperty(target, key);
     return {...descriptor, writable: true};
 }
+State.addProperty = (stageClass: Class<Stage>, property: string): void => {
+    State.__addProperty(stageClass.prototype, property);
+};
+State.__addProperty = (prototype: any, property: string): void => {
+    if (! prototype[STATE_PROPERTIES_KEY]) {
+        prototype[STATE_PROPERTIES_KEY] = [];
+    }
+    prototype[STATE_PROPERTIES_KEY].push(property);
+};
+
 
 export function parametrized(parameters: Array<Array<any>>, func: () => void): ParametrizedScenarioFuncWithParameters {
     return {
