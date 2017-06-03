@@ -37,7 +37,6 @@ type ScenariosDescriptions<G, W, T> = {
 
 type ScenarioDescription = {
     scenarioFunction: ScenarioFunc;
-    tags: TagDescription[];
 };
 
 type ScenarioOptions = {};
