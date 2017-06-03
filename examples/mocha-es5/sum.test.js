@@ -17,22 +17,22 @@ function SumStage() {
 }
 
 SumStage.prototype = {
-    a_number(value) {
+    a_number: function (value) {
         this.number1 = value;
         return this;
     },
 
-    another_number(value) {
+    another_number: function (value) {
         this.number2 = value;
         return this;
     },
 
-    they_are_summed() {
+    they_are_summed: function () {
         this.result = this.number1 + this.number2;
         return this;
     },
 
-    the_result_is(expectedResult) {
+    the_result_is: function (expectedResult) {
         expect(this.result).to.equal(expectedResult);
         return this;
     },
