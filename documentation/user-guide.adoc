@@ -210,24 +210,41 @@ The values of these fields are shared between all stages that have the same fiel
 include::../examples/jest-es2015/sum-multiple-stages.test.js[tags=SumStages]
 ----
 
-There is an alternative to decorators that you can use if you don't want to use decorators. See <<Using state sharing without decorators>>
+There is an alternative to decorators that you can use if you don't want to use decorators.
+See <<Using state sharing without decorators>>
 
 ==== Babel configuration to use decorators
 
-In order to use state sharing, you have to include the following babel transform plugins in your babel configuration.
+In order to use state sharing with decorators, you have to include the following babel transform plugins in your babel configuration.
+
+- transform-decorators-legacy
+- transform-class-properties
 
 [source, json, indent=0]
 ----
 include::../examples/jest-es2015/.babelrc[]
 ----
 
-Note that you are not forced to use this as your *.babelrc* production configuration.
+
+[NOTE]
+.You are not forced to use this as your *.babelrc* production configuration
+====
 You can use the decorators configuration only in your test setup (See https://babeljs.io/docs/usage/babelrc/#env-option).
 Read your test framework documentation to see how you can achieve this.
+====
 
 ==== Using state sharing without decorators
 
-You can declare the state properties to be shared using the *State.addProperty()* static method
+You can declare the state properties to be shared using the *State.addProperty()* static method.
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/sum-multiple-stages-without-decorators.test.js[tags=SumStagesWithoutDecorators]
+----
+
+Both fields in the different classes have to be marked as state properties with the *State.addProperty()* static method.
+
+The values of these fields are shared between all stages that have the same state properties.
 
 == Parameterized steps
 
