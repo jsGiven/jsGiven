@@ -286,7 +286,59 @@ given().$$_$( 5); // Given $ 5
 
 == Parameterized scenarios
 
-**TODO**
+JsGiven scenarios can be parameterized.
+This is very useful for writing data-driven scenarios, where the scenarios itself are the same, but are executed with different example values.
+
+As most JS test frameworks do not include build-in helpers for parameterized tests, JsGiven provides a simple API to include test data and handle the different cases execution.
+
+Instead of providing a scenario method, you use the parametrized() function, which takes two arguments:
+
+- An array of parameters tuples (an array of array containing parameter values)
+- The scenario function that takes as many parameters as the tuple size
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameterized-scenarios.test.js[tags=ParametrizedScenario]
+----
+
+When the scenario is run, the three cases are executed :
+
+----
+$ jest
+ PASS  ./parameterized-scenarios.test.js
+  parametrized-scenarios
+    ✓ Scenarios can be parametrized #1 (8ms)
+    ✓ Scenarios can be parametrized #2 (1ms)
+    ✓ Scenarios can be parametrized #3 (2ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       3 passed, 3 total
+Snapshots:   0 total
+Time:        0.71s, estimated 1s
+Ran all test suites matching "parameterized".
+----
+
+If you only have one parameter, you can use the parametrized1() function which accepts an array of single values instead of tuples:
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameterized-scenarios.test.js[tags=Parametrized1Scenario]
+----
+
+=== Usage with Flow or TypeScript
+
+In order to ensure proper typing between the parameters and their uses in the scenario function, you should use the specialized parametrizedN() functions.
+
+Depending on the number of parameters, you can use the specialized parameterizedN() function.
+
+Here is an example of the parameterized2() function :
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015-flow/parameterized-scenarios.test.js[tags=ParametrizedScenarioTyped]
+----
+
+This way, the type-checker will be able to detect type errors between the parameter values and their uses in the scenario & step methods.
 
 == Asynchronous testing
 
