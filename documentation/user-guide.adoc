@@ -155,7 +155,7 @@ Due to the parallel nature of some test runners (Jest & Ava), there is no simple
 Therefore, you have to set up pretest & posttest npm scripts that will :
 
 - Clean the internal reports before starting the tests.
-- Generate the html5 report after the tests have run.
+- Generate the html5 report after the tests have run
 
 You have to include the following two tasks in you *package.json* file:
 
@@ -196,10 +196,12 @@ include::../examples/jest-es2015/sum-multiple-stages.test.js[tags=SumMultipleSta
 
 Very often it is necessary to share state between steps.
 As long as the steps are implemented in the same Stage class you can just use the fields of the Stage class.
-But what can you do if your steps are defined in different Stage classes?
+But what can you do if your steps are defined in different Stage classes ?
 
 In this case you just define the same field in both Stage classes.
-Both fields also have to be annotated with the special decoration @State to tell JsGiven that this field will be used for state sharing between stages.
+
+The recommended approach is to use a the special decorator @State.
+Both fields also have to be annotated with the special decorator @State to tell JsGiven that this field will be used for state sharing between stages.
 
 The values of these fields are shared between all stages that have the same field with the @Stage decoration.
 
@@ -208,14 +210,24 @@ The values of these fields are shared between all stages that have the same fiel
 include::../examples/jest-es2015/sum-multiple-stages.test.js[tags=SumStages]
 ----
 
-=== Babel configuration for state sharing between stages
+There is an alternative to decorators that you can use if you don't want to use decorators. See <<Using state sharing without decorators>>
 
-In order to use state sharing, you have to include the following babel transform plugins in your .babelrc :
+==== Babel configuration to use decorators
+
+In order to use state sharing, you have to include the following babel transform plugins in your babel configuration.
 
 [source, json, indent=0]
 ----
 include::../examples/jest-es2015/.babelrc[]
 ----
+
+Note that you are not forced to use this as your *.babelrc* production configuration.
+You can use the decorators configuration only in your test setup (See https://babeljs.io/docs/usage/babelrc/#env-option).
+Read your test framework documentation to see how you can achieve this.
+
+==== Using state sharing without decorators
+
+You can declare the state properties to be shared using the *State.addProperty()* static method
 
 == Parameterized steps
 

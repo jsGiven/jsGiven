@@ -44,7 +44,11 @@ declare function scenario(options: $Shape<ScenarioOptions>, scenarioFunction: Sc
 
 declare function scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, stagesParam: StagesParam<G, W, T>, scenarioFunc: ScenariosDescriptions<G, W, T>): void;
 
-declare function State(target: any, key: string, descriptor: any): any;
+type StateType = {
+    (target: any, key: string, descriptor: any): any;
+    addProperty: (target: Class<Stage>, propertyName: string) => void;
+};
+declare var State: StateType;
 
 declare function setupForRspec(describe: any, it: any): void;
 declare function setupForAva(test: any): void;
