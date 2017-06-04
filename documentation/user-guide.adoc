@@ -290,7 +290,37 @@ given().$$_$( 5); // Given $ 5
 
 == Asynchronous testing
 
-**TODO**
+JsGiven supports asynchronous testing.
+
+Asynchronous scenarios in JsGiven are written the same way synchronous scenarios are written :
+
+- Scenarios functions remain fully synchronous and are still calling step methods synchronously.
+- Step methods must still return the *this* reference.
+
+However when a step method must perform some asynchronous work, it has to call the *doAsync()* function.
+This method accepts a function that returns a promise (which is the same signature as asynchronous function).
+
+Further step methods can be synchronous or asynchronous there is no need to use doAsync() in further step methods.
+JsGiven will continue the scenario execution and execute the further step methods once the asynchronous execution is done.
+
+Example using async functions :
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/async.test.js[tags=AsyncStage]
+
+include::../examples/jest-es2015/async.test.js[tags=AsyncScenario]
+----
+
+Example using promises :
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/async.test.js[tags=PromiseStage]
+
+include::../examples/jest-es2015/async.test.js[tags=PromiseScenario]
+----
+
 
 == Using JsGiven
 
