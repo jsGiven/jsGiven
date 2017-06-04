@@ -571,8 +571,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_stages_and_state_sharing">Stages and state sharing</a>
 <ul class="sectlevel2">
 <li><a href="#_create_given_when_then_stage_classes">Create Given/When/Then Stage classes</a></li>
-<li><a href="#_sharing_state_between_stages">Sharing state between stages</a></li>
-<li><a href="#_babel_configuration_for_state_sharing_between_stages">Babel configuration for state sharing between stages</a></li>
+<li><a href="#_sharing_state_between_stages">Sharing state between stages</a>
+<ul class="sectlevel3">
+<li><a href="#_babel_configuration_to_use_decorators">Babel configuration to use decorators</a></li>
+<li><a href="#_using_state_sharing_without_decorators">Using state sharing without decorators</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_parameterized_steps">Parameterized steps</a>
@@ -888,7 +892,7 @@ Ran all test suites.</pre>
 <p>Clean the internal reports before starting the tests.</p>
 </li>
 <li>
-<p>Generate the html5 report after the tests have run.</p>
+<p>Generate the html5 report after the tests have run</p>
 </li>
 </ul>
 </div>
@@ -953,11 +957,14 @@ While this is a simple solution, it&#8217;s often suitable to have several stage
 <div class="paragraph">
 <p>Very often it is necessary to share state between steps.
 As long as the steps are implemented in the same Stage class you can just use the fields of the Stage class.
-But what can you do if your steps are defined in different Stage classes?</p>
+But what can you do if your steps are defined in different Stage classes ?</p>
 </div>
 <div class="paragraph">
-<p>In this case you just define the same field in both Stage classes.
-Both fields also have to be annotated with the special decoration @State to tell JsGiven that this field will be used for state sharing between stages.</p>
+<p>In this case you just define the same field in both Stage classes.</p>
+</div>
+<div class="paragraph">
+<p>The recommended approach is to use a the special decorator @State.
+Both fields also have to be annotated with the special decorator @State to tell JsGiven that this field will be used for state sharing between stages.</p>
 </div>
 <div class="paragraph">
 <p>The values of these fields are shared between all stages that have the same field with the @Stage decoration.</p>
@@ -1009,11 +1016,24 @@ Both fields also have to be annotated with the special decoration @State to tell
 <span class="tok-p">}</span></code></pre>
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_babel_configuration_for_state_sharing_between_stages">Babel configuration for state sharing between stages</h3>
 <div class="paragraph">
-<p>In order to use state sharing, you have to include the following babel transform plugins in your .babelrc :</p>
+<p>There is an alternative to decorators that you can use if you don&#8217;t want to use decorators.
+See <a href="#_using_state_sharing_without_decorators">Using state sharing without decorators</a></p>
+</div>
+<div class="sect3">
+<h4 id="_babel_configuration_to_use_decorators">Babel configuration to use decorators</h4>
+<div class="paragraph">
+<p>In order to use state sharing with decorators, you have to include the following babel transform plugins in your babel configuration.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>transform-decorators-legacy</p>
+</li>
+<li>
+<p>transform-class-properties</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1021,6 +1041,70 @@ Both fields also have to be annotated with the special decoration @State to tell
   <span class="tok-nt">&quot;presets&quot;</span><span class="tok-p">:</span> <span class="tok-p">[</span><span class="tok-s2">&quot;es2015&quot;</span><span class="tok-p">,</span> <span class="tok-s2">&quot;react&quot;</span><span class="tok-p">],</span>
   <span class="tok-nt">&quot;plugins&quot;</span><span class="tok-p">:</span> <span class="tok-p">[</span><span class="tok-s2">&quot;transform-decorators-legacy&quot;</span><span class="tok-p">,</span> <span class="tok-s2">&quot;transform-class-properties&quot;</span><span class="tok-p">]</span>
 <span class="tok-p">}</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">You are not forced to use this as your <strong>.babelrc</strong> production configuration</div>
+<div class="paragraph">
+<p>You can use the decorators configuration only in your test setup (See <a href="https://babeljs.io/docs/usage/babelrc/#env-option" class="bare">https://babeljs.io/docs/usage/babelrc/#env-option</a>).
+Read your test framework documentation to see how you can achieve this.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_state_sharing_without_decorators">Using state sharing without decorators</h4>
+<div class="paragraph">
+<p>You can declare the state properties to be shared using the <strong>State.addProperty()</strong> static method.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-kr">class</span> <span class="tok-nx">SumGivenStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
+    <span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
+        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+
+    <span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
+        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+<span class="tok-p">}</span>
+<span class="tok-nx">State</span><span class="tok-p">.</span><span class="tok-nx">addProperty</span><span class="tok-p">(</span><span class="tok-nx">SumGivenStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;number1&#39;</span><span class="tok-p">);</span>
+<span class="tok-nx">State</span><span class="tok-p">.</span><span class="tok-nx">addProperty</span><span class="tok-p">(</span><span class="tok-nx">SumGivenStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;number2&#39;</span><span class="tok-p">);</span>
+
+<span class="tok-kr">class</span> <span class="tok-nx">SumWhenStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
+    <span class="tok-nx">they_are_summed</span><span class="tok-p">()</span> <span class="tok-p">{</span>
+        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span> <span class="tok-o">=</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">+</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span><span class="tok-p">;</span>
+        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+<span class="tok-p">}</span>
+<span class="tok-nx">State</span><span class="tok-p">.</span><span class="tok-nx">addProperty</span><span class="tok-p">(</span><span class="tok-nx">SumWhenStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;number1&#39;</span><span class="tok-p">);</span>
+<span class="tok-nx">State</span><span class="tok-p">.</span><span class="tok-nx">addProperty</span><span class="tok-p">(</span><span class="tok-nx">SumWhenStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;number2&#39;</span><span class="tok-p">);</span>
+<span class="tok-nx">State</span><span class="tok-p">.</span><span class="tok-nx">addProperty</span><span class="tok-p">(</span><span class="tok-nx">SumWhenStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;result&#39;</span><span class="tok-p">);</span>
+
+<span class="tok-kr">class</span> <span class="tok-nx">SumThenStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
+    <span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+        <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span><span class="tok-p">).</span><span class="tok-nx">toEqual</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">);</span>
+        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+<span class="tok-p">}</span>
+<span class="tok-nx">State</span><span class="tok-p">.</span><span class="tok-nx">addProperty</span><span class="tok-p">(</span><span class="tok-nx">SumThenStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;result&#39;</span><span class="tok-p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Both fields in the different classes have to be marked as state properties with the <strong>State.addProperty()</strong> static method.</p>
+</div>
+<div class="paragraph">
+<p>The values of these fields are shared between all stages that have the same state properties.</p>
 </div>
 </div>
 </div>
