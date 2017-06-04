@@ -45,9 +45,9 @@ It can be used with your favorite assertion library (like ChaiJS, Jasmine), or y
 
 It aims to provide the most comfortable developer experience with optional ES6 syntax, and optional Flow or TypeScript typings.
 
-It's an alpha version. Don't hesitate to give any feedback and to open a GitHub issue https://github.com/jsGiven/jsGiven/issues
+Some features are missing, but we are already using it daily at https://www.fluo.com
 
-We are already using it daily at https://www.fluo.com
+Don't hesitate to give any feedback and to open a GitHub issue https://github.com/jsGiven/jsGiven/issues
 
 == Getting started
 
@@ -55,13 +55,17 @@ You can start using JsGiven with the link:./user-guide.html[user guide]
 
 == Changelog
 
-- v0.0.20 Fix state-sharing issue when running asynchronous test
-- v0.0.19 Implement asynchronous testing support
-- v0.0.18 Download jgiven with https to fix vulnerability discovered by snyk : https://snyk.io/vuln/npm:js-given
-- v0.0.17 Remove humanization of group names as it prevents grouping in JGiven's report
-- v0.0.15 Fix report generation issue introduced in v0.0.14
-- v0.0.14 Fix report generation issue when there is no report
-- v0.0.13 Do not include babel-polyfill in lib
-- v0.0.12 Add flow type definition
-- v0.0.11 Add parametrized tests support
-- v0.0.10 Add jest+es2015 example
+- v0.1.0 (4th June 2017): Initial stable release
+** Includes asynchronous testing support, parametrized steps & scenarios.
+** Includes a breaking API change in order to implement tags & extended descriptions on scenarios.
+- v0.0.* : Early releases
+** v0.0.20 Fix state-sharing issue when running asynchronous test
+** v0.0.19 Implement asynchronous testing support
+** v0.0.18 Download jgiven with https to fix vulnerability discovered by snyk : https://snyk.io/vuln/npm:js-given
+** v0.0.17 Remove humanization of group names as it prevents grouping in JGiven's report
+** v0.0.15 Fix report generation issue introduced in v0.0.14
+** v0.0.14 Fix report generation issue when there is no report
+** v0.0.13 Do not include babel-polyfill in lib
+** v0.0.12 Add flow type definition
+** v0.0.11 Add parametrized tests support
+** v0.0.10 Add jest+es2015 example
