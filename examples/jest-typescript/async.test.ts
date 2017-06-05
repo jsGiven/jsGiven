@@ -10,7 +10,7 @@ import {sum} from './sum';
 
 setupForRspec(describe, it);
 
-async function httpRequest(url) {
+async function httpRequest(url: string) {
     return {statusCode: 200};
 }
 
@@ -31,7 +31,7 @@ class AsyncStage extends Stage {
         return this;
     }
 
-    the_status_code_is(expectedStatusCode) {
+    the_status_code_is(expectedStatusCode: number) {
         expect(this.statusCode).toEqual(expectedStatusCode);
         return this;
     }
@@ -68,7 +68,7 @@ class PromiseStage extends Stage {
         return this;
     }
 
-    the_status_code_is(expectedStatusCode) {
+    the_status_code_is(expectedStatusCode: number) {
         expect(this.statusCode).toEqual(expectedStatusCode);
         return this;
     }
