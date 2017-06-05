@@ -55,6 +55,7 @@ You can start using JsGiven with the link:./user-guide.html[user guide]
 
 == Changelog
 
+- v0.1.1 (5th June 2017): Add TypeScript support
 - v0.1.0 (4th June 2017): Initial stable release
 ** Includes asynchronous testing support, parametrized steps & scenarios.
 ** Includes a breaking API change in order to implement tags & extended descriptions on scenarios.
