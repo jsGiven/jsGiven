@@ -213,7 +213,22 @@ include::../examples/jest-es2015/sum-multiple-stages.test.js[tags=SumStages]
 There is an alternative to decorators that you can use if you don't want to use decorators.
 See <<Using state sharing without decorators>>
 
-==== Babel configuration to use decorators
+==== Using state sharing without decorators
+
+You can declare the state properties to be shared using the *State.addProperty()* static method.
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/sum-multiple-stages-without-decorators.test.js[tags=SumStagesWithoutDecorators]
+----
+
+Both fields in the different classes have to be marked as state properties with the *State.addProperty()* static method.
+
+The values of these fields are shared between all stages that have the same state properties.
+
+==== Configuration to use decorators
+
+===== With Babel
 
 In order to use state sharing with decorators, you have to include the following babel transform plugins in your babel configuration.
 
@@ -233,18 +248,14 @@ You can use the decorators configuration only in your test setup (See https://ba
 Read your test framework documentation to see how you can achieve this.
 ====
 
-==== Using state sharing without decorators
+===== With TypeScript
 
-You can declare the state properties to be shared using the *State.addProperty()* static method.
+In order to use state sharing with decorators, you have to enable the "experimentalDecorators" option in your tsconfig.json
 
-[source, js, indent=0]
+[source, json, indent=4]
 ----
-include::../examples/jest-es2015/sum-multiple-stages-without-decorators.test.js[tags=SumStagesWithoutDecorators]
+"experimentalDecorators": true
 ----
-
-Both fields in the different classes have to be marked as state properties with the *State.addProperty()* static method.
-
-The values of these fields are shared between all stages that have the same state properties.
 
 == Parameterized steps
 
@@ -373,6 +384,42 @@ include::../examples/jest-es2015/async.test.js[tags=PromiseStage]
 include::../examples/jest-es2015/async.test.js[tags=PromiseScenario]
 ----
 
+=== Required configuration for asynchronous testing
+
+JsGiven relies internally on
+
+- Promises
+- https://github.com/facebook/regenerator[Regenerator runtime]
+
+==== With Babel
+
+You will need to have a promise implementation (a native or polyfilled one) and including the https://github.com/facebook/regenerator[Regenerator runtime]
+
+If you use Babel directly with your test runner, Babel already includes polyfills. If not ensure they are included.
+
+[source, js, indent=0]
+----
+include::../examples/jest-typescript/setup-jest.js[tags=IncludeRegeneratorRuntime]
+----
+
+==== With TypeScript
+
+You will need to include the "es2015.promise" library in you tsconfig.json
+
+[source, json, indent=4]
+----
+"lib": [
+  "es5",
+  "es2015.promise"
+],
+----
+
+You will also need to include https://github.com/facebook/regenerator[regenerator runtime] in you test runner initialization process.
+
+[source, js, indent=0]
+----
+include::../examples/jest-typescript/setup-jest.js[tags=IncludeRegeneratorRuntime]
+----
 
 == Using JsGiven
 
@@ -401,9 +448,10 @@ JsGiven is internally written with Flow.
 
 ==== With TypeScript
 
-JsGiven does not include yet TypeScript definitions but it is already usable with TypeScript.
+JsGiven includes build-in TypeScript definitions.
+You don't have to install any type definitions.
 
-A working example is still to be produced.
+A working example is provided : https://github.com/jsGiven/jsGiven/tree/master/examples/jest-typescript
 
 === Using JSGiven with ES5
 
@@ -441,3 +489,4 @@ These examples are tested on each commit against the latest stable version and a
 - https://github.com/jsGiven/jsGiven/tree/master/examples/jest-es2015[Jest + ES2015]
 - https://github.com/jsGiven/jsGiven/tree/master/examples/jest-es2015-flow[Jest + ES2015 + Flow]
 - https://github.com/jsGiven/jsGiven/tree/master/examples/mocha-es5[Mocha + ES5]
+- https://github.com/jsGiven/jsGiven/tree/master/examples/jest-typescript[Jest + TypeScript]
