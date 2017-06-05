@@ -5,7 +5,7 @@
   "devDependencies": {
     "@types/jest": "^19.2.4",
     "jest": "*",
-    "js-given": "^0.1.0",
+    "js-given": "next",
     "typescript": "*"
   },
   "scripts": {
@@ -14,7 +14,9 @@
     "test": "jest"
   },
   "jest": {
-    "setupFiles": ["./setup-jest.js"],
+    "setupFiles": [
+      "./setup-jest.js"
+    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",
