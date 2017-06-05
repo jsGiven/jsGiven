@@ -1,7 +1,13 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     "module": "commonjs",
     "jsx": "react",
-    "outDir": "./build"
+    "outDir": "./build",
+    "noEmit": true,
+    "lib": [
+      "es5",
+      "es2015.promise"
+    ]
   }
 }
