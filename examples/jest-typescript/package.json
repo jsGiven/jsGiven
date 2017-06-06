@@ -10,8 +10,9 @@
   },
   "scripts": {
     "build": "tsc --project . --pretty",
-    "pretest": "yarn build",
-    "test": "jest"
+    "pretest": "yarn build && jsgiven clean",
+    "test": "jest",
+    "posttest": "jsgiven report"
   },
   "jest": {
     "setupFiles": [

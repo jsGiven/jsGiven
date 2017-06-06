@@ -51,7 +51,7 @@ class SumThenStage extends Stage {
     }
 }
 
-scenarios('sum', [SumGivenStage, SumWhenStage, SumThenStage], ({given, when, then}) => {
+scenarios('sum-multiple-stages', [SumGivenStage, SumWhenStage, SumThenStage], ({given, when, then}) => {
     return {
         two_numbers_can_be_added: scenario({}, () => {
             given().a_number(1).and().another_number(2);
