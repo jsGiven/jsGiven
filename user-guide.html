@@ -638,7 +638,7 @@ JsGiven keeps the JGiven philosophy, concepts and uses its html5 reporting tool.
 <h2 id="_installation">Installation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>JsGiven is released on <a href="https://www.npmjs.com/">NPM</a> and can be installed with both NPM &amp; Yarn.</p>
+<p>JsGiven is released on <a href="https://www.npmjs.com/">NPM</a> and can be installed with either NPM or Yarn.</p>
 </div>
 <div class="paragraph">
 <p>JsGiven should usually be installed as a <a href="https://docs.npmjs.com/files/package.json#devdependencies">devDependency</a> as it&#8217;s not directly contributing as project dependency.</p>
@@ -669,7 +669,7 @@ $ npm install --save-dev js-given <i class="conum" data-value="2"></i><b>(2)</b>
 <div class="sect2">
 <h3 id="_importing_jsgiven">Importing JsGiven</h3>
 <div class="paragraph">
-<p>JsGiven components are available as <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">named exports</a> of the 'js-given' module.</p>
+<p>JsGiven functions or classes are available as <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">named exports</a> of the 'js-given' module.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -749,7 +749,7 @@ This function takes the test from Ava.</p>
 </div>
 </li>
 <li>
-<p>The second parameter is the stage class you will create in the next step</p>
+<p>The second parameter is the stage class you will create very soon.</p>
 </li>
 <li>
 <p>The last parameter is a function that takes an object containing the given(), when(), then() methods and returns the scenarios object.</p>
@@ -1430,10 +1430,10 @@ JsGiven will continue the scenario execution and execute the further step method
 <div class="sect3">
 <h4 id="_with_babel_2">With Babel</h4>
 <div class="paragraph">
-<p>You will need to have a promise implementation (a native or polyfilled one) and including the <a href="https://github.com/facebook/regenerator">Regenerator runtime</a></p>
+<p>You will need to have a promise implementation (a native or polyfilled one) and to include the <a href="https://github.com/facebook/regenerator">Regenerator runtime</a></p>
 </div>
 <div class="paragraph">
-<p>If you use Babel directly with your test runner, Babel already includes polyfills. If not ensure they are included.</p>
+<p>If you use Babel directly with your test runner, Babel already includes polyfills for missing implementations. If not ensure they are included.</p>
 </div>
 <div class="listingblock">
 <div class="content">
