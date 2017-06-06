@@ -17,7 +17,7 @@ JsGiven keeps the JGiven philosophy, concepts and uses its html5 reporting tool.
 
 == Installation
 
-JsGiven is released on https://www.npmjs.com/[NPM] and can be installed with both NPM & Yarn.
+JsGiven is released on https://www.npmjs.com/[NPM] and can be installed with either NPM or Yarn.
 
 JsGiven should usually be installed as a https://docs.npmjs.com/files/package.json#devdependencies[devDependency] as it's not directly contributing as project dependency.
 
@@ -32,7 +32,7 @@ $ npm install --save-dev js-given <2>
 
 === Importing JsGiven
 
-JsGiven components are available as https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export[named exports] of the 'js-given' module.
+JsGiven functions or classes are available as https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export[named exports] of the 'js-given' module.
 
 [source, js, indent=0]
 ----
@@ -78,7 +78,7 @@ include::../examples/jest-es2015/sum.test.js[tags=scenariosCallSecondPart]
 
 . The first parameter is the group name, it identifies your scenario within the report.
     - You can use a "namespace" or "java package" naming with dots to introduce a hierarchy that will be presented in the html5 report (eg: analytics.funnels.tickets_sales)
-. The second parameter is the stage class you will create in the next step
+. The second parameter is the stage class you will create very soon.
 . The last parameter is a function that takes an object containing the given(), when(), then() methods and returns the scenarios object.
 
 === Create a Stage class
@@ -393,9 +393,9 @@ JsGiven relies internally on
 
 ==== With Babel
 
-You will need to have a promise implementation (a native or polyfilled one) and including the https://github.com/facebook/regenerator[Regenerator runtime]
+You will need to have a promise implementation (a native or polyfilled one) and to include the https://github.com/facebook/regenerator[Regenerator runtime]
 
-If you use Babel directly with your test runner, Babel already includes polyfills. If not ensure they are included.
+If you use Babel directly with your test runner, Babel already includes polyfills for missing implementations. If not ensure they are included.
 
 [source, js, indent=0]
 ----
