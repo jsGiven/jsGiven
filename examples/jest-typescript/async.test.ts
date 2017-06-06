@@ -18,12 +18,12 @@ class AsyncStage extends Stage {
     url: string;
     statusCode: number;
 
-    the_url(url: string) {
+    the_url(url: string): this {
         this.url = url;
         return this;
     }
 
-    making_an_http_request_to_that_url() {
+    making_an_http_request_to_that_url(): this  {
         doAsync(async () => {
             const {statusCode} = await httpRequest(this.url);
             this.statusCode = statusCode;
@@ -31,7 +31,7 @@ class AsyncStage extends Stage {
         return this;
     }
 
-    the_status_code_is(expectedStatusCode: number) {
+    the_status_code_is(expectedStatusCode: number): this  {
         expect(this.statusCode).toEqual(expectedStatusCode);
         return this;
     }
@@ -54,12 +54,12 @@ class PromiseStage extends Stage {
     url: string;
     statusCode: number;
 
-    the_url(url: string) {
+    the_url(url: string): this  {
         this.url = url;
         return this;
     }
 
-    making_an_http_request_to_that_url() {
+    making_an_http_request_to_that_url(): this {
         doAsync(() => {
             return httpRequest(this.url).then(({statusCode}) => {
                 this.statusCode = statusCode;
@@ -68,7 +68,7 @@ class PromiseStage extends Stage {
         return this;
     }
 
-    the_status_code_is(expectedStatusCode: number) {
+    the_status_code_is(expectedStatusCode: number): this {
         expect(this.statusCode).toEqual(expectedStatusCode);
         return this;
     }
