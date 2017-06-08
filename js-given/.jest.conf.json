@@ -1,5 +1,5 @@
 {
-    "testPathDirs": ["spec"],
+    "roots": ["spec"],
     "testRegex": ".*\\.spec\\.js$",
-    "setupFiles": ["spec/support/setup-jest.js"]
+    "setupFiles": ["./spec/support/setup-jest.js"]
 }
