@@ -188,7 +188,7 @@ class JGivenReportStage extends Stage {
 
     the_zipped_scenarios_can_be_decoded(): this {
         if (this.zippedScenariosData) {
-            const bufferZipped = new Buffer(this.zippedScenariosData, 'base64');
+            const bufferZipped = Buffer.from(this.zippedScenariosData, 'base64');
             const buffer = zlib.gunzipSync(bufferZipped);
             const json = buffer.toString('utf-8');
             const scenarios = JSON.parse(json);

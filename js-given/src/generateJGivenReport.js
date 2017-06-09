@@ -97,7 +97,7 @@ export function generateJGivenReportDataFiles(filter?: (fileName: string) => boo
     fs.writeFileSync(`${reportDir}/data/tags.js`, `jgivenReport.setTags({});\n`, 'utf-8');
 
     const json = JSON.stringify({scenarios: scenarioModels});
-    const buffer = zlib.gzipSync(new Buffer(json, 'utf-8'));
+    const buffer = zlib.gzipSync(Buffer.from(json, 'utf-8'));
     const base64 = buffer.toString('base64');
     fs.writeFileSync(`${reportDir}/data/data0.js`, `jgivenReport.addZippedScenarios('${base64}');\n`, 'utf-8');
 }

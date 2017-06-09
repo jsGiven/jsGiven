@@ -37,16 +37,19 @@
   },
   "homepage": "https://github.com/jsGiven/jsGiven",
   "devDependencies": {
-    "babel-eslint": "7.0.0",
+    "babel-eslint": "^7.2.3",
     "check-node-version": "^2.1.0",
-    "eslint": "3.8.0",
-    "eslint-config-standard": "6.2.0",
-    "eslint-loader": "1.6.0",
-    "eslint-plugin-babel": "3.3.0",
-    "eslint-plugin-flowtype": "2.20.0",
-    "eslint-plugin-import": "2.0.1",
-    "eslint-plugin-promise": "3.0.0",
-    "eslint-plugin-standard": "2.0.1",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-babel": "^4.1.1",
+    "eslint-plugin-flowtype": "^2.34.0",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
     "flow-bin": "^0.47.0"
+  },
+  "dependencies": {
+    "eslint-plugin-node": "^5.0.0"
   }
 }

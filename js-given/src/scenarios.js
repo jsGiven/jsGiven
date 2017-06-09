@@ -19,7 +19,7 @@ type ScenariosParam<G, W, T> = {
 }
 
 type ScenariosDescriptions<G, W, T> = {
-    (scenariosParam: ScenariosParam<G, W, T>): {[key:string]: ScenarioDescription};
+    (scenariosParam: ScenariosParam<G, W, T>): {[key: string]: ScenarioDescription};
 };
 
 type ScenarioDescription = {
@@ -236,7 +236,7 @@ export class ScenarioRunner {
                 caseFunction: () => void;
                 args: string[];
             };
-            function getScenarios(scenarios: {[key:string]: ScenarioDescription}): ScenarioDescriptionWithName[] {
+            function getScenarios(scenarios: {[key: string]: ScenarioDescription}): ScenarioDescriptionWithName[] {
                 const scenarioDescriptions: ScenarioDescriptionWithName[] = Object.keys(scenarios).map(scenarioPropertyName => {
                     const scenarioDescription: ScenarioDescription = scenarios[scenarioPropertyName];
                     const {scenarioFunction} = scenarioDescription;
