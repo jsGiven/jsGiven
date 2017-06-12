@@ -73,8 +73,8 @@
     "rollup": "0.36.3",
     "rollup-plugin-babel": "2.6.1",
     "rollup-plugin-uglify": "1.0.1",
-    "sinon": "^2.3.2",
-    "sinon-chai": "^2.10.0",
+    "sinon": "^2.3.4",
+    "sinon-chai": "^2.11.0",
     "tmp": "^0.0.31"
   },
   "dependencies": {
