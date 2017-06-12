@@ -84,9 +84,9 @@ export class ScenarioRunner {
     }
 
     scenarios<G: Stage, W: Stage, T: Stage>(
-            groupName: string,
-            stagesParams: StagesParam<G, W, T>,
-            scenariosDescriptions: ScenariosDescriptions<G, W, T>) {
+        groupName: string,
+        stagesParams: StagesParam<G, W, T>,
+        scenariosDescriptions: ScenariosDescriptions<G, W, T>) {
 
         const report = new GroupReport(groupName);
 

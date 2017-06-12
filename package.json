@@ -39,7 +39,7 @@
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "check-node-version": "^2.1.0",
-    "eslint": "^3.19.0",
+    "eslint": "^4.0.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-loader": "^1.7.1",
     "eslint-plugin-babel": "^4.1.1",
