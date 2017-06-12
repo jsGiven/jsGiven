@@ -68,7 +68,7 @@
     "jasmine": "^2.6.0",
     "jasmine-spec-reporter": "^4.1.0",
     "mocha": "^3.4.2",
-    "nodegit": "0.17.0",
+    "nodegit": "^0.18.3",
     "protractor": "^5.1.2",
     "rollup": "0.36.3",
     "rollup-plugin-babel": "2.6.1",
