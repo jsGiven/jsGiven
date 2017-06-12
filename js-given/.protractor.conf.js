@@ -1,14 +1,10 @@
-// Choosing firefox on CI, Chrome at home
-var os = require('os');
-var capabilities = os.platform() === 'linux' ? {
-    browserName: 'firefox',
-    marionette: false
-} : {
-    browserName: 'chrome',
-};
-
 exports.config = {
-    capabilities: capabilities,
+    capabilities: {
+        browserName: 'chrome',
+        chromeOptions: {
+            args: ['--test-type']
+        }
+    },
     specs: ['spec/**.spec.js'],
     onPrepare: function () {
         require("babel-core/register");
