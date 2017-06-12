@@ -1,4 +1,8 @@
 language: node_js
+addons:
+  apt:
+    packages:
+      - oracle-java8-set-default
 cache:
   directories:
     - $HOME/.npm
