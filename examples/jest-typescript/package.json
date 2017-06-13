@@ -1,6 +1,7 @@
 {
   "name": "jest-typescript-example",
   "version": "1.0.0",
+  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "^19.2.4",

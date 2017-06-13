@@ -1,14 +1,4 @@
 // @flow
-import babel from 'rollup-plugin-babel';
+import buildConfig from './build.rollup.config';
 
-export default {
-    entry: './src/index.js',
-    format: 'cjs',
-    plugins: [ babel({
-        babelrc: false,
-        exclude: 'node_modules/**',
-        presets: ['es2015-rollup'],
-        plugins: ["transform-decorators-legacy", "transform-flow-strip-types", "transform-class-properties", "transform-object-rest-spread", "transform-regenerator"],
-    }) ],
-    dest: 'dist/index.js',
-};
+export default buildConfig('./src/index.js', 'dist/index.js');
