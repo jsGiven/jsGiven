@@ -1698,9 +1698,9 @@ jest@^20.0.1, jest@^20.0.4:
   dependencies:
     jest-cli "^20.0.4"
 
-js-given@next:
-  version "0.1.2-alpha.0"
-  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.1.2-alpha.0.tgz#669430dee52a26739cc59f2dcef1831a26ddafb6"
+js-given@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.1.2.tgz#60f4a6d519654afcc68e0b7ff1e7009e500b2f55"
   dependencies:
     babel-jest "^20.0.3"
     babel-polyfill "^6.23.0"
@@ -1961,13 +1961,13 @@ minimatch@^3.0.2, minimatch@^3.0.3, minimatch@^3.0.4:
   dependencies:
     brace-expansion "^1.1.7"
 
-minimist@*, minimist@0.0.8, minimist@~0.0.1:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
-
-minimist@^1.1.1:
+minimist@*, minimist@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
+
+minimist@0.0.8, minimist@~0.0.1:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
 
 mkdirp@0.5, mkdirp@^0.5.1:
   version "0.5.1"
