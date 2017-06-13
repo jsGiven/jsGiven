@@ -85,7 +85,6 @@
     "is-promise": "^2.1.0",
     "jest": "^20.0.4",
     "lodash": "^4.17.4",
-    "machinepack-zip": "1.1.0",
     "retrieve-arguments": "^1.0.1",
     "rimraf": "^2.6.1",
     "string-humanize": "1.0.0",
