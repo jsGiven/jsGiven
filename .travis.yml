@@ -28,3 +28,5 @@ before_install:
   - "gem install asciidoctor"
 install:
   - yarn
+after_success:
+  - 'cat ./js-given/coverage/lcov.info | ./node_modules/.bin/coveralls'

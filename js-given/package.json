@@ -19,6 +19,7 @@
     "test_type_definitions": "(cd type-definitions/tests && ../../../node_modules/.bin/flow)",
     "testWatch": "yarn test_jest -- --watch",
     "generateReport": "node src/cli.es5.js report",
+    "coverage": "yarn test_jest -- --coverage",
     "__doBuild": "rm -vfr dist && yarn buildLib && yarn buildCli && cp type-definitions/*.js.flow type-definitions/*.d.ts dist",
     "build": "check-node-version -q --node '< 6.0' || (yarn __doBuild && yarn __doPreparePublish -- alpha)",
     "buildLib": "check-node-version -q --node '< 6.0' || rollup -c tools/lib.rollup.config.js",

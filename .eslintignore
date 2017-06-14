@@ -3,5 +3,6 @@
 **/dist/**
 /js-given/tools/preparePublish.js
 /js-given/tools/tagRelease.js
+/js-given/coverage/
 /documentation/**
 /examples/**
