@@ -8,6 +8,8 @@
 image:https://travis-ci.org/jsGiven/jsGiven.svg?branch=master["Build Status", link="https://travis-ci.org/jsGiven/jsGiven"]
 image:https://badge.fury.io/js/js-given.svg["NPM package", link="https://www.npmjs.com/package/js-given"]
 image:https://snyk.io/test/github/jsgiven/jsgiven/badge.svg?targetFile=js-given%2Fpackage.json["Known Vulnerabilities", link="https://snyk.io/test/github/jsgiven/jsgiven?targetFile=js-given%2Fpackage.json"]
+image:https://codeclimate.com/github/jsGiven/jsGiven/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/jsGiven/jsGiven"]
+image:https://coveralls.io/repos/github/jsGiven/jsGiven/badge.svg?branch=master["Coverage Status", link="https://coveralls.io/github/jsGiven/jsGiven?branch=master"]
 
 == Description
 
