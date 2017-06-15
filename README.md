@@ -4,9 +4,9 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/jsgiven/jsgiven/badge.svg?targetFile=js-given%2Fpackage.json)](https://snyk.io/test/github/jsgiven/jsgiven?targetFile=js-given%2Fpackage.json) 
 [![Coverage Status](https://coveralls.io/repos/github/jsGiven/jsGiven/badge.svg?branch=master)](https://coveralls.io/github/jsGiven/jsGiven?branch=master) 
 
-![Quality](https://img.shields.io/badge/quality-beta-orange.svg)
-[![npm version](https://badge.fury.io/js/js-given.svg)](https://badge.fury.io/js/js-given) 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/jsGiven/jsGiven/master/LICENSE)
+[![npm version](https://badge.fury.io/js/js-given.svg)](https://badge.fury.io/js/js-given) 
+![Quality](https://img.shields.io/badge/quality-beta-orange.svg)
 
 JsGiven aims to bring BDD (Behavior-Driven Development) to plain (or typed) JavaScript.
 
