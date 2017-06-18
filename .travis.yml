@@ -20,7 +20,7 @@ cache:
     - examples/mocha-es5/node_modules
 node_js:
   - "4.8.3"
-  - "6.10.3"
+  - "6.11.0"
   - "7.10.0"
 before_install:
   - "export DISPLAY=:99.0"
