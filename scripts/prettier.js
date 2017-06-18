@@ -23,14 +23,29 @@ const defaultOptions = {
 };
 const config = {
     default: {
-        patterns: ['src/**/*.js'],
-        ignore: ['**/third_party/**', '**/node_modules/**'],
+        patterns: [
+            'js-given/src/**/*.js',
+            'js-given/src/type-definitions/*.js',
+        ],
+        ignore: ['**/node_modules/**'],
     },
     scripts: {
-        patterns: ['scripts/**/*.js'],
+        patterns: ['scripts/**/*.js', 'js-given/tools/**/*.js'],
         options: {
             'trailing-comma': 'es5',
         },
+        ignore: ['**/node_modules/**'],
+    },
+    examples: {
+        patterns: ['examples/**/*.js'],
+        options: {
+            'trailing-comma': 'es5',
+        },
+        ignore: [
+            '**/node_modules/**',
+            '**/flow-typed/**',
+            '**/jGiven-report/**',
+        ],
     },
 };
 
