@@ -35,7 +35,7 @@ const config = {
         ignore: ['**/node_modules/**'],
     },
     examples: {
-        patterns: ['examples/**/*.js'],
+        patterns: ['examples/**/*.js', 'examples/**/*.ts'],
         ignore: [
             '**/node_modules/**',
             '**/flow-typed/**',

@@ -1,10 +1,4 @@
-import {
-    doAsync,
-    scenario,
-    scenarios,
-    setupForRspec,
-    Stage,
-} from 'js-given';
+import {doAsync, scenario, scenarios, setupForRspec, Stage} from 'js-given';
 
 import {sum} from './sum';
 
@@ -23,7 +17,7 @@ class AsyncStage extends Stage {
         return this;
     }
 
-    making_an_http_request_to_that_url(): this  {
+    making_an_http_request_to_that_url(): this {
         doAsync(async () => {
             const {statusCode} = await httpRequest(this.url);
             this.statusCode = statusCode;
@@ -31,12 +25,11 @@ class AsyncStage extends Stage {
         return this;
     }
 
-    the_status_code_is(expectedStatusCode: number): this  {
+    the_status_code_is(expectedStatusCode: number): this {
         expect(this.statusCode).toEqual(expectedStatusCode);
         return this;
     }
 }
-
 
 scenarios('async', AsyncStage, ({given, when, then}) => {
     return {
@@ -54,7 +47,7 @@ class PromiseStage extends Stage {
     url: string;
     statusCode: number;
 
-    the_url(url: string): this  {
+    the_url(url: string): this {
         this.url = url;
         return this;
     }

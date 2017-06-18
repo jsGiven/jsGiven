@@ -1,9 +1,4 @@
-import {
-    scenario,
-    scenarios,
-    setupForRspec,
-    Stage,
-} from 'js-given';
+import {scenario, scenarios, setupForRspec, Stage} from 'js-given';
 
 import {sum} from './sum';
 
