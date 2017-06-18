@@ -27,9 +27,9 @@ scenarios('group.name', ParamStage, ({given, when, then}) => ({
         })
     ),
 
-    // $ExpectError
     a_scenario_with_strings: scenario(
         {},
+        // $ExpectError
         parametrized1(['1', '2', '3'], (value: number) => {
             given().do_something_with_number(value);
             when().do_something_with_number(value);
