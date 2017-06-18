@@ -6,11 +6,9 @@ setupForRspec(describe, it);
 
 // tag::SumStages[]
 class SumGivenStage extends Stage {
-    @State
-    number1;
+    @State number1;
 
-    @State
-    number2;
+    @State number2;
 
     a_number(value) {
         this.number1 = value;
@@ -24,14 +22,11 @@ class SumGivenStage extends Stage {
 }
 
 class SumWhenStage extends Stage {
-    @State
-    number1;
+    @State number1;
 
-    @State
-    number2;
+    @State number2;
 
-    @State
-    result;
+    @State result;
 
     they_are_summed() {
         this.result = this.number1 + this.number2;
@@ -40,8 +35,7 @@ class SumWhenStage extends Stage {
 }
 
 class SumThenStage extends Stage {
-    @State
-    result;
+    @State result;
 
     the_result_is(expectedResult) {
         expect(this.result).toEqual(expectedResult);
@@ -52,16 +46,20 @@ class SumThenStage extends Stage {
 
 // tag::SumMultipleStagesScenario[]
 // tag::SumMultipleStagesScenarioDeclaration[]
-scenarios('sum', [SumGivenStage, SumWhenStage, SumThenStage], ({given, when, then}) => {
-// end::SumMultipleStagesScenarioDeclaration[]
-    return {
-        two_numbers_can_be_added: scenario({}, () => {
-            given().a_number(1).and().another_number(2);
+scenarios(
+    'sum',
+    [SumGivenStage, SumWhenStage, SumThenStage],
+    ({given, when, then}) => {
+        // end::SumMultipleStagesScenarioDeclaration[]
+        return {
+            two_numbers_can_be_added: scenario({}, () => {
+                given().a_number(1).and().another_number(2);
 
-            when().they_are_summed();
+                when().they_are_summed();
 
-            then().the_result_is(3);
-        }),
-    };
-});
+                then().the_result_is(3);
+            }),
+        };
+    }
+);
 // end::SumMultipleStagesScenario[]

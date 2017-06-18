@@ -38,14 +38,18 @@ class SumThenStage extends Stage {
 State.addProperty(SumThenStage, 'result');
 // end::SumStagesWithoutDecorators[]
 
-scenarios('sum', [SumGivenStage, SumWhenStage, SumThenStage], ({given, when, then}) => {
-    return {
-        two_numbers_can_be_added: scenario({}, () => {
-            given().a_number(1).and().another_number(2);
+scenarios(
+    'sum',
+    [SumGivenStage, SumWhenStage, SumThenStage],
+    ({given, when, then}) => {
+        return {
+            two_numbers_can_be_added: scenario({}, () => {
+                given().a_number(1).and().another_number(2);
 
-            when().they_are_summed();
+                when().they_are_summed();
 
-            then().the_result_is(3);
-        }),
-    };
-});
+                then().the_result_is(3);
+            }),
+        };
+    }
+);

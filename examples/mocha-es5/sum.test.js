@@ -13,37 +13,36 @@ var sum = require('./sum').sum;
 setupForRspec(describe, it);
 
 // tag::SumStageES5[]
-function SumStage() {
-}
+function SumStage() {}
 
 SumStage.prototype = {
-    a_number: function (value) {
+    a_number: function(value) {
         this.number1 = value;
         return this;
     },
 
-    another_number: function (value) {
+    another_number: function(value) {
         this.number2 = value;
         return this;
     },
 
-    they_are_summed: function () {
+    they_are_summed: function() {
         this.result = this.number1 + this.number2;
         return this;
     },
 
-    the_result_is: function (expectedResult) {
+    the_result_is: function(expectedResult) {
         expect(this.result).to.equal(expectedResult);
         return this;
     },
-}
+};
 
 Object.setPrototypeOf(SumStage.prototype, Stage.prototype);
 Object.setPrototypeOf(SumStage, Stage);
 // end::SumStageES5[]
 
 // tag::scenariosES5[]
-scenarios('sum', SumStage, function (it) {
+scenarios('sum', SumStage, function(it) {
     return {
         two_numbers_can_be_added: scenario({}, function() {
             it.given().a_number(1).and().another_number(2);

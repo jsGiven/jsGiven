@@ -9,57 +9,56 @@ export type Tag = {
     /**
     * The type of the annotation of the tag
     */
-    type: string;
+    type: string,
 
     /**
     * An optional name of the tag. If not set, the type is the name
     */
-    name: ?string;
+    name: ?string,
 
     /**
     * An optional value
     */
-    value: ?TagValue;
+    value: ?TagValue,
 
     /**
     * An optional description.
     */
-    description: ?string;
+    description: ?string,
 
     /**
     * Whether the type should be prepended in the report.
     * <p>
     * Is either {@code true} or {@code null}
     */
-    prependType: ?boolean;
+    prependType: ?boolean,
 
     /**
     * An optional color that is used in reports
     */
-    color: ?string;
+    color: ?string,
 
     /**
     * An optional cssClass used in the HTML report.
     * Can be {@code null}.
     */
-    cssClass: ?string;
+    cssClass: ?string,
 
     /**
     * An optional style used in the HTML report.
     * Can be {@code null}.
     */
-    style: ?string;
+    style: ?string,
 
     /**
     * An optional (maybe null) list of tags that this tag is tagged with.
     * The tags are normalized as follows: <name>[-value].
     */
-    tags: ?string;
+    tags: ?string,
 
     /**
     * An optional href used in the HTML report.
     * Can be {@code null}.
     */
-    href: ?string;
-
-}
+    href: ?string,
+};

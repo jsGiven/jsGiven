@@ -41,20 +41,19 @@ class DemoStage extends Stage {
 }
 
 // tag::ParametrizedScenarioTyped[]
-scenarios('parametrized-scenarios', DemoStage, ({ given, when, then }) => {
+scenarios('parametrized-scenarios', DemoStage, ({given, when, then}) => {
     return {
-        scenarios_can_be_parametrized: scenario({}, parametrized2(
-            [
-                [1, 2],
-                [2, 4],
-                [3, 6],
-            ],
-            (value: number, result: number) => {
-                given().a_number(value).and().another_number(value);
-                when().they_are_summed();
-                then().the_result_is(result);
-            },
-        )),
+        scenarios_can_be_parametrized: scenario(
+            {},
+            parametrized2(
+                [[1, 2], [2, 4], [3, 6]],
+                (value: number, result: number) => {
+                    given().a_number(value).and().another_number(value);
+                    when().they_are_summed();
+                    then().the_result_is(result);
+                }
+            )
+        ),
     };
 });
 // end::ParametrizedScenarioTyped[]

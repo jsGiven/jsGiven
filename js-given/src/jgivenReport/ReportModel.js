@@ -6,19 +6,19 @@ export type ReportModel = {
     /**
      * Full qualified name of the test class.
      */
-    className: string;
+    className: string,
 
     /**
      * An optional name to group scenarios
      */
-    name: ?string;
+    name: ?string,
 
     /**
      * An optional description of the test class.
      */
-    description: ?string;
+    description: ?string,
 
-    scenarios: ScenarioModel[];
+    scenarios: ScenarioModel[],
 
-    tagMap: { [key: string]: Tag };
+    tagMap: {[key: string]: Tag},
 };

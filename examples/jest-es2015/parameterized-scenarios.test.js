@@ -43,35 +43,31 @@ class DemoStage extends Stage {
 // end::DemoStage[]
 
 // tag::ParametrizedScenario[]
-scenarios('parametrized-scenarios', DemoStage, ({ given, when, then }) => {
+scenarios('parametrized-scenarios', DemoStage, ({given, when, then}) => {
     return {
-        scenarios_can_be_parametrized: scenario({}, parametrized(
-            [
-                [1, 2],
-                [2, 4],
-                [3, 6],
-            ],
-            (value, result) => {
+        scenarios_can_be_parametrized: scenario(
+            {},
+            parametrized([[1, 2], [2, 4], [3, 6]], (value, result) => {
                 given().a_number(value).and().another_number(value);
                 when().they_are_summed();
                 then().the_result_is(result);
-            },
-        )),
+            })
+        ),
     };
 });
 // end::ParametrizedScenario[]
 
 // tag::Parametrized1Scenario[]
-scenarios('parametrized-scenarios', DemoStage, ({ given, when, then }) => {
+scenarios('parametrized-scenarios', DemoStage, ({given, when, then}) => {
     return {
-        scenarios_can_be_parametrized_with_only_one_value: scenario({}, parametrized1(
-            [1, 2, 3],
-            (value) => {
+        scenarios_can_be_parametrized_with_only_one_value: scenario(
+            {},
+            parametrized1([1, 2, 3], value => {
                 given().a_number(value).and().another_number(value);
                 when().they_are_summed();
                 then().they_are_successfully_added();
-            },
-        )),
+            })
+        ),
     };
 });
 // end::Parametrized1Scenario[]

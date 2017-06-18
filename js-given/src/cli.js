@@ -8,8 +8,7 @@ const [command] = yargs
     .usage('Usage: $0 <command>')
     .command('report', 'Generate the reports')
     .command('clean', 'Remove the reports and intermediary files')
-    .demandCommand(1)
-    .argv._;
+    .demandCommand(1).argv._;
 
 if (command === 'report') {
     generateJGivenReport();

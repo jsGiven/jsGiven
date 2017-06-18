@@ -1,10 +1,4 @@
-import {
-    doAsync,
-    scenario,
-    scenarios,
-    setupForRspec,
-    Stage,
-} from 'js-given';
+import {doAsync, scenario, scenarios, setupForRspec, Stage} from 'js-given';
 
 import {sum} from './sum';
 

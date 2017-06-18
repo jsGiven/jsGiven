@@ -27,7 +27,9 @@ export class ScenarioPart {
             this.introWord = methodName;
         } else {
             const isFirstStep = this.steps.length === 0;
-            this.steps.push(new Step(methodName, parameters, isFirstStep, this.introWord));
+            this.steps.push(
+                new Step(methodName, parameters, isFirstStep, this.introWord),
+            );
             this.introWord = null;
         }
     }
@@ -38,8 +40,14 @@ export class Step {
     methodName: string;
     words: Word[];
 
-    constructor(methodName: string, parameters: DecodedParameter[], isFirstStep: boolean, introWord: string | null) {
-        const TWO_DOLLAR_PLACEHOLDER = 'zzblablaescapedollarsignplaceholdertpolm';
+    constructor(
+        methodName: string,
+        parameters: DecodedParameter[],
+        isFirstStep: boolean,
+        introWord: string | null,
+    ) {
+        const TWO_DOLLAR_PLACEHOLDER =
+            'zzblablaescapedollarsignplaceholdertpolm';
 
         const parametersCopy = [...parameters];
 
@@ -56,12 +64,21 @@ export class Step {
                     let formattedParameters: WordDescription[];
                     if (parametersCopy.length > 0) {
                         const [parameter] = parametersCopy.splice(0, 1);
-                        formattedParameters = [{word: formatParameter(parameter.value), parameterName: parameter.parameterName}];
+                        formattedParameters = [
+                            {
+                                word: formatParameter(parameter.value),
+                                parameterName: parameter.parameterName,
+                            },
+                        ];
                     } else {
                         formattedParameters = [];
                     }
 
-                    return [...previous, ...formattedParameters, {word: newString, parameterName: null}];
+                    return [
+                        ...previous,
+                        ...formattedParameters,
+                        {word: newString, parameterName: null},
+                    ];
                 }, []) //  ['a bill of', '500', 'TWO_DOLLAR_PLACEHOLDER']
                 .filter(({word}) => word !== '') // If one puts a $ at the end of the method, this adds a useless '' at the end
                 .map(({word, parameterName}) => ({
@@ -69,10 +86,12 @@ export class Step {
                     parameterName,
                 })) //  ['a bill of', '500', '$']
                 .map(toWord), // [Word, Word, Word]
-            ...parametersCopy.map(parameter => ({
-                word: formatParameter(parameter.value),
-                parameterName: parameter.parameterName,
-            })).map(toWord),
+            ...parametersCopy
+                .map(parameter => ({
+                    word: formatParameter(parameter.value),
+                    parameterName: parameter.parameterName,
+                }))
+                .map(toWord),
         ];
 
         if (introWord) {
@@ -98,13 +117,16 @@ export class Step {
     }
 }
 
-
 export class Word {
     value: string;
     isIntroWord: boolean;
     parameterName: string | null;
 
-    constructor(value: string, isIntroWord: boolean, parameterName: string | null = null) {
+    constructor(
+        value: string,
+        isIntroWord: boolean,
+        parameterName: string | null = null,
+    ) {
         this.value = value;
         this.isIntroWord = isIntroWord;
         this.parameterName = parameterName;
@@ -127,7 +149,12 @@ export class ScenarioReport {
     cases: ScenarioCase[];
     argumentNames: string[];
 
-    constructor(groupReport: GroupReport, name: string, cases: ScenarioCase[], argumentNames: string[]) {
+    constructor(
+        groupReport: GroupReport,
+        name: string,
+        cases: ScenarioCase[],
+        argumentNames: string[],
+    ) {
         this.groupReport = groupReport;
         this.name = name;
         this.cases = cases;
@@ -136,21 +163,32 @@ export class ScenarioReport {
 
     dumpToFile(reportsDestination: string) {
         createDirOrDoNothingIfExists(reportsDestination);
-        const fileName = computeScenarioFileName(this.groupReport.name, this.name);
-        fs.writeFileSync(`${reportsDestination}/${fileName}`, JSON.stringify(this), 'utf-8');
+        const fileName = computeScenarioFileName(
+            this.groupReport.name,
+            this.name,
+        );
+        fs.writeFileSync(
+            `${reportsDestination}/${fileName}`,
+            JSON.stringify(this),
+            'utf-8',
+        );
     }
 }
 
 export function formatParameter(parameter: any): string {
     if (_.isObject(parameter) || Array.isArray(parameter)) {
-        if (parameter.toString &&
+        if (
+            parameter.toString &&
             parameter.toString !== Object.prototype.toString &&
-            parameter.toString !== Array.prototype.toString) {
+            parameter.toString !== Array.prototype.toString
+        ) {
             return parameter.toString();
         }
         return JSON.stringify(parameter);
     } else {
-        return parameter && parameter.toString ? parameter.toString() : JSON.stringify(parameter);
+        return parameter && parameter.toString
+            ? parameter.toString()
+            : JSON.stringify(parameter);
     }
 }
 
@@ -174,8 +212,11 @@ function createDirOrDoNothingIfExists(path: string) {
     }
 }
 
-export function computeScenarioFileName(groupName: string, scenarioName: string): string {
+export function computeScenarioFileName(
+    groupName: string,
+    scenarioName: string,
+): string {
     const hash = crypto.createHash('sha256');
-    hash.update(groupName + '\n' +scenarioName);
+    hash.update(groupName + '\n' + scenarioName);
     return hash.digest('hex');
 }
