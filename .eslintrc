@@ -4,7 +4,8 @@
         "standard",
         "eslint:recommended",
         "plugin:import/errors",
-        "plugin:import/warnings"
+        "plugin:import/warnings",
+        "prettier",
     ],
     "env": {
         "browser": true
@@ -18,18 +19,6 @@
         "import"
     ],
     "rules": {
-        "space-before-function-paren": [
-            "error",
-            {
-                "anonymous": "always",
-                "named": "never"
-            }
-        ],
-        "indent": [
-            "error",
-            4,
-            { "SwitchCase": 1 }
-        ],
         "semi": [
             2,
             "always"
@@ -78,10 +67,6 @@
         "flowtype/union-intersection-spacing": [
             2,
             "always",
-        ],
-        "flowtype/generic-spacing": [
-            2,
-            "never",
         ],
         "flowtype/type-id-match": [
             2,
