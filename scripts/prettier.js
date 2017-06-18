@@ -17,7 +17,7 @@ const defaultOptions = {
     'bracket-spacing': 'false',
     'single-quote': 'true',
     'jsx-bracket-same-line': 'true',
-    'trailing-comma': 'all',
+    'trailing-comma': 'es5',
     'print-width': 80,
     'tab-width': 4,
 };
@@ -31,16 +31,10 @@ const config = {
     },
     scripts: {
         patterns: ['scripts/**/*.js', 'js-given/tools/**/*.js'],
-        options: {
-            'trailing-comma': 'es5',
-        },
         ignore: ['**/node_modules/**'],
     },
     examples: {
         patterns: ['examples/**/*.js'],
-        options: {
-            'trailing-comma': 'es5',
-        },
         ignore: [
             '**/node_modules/**',
             '**/flow-typed/**',

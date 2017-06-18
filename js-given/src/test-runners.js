@@ -20,7 +20,7 @@ export function setupForRspec(describe: any, it: any): void {
         },
         (testName, testFunc) => {
             it(testName, testFunc);
-        },
+        }
     );
 }
 
@@ -33,6 +33,6 @@ export function setupForAva(test: any): void {
         },
         (testName, testFunc) => {
             test(`${capturedGroupName} / ${testName}`, testFunc);
-        },
+        }
     );
 }

@@ -19,7 +19,7 @@ export async function generateJGivenReport(): Promise<void> {
     try {
         if (!directoryExists(`./${REPORTS_DESTINATION}`)) {
             console.log(
-                'No jsGiven reports found, skipping jgiven report generation',
+                'No jsGiven reports found, skipping jgiven report generation'
             );
             return;
         }
@@ -44,7 +44,7 @@ export async function cleanReports(): Promise<void> {
 }
 
 export async function installJGivenReportApp(
-    reportPrefix: string = '.',
+    reportPrefix: string = '.'
 ): Promise<void> {
     const reportDir = `${reportPrefix}/jGiven-report`;
 
@@ -64,7 +64,7 @@ export async function installJGivenReportApp(
     await unzip(`${reportDir}/jgiven-html5-report.jar`, reportDir);
     await unzip(
         `${reportDir}/com/tngtech/jgiven/report/html5/app.zip`,
-        reportDir,
+        reportDir
     );
 
     await removeDir(`${reportDir}/META-INF`);
@@ -91,20 +91,20 @@ function directoryExists(dirName: string): boolean {
 export function generateJGivenReportDataFiles(
     filter?: (fileName: string) => boolean = () => true,
     reportPrefix: string = '.',
-    jsGivenReportsDir: string = REPORTS_DESTINATION,
+    jsGivenReportsDir: string = REPORTS_DESTINATION
 ) {
     const files = fs.readdirSync(`${jsGivenReportsDir}`).filter(filter);
     const scenarioReports: ScenarioReport[] = files.map(file =>
-        JSON.parse(fs.readFileSync(`${jsGivenReportsDir}/${file}`, 'utf-8')),
+        JSON.parse(fs.readFileSync(`${jsGivenReportsDir}/${file}`, 'utf-8'))
     );
     const groupNamesAndScenarios: Array<
-        [string, ScenarioReport[]],
+        [string, ScenarioReport[]]
     > = (Object.entries(
-        _.groupBy(scenarioReports, ({groupReport: {name}}) => name),
+        _.groupBy(scenarioReports, ({groupReport: {name}}) => name)
     ): any);
     const scenarioModels = groupNamesAndScenarios.map(
         ([groupName, scenarioReports]) =>
-            toReportModel(groupName, scenarioReports),
+            toReportModel(groupName, scenarioReports)
     );
 
     const reportDir = `${reportPrefix}/jGiven-report`;
@@ -112,12 +112,12 @@ export function generateJGivenReportDataFiles(
     fs.writeFileSync(
         `${reportDir}/data/metaData.js`,
         `jgivenReport.setMetaData({"created":"${new Date().toLocaleString()}","title":"J(s)Given Report","data":["data0.js"]} );\n`,
-        'utf-8',
+        'utf-8'
     );
     fs.writeFileSync(
         `${reportDir}/data/tags.js`,
         `jgivenReport.setTags({});\n`,
-        'utf-8',
+        'utf-8'
     );
 
     const json = JSON.stringify({scenarios: scenarioModels});
@@ -126,7 +126,7 @@ export function generateJGivenReportDataFiles(
     fs.writeFileSync(
         `${reportDir}/data/data0.js`,
         `jgivenReport.addZippedScenarios('${base64}');\n`,
-        'utf-8',
+        'utf-8'
     );
 }
 
@@ -148,7 +148,7 @@ function unzip(zipFile: string, targetDirectory: string): Promise<void> {
 
         unzipper.on('error', err => {
             console.log(
-                `Caught an error when extracting: ${zipFile} to ${targetDirectory}`,
+                `Caught an error when extracting: ${zipFile} to ${targetDirectory}`
             );
             reject(err);
         });
@@ -165,7 +165,7 @@ function unzip(zipFile: string, targetDirectory: string): Promise<void> {
 
 function toReportModel(
     groupName: string,
-    scenarioReports: ScenarioReport[],
+    scenarioReports: ScenarioReport[]
 ): ReportModel {
     return {
         className: groupName,
@@ -178,7 +178,7 @@ function toReportModel(
 
 function toScenarioModel(
     scenarioReport: ScenarioReport,
-    index: number,
+    index: number
 ): ScenarioModel {
     return {
         testMethodName: scenarioReport.name,

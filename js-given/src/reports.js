@@ -28,7 +28,7 @@ export class ScenarioPart {
         } else {
             const isFirstStep = this.steps.length === 0;
             this.steps.push(
-                new Step(methodName, parameters, isFirstStep, this.introWord),
+                new Step(methodName, parameters, isFirstStep, this.introWord)
             );
             this.introWord = null;
         }
@@ -44,7 +44,7 @@ export class Step {
         methodName: string,
         parameters: DecodedParameter[],
         isFirstStep: boolean,
-        introWord: string | null,
+        introWord: string | null
     ) {
         const TWO_DOLLAR_PLACEHOLDER =
             'zzblablaescapedollarsignplaceholdertpolm';
@@ -125,7 +125,7 @@ export class Word {
     constructor(
         value: string,
         isIntroWord: boolean,
-        parameterName: string | null = null,
+        parameterName: string | null = null
     ) {
         this.value = value;
         this.isIntroWord = isIntroWord;
@@ -153,7 +153,7 @@ export class ScenarioReport {
         groupReport: GroupReport,
         name: string,
         cases: ScenarioCase[],
-        argumentNames: string[],
+        argumentNames: string[]
     ) {
         this.groupReport = groupReport;
         this.name = name;
@@ -165,12 +165,12 @@ export class ScenarioReport {
         createDirOrDoNothingIfExists(reportsDestination);
         const fileName = computeScenarioFileName(
             this.groupReport.name,
-            this.name,
+            this.name
         );
         fs.writeFileSync(
             `${reportsDestination}/${fileName}`,
             JSON.stringify(this),
-            'utf-8',
+            'utf-8'
         );
     }
 }
@@ -214,7 +214,7 @@ function createDirOrDoNothingIfExists(path: string) {
 
 export function computeScenarioFileName(
     groupName: string,
-    scenarioName: string,
+    scenarioName: string
 ): string {
     const hash = crypto.createHash('sha256');
     hash.update(groupName + '\n' + scenarioName);

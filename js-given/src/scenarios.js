@@ -26,7 +26,7 @@ type ScenariosParam<G, W, T> = {
 
 type ScenariosDescriptions<G, W, T> = {
     (
-        scenariosParam: ScenariosParam<G, W, T>,
+        scenariosParam: ScenariosParam<G, W, T>
     ): {[key: string]: ScenarioDescription},
 };
 
@@ -40,7 +40,7 @@ type ScenarioOptions = {
 };
 export function scenario(
     options: $Shape<ScenarioOptions>,
-    scenarioFunction: ScenarioFunc,
+    scenarioFunction: ScenarioFunc
 ): ScenarioDescription {
     const scenarioOptions: ScenarioOptions = {
         tags: [],
@@ -99,7 +99,7 @@ export class ScenarioRunner {
     scenarios<G: Stage, W: Stage, T: Stage>(
         groupName: string,
         stagesParams: StagesParam<G, W, T>,
-        scenariosDescriptions: ScenariosDescriptions<G, W, T>,
+        scenariosDescriptions: ScenariosDescriptions<G, W, T>
     ) {
         const report = new GroupReport(groupName);
 
@@ -110,7 +110,7 @@ export class ScenarioRunner {
         } = undefined;
 
         let stageBuilder: (
-            runningScenario: RunningScenario,
+            runningScenario: RunningScenario
         ) => {
             givenStage: G,
             whenStage: W,
@@ -125,7 +125,7 @@ export class ScenarioRunner {
             stageBuilder = runningScenario => {
                 const givenStage = self.buildObject(
                     givenClass,
-                    runningScenario,
+                    runningScenario
                 );
                 const whenStage = self.buildObject(whenClass, runningScenario);
                 const thenStage = self.buildObject(thenClass, runningScenario);
@@ -138,7 +138,7 @@ export class ScenarioRunner {
             stageBuilder = runningScenario => {
                 const givenStage = self.buildObject(
                     givenClass,
-                    runningScenario,
+                    runningScenario
                 );
                 const whenStage = givenStage;
                 const thenStage = givenStage;
@@ -174,13 +174,13 @@ export class ScenarioRunner {
             const scenarios = scenariosDescriptions(scenariosParam);
 
             getScenarios(
-                scenarios,
+                scenarios
             ).forEach(({scenarioPropertyName, cases, argumentNames}) => {
                 const scenarioNameForHumans = humanize(scenarioPropertyName);
                 const scenario = this.addScenario(
                     report,
                     scenarioNameForHumans,
-                    argumentNames,
+                    argumentNames
                 );
 
                 let casesCount = 0;
@@ -211,11 +211,11 @@ export class ScenarioRunner {
                             for (let i = 0; i < steps.length; i++) {
                                 const {stepAction, stage} = steps[i];
                                 const asyncActions = executeStepAndCollectAsyncActions(
-                                    stepAction,
+                                    stepAction
                                 );
                                 copyStateToOtherStages(
                                     stage,
-                                    runningScenario.stages,
+                                    runningScenario.stages
                                 );
 
                                 if (asyncActions.length > 0) {
@@ -227,11 +227,11 @@ export class ScenarioRunner {
                                         try {
                                             // Execute async actions for current step
                                             await executeAsyncActions(
-                                                asyncActions,
+                                                asyncActions
                                             );
                                             copyStateToOtherStages(
                                                 stage,
-                                                runningScenario.stages,
+                                                runningScenario.stages
                                             );
 
                                             // Execute further steps and their async actions
@@ -245,14 +245,14 @@ export class ScenarioRunner {
                                                     stage,
                                                 } = steps[j];
                                                 const actions = executeStepAndCollectAsyncActions(
-                                                    stepAction,
+                                                    stepAction
                                                 );
                                                 await executeAsyncActions(
-                                                    actions,
+                                                    actions
                                                 );
                                                 copyStateToOtherStages(
                                                     stage,
-                                                    runningScenario.stages,
+                                                    runningScenario.stages
                                                 );
                                             }
                                         } finally {
@@ -261,8 +261,8 @@ export class ScenarioRunner {
 
                                         async function executeAsyncActions(
                                             asyncActions: Array<
-                                                () => Promise<*>,
-                                            >,
+                                                () => Promise<*>
+                                            >
                                         ): Promise<void> {
                                             for (const asyncAction of asyncActions) {
                                                 await asyncAction();
@@ -301,7 +301,7 @@ export class ScenarioRunner {
                 [key: string]: ScenarioDescription,
             }): ScenarioDescriptionWithName[] {
                 const scenarioDescriptions: ScenarioDescriptionWithName[] = Object.keys(
-                    scenarios,
+                    scenarios
                 ).map(scenarioPropertyName => {
                     const scenarioDescription: ScenarioDescription =
                         scenarios[scenarioPropertyName];
@@ -332,18 +332,18 @@ export class ScenarioRunner {
                                         (parameter, index) =>
                                             wrapParameter(
                                                 parameter,
-                                                argumentNames[index],
-                                            ),
+                                                argumentNames[index]
+                                            )
                                     );
                                     const args: string[] = parametersForCase.map(
-                                        formatParameter,
+                                        formatParameter
                                     );
                                     return {
                                         caseFunction: () =>
                                             func(...parametersForTestFunction),
                                         args,
                                     };
-                                },
+                                }
                             ),
                             argumentNames,
                         };
@@ -357,13 +357,13 @@ export class ScenarioRunner {
     addScenario(
         report: GroupReport,
         scenarioNameForHumans: string,
-        argumentNames: string[],
+        argumentNames: string[]
     ): ScenarioReport {
         return new ScenarioReport(
             report,
             scenarioNameForHumans,
             [],
-            argumentNames,
+            argumentNames
         );
     }
 
@@ -411,7 +411,7 @@ export class ScenarioRunner {
                             stepAction: () => {
                                 return extendedPrototype[methodName].apply(
                                     this,
-                                    args,
+                                    args
                                 );
                             },
                             stage: this,
@@ -433,23 +433,23 @@ export class ScenarioRunner {
                         }
 
                         const decodedParameters: DecodedParameter[] = args.map(
-                            decodeParameter,
+                            decodeParameter
                         );
 
                         // Pass the real arguments instead of the wrapped values
                         const values: any[] = decodedParameters.map(
-                            decodedParameter => decodedParameter.value,
+                            decodedParameter => decodedParameter.value
                         );
                         const result = classPrototype[methodName].apply(
                             this,
-                            values,
+                            values
                         );
 
                         if (result === this) {
                             // only records methods that return this
                             self.currentPart.stageMethodCalled(
                                 methodName,
-                                decodedParameters,
+                                decodedParameters
                             );
                         }
                         return result;
@@ -486,7 +486,7 @@ export const INSTANCE = new ScenarioRunner();
 export function scenarios<G: Stage, W: Stage, T: Stage>(
     groupName: string,
     stagesParam: StagesParam<G, W, T>,
-    scenarioFunc: ScenariosDescriptions<G, W, T>,
+    scenarioFunc: ScenariosDescriptions<G, W, T>
 ): void {
     return INSTANCE.scenarios(groupName, stagesParam, scenarioFunc);
 }
@@ -508,7 +508,7 @@ function copyStateProperties(source: any, target: any) {
     ) {
         const propertyNames = _.intersection(
             source[STATE_PROPERTIES_KEY],
-            target[STATE_PROPERTIES_KEY],
+            target[STATE_PROPERTIES_KEY]
         );
         propertyNames.forEach(propertyName => {
             // Need to convert to any to avoid typechecking
@@ -535,7 +535,7 @@ State.__addProperty = (prototype: any, property: string): void => {
 
 export function parametrized(
     parameters: Array<Array<any>>,
-    func: () => void,
+    func: () => void
 ): ParametrizedScenarioFuncWithParameters {
     return {
         parameters: (parameters: any),
@@ -545,7 +545,7 @@ export function parametrized(
 
 export function parametrized1<T>(
     parameters: T[],
-    func: (a: T) => void,
+    func: (a: T) => void
 ): ParametrizedScenarioFuncWithParameters {
     return {
         parameters: parameters.map(param => [param]),
@@ -554,7 +554,7 @@ export function parametrized1<T>(
 }
 export function parametrized2<A, B>(
     parameters: Array<[A, B]>,
-    func: (a: A, b: B) => void,
+    func: (a: A, b: B) => void
 ): ParametrizedScenarioFuncWithParameters {
     return {
         parameters: (parameters: any),
@@ -563,7 +563,7 @@ export function parametrized2<A, B>(
 }
 export function parametrized3<A, B, C>(
     parameters: Array<[A, B, C]>,
-    func: (a: A, b: B, c: C) => void,
+    func: (a: A, b: B, c: C) => void
 ): ParametrizedScenarioFuncWithParameters {
     return {
         parameters: (parameters: any),
@@ -572,7 +572,7 @@ export function parametrized3<A, B, C>(
 }
 export function parametrized4<A, B, C, D>(
     parameters: Array<[A, B, C, D]>,
-    func: (a: A, b: B, c: C, d: D) => void,
+    func: (a: A, b: B, c: C, d: D) => void
 ): ParametrizedScenarioFuncWithParameters {
     return {
         parameters: (parameters: any),
@@ -581,7 +581,7 @@ export function parametrized4<A, B, C, D>(
 }
 export function parametrized5<A, B, C, D, E>(
     parameters: Array<[A, B, C, D, E]>,
-    func: (a: A, b: B, c: C, d: D, e: E) => void,
+    func: (a: A, b: B, c: C, d: D, e: E) => void
 ): ParametrizedScenarioFuncWithParameters {
     return {
         parameters: (parameters: any),
@@ -590,7 +590,7 @@ export function parametrized5<A, B, C, D, E>(
 }
 export function parametrized6<A, B, C, D, E, F>(
     parameters: Array<[A, B, C, D, E, F]>,
-    func: (a: A, b: B, c: C, d: D, e: E, f: F) => void,
+    func: (a: A, b: B, c: C, d: D, e: E, f: F) => void
 ): ParametrizedScenarioFuncWithParameters {
     return {
         parameters: (parameters: any),
@@ -599,7 +599,7 @@ export function parametrized6<A, B, C, D, E, F>(
 }
 export function parametrized7<A, B, C, D, E, F, G>(
     parameters: Array<[A, B, C, D, E, F, G]>,
-    func: (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => void,
+    func: (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => void
 ): ParametrizedScenarioFuncWithParameters {
     return {
         parameters: (parameters: any),
@@ -614,7 +614,7 @@ type WrappedParameter = {
 };
 export function wrapParameter(
     value: any,
-    parameterName: string,
+    parameterName: string
 ): WrappedParameter {
     return {
         parameterName,
@@ -641,7 +641,7 @@ export function decodeParameter(parameter: any): DecodedParameter {
 
 let asyncActionsSingleton: Array<() => Promise<*>> = [];
 function executeStepAndCollectAsyncActions(
-    stepActionThatMayCallDoAsync: () => any,
+    stepActionThatMayCallDoAsync: () => any
 ): Array<() => Promise<*>> {
     asyncActionsSingleton = [];
     const collectedAsyncActions = [];
