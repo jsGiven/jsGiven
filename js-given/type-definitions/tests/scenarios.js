@@ -17,9 +17,7 @@ class SingleStage extends Stage {
 scenarios('group.name', SingleStage);
 
 // $ExpectError
-scenarios('group.name', SingleStage, ({given, when, then}) => {
-
-});
+scenarios('group.name', SingleStage, ({given, when, then}) => {});
 
 scenarios('group.name', SingleStage, ({given, when, then}) => ({
     // $ExpectError
@@ -64,17 +62,20 @@ class ThenStage extends Stage {
 }
 
 // $ExpectError
-scenarios('group.name', [GivenStage, WhenStage], ({given, when, then}) => ({
-}));
+scenarios('group.name', [GivenStage, WhenStage], ({given, when, then}) => ({}));
 
-scenarios('group.name', [GivenStage, WhenStage, ThenStage], ({given, when, then}) => ({
-    a_scenario: scenario({}, () => {
-        given().something_in_given();
-        // $ExpectError
-        when().something_in_given();
+scenarios(
+    'group.name',
+    [GivenStage, WhenStage, ThenStage],
+    ({given, when, then}) => ({
+        a_scenario: scenario({}, () => {
+            given().something_in_given();
+            // $ExpectError
+            when().something_in_given();
 
-        when().something_in_when();
+            when().something_in_when();
 
-        then().something_in_then();
-    }),
-}));
+            then().something_in_then();
+        }),
+    })
+);

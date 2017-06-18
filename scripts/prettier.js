@@ -25,7 +25,8 @@ const config = {
     default: {
         patterns: [
             'js-given/src/**/*.js',
-            'js-given/src/type-definitions/*.js',
+            'js-given/type-definitions/**/*.js',
+            'js-given/spec/**/*.js',
         ],
         ignore: ['**/node_modules/**'],
     },

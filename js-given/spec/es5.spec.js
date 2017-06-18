@@ -1,5 +1,5 @@
 // @flow
-import { expect } from 'chai';
+import {expect} from 'chai';
 
 import {
     scenario,
@@ -10,7 +10,11 @@ import {
     State,
 } from '../src';
 
-import {BasicScenarioGivenStage, BasicScenarioWhenStage, BasicScenarioThenStage} from './basic-stages';
+import {
+    BasicScenarioGivenStage,
+    BasicScenarioWhenStage,
+    BasicScenarioThenStage,
+} from './basic-stages';
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);
@@ -20,8 +24,9 @@ if (global.describe && global.it) {
 }
 
 class ES5GivenStage extends BasicScenarioGivenStage {
-    @State calledRecorder: {
-        called: boolean;
+    @State
+    calledRecorder: {
+        called: boolean,
     };
     ES5Stage: Class<any>;
     ES5GivenStage: Class<any>;
@@ -34,8 +39,7 @@ class ES5GivenStage extends BasicScenarioGivenStage {
         };
         const self = this;
 
-        function ES5Stage() {
-        }
+        function ES5Stage() {}
         ES5Stage.prototype = {
             an_action_is_performed() {
                 self.calledRecorder.called = true;
@@ -50,15 +54,19 @@ class ES5GivenStage extends BasicScenarioGivenStage {
     }
 
     a_scenario_that_uses_this_stage_class(): this {
-        this.scenarioRunner.scenarios('group_name', this.ES5Stage, ({given, when, then}) => {
-            return {
-                scenario_using_stages: scenario({}, () => {
-                    given();
-                    when().an_action_is_performed();
-                    then();
-                }),
-            };
-        });
+        this.scenarioRunner.scenarios(
+            'group_name',
+            this.ES5Stage,
+            ({given, when, then}) => {
+                return {
+                    scenario_using_stages: scenario({}, () => {
+                        given();
+                        when().an_action_is_performed();
+                        then();
+                    }),
+                };
+            }
+        );
         return this;
     }
 
@@ -68,10 +76,9 @@ class ES5GivenStage extends BasicScenarioGivenStage {
         };
         const self = this;
 
-        function ES5GivenStage() {
-        }
+        function ES5GivenStage() {}
         ES5GivenStage.prototype = {
-            a_number: function (value: number) {
+            a_number: function(value: number) {
                 this.value = value;
             },
         };
@@ -81,8 +88,7 @@ class ES5GivenStage extends BasicScenarioGivenStage {
         State.addProperty(ES5GivenStage, 'value');
         this.ES5GivenStage = ES5GivenStage;
 
-        function ES5WhenStage() {
-        }
+        function ES5WhenStage() {}
         ES5WhenStage.prototype = {
             it_is_incremented() {
                 this.value++;
@@ -94,8 +100,7 @@ class ES5GivenStage extends BasicScenarioGivenStage {
         State.addProperty(ES5WhenStage, 'value');
         this.ES5WhenStage = ES5WhenStage;
 
-        function ES5ThenStage() {
-        }
+        function ES5ThenStage() {}
         ES5ThenStage.prototype = {
             its_new_value_is(value: number) {
                 expect(this.value).to.equal(value);
@@ -112,22 +117,27 @@ class ES5GivenStage extends BasicScenarioGivenStage {
     }
 
     a_scenario_that_uses_these_stage_classes(): this {
-        this.scenarioRunner.scenarios('group_name', [this.ES5GivenStage, this.ES5WhenStage, this.ES5ThenStage], ({given, when, then}) => {
-            return {
-                scenario_using_stages: scenario({}, () => {
-                    given().a_number(1);
-                    when().it_is_incremented();
-                    then().its_new_value_is(2);
-                }),
-            };
-        });
+        this.scenarioRunner.scenarios(
+            'group_name',
+            [this.ES5GivenStage, this.ES5WhenStage, this.ES5ThenStage],
+            ({given, when, then}) => {
+                return {
+                    scenario_using_stages: scenario({}, () => {
+                        given().a_number(1);
+                        when().it_is_incremented();
+                        then().its_new_value_is(2);
+                    }),
+                };
+            }
+        );
         return this;
     }
 }
 
 class ES5ThenStage extends BasicScenarioThenStage {
-    @State calledRecorder: {
-        called: boolean;
+    @State
+    calledRecorder: {
+        called: boolean,
     };
 
     the_es_5_stage_has_been_used(): this {
@@ -136,27 +146,39 @@ class ES5ThenStage extends BasicScenarioThenStage {
     }
 }
 
+scenarios(
+    'core.support.es5',
+    [ES5GivenStage, BasicScenarioWhenStage, ES5ThenStage],
+    ({given, when, then}) => {
+        return {
+            scenarios_can_use_an_es5_stage_class: scenario({}, () => {
+                given()
+                    .a_scenario_runner()
+                    .and()
+                    .an_es5_stage_class()
+                    .and()
+                    .a_scenario_that_uses_this_stage_class();
 
-scenarios('core.support.es5', [ES5GivenStage, BasicScenarioWhenStage, ES5ThenStage], ({ given, when, then }) => {
-    return {
-        scenarios_can_use_an_es5_stage_class: scenario({}, () => {
-            given().a_scenario_runner()
-                .and().an_es5_stage_class()
-                .and().a_scenario_that_uses_this_stage_class();
+                when().the_scenario_is_executed();
 
-            when().the_scenario_is_executed();
+                then().the_es_5_stage_has_been_used();
+            }),
 
-            then().the_es_5_stage_has_been_used();
-        }),
+            scenarios_can_use_es5_stage_classes_and_share_state: scenario(
+                {},
+                () => {
+                    given()
+                        .a_scenario_runner()
+                        .and()
+                        .three_state_full_es5_stage_classes()
+                        .and()
+                        .a_scenario_that_uses_these_stage_classes();
 
-        scenarios_can_use_es5_stage_classes_and_share_state: scenario({}, () => {
-            given().a_scenario_runner()
-                .and().three_state_full_es5_stage_classes()
-                .and().a_scenario_that_uses_these_stage_classes();
+                    when().the_scenario_is_executed();
 
-            when().the_scenario_is_executed();
-
-            then().the_es_5_stage_has_been_used();
-        }),
-    };
-});
+                    then().the_es_5_stage_has_been_used();
+                }
+            ),
+        };
+    }
+);

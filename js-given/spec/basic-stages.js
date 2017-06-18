@@ -7,19 +7,24 @@ import sinon from 'sinon';
 import isPromise from 'is-promise';
 
 import {ScenarioRunner, doAsync} from '../src/scenarios';
-import type {ScenarioCase, ScenarioPart, ScenarioPartKind, ScenarioReport} from '../src/reports';
+import type {
+    ScenarioCase,
+    ScenarioPart,
+    ScenarioPartKind,
+    ScenarioReport,
+} from '../src/reports';
 import {computeScenarioFileName} from '../src/reports';
 import type {GroupFunc, TestFunc} from '../src/test-runners';
 import {Stage, State} from '../src';
 
 type SinonStub = {
-    callArg: (arg: number) => any;
-    getCall: (callCount: number) => Call;
-    callCount: number;
+    callArg: (arg: number) => any,
+    getCall: (callCount: number) => Call,
+    callCount: number,
 };
 
 type Call = {
-    args: Array<any>;
+    args: Array<any>,
 };
 
 export class BasicScenarioGivenStage extends Stage {
@@ -82,7 +87,10 @@ export class BasicScenarioThenStage extends Stage {
         return this;
     }
 
-    the_it_method_has_been_called_$_times_with_parameters_$(callCount: number, parameters: string[]): this {
+    the_it_method_has_been_called_$_times_with_parameters_$(
+        callCount: number,
+        parameters: string[]
+    ): this {
         expect(this.it).to.have.callCount(callCount);
         parameters.forEach((parameter, index) => {
             const spy: any = this.it;
@@ -107,7 +115,10 @@ export class BasicScenarioThenStage extends Stage {
         return part;
     }
 
-    findPartByKindInCase(scenarioCase: ScenarioCase, scenarioKind: ScenarioPartKind): ScenarioPart {
+    findPartByKindInCase(
+        scenarioCase: ScenarioCase,
+        scenarioKind: ScenarioPartKind
+    ): ScenarioPart {
         const part = scenarioCase.parts.find(({kind}) => kind === scenarioKind);
         if (!part) {
             throw new Error(`No such part ${scenarioKind}`);
@@ -116,7 +127,10 @@ export class BasicScenarioThenStage extends Stage {
     }
 
     getFileName(): string {
-        return `${this.jsGivenReportsDir}/${computeScenarioFileName('group_name', 'Scenario name')}`;
+        return `${this.jsGivenReportsDir}/${computeScenarioFileName(
+            'group_name',
+            'Scenario name'
+        )}`;
     }
 
     getScenario(): ScenarioReport {

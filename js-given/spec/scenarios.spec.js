@@ -11,7 +11,11 @@ import {
     Stage,
 } from '../src';
 
-import {BasicScenarioGivenStage, BasicScenarioWhenStage, BasicScenarioThenStage} from './basic-stages';
+import {
+    BasicScenarioGivenStage,
+    BasicScenarioWhenStage,
+    BasicScenarioThenStage,
+} from './basic-stages';
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);
@@ -44,27 +48,34 @@ class DummyScenarioThenStage extends BasicScenarioThenStage {
     }
 }
 
-scenarios('core.scenarios', [DummyScenarioGivenStage, BasicScenarioWhenStage, DummyScenarioThenStage], ({given, when, then}) => {
-    return {
-        scenarios_can_be_run_over_any_scenario_runner: scenario({}, () => {
-            given().a_scenario_runner()
-                .and().a_dummy_scenario();
+scenarios(
+    'core.scenarios',
+    [DummyScenarioGivenStage, BasicScenarioWhenStage, DummyScenarioThenStage],
+    ({given, when, then}) => {
+        return {
+            scenarios_can_be_run_over_any_scenario_runner: scenario({}, () => {
+                given().a_scenario_runner().and().a_dummy_scenario();
 
-            when().the_scenario_is_executed();
+                when().the_scenario_is_executed();
 
-            then().the_describe_method_has_been_called()
-                .and().the_it_method_has_been_called()
-                .and().the_dummy_scenario_function_has_been_called();
-        }),
-    };
-});
+                then()
+                    .the_describe_method_has_been_called()
+                    .and()
+                    .the_it_method_has_been_called()
+                    .and()
+                    .the_dummy_scenario_function_has_been_called();
+            }),
+        };
+    }
+);
 
 class StageRecorderGivenStage extends BasicScenarioGivenStage {
-    @State callRecorder: {
-        somethingGivenCalled: boolean;
-        somethingWhenCalled: boolean;
-        somethingThenCalled: boolean;
-    }
+    @State
+    callRecorder: {
+        somethingGivenCalled: boolean,
+        somethingWhenCalled: boolean,
+        somethingThenCalled: boolean,
+    };
     GivenStageThatRecordBeenCalled: Class<any>;
     WhenStageThatRecordBeenCalled: Class<any>;
     ThenStageThatRecordBeenCalled: Class<any>;
@@ -83,35 +94,50 @@ class StageRecorderGivenStage extends BasicScenarioGivenStage {
             }
         };
         this.WhenStageThatRecordBeenCalled = class WhenStageThatRecordBeenCalled extends Stage {
-            somethingWhen(): this { self.callRecorder.somethingWhenCalled = true; return this; }
+            somethingWhen(): this {
+                self.callRecorder.somethingWhenCalled = true;
+                return this;
+            }
         };
         this.ThenStageThatRecordBeenCalled = class ThenStageThatRecordBeenCalled extends Stage {
-            somethingThen(): this { self.callRecorder.somethingThenCalled = true; return this; }
+            somethingThen(): this {
+                self.callRecorder.somethingThenCalled = true;
+                return this;
+            }
         };
 
         return this;
     }
 
     a_scenario_that_uses_the_stages_that_records(): this {
-        this.scenarioRunner.scenarios('group_name', [this.GivenStageThatRecordBeenCalled, this.WhenStageThatRecordBeenCalled, this.ThenStageThatRecordBeenCalled], ({given, when, then}) => {
-            return {
-                scenario_using_stages: scenario({}, () => {
-                    given().somethingGiven();
-                    when().somethingWhen();
-                    then().somethingThen();
-                }),
-            };
-        });
+        this.scenarioRunner.scenarios(
+            'group_name',
+            [
+                this.GivenStageThatRecordBeenCalled,
+                this.WhenStageThatRecordBeenCalled,
+                this.ThenStageThatRecordBeenCalled,
+            ],
+            ({given, when, then}) => {
+                return {
+                    scenario_using_stages: scenario({}, () => {
+                        given().somethingGiven();
+                        when().somethingWhen();
+                        then().somethingThen();
+                    }),
+                };
+            }
+        );
         return this;
     }
 }
 
 class StageRecorderThenStage extends BasicScenarioThenStage {
-    @State callRecorder: {
-        somethingGivenCalled: boolean;
-        somethingWhenCalled: boolean;
-        somethingThenCalled: boolean;
-    }
+    @State
+    callRecorder: {
+        somethingGivenCalled: boolean,
+        somethingWhenCalled: boolean,
+        somethingThenCalled: boolean,
+    };
 
     the_three_stages_have_been_called(): this {
         expect(this.callRecorder.somethingGivenCalled).to.be.true;
@@ -121,16 +147,26 @@ class StageRecorderThenStage extends BasicScenarioThenStage {
     }
 }
 
-scenarios('core.scenarios.stages', [StageRecorderGivenStage, BasicScenarioWhenStage, StageRecorderThenStage], ({given, when, then}) => {
-    return {
-        scenarios_can_use_given_when_then_stages_with_methods: scenario({}, () => {
-            given().a_scenario_runner()
-                .and().three_stages_that_record_been_called()
-                .and().a_scenario_that_uses_the_stages_that_records();
+scenarios(
+    'core.scenarios.stages',
+    [StageRecorderGivenStage, BasicScenarioWhenStage, StageRecorderThenStage],
+    ({given, when, then}) => {
+        return {
+            scenarios_can_use_given_when_then_stages_with_methods: scenario(
+                {},
+                () => {
+                    given()
+                        .a_scenario_runner()
+                        .and()
+                        .three_stages_that_record_been_called()
+                        .and()
+                        .a_scenario_that_uses_the_stages_that_records();
 
-            when().the_scenario_is_executed();
+                    when().the_scenario_is_executed();
 
-            then().the_three_stages_have_been_called();
-        }),
-    };
-});
+                    then().the_three_stages_have_been_called();
+                }
+            ),
+        };
+    }
+);

@@ -10,7 +10,11 @@ import {
     Stage,
 } from '../src';
 
-import {BasicScenarioGivenStage, BasicScenarioWhenStage, BasicScenarioThenStage} from './basic-stages';
+import {
+    BasicScenarioGivenStage,
+    BasicScenarioWhenStage,
+    BasicScenarioThenStage,
+} from './basic-stages';
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);
@@ -24,9 +28,10 @@ class StatefullScenarioGivenStage extends BasicScenarioGivenStage {
     WhenStageStateFull: Class<any>;
     ThenStageStateFull: Class<any>;
 
-    @State valueRecorder: {
-        expectedValueFromWhenStage?: number;
-        expectedValueFromGivenStage?: number;
+    @State
+    valueRecorder: {
+        expectedValueFromWhenStage?: number,
+        expectedValueFromGivenStage?: number,
     };
 
     three_stateful_stages_written_using_the_State_decorator(): this {
@@ -135,23 +140,32 @@ class StatefullScenarioGivenStage extends BasicScenarioGivenStage {
     }
 
     a_scenario_that_uses_stateful_stages(): this {
-        this.scenarioRunner.scenarios('group_name', [this.GivenStageStateFull, this.WhenStageStateFull, this.ThenStageStateFull], ({given, when, then}) => {
-            return {
-                scenario_using_stages: scenario({}, () => {
-                    given().aValue();
-                    when().it_gets_incremented();
-                    then().the_value_is_incremented();
-                }),
-            };
-        });
+        this.scenarioRunner.scenarios(
+            'group_name',
+            [
+                this.GivenStageStateFull,
+                this.WhenStageStateFull,
+                this.ThenStageStateFull,
+            ],
+            ({given, when, then}) => {
+                return {
+                    scenario_using_stages: scenario({}, () => {
+                        given().aValue();
+                        when().it_gets_incremented();
+                        then().the_value_is_incremented();
+                    }),
+                };
+            }
+        );
         return this;
     }
 }
 
 class StatefullScenarioThenStage extends BasicScenarioThenStage {
-    @State valueRecorder: {
-        expectedValueFromWhenStage?: number;
-        expectedValueFromGivenStage?: number;
+    @State
+    valueRecorder: {
+        expectedValueFromWhenStage?: number,
+        expectedValueFromGivenStage?: number,
     };
 
     the_state_has_been_propagated(): this {
@@ -161,36 +175,62 @@ class StatefullScenarioThenStage extends BasicScenarioThenStage {
     }
 }
 
-scenarios('core.scenarios.state', [StatefullScenarioGivenStage, BasicScenarioWhenStage, StatefullScenarioThenStage], ({given, when, then}) => {
-    return {
-        scenarios_can_share_state_between_stages_using_the_State_decorator: scenario({}, () => {
-            given().a_scenario_runner()
-                .and().three_stateful_stages_written_using_the_State_decorator()
-                .and().a_scenario_that_uses_stateful_stages();
+scenarios(
+    'core.scenarios.state',
+    [
+        StatefullScenarioGivenStage,
+        BasicScenarioWhenStage,
+        StatefullScenarioThenStage,
+    ],
+    ({given, when, then}) => {
+        return {
+            scenarios_can_share_state_between_stages_using_the_State_decorator: scenario(
+                {},
+                () => {
+                    given()
+                        .a_scenario_runner()
+                        .and()
+                        .three_stateful_stages_written_using_the_State_decorator()
+                        .and()
+                        .a_scenario_that_uses_stateful_stages();
 
-            when().the_scenario_is_executed();
+                    when().the_scenario_is_executed();
 
-            then().the_state_has_been_propagated();
-        }),
+                    then().the_state_has_been_propagated();
+                }
+            ),
 
-        scenarios_can_share_state_between_stages_using_the_addProperty_method: scenario({}, () => {
-            given().a_scenario_runner()
-                .and().three_stateful_stages_written_using_the_State_addProperty_method()
-                .and().a_scenario_that_uses_stateful_stages();
+            scenarios_can_share_state_between_stages_using_the_addProperty_method: scenario(
+                {},
+                () => {
+                    given()
+                        .a_scenario_runner()
+                        .and()
+                        .three_stateful_stages_written_using_the_State_addProperty_method()
+                        .and()
+                        .a_scenario_that_uses_stateful_stages();
 
-            when().the_scenario_is_executed();
+                    when().the_scenario_is_executed();
 
-            then().the_state_has_been_propagated();
-        }),
+                    then().the_state_has_been_propagated();
+                }
+            ),
 
-        scenarios_can_share_state_between_stages_using_the_both_State_decorator_and_addProperty_method: scenario({}, () => {
-            given().a_scenario_runner()
-                .and().three_stateful_stages_written_using_State_decorator_and_addProperty_method()
-                .and().a_scenario_that_uses_stateful_stages();
+            scenarios_can_share_state_between_stages_using_the_both_State_decorator_and_addProperty_method: scenario(
+                {},
+                () => {
+                    given()
+                        .a_scenario_runner()
+                        .and()
+                        .three_stateful_stages_written_using_State_decorator_and_addProperty_method()
+                        .and()
+                        .a_scenario_that_uses_stateful_stages();
 
-            when().the_scenario_is_executed();
+                    when().the_scenario_is_executed();
 
-            then().the_state_has_been_propagated();
-        }),
-    };
-});
+                    then().the_state_has_been_propagated();
+                }
+            ),
+        };
+    }
+);

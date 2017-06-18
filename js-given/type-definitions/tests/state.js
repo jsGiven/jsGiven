@@ -17,7 +17,6 @@ State.addProperty(SingleStage);
 
 State.addProperty(SingleStage, 'property');
 
-
 class ClassThatDoesNotExtendsStage {}
 // $ExpectError
 State.addProperty(ClassThatDoesNotExtendsStage, 'property');

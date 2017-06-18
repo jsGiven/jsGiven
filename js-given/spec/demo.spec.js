@@ -1,5 +1,5 @@
 // @flow
-import { expect } from 'chai';
+import {expect} from 'chai';
 
 import {
     scenario,
@@ -45,19 +45,15 @@ class DemoStage extends Stage {
     }
 }
 
-scenarios('jsgiven.demo', DemoStage, ({ given, when, then }) => {
+scenarios('jsgiven.demo', DemoStage, ({given, when, then}) => {
     return {
-        scenarios_can_be_parametrized: scenario({}, parametrized2(
-            [
-                [1, 2],
-                [2, 4],
-                [3, 6],
-            ],
-            (value, result) => {
+        scenarios_can_be_parametrized: scenario(
+            {},
+            parametrized2([[1, 2], [2, 4], [3, 6]], (value, result) => {
                 given().a_number(value).and().another_number(value);
                 when().they_are_summed();
                 then().the_result_is(result);
-            },
-        )),
+            })
+        ),
     };
 });

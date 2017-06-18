@@ -6,11 +6,11 @@ var jrunner = new Jasmine();
 
 // $FlowIgnore
 /*eslint-disable */
-jasmine.getEnv().clearReporters();   // add jasmine-spec-reporter
+jasmine.getEnv().clearReporters(); // add jasmine-spec-reporter
 /*eslint-disable */
-jasmine.getEnv().addReporter(new SpecReporter());   // add jasmine-spec-reporter
+jasmine.getEnv().addReporter(new SpecReporter()); // add jasmine-spec-reporter
 /*eslint-enable */
-jrunner.loadConfigFile();                           // load jasmine.json configuration
+jrunner.loadConfigFile(); // load jasmine.json configuration
 
 global.TEST_FRAMEWORK = 'JASMINE';
 
