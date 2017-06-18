@@ -7,6 +7,8 @@
     "lint": "check-node-version -q --node '< 6.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint . ./)",
     "lintFix": "check-node-version -q --node '< 6.0' || (echo \"Don't worry, ESLint takes some time ...\" && eslint --fix . ./)",
     "flow": "flow",
+    "prettier": "node ./scripts/prettier.js write-changed",
+    "prettier-all": "node ./scripts/prettier.js write",
     "cleanNodeModules": "for dir in `find . -name 'package.json' -print0 | xargs -0 -n1 dirname | sort --unique | grep -v node_modules`; do (cd $dir; pwd; rm -vfr node_modules); done",
     "install": "for dir in `find . -name 'package.json' -print0 | xargs -0 -n1 dirname | sort --unique | grep -v node_modules | grep -v '^.$' | grep -v 'js-given/dist' `; do (cd $dir; pwd; yarn --ignore-engines); done",
     "upgradeExamplesToLatest": "for dir in `find examples -name 'package.json' -print0 | xargs -0 -n1 dirname | sort --unique | grep -v node_modules`; do (cd $dir; pwd; yarn upgrade js-given@latest); done",
@@ -39,6 +41,7 @@
   "homepage": "https://github.com/jsGiven/jsGiven",
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "chalk": "^1.1.3",
     "check-node-version": "^2.1.0",
     "eslint": "^4.0.0",
     "eslint-config-standard": "^10.2.1",
@@ -47,7 +50,9 @@
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "flow-bin": "^0.48.0"
+    "flow-bin": "^0.48.0",
+    "glob": "^7.1.2",
+    "prettier": "^1.4.4"
   },
   "dependencies": {
     "coveralls": "^2.13.1",
