@@ -8,6 +8,7 @@ import {
     setupForAva,
     Stage,
     State,
+    Hidden,
 } from '../src';
 
 import {
@@ -41,12 +42,19 @@ class ES5GivenStage extends BasicScenarioGivenStage {
 
         function ES5Stage() {}
         ES5Stage.prototype = {
-            an_action_is_performed() {
+            an_action_is_performed(): ES5Stage {
                 self.calledRecorder.called = true;
+                return this;
+            },
+            anHiddenStep(): ES5Stage {
+                return this;
             },
         };
         Object.setPrototypeOf(ES5Stage.prototype, Stage.prototype);
         Object.setPrototypeOf(ES5Stage, Stage);
+
+        // $FlowIgnore
+        Hidden.addHiddenStep(ES5Stage, 'anHiddenStep');
 
         this.ES5Stage = ES5Stage;
 
@@ -62,6 +70,23 @@ class ES5GivenStage extends BasicScenarioGivenStage {
                     scenario_using_stages: scenario({}, () => {
                         given();
                         when().an_action_is_performed();
+                        then();
+                    }),
+                };
+            }
+        );
+        return this;
+    }
+
+    a_scenario_that_uses_hidden_steps(): this {
+        this.scenarioRunner.scenarios(
+            'group_name',
+            this.ES5Stage,
+            ({given, when, then}) => {
+                return {
+                    scenario_name: scenario({}, () => {
+                        given();
+                        when().an_action_is_performed().and().anHiddenStep();
                         then();
                     }),
                 };
@@ -144,6 +169,12 @@ class ES5ThenStage extends BasicScenarioThenStage {
         expect(this.calledRecorder.called).to.be.true;
         return this;
     }
+
+    the_report_does_not_include_the_hidden_steps(): this {
+        const {steps} = this.findPartByKind('WHEN');
+        expect(steps.map(({name}) => name)).to.deep.equal(['When an action is performed']);
+        return this;
+    }
 }
 
 scenarios(
@@ -179,6 +210,19 @@ scenarios(
                     then().the_es_5_stage_has_been_used();
                 }
             ),
+
+            scenarios_can_use_an_es5_stage_class_with_hidden_steps: scenario({}, () => {
+                given()
+                    .a_scenario_runner()
+                    .and()
+                    .an_es5_stage_class()
+                    .and()
+                    .a_scenario_that_uses_hidden_steps();
+
+                when().the_scenario_is_executed();
+
+                then().the_report_does_not_include_the_hidden_steps();
+            }),
         };
     }
 );
