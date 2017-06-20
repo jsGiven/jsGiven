@@ -169,6 +169,49 @@ You have to include the following two tasks in you *package.json* file:
 
 The *jsgiven* command is a CLI command tool provided by the module.
 
+== Step methods
+
+=== Completely hide steps
+
+Steps can be completely hidden from the report by using the @Hidden decorator.
+This is sometimes useful if you need a technical method call within a scenario, which should not appear in the report.
+
+For example:
+
+[source, js]
+----
+    @Hidden
+    aCompletelyHiddenStep(): this {
+        return this;
+    }
+----
+
+
+[NOTE]
+.It is useful to write hidden methods in CamelCase
+====
+This will make it immediately visible in the scenario that these methods will not appear in the report.
+====
+
+There is an alternative to decorators that you can use if you don’t want to use decorators.
+See <<Hide steps without decorators>>
+
+In order to use hidden step with decorators, you have to setup decorators: See <<Configuration to use decorators>>
+
+==== Hide steps without decorators
+
+You can also declare the step methods you want to hide by using Hidden.addHiddenStep() static method.
+
+[source, js]
+----
+class StateClass extends Stage {
+    aCompletelyHiddenStep(): this {
+        return this;
+    }
+}
+Hidden.addHiddenStep(StageClass, 'aCompletelyHiddenStep');
+----
+
 == Stages and state sharing
 
 In the previous example you have included all step methods in the same class.
@@ -213,6 +256,8 @@ include::../examples/jest-es2015/sum-multiple-stages.test.js[tags=SumStages]
 There is an alternative to decorators that you can use if you don't want to use decorators.
 See <<Using state sharing without decorators>>
 
+In order to use state sharing with decorators, you have to setup decorators: See <<Configuration to use decorators>>
+
 ==== Using state sharing without decorators
 
 You can declare the state properties to be shared using the *State.addProperty()* static method.
@@ -225,37 +270,6 @@ include::../examples/jest-es2015/sum-multiple-stages-without-decorators.test.js[
 Both fields in the different classes have to be marked as state properties with the *State.addProperty()* static method.
 
 The values of these fields are shared between all stages that have the same state properties.
-
-==== Configuration to use decorators
-
-===== With Babel
-
-In order to use state sharing with decorators, you have to include the following babel transform plugins in your babel configuration.
-
-- transform-decorators-legacy
-- transform-class-properties
-
-[source, json, indent=0]
-----
-include::../examples/jest-es2015/.babelrc[]
-----
-
-
-[NOTE]
-.You are not forced to use this as your *.babelrc* production configuration
-====
-You can use the decorators configuration only in your test setup (See https://babeljs.io/docs/usage/babelrc/#env-option).
-Read your test framework documentation to see how you can achieve this.
-====
-
-===== With TypeScript
-
-In order to use state sharing with decorators, you have to enable the "experimentalDecorators" option in your tsconfig.json
-
-[source, json, indent=4]
-----
-"experimentalDecorators": true
-----
 
 == Parameterized steps
 
@@ -434,6 +448,40 @@ JsGiven supports the following test runners :
 - http://www.protractortest.org/#/[Protractor]
 
 JsGiven is tested internally using those frameworks image:https://travis-ci.org/jsGiven/jsGiven.svg?branch=master["Build Status", link="https://travis-ci.org/jsGiven/jsGiven"]
+
+=== Configuration to use decorators
+
+All step-related advanced features (state-sharing, hiding steps ...) are best used with decorators.
+In order to enable decorators, some configuration is required.
+
+==== With Babel
+
+In order to use decorators, you have to include the following babel transform plugins in your babel configuration.
+
+- transform-decorators-legacy
+- transform-class-properties
+
+[source, json, indent=0]
+----
+include::../examples/jest-es2015/.babelrc[]
+----
+
+
+[NOTE]
+.You are not forced to use this as your *.babelrc* production configuration
+====
+You can use the decorators configuration only in your test setup (See https://babeljs.io/docs/usage/babelrc/#env-option).
+Read your test framework documentation to see how you can achieve this.
+====
+
+==== With TypeScript
+
+In order to use state sharing with decorators, you have to enable the "experimentalDecorators" option in your tsconfig.json
+
+[source, json, indent=4]
+----
+"experimentalDecorators": true
+----
 
 === Type checkers
 

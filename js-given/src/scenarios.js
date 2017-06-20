@@ -13,10 +13,10 @@ import {
     ScenarioPart,
 } from './reports';
 import type {TagDescription} from './tags';
+import {copyStateProperties} from './State';
+import {isHiddenStep} from './cosmetic';
 
 export const REPORTS_DESTINATION = '.jsGiven-reports';
-
-const STATE_PROPERTIES_KEY = '__JSGIVEN_STATE_PROPERTIES';
 
 type ScenariosParam<G, W, T> = {
     given: () => G,
@@ -445,7 +445,7 @@ export class ScenarioRunner {
                             values
                         );
 
-                        if (result === this) {
+                        if (result === this && ! isHiddenStep(this, methodName)) {
                             // only records methods that return this
                             self.currentPart.stageMethodCalled(
                                 methodName,
@@ -498,40 +498,6 @@ function copyStateToOtherStages(originalStage: Stage, allStages: Stage[]) {
         }
     });
 }
-
-function copyStateProperties(source: any, target: any) {
-    if (
-        source &&
-        target &&
-        source[STATE_PROPERTIES_KEY] &&
-        target[STATE_PROPERTIES_KEY]
-    ) {
-        const propertyNames = _.intersection(
-            source[STATE_PROPERTIES_KEY],
-            target[STATE_PROPERTIES_KEY]
-        );
-        propertyNames.forEach(propertyName => {
-            // Need to convert to any to avoid typechecking
-            const sourceAny: any = source;
-            const targetAny: any = target;
-            targetAny[propertyName] = sourceAny[propertyName];
-        });
-    }
-}
-
-export function State(target: any, key: string, descriptor: any): any {
-    State.__addProperty(target, key);
-    return {...descriptor, writable: true};
-}
-State.addProperty = (stageClass: Class<Stage>, property: string): void => {
-    State.__addProperty(stageClass.prototype, property);
-};
-State.__addProperty = (prototype: any, property: string): void => {
-    if (!prototype[STATE_PROPERTIES_KEY]) {
-        prototype[STATE_PROPERTIES_KEY] = [];
-    }
-    prototype[STATE_PROPERTIES_KEY].push(property);
-};
 
 export function parametrized(
     parameters: Array<Array<any>>,
