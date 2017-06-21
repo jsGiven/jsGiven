@@ -15,13 +15,22 @@ export default function buildConfig(
             babel({
                 babelrc: false,
                 exclude: 'node_modules/**',
-                presets: ['es2015-rollup'],
+                presets: [[
+                    'env',
+                    {
+                        targets: {
+                            node: "4.8",
+                        },
+                        modules: false,
+                    },
+                ]],
                 plugins: [
                     'transform-decorators-legacy',
                     'transform-flow-strip-types',
                     'transform-class-properties',
                     'transform-object-rest-spread',
                     'transform-regenerator',
+                    'external-helpers',
                 ],
             }),
         ],
