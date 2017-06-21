@@ -4,63 +4,102 @@
  * @flow
  */
 declare class Stage {
-    and(): this;
-    but(): this;
-    with(): this;
-    given(): this;
-    when(): this;
-    then(): this;
+    and(): this,
+    but(): this,
+    with(): this,
+    given(): this,
+    when(): this,
+    then(): this,
 }
 
 type ScenariosParam<G, W, T> = {
-    given: () => G;
-    when: () => W;
-    then: () => T;
+    given: () => G,
+    when: () => W,
+    then: () => T,
 };
 
 type ScenarioFunc = SimpleScenarioFunc | ParametrizedScenarioFuncWithParameters;
 
 type SimpleScenarioFunc = {
-    (): void;
+    (): void,
 };
 
 type ParametrizedScenarioFuncWithParameters = {
-    func: (...args: any[]) => void;
-    parameters: Array<Array<any>>;
+    func: (...args: any[]) => void,
+    parameters: Array<Array<any>>,
 };
 
 type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G & W & T>;
 
 type ScenariosDescriptions<G, W, T> = {
-    (scenariosParam: ScenariosParam<G, W, T>): {[key:string]: ScenarioDescription};
+    (
+        scenariosParam: ScenariosParam<G, W, T>
+    ): {[key: string]: ScenarioDescription},
 };
 
 type ScenarioDescription = {
-    scenarioFunction: ScenarioFunc;
+    scenarioFunction: ScenarioFunc,
 };
 
 type ScenarioOptions = {};
-declare function scenario(options: $Shape<ScenarioOptions>, scenarioFunction: ScenarioFunc): ScenarioDescription;
+declare function scenario(
+    options: $Shape<ScenarioOptions>,
+    scenarioFunction: ScenarioFunc
+): ScenarioDescription;
 
-declare function scenarios<G: Stage, W: Stage, T: Stage>(groupName: string, stagesParam: StagesParam<G, W, T>, scenarioFunc: ScenariosDescriptions<G, W, T>): void;
+declare function scenarios<G: Stage, W: Stage, T: Stage>(
+    groupName: string,
+    stagesParam: StagesParam<G, W, T>,
+    scenarioFunc: ScenariosDescriptions<G, W, T>
+): void;
 
 type StateType = {
-    (target: any, key: string, descriptor: any): any;
-    addProperty: (target: Class<Stage>, propertyName: string) => void;
+    (target: any, key: string, descriptor: any): any,
+    addProperty: (target: Class<Stage>, propertyName: string) => void,
 };
 declare var State: StateType;
+
+type HiddenType = {
+    (target: any, key: string, descriptor: any): any,
+    addHiddenStep: (stageClass: Class<Stage>, methodName: string) => void,
+};
+declare var Hidden: HiddenType;
 
 declare function setupForRspec(describe: any, it: any): void;
 declare function setupForAva(test: any): void;
 
-declare function parametrized(parameters: Array<Array<any>>, func: () => void): ParametrizedScenarioFuncWithParameters;
-declare function parametrized1<T>(parameters: T[], func: (a: T) => void): ParametrizedScenarioFuncWithParameters;
-declare function parametrized2<A, B>(parameters: Array<[A, B]>, func: (a: A, b: B) => void): ParametrizedScenarioFuncWithParameters;
-declare function parametrized3<A, B, C>(parameters: Array<[A, B, C]>, func: (a: A, b: B, c: C) => void): ParametrizedScenarioFuncWithParameters;
-declare function parametrized4<A, B, C, D>(parameters: Array<[A, B, C, D]>, func: (a: A, b: B, c: C, d: D) => void): ParametrizedScenarioFuncWithParameters;
-declare function parametrized5<A, B, C, D, E>(parameters: Array<[A, B, C, D, E]>, func: (a: A, b: B, c: C, d: D, e: E) => void): ParametrizedScenarioFuncWithParameters;
-declare function parametrized6<A, B, C, D, E, F>(parameters: Array<[A, B, C, D, E, F]>, func: (a: A, b: B, c: C, d: D, e: E, f: F) => void): ParametrizedScenarioFuncWithParameters;
-declare function parametrized7<A, B, C, D, E, F, G>(parameters: Array<[A, B, C, D, E, F, G]>, func: (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => void): ParametrizedScenarioFuncWithParameters;
+declare function parametrized(
+    parameters: Array<Array<any>>,
+    func: () => void
+): ParametrizedScenarioFuncWithParameters;
+declare function parametrized1<T>(
+    parameters: T[],
+    func: (a: T) => void
+): ParametrizedScenarioFuncWithParameters;
+declare function parametrized2<A, B>(
+    parameters: Array<[A, B]>,
+    func: (a: A, b: B) => void
+): ParametrizedScenarioFuncWithParameters;
+declare function parametrized3<A, B, C>(
+    parameters: Array<[A, B, C]>,
+    func: (a: A, b: B, c: C) => void
+): ParametrizedScenarioFuncWithParameters;
+declare function parametrized4<A, B, C, D>(
+    parameters: Array<[A, B, C, D]>,
+    func: (a: A, b: B, c: C, d: D) => void
+): ParametrizedScenarioFuncWithParameters;
+declare function parametrized5<A, B, C, D, E>(
+    parameters: Array<[A, B, C, D, E]>,
+    func: (a: A, b: B, c: C, d: D, e: E) => void
+): ParametrizedScenarioFuncWithParameters;
+declare function parametrized6<A, B, C, D, E, F>(
+    parameters: Array<[A, B, C, D, E, F]>,
+    func: (a: A, b: B, c: C, d: D, e: E, f: F) => void
+): ParametrizedScenarioFuncWithParameters;
+declare function parametrized7<A, B, C, D, E, F, G>(
+    parameters: Array<[A, B, C, D, E, F, G]>,
+    func: (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => void
+): ParametrizedScenarioFuncWithParameters;
 
 declare function doAsync(action: () => Promise<*>): void;
 
@@ -80,4 +119,5 @@ export {
     parametrized6,
     parametrized7,
     doAsync,
+    Hidden,
 };
