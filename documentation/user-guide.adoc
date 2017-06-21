@@ -178,14 +178,10 @@ This is sometimes useful if you need a technical method call within a scenario, 
 
 For example:
 
-[source, js]
+[source, js, indent=4]
 ----
-    @Hidden
-    aCompletelyHiddenStep(): this {
-        return this;
-    }
+include::../examples/jest-es2015/hidden-steps.test.js[tags=HiddenStep]
 ----
-
 
 [NOTE]
 .It is useful to write hidden methods in CamelCase
@@ -200,16 +196,11 @@ In order to use hidden step with decorators, you have to setup decorators: See <
 
 ==== Hide steps without decorators
 
-You can also declare the step methods you want to hide by using Hidden.addHiddenStep() static method.
+You can also declare the step methods you want to hide by using Hidden.addHiddenStep() static method instead of using the decorator.
 
-[source, js]
+[source, js, indent=0]
 ----
-class StateClass extends Stage {
-    aCompletelyHiddenStep(): this {
-        return this;
-    }
-}
-Hidden.addHiddenStep(StageClass, 'aCompletelyHiddenStep');
+include::../examples/jest-es2015/hidden-steps.test.js[tags=HiddenStepES5]
 ----
 
 == Stages and state sharing
