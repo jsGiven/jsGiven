@@ -501,6 +501,19 @@ You don't have to install any type definitions.
 
 A working example is provided : https://github.com/jsGiven/jsGiven/tree/master/examples/jest-typescript
 
+=== Using JSGiven with Node.js v4
+
+With Node.js v4, you will need to include the babel-polyfill before running your tests:
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/setup-tests.js[tags=BabelPolyfill]
+----
+
+You should have a look at your test framework documentation on how to include this polyfill.
+The JsGiven examples provide an example for Jest & Mocha.
+See <<Fully working examples>>
+
 === Using JSGiven with ES5
 
 Js Given is usable with ES5.
