@@ -22,6 +22,7 @@ export default function buildConfig(
                             node: "4.8",
                         },
                         modules: false,
+                        exclude: ['transform-regenerator'],
                     },
                 ]],
                 plugins: [
@@ -29,6 +30,7 @@ export default function buildConfig(
                     'transform-flow-strip-types',
                     'transform-class-properties',
                     'transform-object-rest-spread',
+                    'transform-async-generator-functions',
                     'external-helpers',
                 ],
             }),
