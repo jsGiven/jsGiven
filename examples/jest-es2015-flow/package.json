@@ -25,5 +25,8 @@
     "pretest": "jsgiven clean && yarn flow",
     "test": "jest",
     "posttest": "jsgiven report"
+  },
+  "jest": {
+    "setupFiles": ["./setup-tests.js"]
   }
 }

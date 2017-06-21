@@ -18,5 +18,8 @@
     "pretest": "jsgiven clean",
     "test": "jest",
     "posttest": "jsgiven report"
+  },
+  "jest": {
+    "setupFiles": ["./setup-tests.js"]
   }
 }
