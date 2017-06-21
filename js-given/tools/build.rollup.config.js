@@ -29,7 +29,6 @@ export default function buildConfig(
                     'transform-flow-strip-types',
                     'transform-class-properties',
                     'transform-object-rest-spread',
-                    'transform-regenerator',
                     'external-helpers',
                 ],
             }),
