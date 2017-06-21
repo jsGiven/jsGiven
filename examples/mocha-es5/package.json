@@ -6,7 +6,7 @@
   "license": "MIT",
   "devDependencies": {
     "chai": "^4.0.0",
-    "js-given": "^0.1.2",
+    "js-given": "next",
     "mocha": "^3.4.2"
   },
   "scripts": {
