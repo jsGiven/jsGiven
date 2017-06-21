@@ -1,6 +1,6 @@
 {
   "name": "js-given",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "__versionAlpha": "0.1.3-alpha.3",
   "description": "JavaScript frontend to jgiven",
   "main": "index.js",
