@@ -27,6 +27,8 @@
     "posttest": "jsgiven report"
   },
   "jest": {
-    "setupFiles": ["./setup-tests.js"]
+    "setupFiles": [
+      "./setup-tests.js"
+    ]
   }
 }
