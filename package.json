@@ -20,7 +20,7 @@
     "__doYarnInstallOnJsGivenOnExamples": "for dir in `find examples -name 'package.json' -print0 | xargs -0 -n1 dirname | sort --unique | grep -v node_modules`; do (cd $dir; pwd; yarn install); done",
     "testExamplesOnMaster": "check-node-version -q --node '< 6.0' || ((cd js-given; yarn build) && yarn __doInstallMasterJsGivenOnExamples && yarn __doTestExamples && yarn __doYarnInstallOnJsGivenOnExamples)",
     "__doInstallMasterJsGivenOnExamples": "for dir in `find examples -name 'package.json' -print0 | xargs -0 -n1 dirname | sort --unique | grep -v node_modules`; do (cp -v js-given/dist/* $dir/node_modules/js-given; rm -vf $dir/node_modules/.yarn-integrity); done",
-    "__doTestExamples": "for dir in `find examples -name 'package.json' -print0 | xargs -0 -n1 dirname | sort --unique | grep -v node_modules`; do (cd $dir; pwd; yarn test); done",
+    "__doTestExamples": "for dir in `find examples -name 'package.json' -print0 | xargs -0 -n1 dirname | sort --unique | grep -v node_modules`; do pushd . && cd $dir && pwd && yarn test && popd || exit; done",
     "test": "yarn testJsGiven && yarn testExamples && yarn buildDocumentation && yarn coverage",
     "coverage": "(cd js-given && yarn coverage)",
     "releaseAlpha": "(cd js-given; yarn releaseAlpha)",
