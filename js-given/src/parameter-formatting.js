@@ -10,11 +10,11 @@ type ParameterFormatterDecorator = {
 };
 
 type ParameterFormatter = {
-    (parameterName: string): ParameterFormatterDecorator,
+    (...parameterNames: string[]): ParameterFormatterDecorator,
     formatParameter: (
         stageClass: Class<Stage>,
         property: string,
-        parameterName: string
+        ...parameterName: string[]
     ) => void,
 };
 
@@ -45,22 +45,28 @@ export function getFormatters(
         .map(({formatter}) => formatter);
 }
 
+export function restParameterName(): 'JSGIVEN_REST_PARAMETER_NAME' {
+    return 'JSGIVEN_REST_PARAMETER_NAME';
+}
+
 export function buildParameterFormatter(
     formatter: Formatter
 ): ParameterFormatter {
     const parameterFormatter = function(
-        parameterName: string
+        ...parameterNames: string[]
     ): ParameterFormatterDecorator {
         const decorator = function(
             target: any,
             stepMethodName: string,
             descriptor: any
         ): any {
-            storeProvider.getStoreFromTarget(target).addProperty({
-                formatter,
-                parameterName,
-                stepMethodName,
-            });
+            parameterNames.forEach(parameterName =>
+                storeProvider.getStoreFromTarget(target).addProperty({
+                    formatter,
+                    parameterName,
+                    stepMethodName,
+                })
+            );
             return {...descriptor, writable: true};
         };
         return decorator;
@@ -68,13 +74,15 @@ export function buildParameterFormatter(
     parameterFormatter.formatParameter = function(
         stageClass: Class<Stage>,
         stepMethodName: string,
-        parameterName: string
+        ...parameterNames: string[]
     ) {
-        storeProvider.getStoreFromStageClass(stageClass).addProperty({
-            formatter,
-            parameterName,
-            stepMethodName,
-        });
+        parameterNames.forEach(parameterName =>
+            storeProvider.getStoreFromStageClass(stageClass).addProperty({
+                formatter,
+                parameterName,
+                stepMethodName,
+            })
+        );
     };
 
     return parameterFormatter;
@@ -88,3 +96,7 @@ export const QuotedWith = (quoteCharacter: string) =>
     buildParameterFormatter(
         parameterValue => `${quoteCharacter}${parameterValue}${quoteCharacter}`
     );
+
+export const NotFormatter = buildParameterFormatter(
+    parameterValue => (parameterValue ? '' : 'not')
+);

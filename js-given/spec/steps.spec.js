@@ -227,6 +227,21 @@ scenarios('core.steps', StepsStage, ({given, when, then}) => {
             }
         ),
 
+        parameters_can_be_formatted_with_a_customer_formatter_that_returns_an_empty_string: scenario(
+            {},
+            () => {
+                given().a_parametrized_step_with_$_methodName_$_argument_and_$_formatter(
+                    '$_value',
+                    1337,
+                    x => ''
+                );
+                then()
+                    .the_step_is_named_$(`value`)
+                    .and()
+                    .it_contains_the_words('value');
+            }
+        ),
+
         dollar_can_be_used_at_the_last_position: scenario({}, () => {
             given().a_parametrized_step_with_$_methodName_and_$_arguments(
                 'before_$',

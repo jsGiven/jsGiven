@@ -65,12 +65,13 @@ export class Step {
                     let formattedParameters: WordDescription[];
                     if (parametersCopy.length > 0) {
                         const [parameter] = parametersCopy.splice(0, 1);
+                        const word = formatParameter(
+                            parameter.value,
+                            parameter.formatters
+                        );
                         formattedParameters = [
                             {
-                                word: formatParameter(
-                                    parameter.value,
-                                    parameter.formatters
-                                ),
+                                word,
                                 scenarioParameterName:
                                     parameter.scenarioParameterName,
                             },
@@ -197,7 +198,9 @@ export function formatParameter(
         }
         return formatParameter(value, []);
     }
-    if (_.isObject(parameter) || Array.isArray(parameter)) {
+    if (_.isString(parameter)) {
+        return parameter;
+    } else if (_.isObject(parameter) || Array.isArray(parameter)) {
         if (
             parameter.toString &&
             parameter.toString !== Object.prototype.toString &&

@@ -19,5 +19,6 @@ export {Hidden} from './hidden-steps';
 export {
     Quoted,
     QuotedWith,
+    NotFormatter,
     buildParameterFormatter,
 } from './parameter-formatting';

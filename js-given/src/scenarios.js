@@ -15,7 +15,11 @@ import {
 import type {TagDescription} from './tags';
 import {copyStateProperties} from './State';
 import {isHiddenStep} from './hidden-steps';
-import {getFormatters, type Formatter} from './parameter-formatting';
+import {
+    getFormatters,
+    restParameterName,
+    type Formatter,
+} from './parameter-formatting';
 
 export const REPORTS_DESTINATION = '.jsGiven-reports';
 
@@ -452,8 +456,12 @@ export class ScenarioRunner {
                                 } else {
                                     return decodeParameter(
                                         arg,
-                                        'REST_PARAMETER',
-                                        []
+                                        restParameterName(),
+                                        getFormatters(
+                                            instance,
+                                            methodName,
+                                            restParameterName()
+                                        )
                                     );
                                 }
                             }
