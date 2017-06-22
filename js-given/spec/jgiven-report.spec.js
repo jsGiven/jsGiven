@@ -223,7 +223,7 @@ class JGivenReportStage extends Stage {
             const buffer = zlib.gunzipSync(bufferZipped);
             const json = buffer.toString('utf-8');
             const scenarios = JSON.parse(json);
-            expect(scenarios).to.be.an.array;
+            expect(scenarios).to.be.an.instanceof(Object);
         } else {
             expect('zippedScenariosData should not be null').to.be.true;
         }

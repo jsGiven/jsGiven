@@ -144,7 +144,7 @@ class StepsStage extends Stage {
     ): this {
         const {words} = this.step;
         const wordFound = words.find(word => word.value === wordName);
-        expect(wordFound).to.be.defined;
+        expect(wordFound).to.be.exist;
 
         if (wordFound) {
             expect(wordFound.scenarioParameterName).to.equal(
