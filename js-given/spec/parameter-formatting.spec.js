@@ -7,6 +7,7 @@ import {
     setupForRspec,
     setupForAva,
     Quoted,
+    QuotedWith,
     NotFormatter,
     State,
     Stage,
@@ -35,6 +36,34 @@ class ParameterFormattingGivenStage extends BasicScenarioGivenStage {
     ): this {
         class DefaultStage extends Stage {
             @Quoted('value')
+            a_step_accepting_$_value(value: string): this {
+                return this;
+            }
+        }
+        this.scenarioRunner.scenarios(
+            'group_name',
+            DefaultStage,
+            ({given, when, then}) => {
+                return {
+                    scenario_name: scenario({}, () => {
+                        given().a_step_accepting_$_value(value);
+
+                        when();
+
+                        then();
+                    }),
+                };
+            }
+        );
+        return this;
+    }
+
+    @Quoted('value')
+    a_scenario_that_includes_a_given_part_with_a_step_with_the_customized_quoted_formatter_and_value_$(
+        value: string
+    ): this {
+        class DefaultStage extends Stage {
+            @QuotedWith('`')('value')
             a_step_accepting_$_value(value: string): this {
                 return this;
             }
@@ -117,6 +146,24 @@ scenarios(
                 'Given a step accepting "1337" value'
             );
         }),
+
+        steps_parameters_can_be_quoted_with_a_custom_character: scenario(
+            {},
+            () => {
+                given()
+                    .a_scenario_runner()
+                    .and()
+                    .a_scenario_that_includes_a_given_part_with_a_step_with_the_customized_quoted_formatter_and_value_$(
+                        '1337'
+                    );
+
+                when().the_scenario_is_executed();
+
+                then().its_given_part_contains_only_the_step(
+                    'Given a step accepting `1337` value'
+                );
+            }
+        ),
 
         steps_parameters_can_use_the_not_formatter: scenario(
             {},
