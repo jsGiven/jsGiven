@@ -172,7 +172,9 @@ class ES5ThenStage extends BasicScenarioThenStage {
 
     the_report_does_not_include_the_hidden_steps(): this {
         const {steps} = this.findPartByKind('WHEN');
-        expect(steps.map(({name}) => name)).to.deep.equal(['When an action is performed']);
+        expect(steps.map(({name}) => name)).to.deep.equal([
+            'When an action is performed',
+        ]);
         return this;
     }
 }
@@ -211,18 +213,21 @@ scenarios(
                 }
             ),
 
-            scenarios_can_use_an_es5_stage_class_with_hidden_steps: scenario({}, () => {
-                given()
-                    .a_scenario_runner()
-                    .and()
-                    .an_es5_stage_class()
-                    .and()
-                    .a_scenario_that_uses_hidden_steps();
+            scenarios_can_use_an_es5_stage_class_with_hidden_steps: scenario(
+                {},
+                () => {
+                    given()
+                        .a_scenario_runner()
+                        .and()
+                        .an_es5_stage_class()
+                        .and()
+                        .a_scenario_that_uses_hidden_steps();
 
-                when().the_scenario_is_executed();
+                    when().the_scenario_is_executed();
 
-                then().the_report_does_not_include_the_hidden_steps();
-            }),
+                    then().the_report_does_not_include_the_hidden_steps();
+                }
+            ),
         };
     }
 );

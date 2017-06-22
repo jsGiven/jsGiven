@@ -43,10 +43,7 @@ class ScenarioHiddenStepsGivenStage extends BasicScenarioGivenStage {
             ({given, when, then}) => {
                 return {
                     scenario_name: scenario({}, () => {
-                        given()
-                            .a_visible_step()
-                            .and()
-                            .anHiddenStep();
+                        given().a_visible_step().and().anHiddenStep();
 
                         when();
 
@@ -69,7 +66,11 @@ class ScenarioHiddenStepsThenStage extends BasicScenarioThenStage {
 
 scenarios(
     'core.scenarios.hidden',
-    [ScenarioHiddenStepsGivenStage, BasicScenarioWhenStage, ScenarioHiddenStepsThenStage],
+    [
+        ScenarioHiddenStepsGivenStage,
+        BasicScenarioWhenStage,
+        ScenarioHiddenStepsThenStage,
+    ],
     ({given, when, then}) => {
         return {
             hidden_steps_are_not_present_in_the_report: scenario({}, () => {

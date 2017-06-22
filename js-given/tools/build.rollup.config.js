@@ -15,16 +15,18 @@ export default function buildConfig(
             babel({
                 babelrc: false,
                 exclude: 'node_modules/**',
-                presets: [[
-                    'env',
-                    {
-                        targets: {
-                            node: "4.8",
+                presets: [
+                    [
+                        'env',
+                        {
+                            targets: {
+                                node: '4.8',
+                            },
+                            modules: false,
+                            exclude: ['transform-regenerator'],
                         },
-                        modules: false,
-                        exclude: ['transform-regenerator'],
-                    },
-                ]],
+                    ],
+                ],
                 plugins: [
                     'transform-decorators-legacy',
                     'transform-flow-strip-types',

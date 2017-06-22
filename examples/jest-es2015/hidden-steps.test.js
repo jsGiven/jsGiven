@@ -56,7 +56,7 @@ class StageClass extends Stage {
         return this;
     }
 }
-Hidden.addHiddenStep(StageClass, 'aCompletelyHiddenStep')
+Hidden.addHiddenStep(StageClass, 'aCompletelyHiddenStep');
 // end::HiddenStepES5[]
 
 scenarios('hidden steps', StageClass, ({given, when, then}) => {
