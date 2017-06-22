@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@types/jest@^19.2.4":
-  version "19.2.4"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-19.2.4.tgz#543651712535962b7dc615e18e4a381fc2687442"
+"@types/jest@^20.0.1":
+  version "20.0.1"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-20.0.1.tgz#8643a195d925a00f7bdee5257d12c3aac743f3b4"
 
 abab@^1.0.3:
   version "1.0.3"
