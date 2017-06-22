@@ -5,7 +5,8 @@ import crypto from 'crypto';
 import _ from 'lodash';
 import humanize from 'string-humanize';
 
-import type {DecodedParameter} from './scenarios';
+import {type DecodedParameter} from './scenarios';
+import {type Formatter} from './parameter-formatting';
 
 export type ScenarioPartKind = 'GIVEN' | 'WHEN' | 'THEN';
 
@@ -58,7 +59,7 @@ export class Step {
                 .map(word => _.lowerCase(humanize(word))) //  ['a bill of', 'TWO_DOLLAR_PLACEHOLDER']
                 .reduce((previous, newString, index) => {
                     if (index === 0) {
-                        return [{word: newString, parameterName: null}];
+                        return [{word: newString, scenarioParameterName: null}];
                     }
 
                     let formattedParameters: WordDescription[];
@@ -66,8 +67,12 @@ export class Step {
                         const [parameter] = parametersCopy.splice(0, 1);
                         formattedParameters = [
                             {
-                                word: formatParameter(parameter.value),
-                                parameterName: parameter.parameterName,
+                                word: formatParameter(
+                                    parameter.value,
+                                    parameter.formatters
+                                ),
+                                scenarioParameterName:
+                                    parameter.scenarioParameterName,
                             },
                         ];
                     } else {
@@ -77,19 +82,22 @@ export class Step {
                     return [
                         ...previous,
                         ...formattedParameters,
-                        {word: newString, parameterName: null},
+                        {word: newString, scenarioParameterName: null},
                     ];
                 }, []) //  ['a bill of', '500', 'TWO_DOLLAR_PLACEHOLDER']
                 .filter(({word}) => word !== '') // If one puts a $ at the end of the method, this adds a useless '' at the end
-                .map(({word, parameterName}) => ({
+                .map(({word, scenarioParameterName}) => ({
                     word: word.replace(TWO_DOLLAR_PLACEHOLDER, '$'),
-                    parameterName,
+                    scenarioParameterName,
                 })) //  ['a bill of', '500', '$']
                 .map(toWord), // [Word, Word, Word]
             ...parametersCopy
                 .map(parameter => ({
-                    word: formatParameter(parameter.value),
-                    parameterName: parameter.parameterName,
+                    word: formatParameter(
+                        parameter.value,
+                        parameter.formatters
+                    ),
+                    scenarioParameterName: parameter.scenarioParameterName,
                 }))
                 .map(toWord),
         ];
@@ -105,31 +113,34 @@ export class Step {
         this.words = words;
         this.name = words.map(({value}) => value).join(' ');
 
-        function toWord({word, parameterName}: WordDescription): Word {
-            return new Word(word, false, parameterName);
+        function toWord({word, scenarioParameterName}: WordDescription): Word {
+            return new Word(word, false, scenarioParameterName);
         }
 
         function toIntroWord(value: string): Word {
             return new Word(value, true, null);
         }
 
-        type WordDescription = {word: string, parameterName: string | null};
+        type WordDescription = {
+            word: string,
+            scenarioParameterName: string | null,
+        };
     }
 }
 
 export class Word {
     value: string;
     isIntroWord: boolean;
-    parameterName: string | null;
+    scenarioParameterName: string | null;
 
     constructor(
         value: string,
         isIntroWord: boolean,
-        parameterName: string | null = null
+        scenarioParameterName: string | null = null
     ) {
         this.value = value;
         this.isIntroWord = isIntroWord;
-        this.parameterName = parameterName;
+        this.scenarioParameterName = scenarioParameterName;
     }
 }
 
@@ -175,7 +186,17 @@ export class ScenarioReport {
     }
 }
 
-export function formatParameter(parameter: any): string {
+export function formatParameter(
+    parameter: any,
+    formatters: Formatter[]
+): string {
+    if (formatters.length > 0) {
+        let value = parameter;
+        for (const formatter of formatters) {
+            value = formatter(value);
+        }
+        return formatParameter(value, []);
+    }
     if (_.isObject(parameter) || Array.isArray(parameter)) {
         if (
             parameter.toString &&

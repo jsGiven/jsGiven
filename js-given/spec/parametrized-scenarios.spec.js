@@ -83,11 +83,13 @@ class ParametrizedScenarioThenStage extends BasicScenarioThenStage {
             const part = this.findPartByKindInCase(c, 'GIVEN');
             const [step] = part.steps;
             const wordWithParameter = step.words.find(
-                word => !!word.parameterName
+                word => !!word.scenarioParameterName
             );
             expect(wordWithParameter).to.exist;
             if (wordWithParameter) {
-                expect(wordWithParameter.parameterName).to.equal('coffeeValue');
+                expect(wordWithParameter.scenarioParameterName).to.equal(
+                    'coffeeValue'
+                );
             }
         });
         return this;

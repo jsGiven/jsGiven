@@ -4,6 +4,7 @@ import {expect} from 'chai';
 import {scenarios, scenario, setupForRspec, setupForAva, Stage} from '../src';
 import {wrapParameter, decodeParameter} from '../src/scenarios';
 import {Step} from '../src/reports';
+import type {Formatter} from '../src/parameter-formatting';
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);
@@ -22,7 +23,29 @@ class StepsStage extends Stage {
     ): this {
         this.step = new Step(
             methodName,
-            values.map(decodeParameter),
+            values.map((value, index) =>
+                decodeParameter(value, `parameter_${index}`, [])
+            ),
+            false,
+            null
+        );
+        return this;
+    }
+
+    a_parametrized_step_with_$_methodName_$_argument_and_$_formatter(
+        methodName: string,
+        value: mixed,
+        formatter: Formatter
+    ): this {
+        this.step = new Step(
+            methodName,
+            [
+                decodeParameter(
+                    wrapParameter(value, 'parameterName'),
+                    'parameterName',
+                    [formatter]
+                ),
+            ],
             false,
             null
         );
@@ -36,7 +59,13 @@ class StepsStage extends Stage {
     ): this {
         this.step = new Step(
             methodName,
-            [decodeParameter(wrapParameter(argument, parameterName))],
+            [
+                decodeParameter(
+                    wrapParameter(argument, parameterName),
+                    parameterName,
+                    []
+                ),
+            ],
             false,
             null
         );
@@ -58,7 +87,13 @@ class StepsStage extends Stage {
     ): this {
         this.step = new Step(
             methodName,
-            [decodeParameter(this.somethingWithToStringInstance)],
+            [
+                decodeParameter(
+                    this.somethingWithToStringInstance,
+                    'parameterName',
+                    []
+                ),
+            ],
             false,
             null
         );
@@ -105,14 +140,16 @@ class StepsStage extends Stage {
 
     the_word_$_has_its_parameter_named_$(
         wordName: string,
-        parameterName: string
+        scenarioParameterName: string
     ): this {
         const {words} = this.step;
         const wordFound = words.find(word => word.value === wordName);
         expect(wordFound).to.be.defined;
 
         if (wordFound) {
-            expect(wordFound.parameterName).to.equal(parameterName);
+            expect(wordFound.scenarioParameterName).to.equal(
+                scenarioParameterName
+            );
         }
         return this;
     }
@@ -174,6 +211,21 @@ scenarios('core.steps', StepsStage, ({given, when, then}) => {
                 .and()
                 .it_contains_the_words('{"foo":true,"bar":"not"}', 'object');
         }),
+
+        parameters_can_be_formatted_with_a_customer_formatter: scenario(
+            {},
+            () => {
+                given().a_parametrized_step_with_$_methodName_$_argument_and_$_formatter(
+                    '$_value',
+                    1337,
+                    x => `"${x}"`
+                );
+                then()
+                    .the_step_is_named_$(`"1337" value`)
+                    .and()
+                    .it_contains_the_words('"1337"', 'value');
+            }
+        ),
 
         dollar_can_be_used_at_the_last_position: scenario({}, () => {
             given().a_parametrized_step_with_$_methodName_and_$_arguments(

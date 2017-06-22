@@ -15,6 +15,7 @@ import {
 import type {TagDescription} from './tags';
 import {copyStateProperties} from './State';
 import {isHiddenStep} from './hidden-steps';
+import {getFormatters, type Formatter} from './parameter-formatting';
 
 export const REPORTS_DESTINATION = '.jsGiven-reports';
 
@@ -336,7 +337,7 @@ export class ScenarioRunner {
                                             )
                                     );
                                     const args: string[] = parametersForCase.map(
-                                        formatParameter
+                                        p => formatParameter(p, [])
                                     );
                                     return {
                                         caseFunction: () =>
@@ -432,8 +433,30 @@ export class ScenarioRunner {
                             self.addThenPart();
                         }
 
+                        const stepParameterNames = retrieveArguments(
+                            classPrototype[methodName]
+                        );
+
                         const decodedParameters: DecodedParameter[] = args.map(
-                            decodeParameter
+                            (arg, index) => {
+                                if (index < stepParameterNames.length) {
+                                    return decodeParameter(
+                                        arg,
+                                        stepParameterNames[index],
+                                        getFormatters(
+                                            instance,
+                                            methodName,
+                                            stepParameterNames[index]
+                                        )
+                                    );
+                                } else {
+                                    return decodeParameter(
+                                        arg,
+                                        'REST_PARAMETER',
+                                        []
+                                    );
+                                }
+                            }
                         );
 
                         // Pass the real arguments instead of the wrapped values
@@ -577,16 +600,16 @@ export function parametrized7<A, B, C, D, E, F, G>(
 }
 
 type WrappedParameter = {
-    parameterName: string,
+    scenarioParameterName: string,
     value: any,
     IS_JSGIVEN_WRAPPER_PARAMETER: true,
 };
 export function wrapParameter(
     value: any,
-    parameterName: string
+    scenarioParameterName: string
 ): WrappedParameter {
     return {
-        parameterName,
+        scenarioParameterName,
         value,
         IS_JSGIVEN_WRAPPER_PARAMETER: true,
     };
@@ -594,16 +617,27 @@ export function wrapParameter(
 
 export type DecodedParameter = {
     value: any,
-    parameterName: string | null,
+    scenarioParameterName: string | null,
+    stepParameterName: string,
+    formatters: Formatter[],
 };
-export function decodeParameter(parameter: any): DecodedParameter {
+export function decodeParameter(
+    parameter: any,
+    stepParameterName: string,
+    formatters: Formatter[]
+): DecodedParameter {
     if (parameter instanceof Object && parameter.IS_JSGIVEN_WRAPPER_PARAMETER) {
         const wrapped: WrappedParameter = (parameter: any);
-        return {...wrapped};
+        return {...wrapped, stepParameterName, formatters};
     } else {
+        if (stepParameterName === undefined) {
+            throw new Error('cant be undefined');
+        }
         return {
             value: parameter,
-            parameterName: null,
+            scenarioParameterName: null,
+            stepParameterName,
+            formatters,
         };
     }
 }
