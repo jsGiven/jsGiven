@@ -9,6 +9,7 @@ import {
     Stage,
     State,
     Hidden,
+    Quoted,
 } from '../src';
 
 import {
@@ -49,12 +50,17 @@ class ES5GivenStage extends BasicScenarioGivenStage {
             anHiddenStep(): ES5Stage {
                 return this;
             },
+            some_value_$(value: string): ES5Stage {
+                return this;
+            },
         };
         Object.setPrototypeOf(ES5Stage.prototype, Stage.prototype);
         Object.setPrototypeOf(ES5Stage, Stage);
 
         // $FlowIgnore
         Hidden.addHiddenStep(ES5Stage, 'anHiddenStep');
+        // $FlowIgnore
+        Quoted.formatParameter(ES5Stage, 'some_value_$', 'value');
 
         this.ES5Stage = ES5Stage;
 
@@ -87,6 +93,23 @@ class ES5GivenStage extends BasicScenarioGivenStage {
                     scenario_name: scenario({}, () => {
                         given();
                         when().an_action_is_performed().and().anHiddenStep();
+                        then();
+                    }),
+                };
+            }
+        );
+        return this;
+    }
+
+    a_scenario_that_uses_formatted_parameters(): this {
+        this.scenarioRunner.scenarios(
+            'group_name',
+            this.ES5Stage,
+            ({given, when, then}) => {
+                return {
+                    scenario_name: scenario({}, () => {
+                        given().some_value_$(1337);
+                        when();
                         then();
                     }),
                 };
@@ -177,6 +200,14 @@ class ES5ThenStage extends BasicScenarioThenStage {
         ]);
         return this;
     }
+
+    the_report_includes_formatted_parameters(): this {
+        const {steps} = this.findPartByKind('GIVEN');
+        expect(steps.map(({name}) => name)).to.deep.equal([
+            'Given some value "1337"',
+        ]);
+        return this;
+    }
 }
 
 scenarios(
@@ -226,6 +257,22 @@ scenarios(
                     when().the_scenario_is_executed();
 
                     then().the_report_does_not_include_the_hidden_steps();
+                }
+            ),
+
+            scenarios_can_use_an_es5_stage_class_with_steps_using_formatted_parameters: scenario(
+                {},
+                () => {
+                    given()
+                        .a_scenario_runner()
+                        .and()
+                        .an_es5_stage_class()
+                        .and()
+                        .a_scenario_that_uses_formatted_parameters();
+
+                    when().the_scenario_is_executed();
+
+                    then().the_report_includes_formatted_parameters();
                 }
             ),
         };
