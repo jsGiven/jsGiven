@@ -9,6 +9,7 @@ import {
     parametrized2,
     Stage,
     Hidden,
+    Quoted,
 } from '../src';
 
 if (global.describe && global.it) {
@@ -45,6 +46,11 @@ class DemoStage extends Stage {
         return this;
     }
 
+    @Quoted('expectedText')
+    the_result_as_text_is(expectedText: string): this {
+        return this;
+    }
+
     @Hidden
     aCompletelyHiddenStep(): this {
         return this;
@@ -64,5 +70,10 @@ scenarios('jsgiven.demo', DemoStage, ({given, when, then}) => ({
         given().a_number(1).and().another_number(2);
         when().they_are_summed();
         then().the_result_is(3).and().aCompletelyHiddenStep();
+    }),
+    parameters_can_be_formatted: scenario({}, () => {
+        given().a_number(1).and().another_number(2);
+        when().they_are_summed();
+        then().the_result_as_text_is('3');
     }),
 }));

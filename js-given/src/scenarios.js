@@ -14,7 +14,7 @@ import {
 } from './reports';
 import type {TagDescription} from './tags';
 import {copyStateProperties} from './State';
-import {isHiddenStep} from './cosmetic';
+import {isHiddenStep} from './hidden-steps';
 
 export const REPORTS_DESTINATION = '.jsGiven-reports';
 
@@ -445,7 +445,10 @@ export class ScenarioRunner {
                             values
                         );
 
-                        if (result === this && ! isHiddenStep(this, methodName)) {
+                        if (
+                            result === this &&
+                            !isHiddenStep(this, methodName)
+                        ) {
                             // only records methods that return this
                             self.currentPart.stageMethodCalled(
                                 methodName,

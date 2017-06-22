@@ -2,33 +2,28 @@
 import _ from 'lodash';
 
 import {Stage} from './Stage';
+import {
+    getStageMetadataStoreProvider,
+    type StageMetadataStoreProvider,
+} from './stage-metadata-store';
 
-const STATE_PROPERTIES_KEY = '__JSGIVEN_STATE_PROPERTIES';
+const stateProvider: StageMetadataStoreProvider<
+    string
+> = getStageMetadataStoreProvider('@State');
 
 export function State(target: any, key: string, descriptor: any): any {
-    State.__addProperty(target, key);
+    stateProvider.getStoreFromTarget(target).addProperty(key);
     return {...descriptor, writable: true};
 }
 State.addProperty = (stageClass: Class<Stage>, property: string): void => {
-    State.__addProperty(stageClass.prototype, property);
-};
-State.__addProperty = (prototype: any, property: string): void => {
-    if (!prototype[STATE_PROPERTIES_KEY]) {
-        prototype[STATE_PROPERTIES_KEY] = [];
-    }
-    prototype[STATE_PROPERTIES_KEY].push(property);
+    stateProvider.getStoreFromStageClass(stageClass).addProperty(property);
 };
 
 export function copyStateProperties(source: any, target: any) {
-    if (
-        source &&
-        target &&
-        source[STATE_PROPERTIES_KEY] &&
-        target[STATE_PROPERTIES_KEY]
-    ) {
+    if (source && target) {
         const propertyNames = _.intersection(
-            source[STATE_PROPERTIES_KEY],
-            target[STATE_PROPERTIES_KEY]
+            stateProvider.getStoreFromTarget(source).getProperties(),
+            stateProvider.getStoreFromTarget(target).getProperties()
         );
         propertyNames.forEach(propertyName => {
             // Need to convert to any to avoid typechecking

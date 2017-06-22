@@ -15,4 +15,9 @@ export {
 export {setupForRspec, setupForAva} from './test-runners';
 export {Stage} from './Stage';
 export {State} from './State';
-export {Hidden} from './cosmetic';
+export {Hidden} from './hidden-steps';
+export {
+    Quoted,
+    QuotedWith,
+    buildParameterFormatter,
+} from './parameter-formatting';
