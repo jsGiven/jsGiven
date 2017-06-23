@@ -116,6 +116,28 @@ declare module 'js-given' {
         func: (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => void
     ): ParametrizedScenarioFuncWithParameters;
 
+    type ParameterFormatterDecorator = {
+        (target: object, decoratedPropertyKey: string, descriptor?: TypedPropertyDescriptor<
+            () => any
+        >): any;
+    };
+
+    type ParameterFormatter = {
+        (...parameterNames: string[]): ParameterFormatterDecorator;
+        formatParameter: (
+            stageClass: Class<Stage>,
+            property: string,
+            ...parameterName: string[]
+        ) => void;
+    };
+
+    var Quoted: ParameterFormatter;
+    function QuotedWith(quoteCharacter: string): ParameterFormatter;
+    var NotFormatter: ParameterFormatter;
+
+    type Formatter = (parameterValue: any) => string;
+    function buildParameterFormatter(formatter: Formatter): ParameterFormatter;
+
     export {
         Stage,
         State,
@@ -133,5 +155,9 @@ declare module 'js-given' {
         parametrized6,
         parametrized7,
         Hidden,
+        Quoted,
+        QuotedWith,
+        NotFormatter,
+        buildParameterFormatter,
     };
 }

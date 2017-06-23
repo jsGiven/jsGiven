@@ -103,6 +103,28 @@ declare function parametrized7<A, B, C, D, E, F, G>(
 
 declare function doAsync(action: () => Promise<*>): void;
 
+type ParameterFormatterDecorator = {
+    (target: any, key: string, descriptor: any): any,
+};
+
+type ParameterFormatter = {
+    (...parameterNames: string[]): ParameterFormatterDecorator,
+    formatParameter: (
+        stageClass: Class<Stage>,
+        property: string,
+        ...parameterName: string[]
+    ) => void,
+};
+
+declare var Quoted: ParameterFormatter;
+declare function QuotedWith(quoteCharacter: string): ParameterFormatter;
+declare var NotFormatter: ParameterFormatter;
+
+type Formatter = (parameterValue: any) => string;
+declare function buildParameterFormatter(
+    formatter: Formatter
+): ParameterFormatter;
+
 export {
     scenario,
     scenarios,
@@ -120,4 +142,8 @@ export {
     parametrized7,
     doAsync,
     Hidden,
+    Quoted,
+    QuotedWith,
+    NotFormatter,
+    buildParameterFormatter,
 };
