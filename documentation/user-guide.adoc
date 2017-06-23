@@ -300,6 +300,37 @@ If a $ should not be treated as a placeholder for a parameter, but printed verba
 given().$$_$( 5); // Given $ 5
 ----
 
+=== Parameters formatting
+
+Sometimes the default toString() representation of a parameter does not fit well into the report.
+In these cases you have several possibilities:
+
+- Change the toString() implementation.
+This is often not possible or not desired, because it requires patching primitive types or the modification of production code.
+
+- Provide a wrapper class for the parameter object that provides a different toString() method. This is useful for parameter objects that you use very often.
+
+- Change the formatting of the parameter by using special JSGiven annotations.
+This can be used in all other cases and also to change the formatting of primitive types.
+
+==== Default formatters
+
+JsGiven provides three default formatters
+
+- Quoted
+
+- QuotedWith
+
+- NotFormatter
+
+==== Writing your custom formatters
+
+TODO
+
+==== Using formatters without decorators
+
+TODO
+
 == Parameterized scenarios
 
 JsGiven scenarios can be parameterized.
