@@ -125,6 +125,7 @@ class HiddenChecksStage extends Stage {
         return this;
     }
 
+    @Quoted('message')
     an_error_is_thrown_with_the_message(message: string): this {
         expect(this.error).to.exist;
         expect(this.error.message).to.equal(message);
