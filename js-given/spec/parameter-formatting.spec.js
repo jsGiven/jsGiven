@@ -11,6 +11,7 @@ import {
     NotFormatter,
     State,
     Stage,
+    parametrized1,
     parametrized2,
 } from '../src';
 
@@ -187,6 +188,138 @@ scenarios(
                     );
                 }
             )
+        ),
+    })
+);
+
+class ParametersFormattingChecksStage extends Stage {
+    error: Error;
+
+    @Quoted('value')
+    trying_to_build_a_stage_that_uses_the_quoted_decorator_on_a_property_with_value(
+        value: mixed
+    ): this {
+        try {
+            // eslint-disable-next-line no-unused-vars
+            class AStage extends Stage {
+                @Quoted('value') property: mixed = value;
+            }
+        } catch (error) {
+            this.error = error;
+        }
+        return this;
+    }
+
+    trying_to_build_a_stage_that_uses_the_quoted_decorator_on_a_step_method_with_an_unknown_parameter(): this {
+        try {
+            // eslint-disable-next-line no-unused-vars
+            class AStage extends Stage {
+                @Quoted('unknownParameter')
+                method(value: string): this {
+                    return this;
+                }
+            }
+        } catch (error) {
+            this.error = error;
+        }
+        return this;
+    }
+
+    @Quoted('value')
+    trying_to_build_a_stage_that_declares_the_quoted_formatParameter_method_on_a_property_with_value(
+        value: mixed
+    ): this {
+        try {
+            // eslint-disable-next-line no-inner-declarations
+            function AStage() {}
+            AStage.prototype = {
+                property: value,
+            };
+            Object.setPrototypeOf(AStage.prototype, Stage.prototype);
+            Object.setPrototypeOf(AStage, Stage);
+            // $FlowIgnore
+            Quoted.formatParameter(AStage, 'property', 'value');
+        } catch (error) {
+            this.error = error;
+        }
+        return this;
+    }
+
+    trying_to_build_a_stage_that_declared_the_quoted_formatParameter_on_a_step_method_with_an_unknown_parameter(): this {
+        try {
+            // eslint-disable-next-line no-inner-declarations
+            function AStage() {}
+            AStage.prototype = {
+                method: () => {},
+            };
+            Object.setPrototypeOf(AStage.prototype, Stage.prototype);
+            Object.setPrototypeOf(AStage, Stage);
+            // $FlowIgnore
+            Quoted.formatParameter(AStage, 'method', 'unknownParameter');
+        } catch (error) {
+            this.error = error;
+        }
+        return this;
+    }
+
+    @Quoted('message')
+    an_error_is_thrown_with_the_message(message: string): this {
+        expect(this.error).to.exist;
+        expect(this.error.message).to.equal(message);
+        return this;
+    }
+}
+
+scenarios(
+    'core.steps.parameter-formatting',
+    ParametersFormattingChecksStage,
+    ({given, when, then}) => ({
+        a_formatter_decorator_cannot_be_used_on_a_property_that_is_not_a_function: scenario(
+            {},
+            parametrized1([null, undefined, 42, '1337', {}, []], value => {
+                when().trying_to_build_a_stage_that_uses_the_quoted_decorator_on_a_property_with_value(
+                    value
+                );
+
+                then().an_error_is_thrown_with_the_message(
+                    "Formatter decorators can only be applied to methods: 'property' is not a method."
+                );
+            })
+        ),
+
+        formatter_formatParameter_cannot_be_used_on_a_property_that_is_not_a_function: scenario(
+            {},
+            parametrized1([null, undefined, 42, '1337', {}, []], value => {
+                when().trying_to_build_a_stage_that_declares_the_quoted_formatParameter_method_on_a_property_with_value(
+                    value
+                );
+
+                then().an_error_is_thrown_with_the_message(
+                    "Formatter.formatParameter() can only be applied to methods: 'property' is not a method."
+                );
+            })
+        ),
+
+        formatter_formatParameter_cannot_be_used_on_a_method_with_an_unknown_parameter: scenario(
+            {},
+            () => {
+                when().trying_to_build_a_stage_that_uses_the_quoted_decorator_on_a_step_method_with_an_unknown_parameter();
+
+                then().an_error_is_thrown_with_the_message(
+                    "Formatter decorator cannot be applied on method: method(): parameter 'unknownParameter' was not found."
+                );
+            }
+        ),
+
+        a_formatter_decorator_cannot_be_used_on_a_method_with_an_unknown_parameter: scenario(
+            {},
+            () => {
+                when().trying_to_build_a_stage_that_declared_the_quoted_formatParameter_on_a_step_method_with_an_unknown_parameter();
+
+                then().an_error_is_thrown_with_the_message(
+                    "Formatter.formatParameter() cannot be applied on method: method(): parameter 'unknownParameter' was not found."
+                );
+            }
         ),
     })
 );

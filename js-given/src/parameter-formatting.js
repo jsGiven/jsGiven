@@ -4,6 +4,7 @@ import {
     getStageMetadataStoreProvider,
     type StageMetadataStoreProvider,
 } from './stage-metadata-store';
+import {checkIsFunction, checkIsParameter} from './checks';
 
 type ParameterFormatterDecorator = {
     (target: any, key: string, descriptor: any): any,
@@ -60,13 +61,22 @@ export function buildParameterFormatter(
             stepMethodName: string,
             descriptor: any
         ): any {
-            parameterNames.forEach(parameterName =>
+            parameterNames.forEach(parameterName => {
+                checkIsFunction(
+                    target[stepMethodName],
+                    `Formatter decorators can only be applied to methods: '${stepMethodName}' is not a method.`
+                );
+                checkIsParameter(
+                    target[stepMethodName],
+                    parameterName,
+                    `Formatter decorator cannot be applied on method: ${stepMethodName}(): parameter '${parameterName}' was not found.`
+                );
                 storeProvider.getStoreFromTarget(target).addProperty({
                     formatter,
                     parameterName,
                     stepMethodName,
-                })
-            );
+                });
+            });
             return {...descriptor, writable: true};
         };
         return decorator;
@@ -76,13 +86,24 @@ export function buildParameterFormatter(
         stepMethodName: string,
         ...parameterNames: string[]
     ) {
-        parameterNames.forEach(parameterName =>
+        parameterNames.forEach(parameterName => {
+            checkIsFunction(
+                // $FlowIgnore
+                stageClass.prototype[stepMethodName],
+                `Formatter.formatParameter() can only be applied to methods: '${stepMethodName}' is not a method.`
+            );
+            checkIsParameter(
+                // $FlowIgnore
+                stageClass.prototype[stepMethodName],
+                parameterName,
+                `Formatter.formatParameter() cannot be applied on method: ${stepMethodName}(): parameter '${parameterName}' was not found.`
+            );
             storeProvider.getStoreFromStageClass(stageClass).addProperty({
                 formatter,
                 parameterName,
                 stepMethodName,
-            })
-        );
+            });
+        });
     };
 
     return parameterFormatter;
