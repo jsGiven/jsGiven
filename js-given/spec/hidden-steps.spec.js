@@ -9,6 +9,8 @@ import {
     Hidden,
     State,
     Stage,
+    Quoted,
+    parametrized1,
 } from '../src';
 
 import {
@@ -71,20 +73,93 @@ scenarios(
         BasicScenarioWhenStage,
         ScenarioHiddenStepsThenStage,
     ],
-    ({given, when, then}) => {
-        return {
-            hidden_steps_are_not_present_in_the_report: scenario({}, () => {
-                given()
-                    .a_scenario_runner()
-                    .and()
-                    .a_scenario_that_includes_an_hidden_step();
+    ({given, when, then}) => ({
+        hidden_steps_are_not_present_in_the_report: scenario({}, () => {
+            given()
+                .a_scenario_runner()
+                .and()
+                .a_scenario_that_includes_an_hidden_step();
 
-                when().the_scenario_is_executed();
+            when().the_scenario_is_executed();
 
-                then().its_given_part_contains_the_steps([
-                    'Given a visible step',
-                ]);
-            }),
-        };
+            then().its_given_part_contains_the_steps(['Given a visible step']);
+        }),
+    })
+);
+
+class HiddenChecksStage extends Stage {
+    error: Error;
+
+    @Quoted('value')
+    trying_to_build_a_stage_that_uses_an_hidden_decorator_on_a_property_with_value(
+        value: mixed
+    ): this {
+        try {
+            // eslint-disable-next-line no-unused-vars
+            class AStage extends Stage {
+                @Hidden property: mixed = value;
+            }
+        } catch (error) {
+            this.error = error;
+        }
+        return this;
     }
+
+    @Quoted('value')
+    trying_to_build_a_stage_that_declares_an_hidden_step_on_a_property_with_value(
+        value: mixed
+    ): this {
+        try {
+            // eslint-disable-next-line no-inner-declarations
+            function AStage() {}
+            AStage.prototype = {
+                property: value,
+            };
+            Object.setPrototypeOf(AStage.prototype, Stage.prototype);
+            Object.setPrototypeOf(AStage, Stage);
+            // $FlowIgnore
+            Hidden.addHiddenStep(AStage, 'property');
+        } catch (error) {
+            this.error = error;
+        }
+        return this;
+    }
+
+    an_error_is_thrown_with_the_message(message: string): this {
+        expect(this.error).to.exist;
+        expect(this.error.message).to.equal(message);
+        return this;
+    }
+}
+
+scenarios(
+    'core.scenarios.hidden',
+    HiddenChecksStage,
+    ({given, when, then}) => ({
+        hidden_decorator_cannot_be_used_on_a_property_that_is_not_a_function: scenario(
+            {},
+            parametrized1([null, undefined, 42, '1337', {}, []], value => {
+                when().trying_to_build_a_stage_that_uses_an_hidden_decorator_on_a_property_with_value(
+                    value
+                );
+
+                then().an_error_is_thrown_with_the_message(
+                    "@Hidden decorator can only be applied to methods: 'property' is not a method."
+                );
+            })
+        ),
+
+        hidden_addHiddenStep_cannot_be_used_on_a_property_that_is_not_a_function: scenario(
+            {},
+            parametrized1([null, undefined, 42, '1337', {}, []], value => {
+                when().trying_to_build_a_stage_that_declares_an_hidden_step_on_a_property_with_value(
+                    value
+                );
+
+                then().an_error_is_thrown_with_the_message(
+                    "Hidden.addHiddenStep() can only be applied to methods: 'property' is not a method."
+                );
+            })
+        ),
+    })
 );
