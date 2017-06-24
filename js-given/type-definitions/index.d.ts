@@ -126,8 +126,8 @@ declare module 'js-given' {
         (...parameterNames: string[]): ParameterFormatterDecorator;
         formatParameter: (
             stageClass: Class<Stage>,
-            property: string,
-            ...parameterName: string[]
+            stepMethodName: string,
+            ...parameterNames: string[]
         ) => void;
     };
 
