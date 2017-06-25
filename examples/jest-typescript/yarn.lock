@@ -1247,8 +1247,8 @@ jest@*:
     jest-cli "^20.0.4"
 
 js-given@next:
-  version "0.1.4-alpha.1"
-  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.1.4-alpha.1.tgz#8ae1c56b92086f82ff9316d4766df8561ff66d48"
+  version "0.1.4-alpha.2"
+  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.1.4-alpha.2.tgz#e1b3fc4c6b672d97094e20df697d2acbdf3f7faf"
   dependencies:
     babel-polyfill "^6.23.0"
     decompress-zip "0.3.0"
