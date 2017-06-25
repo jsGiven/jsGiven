@@ -548,6 +548,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_introduction">Introduction</a></li>
 <li><a href="#_installation">Installation</a></li>
+<li><a href="#_requirements">Requirements</a></li>
 <li><a href="#_getting_started">Getting started</a>
 <ul class="sectlevel2">
 <li><a href="#_importing_jsgiven">Importing JsGiven</a></li>
@@ -590,6 +591,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_parameterized_steps">Parameterized steps</a>
 <ul class="sectlevel2">
 <li><a href="#_parameters_within_a_sentence">Parameters within a sentence</a></li>
+<li><a href="#_parameters_formatting">Parameters formatting</a>
+<ul class="sectlevel3">
+<li><a href="#_writing_your_formatter">Writing your formatter</a></li>
+<li><a href="#_using_formatters">Using formatters</a></li>
+<li><a href="#_using_formatters_without_decorators">Using formatters without decorators</a></li>
+<li><a href="#_parameterized_formatters">Parameterized formatters</a></li>
+<li><a href="#_providers_formatters">Providers formatters</a>
+<ul class="sectlevel4">
+<li><a href="#_quoted">Quoted</a></li>
+<li><a href="#_quotedwith">QuotedWith</a></li>
+<li><a href="#_notformatter">NotFormatter</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_parameterized_scenarios">Parameterized scenarios</a>
@@ -670,6 +686,17 @@ $ npm install --save-dev js-given <i class="conum" data-value="2"></i><b>(2)</b>
 <td>With <a href="https://www.npmjs.com/">NPM</a></td>
 </tr>
 </table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_requirements">Requirements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>JsGiven works with classic JS test runners (Jest, Jasmine, Mocha, Ava, Protractor).</p>
+</div>
+<div class="paragraph">
+<p>JsGiven requires Node v4.8.x or more to run.</p>
 </div>
 </div>
 </div>
@@ -990,7 +1017,7 @@ See <a href="#_hide_steps_without_decorators">Hide steps without decorators</a><
         <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
     <span class="tok-p">}</span>
 <span class="tok-p">}</span>
-<span class="tok-nx">Hidden</span><span class="tok-p">.</span><span class="tok-nx">addHiddenStep</span><span class="tok-p">(</span><span class="tok-nx">StageClass</span><span class="tok-p">,</span> <span class="tok-s1">&#39;aCompletelyHiddenStep&#39;</span><span class="tok-p">)</span></code></pre>
+<span class="tok-nx">Hidden</span><span class="tok-p">.</span><span class="tok-nx">addHiddenStep</span><span class="tok-p">(</span><span class="tok-nx">StageClass</span><span class="tok-p">,</span> <span class="tok-s1">&#39;aCompletelyHiddenStep&#39;</span><span class="tok-p">);</span></code></pre>
 </div>
 </div>
 </div>
@@ -1201,6 +1228,269 @@ Parameters are formatted in reports by using the toString() method, applied to t
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">$$_$</span><span class="tok-p">(</span> <span class="tok-mi">5</span><span class="tok-p">);</span> <span class="tok-c1">// Given $ 5</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parameters_formatting">Parameters formatting</h3>
+<div class="paragraph">
+<p>Sometimes the default toString() representation of a parameter does not fit well into the report.
+In these cases you have several possibilities:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Change the toString() implementation.
+This is often not possible or not desired, because it requires patching primitive types or the modification of production code.</p>
+</li>
+<li>
+<p>Provide a wrapper class for the parameter object that provides a different toString() method.
+This is useful for parameter objects that you use very often, but it makes the scenario code a bit more complex.</p>
+</li>
+<li>
+<p>Change the formatting of the parameter by using special JSGiven annotations.
+This can be used in all other cases and also to change the formatting of primitive types.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_writing_your_formatter">Writing your formatter</h4>
+<div class="paragraph">
+<p>You can write your own formatter using the buildParameterFormatter() function:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-kr">const</span> <span class="tok-nx">LoudFormatter</span> <span class="tok-o">=</span> <span class="tok-nx">buildParameterFormatter</span><span class="tok-p">(</span>
+    <span class="tok-nx">text</span> <span class="tok-o">=&gt;</span> <span class="tok-nx">text</span><span class="tok-p">.</span><span class="tok-nx">toUpperCase</span><span class="tok-p">()</span> <span class="tok-o">+</span> <span class="tok-s1">&#39; !!!&#39;</span>
+<span class="tok-p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can then provide your formatter implementation that will convert the parameter to a string to be presented in the report</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_formatters">Using formatters</h4>
+<div class="paragraph">
+<p>You can use your formatter as a decorator that takes the parameter name.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-kr">class</span> <span class="tok-nx">MyStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
+    <span class="tok-err">@</span><span class="tok-nx">LoudFormatter</span><span class="tok-p">(</span><span class="tok-s1">&#39;value&#39;</span><span class="tok-p">)</span>
+    <span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+<span class="tok-p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The decorator takes the parameter names (you can supply multiple parameter names as a rest parameter <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters" class="bare">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters</a>)
+)</p>
+</div>
+<div class="paragraph">
+<p><strong>When used in a scenario</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">parameters_can_be_formatted</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
+    <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-s1">&#39;hello world&#39;</span><span class="tok-p">);</span>
+    <span class="tok-c1">// Will be converted to</span>
+    <span class="tok-c1">//   Given a value HELLO WORLD !!!</span>
+
+    <span class="tok-nx">when</span><span class="tok-p">();</span>
+
+    <span class="tok-nx">then</span><span class="tok-p">();</span>
+<span class="tok-p">}),</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There is an alternative to decorators that you can use if you don&#8217;t want to use decorators.
+See <a href="#_using_formatters_without_decorators">Using formatters without decorators</a></p>
+</div>
+<div class="paragraph">
+<p>In order to use formatters with decorators, you have to setup decorators: See <a href="#_configuration_to_use_decorators">Configuration to use decorators</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_formatters_without_decorators">Using formatters without decorators</h4>
+<div class="paragraph">
+<p>Instead of using the decorator, you can call the formatParameter() static method.
+This method takes three parameters:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The stage class</p>
+</li>
+<li>
+<p>The step method name</p>
+</li>
+<li>
+<p>The parameter names (you can supply multiple parameter names as a rest parameter <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters" class="bare">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters</a>)</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-kr">class</span> <span class="tok-nx">MyStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
+    <span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+<span class="tok-p">}</span>
+<span class="tok-nx">LoudFormatter</span><span class="tok-p">.</span><span class="tok-nx">formatParameter</span><span class="tok-p">(</span><span class="tok-nx">MyStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;a_value&#39;</span><span class="tok-p">,</span> <span class="tok-s1">&#39;value&#39;</span><span class="tok-p">);</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_parameterized_formatters">Parameterized formatters</h4>
+<div class="paragraph">
+<p>Sometimes your formatter implementation may need a custom parameter that you will need to pass in each stage (a date format, a currency name &#8230;&#8203;)</p>
+</div>
+<div class="paragraph">
+<p>With higher order functions (<a href="https://en.wikipedia.org/wiki/Higher-order_function" class="bare">https://en.wikipedia.org/wiki/Higher-order_function</a>), you can make your formatter accept parameters:
+This way you will write a function that accepts parameters and will call buildParameterFormatter().</p>
+</div>
+<div class="paragraph">
+<p>When using it, you first call your function, then call the decorator:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-kr">const</span> <span class="tok-nx">LoudFormatter</span> <span class="tok-o">=</span> <span class="tok-nx">bangCharacter</span> <span class="tok-o">=&gt;</span>
+    <span class="tok-nx">buildParameterFormatter</span><span class="tok-p">(</span><span class="tok-nx">text</span> <span class="tok-o">=&gt;</span> <span class="tok-nx">text</span><span class="tok-p">.</span><span class="tok-nx">toUpperCase</span><span class="tok-p">()</span> <span class="tok-o">+</span> <span class="tok-sb">`</span><span class="tok-si">${</span><span class="tok-nx">bangCharacter</span><span class="tok-si">}</span><span class="tok-sb">`</span><span class="tok-p">);</span>
+
+<span class="tok-kr">class</span> <span class="tok-nx">MyStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
+    <span class="tok-err">@</span><span class="tok-nx">LoudFormatter</span><span class="tok-p">(</span><span class="tok-s1">&#39;!&#39;</span><span class="tok-p">)(</span><span class="tok-s1">&#39;value&#39;</span><span class="tok-p">)</span>
+    <span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+<span class="tok-p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This technique works as well, without decorators :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-kr">const</span> <span class="tok-nx">LoudFormatter</span> <span class="tok-o">=</span> <span class="tok-nx">bangCharacter</span> <span class="tok-o">=&gt;</span>
+    <span class="tok-nx">buildParameterFormatter</span><span class="tok-p">(</span><span class="tok-nx">text</span> <span class="tok-o">=&gt;</span> <span class="tok-nx">text</span><span class="tok-p">.</span><span class="tok-nx">toUpperCase</span><span class="tok-p">()</span> <span class="tok-o">+</span> <span class="tok-sb">`</span><span class="tok-si">${</span><span class="tok-nx">bangCharacter</span><span class="tok-si">}</span><span class="tok-sb">`</span><span class="tok-p">);</span>
+
+<span class="tok-kr">class</span> <span class="tok-nx">MyStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
+    <span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+    <span class="tok-p">}</span>
+<span class="tok-p">}</span>
+<span class="tok-nx">LoudFormatter</span><span class="tok-p">(</span><span class="tok-s1">&#39;!&#39;</span><span class="tok-p">).</span><span class="tok-nx">formatParameter</span><span class="tok-p">(</span><span class="tok-nx">MyStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;a_value&#39;</span><span class="tok-p">,</span> <span class="tok-s1">&#39;value&#39;</span><span class="tok-p">);</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_providers_formatters">Providers formatters</h4>
+<div class="paragraph">
+<p>JsGiven provides three default formatters:</p>
+</div>
+<div class="sect4">
+<h5 id="_quoted">Quoted</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-err">@</span><span class="tok-nx">Quoted</span><span class="tok-p">(</span><span class="tok-s1">&#39;message&#39;</span><span class="tok-p">)</span>
+<span class="tok-nx">the_message_$_is_printed_to_the_console</span><span class="tok-p">(</span><span class="tok-nx">message</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+<span class="tok-p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When invoked as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_message_$_is_printed_to_the_console</span><span class="tok-p">(</span><span class="tok-s1">&#39;hello world&#39;</span><span class="tok-p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then this will result in the report as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Then the message "Hello World" is printed to the console</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_quotedwith">QuotedWith</h5>
+<div class="paragraph">
+<p>QuotedWith is a generalization of the Quote formatter that allows you to choose your quote charater.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-err">@</span><span class="tok-nx">QuotedWith</span><span class="tok-p">(</span><span class="tok-s2">&quot;&#39;&quot;</span><span class="tok-p">)(</span><span class="tok-s1">&#39;message&#39;</span><span class="tok-p">)</span>
+<span class="tok-nx">the_message_$_is_printed_to_the_console</span><span class="tok-p">(</span><span class="tok-nx">message</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+<span class="tok-p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When invoked as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_message_$_is_printed_to_the_console</span><span class="tok-p">(</span><span class="tok-s1">&#39;hello world&#39;</span><span class="tok-p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then this will result in the report as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Then the message 'Hello World' is printed to the console</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_notformatter">NotFormatter</h5>
+<div class="paragraph">
+<p>NotFormatter allows you to write english positive or negative sentence bases on boolean values</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-err">@</span><span class="tok-nx">NotFormatter</span><span class="tok-p">(</span><span class="tok-s1">&#39;present&#39;</span><span class="tok-p">)</span>
+<span class="tok-nx">the_message_is_$_displayed_to_the_user</span><span class="tok-p">(</span><span class="tok-nx">present</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+<span class="tok-p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>When invoked with true</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_message_is_$_displayed_to_the_user</span><span class="tok-p">(</span><span class="tok-kc">true</span><span class="tok-p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then this will result in the report as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Then the message is displayed to the user</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>When invoked with false</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_message_is_$_displayed_to_the_user</span><span class="tok-p">(</span><span class="tok-kc">false</span><span class="tok-p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then this will result in the report as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Then the message is not displayed to the user</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1441,7 +1731,7 @@ JsGiven will continue the scenario execution and execute the further step method
 <div class="sect3">
 <h4 id="_with_babel">With Babel</h4>
 <div class="paragraph">
-<p>You will need to have a promise implementation (a native or polyfilled one) and to include the <a href="https://github.com/facebook/regenerator">Regenerator runtime</a></p>
+<p>You will need to have a promise implementation (a native or polyfilled one)</p>
 </div>
 <div class="paragraph">
 <p>If you use Babel directly with your test runner, Babel already includes polyfills for missing implementations. If not ensure they are included.</p>
@@ -1464,9 +1754,6 @@ JsGiven will continue the scenario execution and execute the further step method
       <span class="tok-s2">&quot;es2015.promise&quot;</span>
     <span class="tok-p">]</span><span class="tok-err">,</span></code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>You will also need to include <a href="https://github.com/facebook/regenerator">regenerator runtime</a> in you test runner initialization process.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1511,7 +1798,7 @@ JsGiven will continue the scenario execution and execute the further step method
 <div class="sect2">
 <h3 id="_configuration_to_use_decorators">Configuration to use decorators</h3>
 <div class="paragraph">
-<p>All step-related advanced features (state-sharing, hiding steps &#8230;&#8203;) are best used with decorators.
+<p>All step-related advanced features (state-sharing, hiding steps, formatters &#8230;&#8203;) are best used with decorators.
 In order to enable decorators, some configuration is required.</p>
 </div>
 <div class="sect3">
