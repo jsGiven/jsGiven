@@ -28,6 +28,12 @@ $ npm install --save-dev js-given <2>
 <1> With https://yarnpkg.com[Yarn]
 <2> With https://www.npmjs.com/[NPM]
 
+== Requirements
+
+JsGiven works with classic JS test runners (Jest, Jasmine, Mocha, Ava, Protractor).
+
+JsGiven requires Node v4.8.x or more to run.
+
 == Getting started
 
 === Importing JsGiven
@@ -308,28 +314,162 @@ In these cases you have several possibilities:
 - Change the toString() implementation.
 This is often not possible or not desired, because it requires patching primitive types or the modification of production code.
 
-- Provide a wrapper class for the parameter object that provides a different toString() method. This is useful for parameter objects that you use very often.
+- Provide a wrapper class for the parameter object that provides a different toString() method.
+This is useful for parameter objects that you use very often, but it makes the scenario code a bit more complex.
 
 - Change the formatting of the parameter by using special JSGiven annotations.
 This can be used in all other cases and also to change the formatting of primitive types.
 
-==== Default formatters
+==== Writing your formatter
 
-JsGiven provides three default formatters
+You can write your own formatter using the buildParameterFormatter() function:
 
-- Quoted
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameter-formatting.test.js[tags=CustomFormatter]
+----
 
-- QuotedWith
+You can then provide your formatter implementation that will convert the parameter to a string to be presented in the report
 
-- NotFormatter
+==== Using formatters
 
-==== Writing your custom formatters
+You can use your formatter as a decorator that takes the parameter name.
 
-TODO
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameter-formatting.test.js[tags=UsingCustomerFormatter]
+----
+
+The decorator takes the parameter names (you can supply multiple parameter names as a rest parameter https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
+)
+
+*When used in a scenario*:
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameter-formatting.test.js[tags=FormatterExample]
+----
+
+There is an alternative to decorators that you can use if you don't want to use decorators.
+See <<Using formatters without decorators>>
+
+In order to use formatters with decorators, you have to setup decorators: See <<Configuration to use decorators>>
 
 ==== Using formatters without decorators
 
-TODO
+Instead of using the decorator, you can call the formatParameter() static method.
+This method takes three parameters:
+
+. The stage class
+. The step method name
+. The parameter names (you can supply multiple parameter names as a rest parameter https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameter-formatting-without-decorators.test.js[tags=UsingCustomerFormatterWithoutDecorators]
+----
+
+==== Parameterized formatters
+
+Sometimes your formatter implementation may need a custom parameter that you will need to pass in each stage (a date format, a currency name ...)
+
+With higher order functions (https://en.wikipedia.org/wiki/Higher-order_function), you can make your formatter accept parameters:
+This way you will write a function that accepts parameters and will call buildParameterFormatter().
+
+When using it, you first call your function, then call the decorator:
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameter-formatting.parametrized.test.js[tags=CustomFormatterParametrized]
+----
+
+This technique works as well, without decorators :
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameter-formatting.parametrized.without-decorators.test.js[tags=CustomFormatterParametrizedWithoutDecorators]
+----
+
+==== Providers formatters
+
+JsGiven provides three default formatters:
+
+===== Quoted
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameter-formatting-default-formatters.test.js[tags=QuotedExample]
+----
+
+When invoked as:
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameter-formatting-default-formatters.test.js[tags=QuotedExampleUse]
+----
+
+Then this will result in the report as:
+
+----
+Then the message "Hello World" is printed to the console
+----
+
+===== QuotedWith
+
+QuotedWith is a generalization of the Quote formatter that allows you to choose your quote charater.
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameter-formatting-default-formatters.test.js[tags=QuotedWithExample]
+----
+
+When invoked as:
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameter-formatting-default-formatters.test.js[tags=QuotedWithExampleUse]
+----
+
+Then this will result in the report as:
+
+----
+Then the message 'Hello World' is printed to the console
+----
+
+===== NotFormatter
+
+NotFormatter allows you to write english positive or negative sentence bases on boolean values
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameter-formatting-default-formatters.test.js[tags=FormatterExample]
+----
+
+*When invoked with true*:
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameter-formatting-default-formatters.test.js[tags=FormatterExampleUseTrue]
+----
+
+Then this will result in the report as:
+
+----
+Then the message is displayed to the user
+----
+
+*When invoked with false*:
+
+[source, js, indent=0]
+----
+include::../examples/jest-es2015/parameter-formatting-default-formatters.test.js[tags=FormatterExampleUseFalse]
+----
+
+Then this will result in the report as:
+
+----
+Then the message is not displayed to the user
+----
 
 == Parameterized scenarios
 
@@ -429,7 +569,7 @@ JsGiven relies internally on
 
 ==== With Babel
 
-You will need to have a promise implementation (a native or polyfilled one) and to include the https://github.com/facebook/regenerator[Regenerator runtime]
+You will need to have a promise implementation (a native or polyfilled one)
 
 If you use Babel directly with your test runner, Babel already includes polyfills for missing implementations. If not ensure they are included.
 
@@ -449,8 +589,6 @@ You will need to include the "es2015.promise" library in you tsconfig.json
   "es2015.promise"
 ],
 ----
-
-You will also need to include https://github.com/facebook/regenerator[regenerator runtime] in you test runner initialization process.
 
 [source, js, indent=0]
 ----
@@ -473,7 +611,7 @@ JsGiven is tested internally using those frameworks image:https://travis-ci.org/
 
 === Configuration to use decorators
 
-All step-related advanced features (state-sharing, hiding steps ...) are best used with decorators.
+All step-related advanced features (state-sharing, hiding steps, formatters ...) are best used with decorators.
 In order to enable decorators, some configuration is required.
 
 ==== With Babel
