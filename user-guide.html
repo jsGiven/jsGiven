@@ -1716,17 +1716,7 @@ JsGiven will continue the scenario execution and execute the further step method
 <div class="sect2">
 <h3 id="_required_configuration_for_asynchronous_testing">Required configuration for asynchronous testing</h3>
 <div class="paragraph">
-<p>JsGiven relies internally on</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Promises</p>
-</li>
-<li>
-<p><a href="https://github.com/facebook/regenerator">Regenerator runtime</a></p>
-</li>
-</ul>
+<p>JsGiven relies on promises.</p>
 </div>
 <div class="sect3">
 <h4 id="_with_babel">With Babel</h4>
@@ -1735,11 +1725,6 @@ JsGiven will continue the scenario execution and execute the further step method
 </div>
 <div class="paragraph">
 <p>If you use Babel directly with your test runner, Babel already includes polyfills for missing implementations. If not ensure they are included.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">require</span><span class="tok-p">(</span><span class="tok-s1">&#39;regenerator-runtime/runtime&#39;</span><span class="tok-p">);</span></code></pre>
-</div>
 </div>
 </div>
 <div class="sect3">
@@ -1753,11 +1738,6 @@ JsGiven will continue the scenario execution and execute the further step method
       <span class="tok-s2">&quot;es5&quot;</span><span class="tok-p">,</span>
       <span class="tok-s2">&quot;es2015.promise&quot;</span>
     <span class="tok-p">]</span><span class="tok-err">,</span></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">require</span><span class="tok-p">(</span><span class="tok-s1">&#39;regenerator-runtime/runtime&#39;</span><span class="tok-p">);</span></code></pre>
 </div>
 </div>
 </div>
