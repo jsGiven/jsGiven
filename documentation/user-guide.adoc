@@ -562,21 +562,13 @@ include::../examples/jest-es2015/async.test.js[tags=PromiseScenario]
 
 === Required configuration for asynchronous testing
 
-JsGiven relies internally on
-
-- Promises
-- https://github.com/facebook/regenerator[Regenerator runtime]
+JsGiven relies on promises.
 
 ==== With Babel
 
 You will need to have a promise implementation (a native or polyfilled one)
 
 If you use Babel directly with your test runner, Babel already includes polyfills for missing implementations. If not ensure they are included.
-
-[source, js, indent=0]
-----
-include::../examples/jest-typescript/setup-jest.js[tags=IncludeRegeneratorRuntime]
-----
 
 ==== With TypeScript
 
@@ -588,11 +580,6 @@ You will need to include the "es2015.promise" library in you tsconfig.json
   "es5",
   "es2015.promise"
 ],
-----
-
-[source, js, indent=0]
-----
-include::../examples/jest-typescript/setup-jest.js[tags=IncludeRegeneratorRuntime]
 ----
 
 == Using JsGiven
