@@ -22,18 +22,22 @@ class MyStage extends Stage {
 }
 // end::CustomFormatterParametrized[]
 
-scenarios('parameter-formatting-parametrized', MyStage, ({given, when, then}) => {
-    return {
-        // tag::FormatterExample[]
-        parameters_can_be_formatted: scenario({}, () => {
-            given().a_value('hello world');
-            // Will be converted to
-            //   Given a value HELLO WORLD !!!
+scenarios(
+    'parameter-formatting-parametrized',
+    MyStage,
+    ({given, when, then}) => {
+        return {
+            // tag::FormatterExample[]
+            parameters_can_be_formatted: scenario({}, () => {
+                given().a_value('hello world');
+                // Will be converted to
+                //   Given a value HELLO WORLD !!!
 
-            when();
+                when();
 
-            then();
-        }),
-        // end::FormatterExample[]
-    };
-});
+                then();
+            }),
+            // end::FormatterExample[]
+        };
+    }
+);

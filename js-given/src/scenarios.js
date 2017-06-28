@@ -190,9 +190,10 @@ export class ScenarioRunner {
 
                 let casesCount = 0;
                 cases.forEach(({caseFunction, args}, index) => {
-                    const caseDescription = cases.length === 1
-                        ? scenarioNameForHumans
-                        : `${scenarioNameForHumans} #${index + 1}`;
+                    const caseDescription =
+                        cases.length === 1
+                            ? scenarioNameForHumans
+                            : `${scenarioNameForHumans} #${index + 1}`;
                     this.testFunc(caseDescription, () => {
                         const runningScenario: RunningScenario = {
                             state: 'COLLECTING_STEPS',
