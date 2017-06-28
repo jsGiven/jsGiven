@@ -3,6 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/jsGiven/jsGiven/badge.svg?branch=master)](https://coveralls.io/github/jsGiven/jsGiven?branch=master) 
 [![Code Climate](https://codeclimate.com/github/jsGiven/jsGiven/badges/gpa.svg)](https://codeclimate.com/github/jsGiven/jsGiven) 
 [![Known Vulnerabilities](https://snyk.io/test/github/jsgiven/jsgiven/badge.svg?targetFile=js-given%2Fpackage.json)](https://snyk.io/test/github/jsgiven/jsgiven?targetFile=js-given%2Fpackage.json) 
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/jsGiven/jsGiven/master/LICENSE)
 [![npm version](https://badge.fury.io/js/js-given.svg)](https://badge.fury.io/js/js-given) 
