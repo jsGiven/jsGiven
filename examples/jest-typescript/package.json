@@ -4,10 +4,10 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "@types/jest": "^20.0.1",
+    "@types/jest": "^20.0.2",
     "jest": "*",
     "js-given": "^0.1.4",
-    "typescript": "*"
+    "typescript": "^2.4.1"
   },
   "scripts": {
     "build": "tsc --project . --pretty",

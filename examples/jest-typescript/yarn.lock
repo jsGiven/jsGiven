@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@types/jest@^20.0.1":
-  version "20.0.1"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-20.0.1.tgz#8643a195d925a00f7bdee5257d12c3aac743f3b4"
+"@types/jest@^20.0.2":
+  version "20.0.2"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-20.0.2.tgz#86c751121fb53dbd39bb1a08c45083da13f2dc67"
 
 abab@^1.0.3:
   version "1.0.3"
@@ -2118,9 +2118,9 @@ type-check@~0.3.2:
   dependencies:
     prelude-ls "~1.1.2"
 
-typescript@*:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.0.tgz#aef5a8d404beba36ad339abf079ddddfffba86dd"
+typescript@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.1.tgz#c3ccb16ddaa0b2314de031e7e6fee89e5ba346bc"
 
 uglify-js@^2.6:
   version "2.8.28"
