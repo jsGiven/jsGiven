@@ -23,29 +23,43 @@ export class ScenarioPart {
         this.introWord = null;
     }
 
-    stageMethodCalled(methodName: string, parameters: DecodedParameter[]) {
+    stageMethodCalled(
+        methodName: string,
+        parameters: DecodedParameter[],
+        stepStatus: StepStatus
+    ) {
         if (INTRO_WORD_METHODS.find(introWord => introWord === methodName)) {
             this.introWord = methodName;
         } else {
             const isFirstStep = this.steps.length === 0;
             this.steps.push(
-                new Step(methodName, parameters, isFirstStep, this.introWord)
+                new Step(
+                    methodName,
+                    parameters,
+                    isFirstStep,
+                    this.introWord,
+                    stepStatus
+                )
             );
             this.introWord = null;
         }
     }
 }
 
+type StepStatus = 'PASSED' | 'FAILED' | 'SKIPPED';
+
 export class Step {
     name: string;
     methodName: string;
     words: Word[];
+    status: StepStatus;
 
     constructor(
         methodName: string,
         parameters: DecodedParameter[],
         isFirstStep: boolean,
-        introWord: string | null
+        introWord: string | null,
+        stepStatus: StepStatus
     ) {
         const TWO_DOLLAR_PLACEHOLDER =
             'zzblablaescapedollarsignplaceholdertpolm';
@@ -113,6 +127,7 @@ export class Step {
         }
         this.words = words;
         this.name = words.map(({value}) => value).join(' ');
+        this.status = stepStatus;
 
         function toWord({word, scenarioParameterName}: WordDescription): Word {
             return new Word(word, false, scenarioParameterName);

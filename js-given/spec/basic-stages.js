@@ -1,6 +1,7 @@
 // @flow
 import fs from 'fs';
 
+import _ from 'lodash';
 import tmp from 'tmp';
 import {expect} from 'chai';
 import sinon from 'sinon';
@@ -12,6 +13,7 @@ import type {
     ScenarioPart,
     ScenarioPartKind,
     ScenarioReport,
+    Step,
 } from '../src/reports';
 import {computeScenarioFileName} from '../src/reports';
 import type {GroupFunc, TestFunc} from '../src/test-runners';
@@ -48,6 +50,7 @@ export class BasicScenarioWhenStage extends Stage {
     @State scenarioRunner: ScenarioRunner;
     @State describe: GroupFunc & SinonStub;
     @State it: TestFunc & SinonStub;
+    @State errors: Error[] = [];
 
     the_scenario_is_executed(): this {
         expect(this.describe).calledOnce;
@@ -64,6 +67,36 @@ export class BasicScenarioWhenStage extends Stage {
                 doAsync(async () => {
                     await promiseOrNull;
                 });
+            }
+        }
+
+        return this;
+    }
+
+    the_runner_tries_to_execute_the_scenario(): this {
+        expect(this.describe).calledOnce;
+        this.describe.callArg(1); // Emulate rspec describe()
+
+        expect(this.it).called;
+
+        const callCount = this.it.callCount;
+        for (let i = 0; i < callCount; i++) {
+            const testFunction = this.it.getCall(0).args[1];
+
+            try {
+                const promiseOrNull = testFunction(); // Emulate rspec it()
+
+                if (isPromise(promiseOrNull)) {
+                    doAsync(async () => {
+                        try {
+                            await promiseOrNull;
+                        } catch (error) {
+                            this.errors.push(error);
+                        }
+                    });
+                }
+            } catch (error) {
+                this.errors.push(error);
             }
         }
 
@@ -103,6 +136,14 @@ export class BasicScenarioThenStage extends Stage {
         const stats = fs.statSync(this.getFileName());
         expect(stats.isFile());
         return this;
+    }
+
+    getAllSteps(): Step[] {
+        const scenario = this.getScenario();
+        const [scenarioCase] = scenario.cases;
+        return _.flatMap(scenarioCase.parts, part => {
+            return part.steps;
+        });
     }
 
     findPartByKind(scenarioKind: ScenarioPartKind): ScenarioPart {

@@ -27,7 +27,8 @@ class StepsStage extends Stage {
                 decodeParameter(value, `parameter_${index}`, [])
             ),
             false,
-            null
+            null,
+            'PASSED'
         );
         return this;
     }
@@ -47,7 +48,8 @@ class StepsStage extends Stage {
                 ),
             ],
             false,
-            null
+            null,
+            'PASSED'
         );
         return this;
     }
@@ -67,7 +69,8 @@ class StepsStage extends Stage {
                 ),
             ],
             false,
-            null
+            null,
+            'PASSED'
         );
         return this;
     }
@@ -95,7 +98,8 @@ class StepsStage extends Stage {
                 ),
             ],
             false,
-            null
+            null,
+            'PASSED'
         );
         return this;
     }
@@ -104,12 +108,12 @@ class StepsStage extends Stage {
         methodName: string,
         introWord: string
     ): this {
-        this.step = new Step(methodName, [], false, introWord);
+        this.step = new Step(methodName, [], false, introWord, 'PASSED');
         return this;
     }
 
     a_step_with_$_methodName_and_no_intro_word(methodName: string): this {
-        this.step = new Step(methodName, [], false, null);
+        this.step = new Step(methodName, [], false, null, 'PASSED');
         return this;
     }
 
