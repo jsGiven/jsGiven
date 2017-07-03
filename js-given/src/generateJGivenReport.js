@@ -13,8 +13,6 @@ import type {ReportModel} from './jgivenReport/ReportModel';
 import type {ScenarioModel} from './jgivenReport/ScenarioModel';
 import type {StepModel} from './jgivenReport/StepModel';
 
-export const JGIVEN_APP_VERSION = '0.12.1';
-
 export async function generateJGivenReport(): Promise<void> {
     try {
         if (!directoryExists(`./${REPORTS_DESTINATION}`)) {
