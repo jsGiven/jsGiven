@@ -1,6 +1,6 @@
-import {scenario, scenarios, setupForRspec, Stage, State} from 'js-given';
+import { scenario, scenarios, setupForRspec, Stage, State } from 'js-given';
 
-import {sum} from './sum';
+import { sum } from './sum';
 
 setupForRspec(describe, it);
 
@@ -49,7 +49,7 @@ class SumThenStage extends Stage {
 scenarios(
     'sum',
     [SumGivenStage, SumWhenStage, SumThenStage],
-    ({given, when, then}) => {
+    ({ given, when, then }) => {
         // end::SumMultipleStagesScenarioDeclaration[]
         return {
             two_numbers_can_be_added: scenario({}, () => {

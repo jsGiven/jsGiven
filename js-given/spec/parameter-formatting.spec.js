@@ -1,5 +1,5 @@
 // @flow
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import {
     scenario,
@@ -44,7 +44,7 @@ class ParameterFormattingGivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             DefaultStage,
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_name: scenario({}, () => {
                         given().a_step_accepting_$_value(value);
@@ -72,7 +72,7 @@ class ParameterFormattingGivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             DefaultStage,
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_name: scenario({}, () => {
                         given().a_step_accepting_$_value(value);
@@ -100,7 +100,7 @@ class ParameterFormattingGivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             DefaultStage,
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_name: scenario({}, () => {
                         given().the_coffee_is_$_served(value);
@@ -119,8 +119,8 @@ class ParameterFormattingGivenStage extends BasicScenarioGivenStage {
 class ParameterFormattingThenStage extends BasicScenarioThenStage {
     @Quoted('expectedStep')
     its_given_part_contains_only_the_step(expectedStep: string): this {
-        const {steps} = this.findPartByKind('GIVEN');
-        expect(steps.map(({name}) => name)).to.deep.equal([expectedStep]);
+        const { steps } = this.findPartByKind('GIVEN');
+        expect(steps.map(({ name }) => name)).to.deep.equal([expectedStep]);
         return this;
     }
 }
@@ -132,7 +132,7 @@ scenarios(
         BasicScenarioWhenStage,
         ParameterFormattingThenStage,
     ],
-    ({given, when, then}) => ({
+    ({ given, when, then }) => ({
         steps_parameters_can_be_quoted: scenario({}, () => {
             given()
                 .a_scenario_runner()
@@ -273,7 +273,7 @@ class ParametersFormattingChecksStage extends Stage {
 scenarios(
     'core.steps.parameter-formatting',
     ParametersFormattingChecksStage,
-    ({given, when, then}) => ({
+    ({ given, when, then }) => ({
         a_formatter_decorator_cannot_be_used_on_a_property_that_is_not_a_function: scenario(
             {},
             parametrized1([null, undefined, 42, '1337', {}, []], value => {

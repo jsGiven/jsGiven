@@ -41,7 +41,7 @@ class DemoStage extends Stage {
 }
 
 // tag::ParametrizedScenarioTyped[]
-scenarios('parametrized-scenarios', DemoStage, ({given, when, then}) => {
+scenarios('parametrized-scenarios', DemoStage, ({ given, when, then }) => {
     return {
         scenarios_can_be_parametrized: scenario(
             {},

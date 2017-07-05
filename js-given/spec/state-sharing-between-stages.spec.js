@@ -1,5 +1,5 @@
 // @flow
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import {
     scenario,
@@ -147,7 +147,7 @@ class StatefullScenarioGivenStage extends BasicScenarioGivenStage {
                 this.WhenStageStateFull,
                 this.ThenStageStateFull,
             ],
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_using_stages: scenario({}, () => {
                         given().aValue();
@@ -182,7 +182,7 @@ scenarios(
         BasicScenarioWhenStage,
         StatefullScenarioThenStage,
     ],
-    ({given, when, then}) => {
+    ({ given, when, then }) => {
         return {
             scenarios_can_share_state_between_stages_using_the_State_decorator: scenario(
                 {},

@@ -6,7 +6,7 @@ import {
     parametrized3,
 } from 'js-given';
 
-import {sum} from './sum';
+import { sum } from './sum';
 
 setupForRspec(describe, it);
 
@@ -36,7 +36,7 @@ class SumStage extends Stage {
     }
 }
 
-scenarios('sum-parametrized', SumStage, ({given, when, then}) => {
+scenarios('sum-parametrized', SumStage, ({ given, when, then }) => {
     return {
         two_numbers_can_be_added: scenario(
             {},

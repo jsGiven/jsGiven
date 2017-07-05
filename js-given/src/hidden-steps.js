@@ -1,10 +1,10 @@
 // @flow
-import {Stage} from './Stage';
+import { Stage } from './Stage';
 import {
     getStageMetadataStoreProvider,
     type StageMetadataStoreProvider,
 } from './stage-metadata-store';
-import {checkIsFunction} from './checks';
+import { checkIsFunction } from './checks';
 
 const storeProvider: StageMetadataStoreProvider<
     string
@@ -16,7 +16,7 @@ export function Hidden(target: any, key: string, descriptor: any): any {
         `@Hidden decorator can only be applied to methods: '${key}' is not a method.`
     );
     storeProvider.getStoreFromTarget(target).addProperty(key);
-    return {...descriptor, writable: true};
+    return { ...descriptor, writable: true };
 }
 Hidden.addHiddenStep = (stageClass: Class<Stage>, property: string): void => {
     checkIsFunction(

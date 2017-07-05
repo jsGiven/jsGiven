@@ -1,6 +1,6 @@
 // @flow
-import type {AttachmentModel} from './AttachmentModel';
-import type {Word} from './Word';
+import type { AttachmentModel } from './AttachmentModel';
+import type { Word } from './Word';
 
 type StepStatus = 'PASSED' | 'FAILED' | 'SKIPPED' | 'PENDING';
 

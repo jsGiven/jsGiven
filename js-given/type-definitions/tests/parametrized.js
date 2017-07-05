@@ -17,7 +17,7 @@ class ParamStage extends Stage {
     }
 }
 
-scenarios('group.name', ParamStage, ({given, when, then}) => ({
+scenarios('group.name', ParamStage, ({ given, when, then }) => ({
     a_scenario: scenario(
         {},
         parametrized1([1, 2, 3], (value: number) => {

@@ -2,10 +2,10 @@
 import fs from 'fs';
 import zlib from 'zlib';
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 import tmp from 'tmp';
 
-import {scenario, scenarios, setupForRspec, setupForAva, Stage} from '../src';
+import { scenario, scenarios, setupForRspec, setupForAva, Stage } from '../src';
 import {
     computeScenarioFileName,
     GroupReport,
@@ -14,8 +14,8 @@ import {
     ScenarioReport,
     Step,
 } from '../src/reports';
-import {generateJGivenReportDataFiles} from '../src/generateJGivenReport';
-import {REPORTS_DESTINATION} from '../src/scenarios';
+import { generateJGivenReportDataFiles } from '../src/generateJGivenReport';
+import { REPORTS_DESTINATION } from '../src/scenarios';
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);
@@ -34,7 +34,7 @@ class JGivenReportStage extends Stage {
     jsGivenReportsDir: string;
 
     an_existing_jgiven_directory(): this {
-        const tmpDir = tmp.dirSync({unsafeCleanup: true});
+        const tmpDir = tmp.dirSync({ unsafeCleanup: true });
         this.reportPrefix = `${tmpDir.name}`;
         const jgivenReportDir = `${this.reportPrefix}/jGiven-report`;
         this.jgivenReportDir = jgivenReportDir;
@@ -124,7 +124,9 @@ class JGivenReportStage extends Stage {
                 `${this.jgivenReportDir}/data/metaData.js`,
                 'utf-8'
             );
-            global.jgivenReport = {setMetaData: data => (this.metaData = data)};
+            global.jgivenReport = {
+                setMetaData: data => (this.metaData = data),
+            };
             eval(metaDataContent);
             delete global.jgivenReport;
         } else {
@@ -164,7 +166,7 @@ class JGivenReportStage extends Stage {
                 `${this.jgivenReportDir}/data/tags.js`,
                 'utf-8'
             );
-            global.jgivenReport = {setTags: tags => (this.tags = tags)};
+            global.jgivenReport = { setTags: tags => (this.tags = tags) };
             eval(tagsContent);
             delete global.jgivenReport;
         } else {
@@ -231,7 +233,7 @@ class JGivenReportStage extends Stage {
     }
 }
 
-scenarios('core.reports.jgiven', JGivenReportStage, ({given, when, then}) => {
+scenarios('core.reports.jgiven', JGivenReportStage, ({ given, when, then }) => {
     return {
         a_simple_report_is_generated: scenario({}, () => {
             given()

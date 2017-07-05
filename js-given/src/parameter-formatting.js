@@ -1,10 +1,10 @@
 // @flow
-import {Stage} from './Stage';
+import { Stage } from './Stage';
 import {
     getStageMetadataStoreProvider,
     type StageMetadataStoreProvider,
 } from './stage-metadata-store';
-import {checkIsFunction, checkIsParameter} from './checks';
+import { checkIsFunction, checkIsParameter } from './checks';
 
 type ParameterFormatterDecorator = {
     (target: any, key: string, descriptor: any): any,
@@ -39,11 +39,11 @@ export function getFormatters(
     const formattings = storeProvider.getStoreFromTarget(stage).getProperties();
     return formattings
         .filter(
-            ({stepMethodName, parameterName}) =>
+            ({ stepMethodName, parameterName }) =>
                 requestedStepMethodName === stepMethodName &&
                 requestedParameterName === parameterName
         )
-        .map(({formatter}) => formatter);
+        .map(({ formatter }) => formatter);
 }
 
 export function restParameterName(): 'JSGIVEN_REST_PARAMETER_NAME' {
@@ -77,7 +77,7 @@ export function buildParameterFormatter(
                     stepMethodName,
                 });
             });
-            return {...descriptor, writable: true};
+            return { ...descriptor, writable: true };
         };
         return decorator;
     };

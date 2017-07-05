@@ -1,5 +1,5 @@
 // @flow
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import {
     scenario,
@@ -25,7 +25,7 @@ if (global.describe && global.it) {
 }
 
 class AsyncScenarioGivenStage extends BasicScenarioGivenStage {
-    @State asyncExecution: {success: boolean} = {success: false};
+    @State asyncExecution: { success: boolean } = { success: false };
 
     a_scenario_with_a_single_stage_with_async_actions(): this {
         const asyncExecution = this.asyncExecution;
@@ -54,7 +54,7 @@ class AsyncScenarioGivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             MyStage,
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_name: scenario({}, () => {
                         given().the_counter_is_initialized_to_(1337);
@@ -102,7 +102,7 @@ class AsyncScenarioGivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             [GivenStage, WhenStage, ThenStage],
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_name: scenario({}, () => {
                         given().the_counter_is_initialized_to_(1337);
@@ -117,7 +117,7 @@ class AsyncScenarioGivenStage extends BasicScenarioGivenStage {
 }
 
 class AsyncScenarioThenStage extends BasicScenarioThenStage {
-    @State asyncExecution: {success: boolean};
+    @State asyncExecution: { success: boolean };
 
     the_async_actions_have_been_executed(): this {
         expect(this.asyncExecution.success).to.be.true;
@@ -128,7 +128,7 @@ class AsyncScenarioThenStage extends BasicScenarioThenStage {
 scenarios(
     'core.scenarios.async',
     [AsyncScenarioGivenStage, BasicScenarioWhenStage, AsyncScenarioThenStage],
-    ({given, when, then}) => ({
+    ({ given, when, then }) => ({
         scenarios_can_be_run_asynchronously: scenario({}, () => {
             given()
                 .a_scenario_runner()

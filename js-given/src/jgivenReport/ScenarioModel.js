@@ -1,6 +1,6 @@
 // @flow
 
-import type {ScenarioCaseModel} from './ScenarioCaseModel';
+import type { ScenarioCaseModel } from './ScenarioCaseModel';
 
 type ExecutionStatus =
     | 'SCENARIO_PENDING'

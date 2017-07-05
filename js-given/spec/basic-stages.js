@@ -3,11 +3,11 @@ import fs from 'fs';
 
 import _ from 'lodash';
 import tmp from 'tmp';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 import isPromise from 'is-promise';
 
-import {ScenarioRunner, doAsync} from '../src/scenarios';
+import { ScenarioRunner, doAsync } from '../src/scenarios';
 import type {
     ScenarioCase,
     ScenarioPart,
@@ -15,9 +15,9 @@ import type {
     ScenarioReport,
     Step,
 } from '../src/reports';
-import {computeScenarioFileName} from '../src/reports';
-import type {GroupFunc, TestFunc} from '../src/test-runners';
-import {Stage, State} from '../src';
+import { computeScenarioFileName } from '../src/reports';
+import type { GroupFunc, TestFunc } from '../src/test-runners';
+import { Stage, State } from '../src';
 
 type SinonStub = {
     callArg: (arg: number) => any,
@@ -36,7 +36,7 @@ export class BasicScenarioGivenStage extends Stage {
     @State jsGivenReportsDir: string;
 
     a_scenario_runner(): this {
-        const tmpDir = tmp.dirSync({unsafeCleanup: true});
+        const tmpDir = tmp.dirSync({ unsafeCleanup: true });
         this.jsGivenReportsDir = tmpDir.name;
         this.scenarioRunner = new ScenarioRunner(tmpDir.name);
         this.describe = sinon.stub();
@@ -149,7 +149,9 @@ export class BasicScenarioThenStage extends Stage {
     findPartByKind(scenarioKind: ScenarioPartKind): ScenarioPart {
         const scenario = this.getScenario();
         const [scenarioCase] = scenario.cases;
-        const part = scenarioCase.parts.find(({kind}) => kind === scenarioKind);
+        const part = scenarioCase.parts.find(
+            ({ kind }) => kind === scenarioKind
+        );
         if (!part) {
             throw new Error(`No such part ${scenarioKind}`);
         }
@@ -160,7 +162,9 @@ export class BasicScenarioThenStage extends Stage {
         scenarioCase: ScenarioCase,
         scenarioKind: ScenarioPartKind
     ): ScenarioPart {
-        const part = scenarioCase.parts.find(({kind}) => kind === scenarioKind);
+        const part = scenarioCase.parts.find(
+            ({ kind }) => kind === scenarioKind
+        );
         if (!part) {
             throw new Error(`No such part ${scenarioKind}`);
         }

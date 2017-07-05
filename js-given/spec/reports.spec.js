@@ -1,5 +1,5 @@
 // @flow
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -10,7 +10,7 @@ import {
     State,
     Stage,
 } from '../src';
-import {computeScenarioFileName} from '../src/reports';
+import { computeScenarioFileName } from '../src/reports';
 
 import {
     BasicScenarioGivenStage,
@@ -55,7 +55,7 @@ class ReportScenarioGivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             DefaultStage,
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_name: scenario({}, () => {
                         given()
@@ -104,14 +104,14 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
     }
 
     its_given_part_contains_the_steps(expectedSteps: string[]): this {
-        const {steps} = this.findPartByKind('GIVEN');
-        expect(steps.map(({name}) => name)).to.deep.equal(expectedSteps);
+        const { steps } = this.findPartByKind('GIVEN');
+        expect(steps.map(({ name }) => name)).to.deep.equal(expectedSteps);
         return this;
     }
 
     its_given_part_does_not_include_methods_that_return_something_else_than_this(): this {
-        const {steps} = this.findPartByKind('GIVEN');
-        expect(steps.map(({name}) => name)).not.to.include('internal method');
+        const { steps } = this.findPartByKind('GIVEN');
+        expect(steps.map(({ name }) => name)).not.to.include('internal method');
         return this;
     }
 }
@@ -119,7 +119,7 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
 scenarios(
     'core.reports.jsgiven',
     [ReportScenarioGivenStage, BasicScenarioWhenStage, ReportScenarioThenStage],
-    ({given, when, then}) => {
+    ({ given, when, then }) => {
         return {
             a_report_is_generated_after_execution: scenario({}, () => {
                 given().a_scenario_runner().and().a_dummy_scenario();
@@ -178,7 +178,7 @@ class ReportsFileStage extends Stage {
 scenarios(
     'core.reports.jsgiven.file',
     ReportsFileStage,
-    ({given, when, then}) => ({
+    ({ given, when, then }) => ({
         the_report_file_name_is_generated_according_to_the_group_name_and_the_scenario_name: scenario(
             {},
             () => {

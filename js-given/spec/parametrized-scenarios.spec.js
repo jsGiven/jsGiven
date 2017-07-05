@@ -1,5 +1,5 @@
 // @flow
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import {
     scenario,
@@ -46,7 +46,7 @@ class ParametrizedScenarioGivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             MyStage,
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_name: scenario(
                         {},
@@ -103,7 +103,7 @@ scenarios(
         BasicScenarioWhenStage,
         ParametrizedScenarioThenStage,
     ],
-    ({given, when, then}) => ({
+    ({ given, when, then }) => ({
         scenarios_can_be_parametrized: scenario({}, () => {
             given()
                 .a_scenario_runner()

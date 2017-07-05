@@ -7,11 +7,11 @@ import DecompressZip from 'decompress-zip';
 import fse from 'fs-extra';
 import rimraf from 'rimraf';
 
-import {ScenarioReport, ScenarioPart} from './reports';
-import {REPORTS_DESTINATION} from './scenarios';
-import type {ReportModel} from './jgivenReport/ReportModel';
-import type {ScenarioModel} from './jgivenReport/ScenarioModel';
-import type {StepModel} from './jgivenReport/StepModel';
+import { ScenarioReport, ScenarioPart } from './reports';
+import { REPORTS_DESTINATION } from './scenarios';
+import type { ReportModel } from './jgivenReport/ReportModel';
+import type { ScenarioModel } from './jgivenReport/ScenarioModel';
+import type { StepModel } from './jgivenReport/StepModel';
 
 export async function generateJGivenReport(): Promise<void> {
     try {
@@ -98,7 +98,7 @@ export function generateJGivenReportDataFiles(
     const groupNamesAndScenarios: Array<
         [string, ScenarioReport[]]
     > = (Object.entries(
-        _.groupBy(scenarioReports, ({groupReport: {name}}) => name)
+        _.groupBy(scenarioReports, ({ groupReport: { name } }) => name)
     ): any);
     const scenarioModels = groupNamesAndScenarios.map(
         ([groupName, scenarioReports]) =>
@@ -118,7 +118,7 @@ export function generateJGivenReportDataFiles(
         'utf-8'
     );
 
-    const json = JSON.stringify({scenarios: scenarioModels});
+    const json = JSON.stringify({ scenarios: scenarioModels });
     const buffer = zlib.gzipSync(Buffer.from(json, 'utf-8'));
     const base64 = buffer.toString('base64');
     fs.writeFileSync(
@@ -214,7 +214,7 @@ function toSteps(scenarioPart: ScenarioPart): StepModel[] {
         nestedSteps: [],
         status: 'PASSED',
         words: step.words.map(word => ({
-            ...(word.isIntroWord ? {isIntroWord: true} : {}),
+            ...(word.isIntroWord ? { isIntroWord: true } : {}),
             value: word.value,
             ...(word.scenarioParameterName
                 ? {

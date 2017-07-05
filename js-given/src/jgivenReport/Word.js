@@ -1,5 +1,5 @@
 // @flow
-import type {ArgumentInfo} from './ArgumentInfo';
+import type { ArgumentInfo } from './ArgumentInfo';
 
 /**
  * Represents a part of a step.

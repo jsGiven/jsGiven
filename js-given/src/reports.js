@@ -5,8 +5,8 @@ import crypto from 'crypto';
 import _ from 'lodash';
 import humanize from 'string-humanize';
 
-import {type DecodedParameter} from './scenarios';
-import {type Formatter} from './parameter-formatting';
+import { type DecodedParameter } from './scenarios';
+import { type Formatter } from './parameter-formatting';
 
 export type ScenarioPartKind = 'GIVEN' | 'WHEN' | 'THEN';
 
@@ -73,7 +73,9 @@ export class Step {
                 .map(word => _.lowerCase(humanize(word))) //  ['a bill of', 'TWO_DOLLAR_PLACEHOLDER']
                 .reduce((previous, newString, index) => {
                     if (index === 0) {
-                        return [{word: newString, scenarioParameterName: null}];
+                        return [
+                            { word: newString, scenarioParameterName: null },
+                        ];
                     }
 
                     let formattedParameters: WordDescription[];
@@ -97,11 +99,11 @@ export class Step {
                     return [
                         ...previous,
                         ...formattedParameters,
-                        {word: newString, scenarioParameterName: null},
+                        { word: newString, scenarioParameterName: null },
                     ];
                 }, []) //  ['a bill of', '500', 'TWO_DOLLAR_PLACEHOLDER']
-                .filter(({word}) => word !== '') // If one puts a $ at the end of the method, this adds a useless '' at the end
-                .map(({word, scenarioParameterName}) => ({
+                .filter(({ word }) => word !== '') // If one puts a $ at the end of the method, this adds a useless '' at the end
+                .map(({ word, scenarioParameterName }) => ({
                     word: word.replace(TWO_DOLLAR_PLACEHOLDER, '$'),
                     scenarioParameterName,
                 })) //  ['a bill of', '500', '$']
@@ -122,14 +124,17 @@ export class Step {
         }
 
         if (isFirstStep) {
-            const [{value, isIntroWord}, ...rest] = words;
+            const [{ value, isIntroWord }, ...rest] = words;
             words = [new Word(_.upperFirst(value), isIntroWord), ...rest];
         }
         this.words = words;
-        this.name = words.map(({value}) => value).join(' ');
+        this.name = words.map(({ value }) => value).join(' ');
         this.status = stepStatus;
 
-        function toWord({word, scenarioParameterName}: WordDescription): Word {
+        function toWord({
+            word,
+            scenarioParameterName,
+        }: WordDescription): Word {
             return new Word(word, false, scenarioParameterName);
         }
 

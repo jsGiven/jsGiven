@@ -1,5 +1,5 @@
 // @flow
-import {Stage} from './Stage';
+import { Stage } from './Stage';
 
 interface StageMetadataStore<T> {
     addProperty(property: T): void,

@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import yargs from 'yargs';
 
-import {generateJGivenReport, cleanReports} from './generateJGivenReport';
+import { generateJGivenReport, cleanReports } from './generateJGivenReport';
 
 const [command] = yargs
     .usage('Usage: $0 <command>')

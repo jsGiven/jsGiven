@@ -14,9 +14,9 @@ const isWindows = process.platform === 'win32';
 const prettier = isWindows ? 'prettier.cmd' : 'prettier';
 const prettierCmd = path.resolve(__dirname, '../node_modules/.bin/' + prettier);
 const defaultOptions = {
-    'bracket-spacing': 'false',
+    'bracket-spacing': 'true',
     'single-quote': 'true',
-    'jsx-bracket-same-line': 'true',
+    'jsx-bracket-same-line': 'false',
     'trailing-comma': 'es5',
     'print-width': 80,
     'tab-width': 4,
@@ -71,7 +71,7 @@ Object.keys(config).forEach(key => {
             ? `{${patterns.join(',')}}`
             : `${patterns.join(',')}`;
     const files = glob
-        .sync(globPattern, {ignore})
+        .sync(globPattern, { ignore })
         .filter(f => !onlyChanged || changedFiles.has(f));
 
     if (!files.length) {

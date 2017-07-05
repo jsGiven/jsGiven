@@ -1,5 +1,5 @@
 // @flow
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import {
     scenario,
@@ -71,7 +71,7 @@ class ES5GivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             this.ES5Stage,
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_using_stages: scenario({}, () => {
                         given();
@@ -88,7 +88,7 @@ class ES5GivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             this.ES5Stage,
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_name: scenario({}, () => {
                         given();
@@ -105,7 +105,7 @@ class ES5GivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             this.ES5Stage,
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_name: scenario({}, () => {
                         given().some_value_$(1337);
@@ -168,7 +168,7 @@ class ES5GivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             [this.ES5GivenStage, this.ES5WhenStage, this.ES5ThenStage],
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_using_stages: scenario({}, () => {
                         given().a_number(1);
@@ -194,16 +194,16 @@ class ES5ThenStage extends BasicScenarioThenStage {
     }
 
     the_report_does_not_include_the_hidden_steps(): this {
-        const {steps} = this.findPartByKind('WHEN');
-        expect(steps.map(({name}) => name)).to.deep.equal([
+        const { steps } = this.findPartByKind('WHEN');
+        expect(steps.map(({ name }) => name)).to.deep.equal([
             'When an action is performed',
         ]);
         return this;
     }
 
     the_report_includes_formatted_parameters(): this {
-        const {steps} = this.findPartByKind('GIVEN');
-        expect(steps.map(({name}) => name)).to.deep.equal([
+        const { steps } = this.findPartByKind('GIVEN');
+        expect(steps.map(({ name }) => name)).to.deep.equal([
             'Given some value "1337"',
         ]);
         return this;
@@ -213,7 +213,7 @@ class ES5ThenStage extends BasicScenarioThenStage {
 scenarios(
     'core.support.es5',
     [ES5GivenStage, BasicScenarioWhenStage, ES5ThenStage],
-    ({given, when, then}) => {
+    ({ given, when, then }) => {
         return {
             scenarios_can_use_an_es5_stage_class: scenario({}, () => {
                 given()

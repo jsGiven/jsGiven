@@ -1,6 +1,6 @@
 //@flow
-import type {ScenarioModel} from './ScenarioModel';
-import type {Tag} from './Tag';
+import type { ScenarioModel } from './ScenarioModel';
+import type { Tag } from './Tag';
 
 export type ReportModel = {
     /**
@@ -20,5 +20,5 @@ export type ReportModel = {
 
     scenarios: ScenarioModel[],
 
-    tagMap: {[key: string]: Tag},
+    tagMap: { [key: string]: Tag },
 };

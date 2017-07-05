@@ -6,7 +6,7 @@ import {
     buildParameterFormatter,
 } from 'js-given';
 
-import {sum} from './sum';
+import { sum } from './sum';
 
 setupForRspec(describe, it);
 
@@ -25,7 +25,7 @@ LoudFormatter('!').formatParameter(MyStage, 'a_value', 'value');
 scenarios(
     'parameter-formatting-parametrized-without-decorators',
     MyStage,
-    ({given, when, then}) => {
+    ({ given, when, then }) => {
         return {
             // tag::FormatterExample[]
             parameters_can_be_formatted: scenario({}, () => {

@@ -1,11 +1,11 @@
-import {doAsync, scenario, scenarios, setupForRspec, Stage} from 'js-given';
+import { doAsync, scenario, scenarios, setupForRspec, Stage } from 'js-given';
 
-import {sum} from './sum';
+import { sum } from './sum';
 
 setupForRspec(describe, it);
 
 async function httpRequest(url) {
-    return {statusCode: 200};
+    return { statusCode: 200 };
 }
 
 // tag::AsyncStage[]
@@ -17,7 +17,7 @@ class AsyncStage extends Stage {
 
     making_an_http_request_to_that_url() {
         doAsync(async () => {
-            const {statusCode} = await httpRequest(this.url);
+            const { statusCode } = await httpRequest(this.url);
             this.statusCode = statusCode;
         });
         return this;
@@ -31,7 +31,7 @@ class AsyncStage extends Stage {
 // end::AsyncStage[]
 
 // tag::AsyncScenario[]
-scenarios('async', AsyncStage, ({given, when, then}) => {
+scenarios('async', AsyncStage, ({ given, when, then }) => {
     return {
         an_async_scenario_can_be_executed: scenario({}, () => {
             given().the_url('https://jsgiven.org');
@@ -53,7 +53,7 @@ class PromiseStage extends Stage {
 
     making_an_http_request_to_that_url() {
         doAsync(() => {
-            return httpRequest(this.url).then(({statusCode}) => {
+            return httpRequest(this.url).then(({ statusCode }) => {
                 this.statusCode = statusCode;
             });
         });
@@ -68,7 +68,7 @@ class PromiseStage extends Stage {
 // end::PromiseStage[]
 
 // tag::PromiseScenario[]
-scenarios('async', PromiseStage, ({given, when, then}) => {
+scenarios('async', PromiseStage, ({ given, when, then }) => {
     return {
         an_async_scenario_with_promises_can_be_executed: scenario({}, () => {
             given().the_url('https://jsgiven.org');

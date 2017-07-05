@@ -43,7 +43,7 @@ class DemoStage extends Stage {
 // end::DemoStage[]
 
 // tag::ParametrizedScenario[]
-scenarios('parametrized-scenarios', DemoStage, ({given, when, then}) => {
+scenarios('parametrized-scenarios', DemoStage, ({ given, when, then }) => {
     return {
         scenarios_can_be_parametrized: scenario(
             {},
@@ -58,7 +58,7 @@ scenarios('parametrized-scenarios', DemoStage, ({given, when, then}) => {
 // end::ParametrizedScenario[]
 
 // tag::Parametrized1Scenario[]
-scenarios('parametrized-scenarios', DemoStage, ({given, when, then}) => {
+scenarios('parametrized-scenarios', DemoStage, ({ given, when, then }) => {
     return {
         scenarios_can_be_parametrized_with_only_one_value: scenario(
             {},

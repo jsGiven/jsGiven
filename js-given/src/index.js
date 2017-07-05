@@ -12,10 +12,10 @@ export {
     scenarios,
     doAsync,
 } from './scenarios';
-export {setupForRspec, setupForAva} from './test-runners';
-export {Stage} from './Stage';
-export {State} from './State';
-export {Hidden} from './hidden-steps';
+export { setupForRspec, setupForAva } from './test-runners';
+export { Stage } from './Stage';
+export { State } from './State';
+export { Hidden } from './hidden-steps';
 export {
     Quoted,
     QuotedWith,

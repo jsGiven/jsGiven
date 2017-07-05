@@ -2,7 +2,7 @@
 import fs from 'fs';
 
 import tmp from 'tmp';
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import {
     scenario,
@@ -12,7 +12,7 @@ import {
     Stage,
     doAsync,
 } from '../src';
-import {installJGivenReportApp} from '../src/generateJGivenReport';
+import { installJGivenReportApp } from '../src/generateJGivenReport';
 
 if (global.jasmine) {
     global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 1800000;
@@ -29,7 +29,7 @@ class JGivenReportInstallationStage extends Stage {
     reportDir: string;
 
     a_temp_directory(): this {
-        const tmpDir = tmp.dirSync({unsafeCleanup: true});
+        const tmpDir = tmp.dirSync({ unsafeCleanup: true });
         this.reportDir = tmpDir.name;
 
         return this;
@@ -44,7 +44,7 @@ class JGivenReportInstallationStage extends Stage {
     }
 
     the_report_has_been_installed(): this {
-        const {reportDir} = this;
+        const { reportDir } = this;
         expect(fs.existsSync(`${reportDir}/jGiven-report`)).to.be.true;
         expect(fs.existsSync(`${reportDir}/jGiven-report/index.html`)).to.be
             .true;
@@ -62,7 +62,7 @@ class JGivenReportInstallationStage extends Stage {
 scenarios(
     'core.reports.jgiven.installation',
     JGivenReportInstallationStage,
-    ({given, when, then}) => {
+    ({ given, when, then }) => {
         return {
             a_simple_report_is_generated: scenario({}, () => {
                 given().a_temp_directory();

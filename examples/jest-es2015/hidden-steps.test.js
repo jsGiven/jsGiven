@@ -1,6 +1,6 @@
-import {scenario, scenarios, setupForRspec, Stage, Hidden} from 'js-given';
+import { scenario, scenarios, setupForRspec, Stage, Hidden } from 'js-given';
 
-import {sum} from './sum';
+import { sum } from './sum';
 
 setupForRspec(describe, it);
 
@@ -33,7 +33,7 @@ class SumStage extends Stage {
     }
 }
 
-scenarios('sum with hidden steps', SumStage, ({given, when, then}) => {
+scenarios('sum with hidden steps', SumStage, ({ given, when, then }) => {
     return {
         two_numbers_can_be_added: scenario({}, () => {
             given()
@@ -59,7 +59,7 @@ class StageClass extends Stage {
 Hidden.addHiddenStep(StageClass, 'aCompletelyHiddenStep');
 // end::HiddenStepES5[]
 
-scenarios('hidden steps', StageClass, ({given, when, then}) => {
+scenarios('hidden steps', StageClass, ({ given, when, then }) => {
     return {
         a_scenario: scenario({}, () => {
             given().aCompletelyHiddenStep();

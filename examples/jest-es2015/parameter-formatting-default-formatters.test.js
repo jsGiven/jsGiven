@@ -9,7 +9,7 @@ import {
     NotFormatter,
 } from 'js-given';
 
-import {sum} from './sum';
+import { sum } from './sum';
 
 setupForRspec(describe, it);
 
@@ -25,7 +25,7 @@ class QuotedStage extends Stage {
 scenarios(
     'parameter-formatting-default-quoted',
     QuotedStage,
-    ({given, when, then}) => {
+    ({ given, when, then }) => {
         return {
             parameters_can_be_formatted: scenario({}, () => {
                 given();
@@ -52,7 +52,7 @@ class QuotedWithStage extends Stage {
 scenarios(
     'parameter-formatting-default-quoted-with',
     QuotedWithStage,
-    ({given, when, then}) => {
+    ({ given, when, then }) => {
         return {
             parameters_can_be_formatted: scenario({}, () => {
                 given();
@@ -79,7 +79,7 @@ class NotFormatterStage extends Stage {
 scenarios(
     'parameter-formatting-default-not-formatter',
     NotFormatterStage,
-    ({given, when, then}) => {
+    ({ given, when, then }) => {
         return {
             parameters_can_be_formatted: scenario({}, () => {
                 given();

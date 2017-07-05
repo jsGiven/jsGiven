@@ -1,5 +1,5 @@
 // @flow
-import type {StepModel} from './StepModel';
+import type { StepModel } from './StepModel';
 
 export type ScenarioCaseModel = {
     /**

@@ -3,8 +3,8 @@ import _ from 'lodash';
 import humanize from 'string-humanize';
 import retrieveArguments from 'retrieve-arguments';
 
-import {Stage} from './Stage';
-import type {GroupFunc, TestFunc} from './test-runners';
+import { Stage } from './Stage';
+import type { GroupFunc, TestFunc } from './test-runners';
 import {
     formatParameter,
     GroupReport,
@@ -12,9 +12,9 @@ import {
     ScenarioReport,
     ScenarioPart,
 } from './reports';
-import type {TagDescription} from './tags';
-import {copyStateProperties} from './State';
-import {isHiddenStep} from './hidden-steps';
+import type { TagDescription } from './tags';
+import { copyStateProperties } from './State';
+import { isHiddenStep } from './hidden-steps';
 import {
     getFormatters,
     restParameterName,
@@ -32,7 +32,7 @@ type ScenariosParam<G, W, T> = {
 type ScenariosDescriptions<G, W, T> = {
     (
         scenariosParam: ScenariosParam<G, W, T>
-    ): {[key: string]: ScenarioDescription},
+    ): { [key: string]: ScenarioDescription },
 };
 
 type ScenarioDescription = {
@@ -136,7 +136,7 @@ export class ScenarioRunner {
                 const givenStage = self.buildStage(givenClass, runningScenario);
                 const whenStage = self.buildStage(whenClass, runningScenario);
                 const thenStage = self.buildStage(thenClass, runningScenario);
-                return {givenStage, whenStage, thenStage};
+                return { givenStage, whenStage, thenStage };
             };
         } else {
             const self = this;
@@ -146,7 +146,7 @@ export class ScenarioRunner {
                 const givenStage = self.buildStage(givenClass, runningScenario);
                 const whenStage = givenStage;
                 const thenStage = givenStage;
-                return {givenStage, whenStage, thenStage};
+                return { givenStage, whenStage, thenStage };
             };
         }
 
@@ -179,7 +179,7 @@ export class ScenarioRunner {
 
             getScenarios(
                 scenarios
-            ).forEach(({scenarioPropertyName, cases, argumentNames}) => {
+            ).forEach(({ scenarioPropertyName, cases, argumentNames }) => {
                 const scenarioNameForHumans = humanize(scenarioPropertyName);
                 const scenario = this.addScenario(
                     report,
@@ -188,7 +188,7 @@ export class ScenarioRunner {
                 );
 
                 let casesCount = 0;
-                cases.forEach(({caseFunction, args}, index) => {
+                cases.forEach(({ caseFunction, args }, index) => {
                     const caseDescription =
                         cases.length === 1
                             ? scenarioNameForHumans
@@ -213,9 +213,9 @@ export class ScenarioRunner {
                         runningScenario.state = 'RUNNING';
                         let runningSynchronously = true;
                         try {
-                            const {steps} = runningScenario;
+                            const { steps } = runningScenario;
                             for (let i = 0; i < steps.length; i++) {
-                                const {stepActions, stage} = steps[i];
+                                const { stepActions, stage } = steps[i];
                                 let asyncActions = [];
 
                                 if (!caughtError) {
@@ -280,11 +280,11 @@ export class ScenarioRunner {
                                     await executeAsyncActions(asyncActions);
                                 } catch (error) {
                                     caughtError = error;
-                                    const {stepActions} = steps[i];
+                                    const { stepActions } = steps[i];
                                     stepActions.markStepAsFailed();
                                 }
                                 if (!caughtError) {
-                                    const {stepActions} = steps[i];
+                                    const { stepActions } = steps[i];
                                     stepActions.markStepAsPassed();
                                     copyStateToOtherStages(
                                         stage,
@@ -294,7 +294,7 @@ export class ScenarioRunner {
 
                                 // Execute further steps and their async actions
                                 for (let j = i + 1; j < steps.length; j++) {
-                                    const {stepActions, stage} = steps[j];
+                                    const { stepActions, stage } = steps[j];
                                     if (!caughtError) {
                                         try {
                                             const actions = executeStepAndCollectAsyncActions(
@@ -362,7 +362,7 @@ export class ScenarioRunner {
                 ).map(scenarioPropertyName => {
                     const scenarioDescription: ScenarioDescription =
                         scenarios[scenarioPropertyName];
-                    const {scenarioFunction} = scenarioDescription;
+                    const { scenarioFunction } = scenarioDescription;
                     if (scenarioFunction instanceof Function) {
                         return {
                             scenarioPropertyName,
@@ -479,13 +479,13 @@ export class ScenarioRunner {
         const extendedPrototype = Object.getPrototypeOf(instance);
         const classPrototype = Object.getPrototypeOf(extendedPrototype);
 
-        const {stages} = runningScenario;
+        const { stages } = runningScenario;
 
         getAllMethods(classPrototype).forEach(methodName => {
             const self = this;
 
             extendedPrototype[methodName] = function(...args: any[]): any {
-                const {state, steps} = runningScenario;
+                const { state, steps } = runningScenario;
 
                 const stepParameterNames = retrieveArguments(
                     classPrototype[methodName]
@@ -720,7 +720,7 @@ export function decodeParameter(
 ): DecodedParameter {
     if (parameter instanceof Object && parameter.IS_JSGIVEN_WRAPPER_PARAMETER) {
         const wrapped: WrappedParameter = (parameter: any);
-        return {...wrapped, stepParameterName, formatters};
+        return { ...wrapped, stepParameterName, formatters };
     } else {
         if (stepParameterName === undefined) {
             throw new Error('cant be undefined');

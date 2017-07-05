@@ -1,6 +1,6 @@
 // @flow
 
-import {Stage, State} from '../index.js';
+import { Stage, State } from '../index.js';
 
 class SingleStage extends Stage {
     @State property: number;

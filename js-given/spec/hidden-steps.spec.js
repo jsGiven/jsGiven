@@ -1,5 +1,5 @@
 // @flow
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import {
     scenario,
@@ -42,7 +42,7 @@ class ScenarioHiddenStepsGivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             DefaultStage,
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_name: scenario({}, () => {
                         given().a_visible_step().and().anHiddenStep();
@@ -60,8 +60,8 @@ class ScenarioHiddenStepsGivenStage extends BasicScenarioGivenStage {
 
 class ScenarioHiddenStepsThenStage extends BasicScenarioThenStage {
     its_given_part_contains_the_steps(expectedSteps: string[]): this {
-        const {steps} = this.findPartByKind('GIVEN');
-        expect(steps.map(({name}) => name)).to.deep.equal(expectedSteps);
+        const { steps } = this.findPartByKind('GIVEN');
+        expect(steps.map(({ name }) => name)).to.deep.equal(expectedSteps);
         return this;
     }
 }
@@ -73,7 +73,7 @@ scenarios(
         BasicScenarioWhenStage,
         ScenarioHiddenStepsThenStage,
     ],
-    ({given, when, then}) => ({
+    ({ given, when, then }) => ({
         hidden_steps_are_not_present_in_the_report: scenario({}, () => {
             given()
                 .a_scenario_runner()
@@ -136,7 +136,7 @@ class HiddenChecksStage extends Stage {
 scenarios(
     'core.scenarios.hidden',
     HiddenChecksStage,
-    ({given, when, then}) => ({
+    ({ given, when, then }) => ({
         hidden_decorator_cannot_be_used_on_a_property_that_is_not_a_function: scenario(
             {},
             parametrized1([null, undefined, 42, '1337', {}, []], value => {

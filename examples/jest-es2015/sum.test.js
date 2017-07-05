@@ -1,8 +1,8 @@
 // tag::ImportJsGiven[]
-import {scenario, scenarios, setupForRspec, Stage} from 'js-given';
+import { scenario, scenarios, setupForRspec, Stage } from 'js-given';
 // end::ImportJsGiven[]
 
-import {sum} from './sum';
+import { sum } from './sum';
 
 // tag::setupForRspec[]
 setupForRspec(describe, it);
@@ -34,7 +34,7 @@ class SumStage extends Stage {
 
 // tag::scenarios[]
 // tag::scenariosCallFirstPart[]
-scenarios('sum', SumStage, ({given, when, then}) => {
+scenarios('sum', SumStage, ({ given, when, then }) => {
     // end::scenariosCallFirstPart[]
     return {
         two_numbers_can_be_added: scenario({}, () => {

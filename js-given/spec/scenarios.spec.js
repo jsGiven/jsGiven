@@ -1,5 +1,5 @@
 // @flow
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -51,7 +51,7 @@ class DummyScenarioThenStage extends BasicScenarioThenStage {
 scenarios(
     'core.scenarios',
     [DummyScenarioGivenStage, BasicScenarioWhenStage, DummyScenarioThenStage],
-    ({given, when, then}) => {
+    ({ given, when, then }) => {
         return {
             scenarios_can_be_run_over_any_scenario_runner: scenario({}, () => {
                 given().a_scenario_runner().and().a_dummy_scenario();
@@ -117,7 +117,7 @@ class StageRecorderGivenStage extends BasicScenarioGivenStage {
                 this.WhenStageThatRecordBeenCalled,
                 this.ThenStageThatRecordBeenCalled,
             ],
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_using_stages: scenario({}, () => {
                         given().somethingGiven();
@@ -150,7 +150,7 @@ class StageRecorderThenStage extends BasicScenarioThenStage {
 scenarios(
     'core.scenarios.stages',
     [StageRecorderGivenStage, BasicScenarioWhenStage, StageRecorderThenStage],
-    ({given, when, then}) => {
+    ({ given, when, then }) => {
         return {
             scenarios_can_use_given_when_then_stages_with_methods: scenario(
                 {},

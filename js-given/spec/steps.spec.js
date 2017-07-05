@@ -1,10 +1,10 @@
 // @flow
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {scenarios, scenario, setupForRspec, setupForAva, Stage} from '../src';
-import {wrapParameter, decodeParameter} from '../src/scenarios';
-import {Step} from '../src/reports';
-import type {Formatter} from '../src/parameter-formatting';
+import { scenarios, scenario, setupForRspec, setupForAva, Stage } from '../src';
+import { wrapParameter, decodeParameter } from '../src/scenarios';
+import { Step } from '../src/reports';
+import type { Formatter } from '../src/parameter-formatting';
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);
@@ -123,7 +123,7 @@ class StepsStage extends Stage {
     }
 
     it_contains_the_words(...words: string[]): this {
-        expect(this.step.words.map(({value}) => value)).to.deep.equal(words);
+        expect(this.step.words.map(({ value }) => value)).to.deep.equal(words);
         return this;
     }
 
@@ -137,7 +137,7 @@ class StepsStage extends Stage {
     }
 
     it_does_not_contain_any_intro_word(): this {
-        const {words} = this.step;
+        const { words } = this.step;
         words.forEach(word => expect(word.isIntroWord).to.be.false);
         return this;
     }
@@ -146,7 +146,7 @@ class StepsStage extends Stage {
         wordName: string,
         scenarioParameterName: string
     ): this {
-        const {words} = this.step;
+        const { words } = this.step;
         const wordFound = words.find(word => word.value === wordName);
         expect(wordFound).to.be.exist;
 
@@ -159,7 +159,7 @@ class StepsStage extends Stage {
     }
 }
 
-scenarios('core.steps', StepsStage, ({given, when, then}) => ({
+scenarios('core.steps', StepsStage, ({ given, when, then }) => ({
     intro_words_can_be_used: scenario({}, () => {
         given().a_step_with_$_methodName_and_$_intro_word('an_object', 'given');
         then()
@@ -181,7 +181,7 @@ scenarios('core.steps', StepsStage, ({given, when, then}) => ({
     }),
 }));
 
-scenarios('core.steps', StepsStage, ({given, when, then}) => {
+scenarios('core.steps', StepsStage, ({ given, when, then }) => {
     return {
         basic_properties_can_be_used_as_parameters: scenario({}, () => {
             given().a_parametrized_step_with_$_methodName_and_$_arguments(
@@ -208,7 +208,7 @@ scenarios('core.steps', StepsStage, ({given, when, then}) => {
         objects_can_be_used_as_parameters: scenario({}, () => {
             given().a_parametrized_step_with_$_methodName_and_$_arguments(
                 '$_object',
-                {foo: true, bar: 'not'}
+                { foo: true, bar: 'not' }
             );
             then()
                 .the_step_is_named_$(`{"foo":true,"bar":"not"} object`)

@@ -1,6 +1,6 @@
 // @flow
 import sinon from 'sinon';
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import {
     doAsync,
@@ -46,7 +46,7 @@ class ScenarioFailureGivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             FailureStage,
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_name: scenario({}, () => {
                         given().a_declaration_in_given_part();
@@ -80,7 +80,7 @@ class ScenarioFailureGivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             FailureStage,
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_name: scenario({}, () => {
                         given().a_declaration_in_given_part();
@@ -115,7 +115,7 @@ class ScenarioFailureGivenStage extends BasicScenarioGivenStage {
         this.scenarioRunner.scenarios(
             'group_name',
             FailureStage,
-            ({given, when, then}) => {
+            ({ given, when, then }) => {
                 return {
                     scenario_name: scenario({}, () => {
                         given().a_declaration_in_given_part();
@@ -181,7 +181,7 @@ scenarios(
         BasicScenarioWhenStage,
         ScenarioFailureThenStage,
     ],
-    ({given, when, then}) => {
+    ({ given, when, then }) => {
         return {
             synchronous_scenarios_can_fail: scenario({}, () => {
                 given()

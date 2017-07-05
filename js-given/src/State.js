@@ -1,7 +1,7 @@
 // @flow
 import _ from 'lodash';
 
-import {Stage} from './Stage';
+import { Stage } from './Stage';
 import {
     getStageMetadataStoreProvider,
     type StageMetadataStoreProvider,
@@ -13,7 +13,7 @@ const stateProvider: StageMetadataStoreProvider<
 
 export function State(target: any, key: string, descriptor: any): any {
     stateProvider.getStoreFromTarget(target).addProperty(key);
-    return {...descriptor, writable: true};
+    return { ...descriptor, writable: true };
 }
 State.addProperty = (stageClass: Class<Stage>, property: string): void => {
     stateProvider.getStoreFromStageClass(stageClass).addProperty(property);

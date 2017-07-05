@@ -6,7 +6,7 @@ import {
     buildParameterFormatter,
 } from 'js-given';
 
-import {sum} from './sum';
+import { sum } from './sum';
 
 setupForRspec(describe, it);
 
@@ -25,7 +25,7 @@ class MyStage extends Stage {
 }
 // end::UsingCustomerFormatter[]
 
-scenarios('parameter-formatting', MyStage, ({given, when, then}) => {
+scenarios('parameter-formatting', MyStage, ({ given, when, then }) => {
     return {
         // tag::FormatterExample[]
         parameters_can_be_formatted: scenario({}, () => {

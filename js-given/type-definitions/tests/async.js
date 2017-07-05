@@ -1,5 +1,5 @@
 // @flow
-import {doAsync, scenario, scenarios, Stage} from '../index.js';
+import { doAsync, scenario, scenarios, Stage } from '../index.js';
 
 class AsyncStage extends Stage {
     somethingAsync(): this {
@@ -14,7 +14,7 @@ class AsyncStage extends Stage {
     }
 }
 
-scenarios('group.name', AsyncStage, ({given, when, then}) => ({
+scenarios('group.name', AsyncStage, ({ given, when, then }) => ({
     a_scenario: scenario({}, () => {
         given().somethingAsync();
         when().somethingAsync();

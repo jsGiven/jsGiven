@@ -1,5 +1,5 @@
 // @flow
-import {INSTANCE} from './scenarios';
+import { INSTANCE } from './scenarios';
 
 export type GroupFunc = {
     (groupName: string, suiteFunc: RunnableFunc): void,
