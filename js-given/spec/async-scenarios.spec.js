@@ -137,7 +137,10 @@ scenarios(
 
             when().the_scenario_is_executed();
 
-            then().the_async_actions_have_been_executed();
+            then()
+                .the_async_actions_have_been_executed()
+                .and()
+                .it_has_exactly_one_case_and_it_is_$_successful(true);
         }),
 
         state_can_be_shared_between_stages_of_an_scenario_runing_asynchronously: scenario(

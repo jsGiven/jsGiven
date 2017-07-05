@@ -168,6 +168,7 @@ export class Word {
 export class ScenarioCase {
     args: string[];
     parts: ScenarioPart[];
+    successful: boolean;
 
     constructor(args: string[], parts: ScenarioPart[] = []) {
         this.args = args;

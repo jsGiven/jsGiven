@@ -202,7 +202,9 @@ scenarios(
                     .and()
                     .the_second_step_is_failed()
                     .and()
-                    .the_third_step_is_skipped();
+                    .the_third_step_is_skipped()
+                    .and()
+                    .it_has_exactly_one_case_and_it_is_$_successful(false);
             }),
 
             asynchronous_scenarios_can_fail_during_the_first_async_action: scenario(
@@ -226,7 +228,9 @@ scenarios(
                         .and()
                         .the_second_step_is_failed()
                         .and()
-                        .the_third_step_is_skipped();
+                        .the_third_step_is_skipped()
+                        .and()
+                        .it_has_exactly_one_case_and_it_is_$_successful(false);
                 }
             ),
 
@@ -251,7 +255,9 @@ scenarios(
                         .and()
                         .the_second_step_is_failed()
                         .and()
-                        .the_third_step_is_skipped();
+                        .the_third_step_is_skipped()
+                        .and()
+                        .it_has_exactly_one_case_and_it_is_$_successful(false);
                 }
             ),
         };

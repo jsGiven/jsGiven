@@ -17,7 +17,7 @@ import type {
 } from '../src/reports';
 import { computeScenarioFileName } from '../src/reports';
 import type { GroupFunc, TestFunc } from '../src/test-runners';
-import { Stage, State } from '../src';
+import { Stage, State, NotFormatter } from '../src';
 
 type SinonStub = {
     callArg: (arg: number) => any,
@@ -60,7 +60,7 @@ export class BasicScenarioWhenStage extends Stage {
 
         const callCount = this.it.callCount;
         for (let i = 0; i < callCount; i++) {
-            const testFunction = this.it.getCall(0).args[1];
+            const testFunction = this.it.getCall(i).args[1];
             const promiseOrNull = testFunction(); // Emulate rspec it()
 
             if (isPromise(promiseOrNull)) {
@@ -81,7 +81,7 @@ export class BasicScenarioWhenStage extends Stage {
 
         const callCount = this.it.callCount;
         for (let i = 0; i < callCount; i++) {
-            const testFunction = this.it.getCall(0).args[1];
+            const testFunction = this.it.getCall(i).args[1];
 
             try {
                 const promiseOrNull = testFunction(); // Emulate rspec it()
@@ -135,6 +135,17 @@ export class BasicScenarioThenStage extends Stage {
     the_report_for_this_scenerio_has_been_generated(): this {
         const stats = fs.statSync(this.getFileName());
         expect(stats.isFile());
+        return this;
+    }
+
+    @NotFormatter('expectedStatus')
+    it_has_exactly_one_case_and_it_is_$_successful(
+        expectedStatus: boolean
+    ): this {
+        const scenario = this.getScenario();
+        expect(scenario.cases).to.have.length(1);
+        const [scenarioCase] = scenario.cases;
+        expect(scenarioCase.successful).to.equal(expectedStatus);
         return this;
     }
 

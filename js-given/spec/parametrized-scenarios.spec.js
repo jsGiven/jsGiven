@@ -61,12 +61,54 @@ class ParametrizedScenarioGivenStage extends BasicScenarioGivenStage {
         );
         return this;
     }
+
+    a_parametrized_scenario_with_one_successful_and_one_failing_case(): this {
+        class MyStage extends Stage {
+            expecting_a_true_value(value: boolean): this {
+                expect(value).to.be.true;
+                return this;
+            }
+        }
+        this.scenarioRunner.scenarios(
+            'group_name',
+            MyStage,
+            ({ given, when, then }) => {
+                return {
+                    scenario_name: scenario(
+                        {},
+                        parametrized1([true, false], value => {
+                            when().expecting_a_true_value(value);
+                        })
+                    ),
+                };
+            }
+        );
+        return this;
+    }
 }
 
 class ParametrizedScenarioThenStage extends BasicScenarioThenStage {
-    the_scenario_contains_3_cases(): this {
+    the_scenario_contains_$_cases(n: number): this {
         const cases = this.getScenario().cases;
-        expect(cases).to.have.length(3);
+        expect(cases).to.have.length(n);
+        return this;
+    }
+
+    each_case_is_successful(): this {
+        const cases = this.getScenario().cases;
+        cases.forEach(c => expect(c.successful).to.be.true);
+        return this;
+    }
+
+    the_first_case_is_successful(): this {
+        const [scenarioCase] = this.getScenario().cases;
+        expect(scenarioCase.successful).to.be.true;
+        return this;
+    }
+
+    the_second_case_is_not_successful(): this {
+        const scenarioCase = this.getScenario().cases[1];
+        expect(scenarioCase.successful).to.be.false;
         return this;
     }
 
@@ -121,11 +163,31 @@ scenarios(
                 .and()
                 .the_report_for_this_scenerio_has_been_generated()
                 .and()
-                .the_scenario_contains_3_cases()
+                .the_scenario_contains_$_cases(3)
+                .and()
+                .each_case_is_successful()
                 .and()
                 .each_case_contains_3_parts()
                 .and()
                 .the_given_part_contains_a_word_including_the_parameter_name();
+        }),
+
+        cases_status_are_reported: scenario({}, () => {
+            given()
+                .a_scenario_runner()
+                .and()
+                .a_parametrized_scenario_with_one_successful_and_one_failing_case();
+
+            when().the_runner_tries_to_execute_the_scenario();
+
+            then()
+                .the_report_for_this_scenerio_has_been_generated()
+                .and()
+                .the_scenario_contains_$_cases(2)
+                .and()
+                .the_first_case_is_successful()
+                .and()
+                .the_second_case_is_not_successful();
         }),
     })
 );

@@ -129,6 +129,9 @@ scenarios(
                 then()
                     .the_report_for_this_scenerio_has_been_generated()
                     .and()
+                    .it_has_exactly_one_case_and_it_is_$_successful(true);
+
+                then()
                     .its_name_is_readable_in_english()
                     .and()
                     .it_has_a_given_part()

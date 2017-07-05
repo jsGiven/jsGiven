@@ -201,7 +201,7 @@ export class ScenarioRunner {
                             steps: [],
                         };
 
-                        this.addCase(scenario, args);
+                        this.beginCase(scenario, args);
 
                         // Build stages
                         currentStages = stageBuilder(runningScenario);
@@ -259,7 +259,7 @@ export class ScenarioRunner {
                             }
                         } finally {
                             if (runningSynchronously) {
-                                cleanUp(this);
+                                caseCompleted(this);
                             }
                         }
 
@@ -318,7 +318,7 @@ export class ScenarioRunner {
                                     }
                                 }
                             } finally {
-                                cleanUp(self);
+                                caseCompleted(self);
                             }
 
                             if (caughtError) {
@@ -334,7 +334,12 @@ export class ScenarioRunner {
                             }
                         }
 
-                        function cleanUp(self: ScenarioRunner) {
+                        function caseCompleted(self: ScenarioRunner) {
+                            if (caughtError) {
+                                self.caseFailed();
+                            } else {
+                                self.caseSucceeded();
+                            }
                             casesCount++;
                             if (casesCount === cases.length) {
                                 scenario.dumpToFile(self.reportsDestination);
@@ -384,7 +389,7 @@ export class ScenarioRunner {
                         return {
                             scenarioPropertyName,
                             cases: parameters.map(
-                                (parametersForCase: Array<*>) => {
+                                (parametersForCase: Array<*>, z: number) => {
                                     const parametersForTestFunction = parametersForCase.map(
                                         (parameter, index) =>
                                             wrapParameter(
@@ -396,8 +401,11 @@ export class ScenarioRunner {
                                         p => formatParameter(p, [])
                                     );
                                     return {
-                                        caseFunction: () =>
-                                            func(...parametersForTestFunction),
+                                        caseFunction: () => {
+                                            return func(
+                                                ...parametersForTestFunction
+                                            );
+                                        },
                                         args,
                                     };
                                 }
@@ -424,9 +432,18 @@ export class ScenarioRunner {
         );
     }
 
-    addCase(scenario: ScenarioReport, args: string[]) {
-        this.currentCase = new ScenarioCase(args);
-        scenario.cases.push(this.currentCase);
+    beginCase(scenario: ScenarioReport, args: string[]) {
+        const currentCase = new ScenarioCase(args);
+        this.currentCase = currentCase;
+        scenario.cases.push(currentCase);
+    }
+
+    caseFailed() {
+        this.currentCase.successful = false;
+    }
+
+    caseSucceeded() {
+        this.currentCase.successful = true;
     }
 
     addGivenPart() {
