@@ -169,7 +169,9 @@ scenarios(
                 .and()
                 .each_case_contains_3_parts()
                 .and()
-                .the_given_part_contains_a_word_including_the_parameter_name();
+                .the_given_part_contains_a_word_including_the_parameter_name()
+                .and()
+                .the_scenario_execution_status_is_$('SUCCESS');
         }),
 
         cases_status_are_reported: scenario({}, () => {
@@ -187,7 +189,9 @@ scenarios(
                 .and()
                 .the_first_case_is_successful()
                 .and()
-                .the_second_case_is_not_successful();
+                .the_second_case_is_not_successful()
+                .and()
+                .the_scenario_execution_status_is_$('FAILED');
         }),
     })
 );

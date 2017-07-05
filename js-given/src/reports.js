@@ -176,11 +176,14 @@ export class ScenarioCase {
     }
 }
 
+export type ScenarioExecutionStatus = 'SUCCESS' | 'FAILED';
+
 export class ScenarioReport {
     groupReport: GroupReport;
     name: string;
     cases: ScenarioCase[];
     argumentNames: string[];
+    executionStatus: ScenarioExecutionStatus;
 
     constructor(
         groupReport: GroupReport,

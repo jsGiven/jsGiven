@@ -134,6 +134,8 @@ scenarios(
                 then()
                     .its_name_is_readable_in_english()
                     .and()
+                    .the_scenario_execution_status_is_$('SUCCESS')
+                    .and()
                     .it_has_a_given_part()
                     .and()
                     .its_given_part_contains_the_steps([

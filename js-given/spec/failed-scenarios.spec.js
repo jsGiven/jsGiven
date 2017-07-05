@@ -204,7 +204,9 @@ scenarios(
                     .and()
                     .the_third_step_is_skipped()
                     .and()
-                    .it_has_exactly_one_case_and_it_is_$_successful(false);
+                    .it_has_exactly_one_case_and_it_is_$_successful(false)
+                    .and()
+                    .the_scenario_execution_status_is_$('FAILED');
             }),
 
             asynchronous_scenarios_can_fail_during_the_first_async_action: scenario(
@@ -230,7 +232,9 @@ scenarios(
                         .and()
                         .the_third_step_is_skipped()
                         .and()
-                        .it_has_exactly_one_case_and_it_is_$_successful(false);
+                        .it_has_exactly_one_case_and_it_is_$_successful(false)
+                        .and()
+                        .the_scenario_execution_status_is_$('FAILED');
                 }
             ),
 
@@ -257,7 +261,9 @@ scenarios(
                         .and()
                         .the_third_step_is_skipped()
                         .and()
-                        .it_has_exactly_one_case_and_it_is_$_successful(false);
+                        .it_has_exactly_one_case_and_it_is_$_successful(false)
+                        .and()
+                        .the_scenario_execution_status_is_$('FAILED');
                 }
             ),
         };

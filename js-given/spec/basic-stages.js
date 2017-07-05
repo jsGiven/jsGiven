@@ -14,10 +14,11 @@ import type {
     ScenarioPartKind,
     ScenarioReport,
     Step,
+    ScenarioExecutionStatus,
 } from '../src/reports';
 import { computeScenarioFileName } from '../src/reports';
 import type { GroupFunc, TestFunc } from '../src/test-runners';
-import { Stage, State, NotFormatter } from '../src';
+import { Stage, State, NotFormatter, Quoted } from '../src';
 
 type SinonStub = {
     callArg: (arg: number) => any,
@@ -146,6 +147,15 @@ export class BasicScenarioThenStage extends Stage {
         expect(scenario.cases).to.have.length(1);
         const [scenarioCase] = scenario.cases;
         expect(scenarioCase.successful).to.equal(expectedStatus);
+        return this;
+    }
+
+    @Quoted('executionStatus')
+    the_scenario_execution_status_is_$(
+        executionStatus: ScenarioExecutionStatus
+    ): this {
+        const scenario = this.getScenario();
+        expect(scenario.executionStatus).to.equal(executionStatus);
         return this;
     }
 

@@ -11,6 +11,7 @@ import {
     ScenarioCase,
     ScenarioReport,
     ScenarioPart,
+    type ScenarioExecutionStatus,
 } from './reports';
 import type { TagDescription } from './tags';
 import { copyStateProperties } from './State';
@@ -342,7 +343,7 @@ export class ScenarioRunner {
                             }
                             casesCount++;
                             if (casesCount === cases.length) {
-                                scenario.dumpToFile(self.reportsDestination);
+                                self.scenarioCompleted(scenario);
                             }
                             currentStages = undefined;
                         }
@@ -483,6 +484,16 @@ export class ScenarioRunner {
             decodedParameters,
             'SKIPPED'
         );
+    }
+
+    scenarioCompleted(scenario: ScenarioReport) {
+        const executionStatus: ScenarioExecutionStatus = scenario.cases.some(
+            c => !c.successful
+        )
+            ? 'FAILED'
+            : 'SUCCESS';
+        scenario.executionStatus = executionStatus;
+        scenario.dumpToFile(this.reportsDestination);
     }
 
     buildStage<T>(tClass: Class<T>, runningScenario: RunningScenario): T {
