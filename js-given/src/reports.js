@@ -28,7 +28,8 @@ export class ScenarioPart {
     stageMethodCalled(
         methodName: string,
         parameters: DecodedParameter[],
-        stepStatus: StepStatus
+        stepStatus: StepStatus,
+        executionTimeInNanos: number
     ) {
         if (INTRO_WORD_METHODS.find(introWord => introWord === methodName)) {
             this.introWord = methodName;
@@ -40,7 +41,8 @@ export class ScenarioPart {
                     parameters,
                     isFirstStep,
                     this.introWord,
-                    stepStatus
+                    stepStatus,
+                    executionTimeInNanos
                 )
             );
             this.introWord = null;
@@ -55,13 +57,15 @@ export class Step {
     methodName: string;
     words: Word[];
     status: StepStatus;
+    durationInNanos: number;
 
     constructor(
         methodName: string,
         parameters: DecodedParameter[],
         isFirstStep: boolean,
         introWord: string | null,
-        stepStatus: StepStatus
+        stepStatus: StepStatus,
+        durationInNanos: number
     ) {
         const TWO_DOLLAR_PLACEHOLDER =
             'zzblablaescapedollarsignplaceholdertpolm';
@@ -132,6 +136,7 @@ export class Step {
         this.words = words;
         this.name = words.map(({ value }) => value).join(' ');
         this.status = stepStatus;
+        this.durationInNanos = durationInNanos;
 
         function toWord({
             word,
@@ -171,6 +176,7 @@ export class ScenarioCase {
     args: string[];
     parts: ScenarioPart[];
     successful: boolean;
+    durationInNanos: number;
 
     constructor(args: string[], parts: ScenarioPart[] = []) {
         this.args = args;

@@ -25,6 +25,7 @@ import { Stage } from './Stage';
 import { copyStateToOtherStages } from './State';
 import type { TagDescription } from './tags';
 import type { GroupFunc, TestFunc } from './test-runners';
+import { Timer } from './timer';
 
 type ScenariosParam<G, W, T> = {
     +given: () => G,
@@ -72,9 +73,9 @@ type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G & W & T>;
 
 type StepActions = {
     +executeStep: () => void,
-    +markStepAsFailed: () => void,
-    +markStepAsSkipped: () => void,
-    +markStepAsPassed: () => void,
+    +markStepAsFailed: (timer: Timer) => void,
+    +markStepAsSkipped: (timer: Timer) => void,
+    +markStepAsPassed: (timer: Timer) => void,
 };
 
 type Step = {
@@ -92,6 +93,7 @@ export class ScenarioRunner {
     groupFunc: GroupFunc;
     testFunc: TestFunc;
     currentCase: ScenarioCase;
+    currentCaseTimer: Timer;
     currentPart: ScenarioPart;
     reportsDestination: string;
 
@@ -214,6 +216,7 @@ export class ScenarioRunner {
                             const { steps } = runningScenario;
                             for (let i = 0; i < steps.length; i++) {
                                 const { stepActions, stage } = steps[i];
+                                const stepTimer = new Timer();
                                 let asyncActions = [];
 
                                 if (!caughtError) {
@@ -223,15 +226,15 @@ export class ScenarioRunner {
                                         );
                                     } catch (error) {
                                         caughtError = error;
-                                        stepActions.markStepAsFailed();
+                                        stepActions.markStepAsFailed(stepTimer);
                                     }
                                 } else {
-                                    stepActions.markStepAsSkipped();
+                                    stepActions.markStepAsSkipped(stepTimer);
                                 }
 
                                 if (!caughtError) {
                                     if (asyncActions.length === 0) {
-                                        stepActions.markStepAsPassed();
+                                        stepActions.markStepAsPassed(stepTimer);
                                         copyStateToOtherStages(
                                             stage,
                                             runningScenario.stages
@@ -250,7 +253,8 @@ export class ScenarioRunner {
                                             asyncActions,
                                             stage,
                                             steps,
-                                            i
+                                            i,
+                                            stepTimer
                                         );
                                     }
                                 }
@@ -270,7 +274,8 @@ export class ScenarioRunner {
                             asyncActions: Array<() => Promise<*>>,
                             stage: Stage,
                             steps: Step[],
-                            i: number
+                            i: number,
+                            initialStepTimer: Timer
                         ): Promise<*> {
                             try {
                                 // Execute async actions for current step
@@ -279,11 +284,15 @@ export class ScenarioRunner {
                                 } catch (error) {
                                     caughtError = error;
                                     const { stepActions } = steps[i];
-                                    stepActions.markStepAsFailed();
+                                    stepActions.markStepAsFailed(
+                                        initialStepTimer
+                                    );
                                 }
                                 if (!caughtError) {
                                     const { stepActions } = steps[i];
-                                    stepActions.markStepAsPassed();
+                                    stepActions.markStepAsPassed(
+                                        initialStepTimer
+                                    );
                                     copyStateToOtherStages(
                                         stage,
                                         runningScenario.stages
@@ -293,6 +302,7 @@ export class ScenarioRunner {
                                 // Execute further steps and their async actions
                                 for (let j = i + 1; j < steps.length; j++) {
                                     const { stepActions, stage } = steps[j];
+                                    const stepTimer = new Timer();
                                     if (!caughtError) {
                                         try {
                                             const actions = executeStepAndCollectAsyncActions(
@@ -301,18 +311,24 @@ export class ScenarioRunner {
                                             await executeAsyncActions(actions);
                                         } catch (error) {
                                             caughtError = error;
-                                            stepActions.markStepAsFailed();
+                                            stepActions.markStepAsFailed(
+                                                stepTimer
+                                            );
                                         }
 
                                         if (!caughtError) {
-                                            stepActions.markStepAsPassed();
+                                            stepActions.markStepAsPassed(
+                                                stepTimer
+                                            );
                                             copyStateToOtherStages(
                                                 stage,
                                                 runningScenario.stages
                                             );
                                         }
                                     } else {
-                                        stepActions.markStepAsSkipped();
+                                        stepActions.markStepAsSkipped(
+                                            stepTimer
+                                        );
                                     }
                                 }
                             } finally {
@@ -434,14 +450,19 @@ export class ScenarioRunner {
         const currentCase = new ScenarioCase(args);
         this.currentCase = currentCase;
         scenario.cases.push(currentCase);
+        this.currentCaseTimer = new Timer();
     }
 
     caseFailed() {
+        const durationInNanos = this.currentCaseTimer.elapsedTimeInNanoseconds();
         this.currentCase.successful = false;
+        this.currentCase.durationInNanos = durationInNanos;
     }
 
     caseSucceeded() {
+        const durationInNanos = this.currentCaseTimer.elapsedTimeInNanoseconds();
         this.currentCase.successful = true;
+        this.currentCase.durationInNanos = durationInNanos;
     }
 
     addGivenPart() {
@@ -459,27 +480,42 @@ export class ScenarioRunner {
         this.currentCase.parts.push(this.currentPart);
     }
 
-    stepPassed(methodName: string, decodedParameters: DecodedParameter[]) {
+    stepPassed(
+        methodName: string,
+        decodedParameters: DecodedParameter[],
+        stepTimer: Timer
+    ) {
         this.currentPart.stageMethodCalled(
             methodName,
             decodedParameters,
-            'PASSED'
+            'PASSED',
+            stepTimer.elapsedTimeInNanoseconds()
         );
     }
 
-    stepFailed(methodName: string, decodedParameters: DecodedParameter[]) {
+    stepFailed(
+        methodName: string,
+        decodedParameters: DecodedParameter[],
+        stepTimer: Timer
+    ) {
         this.currentPart.stageMethodCalled(
             methodName,
             decodedParameters,
-            'FAILED'
+            'FAILED',
+            stepTimer.elapsedTimeInNanoseconds()
         );
     }
 
-    stepSkipped(methodName: string, decodedParameters: DecodedParameter[]) {
+    stepSkipped(
+        methodName: string,
+        decodedParameters: DecodedParameter[],
+        stepTimer: Timer
+    ) {
         this.currentPart.stageMethodCalled(
             methodName,
             decodedParameters,
-            'SKIPPED'
+            'SKIPPED',
+            stepTimer.elapsedTimeInNanoseconds()
         );
     }
 
@@ -539,28 +575,31 @@ export class ScenarioRunner {
                                         args
                                     );
                                 },
-                                markStepAsPassed: () => {
+                                markStepAsPassed: (stepTimer: Timer) => {
                                     if (!isHiddenStep(this, methodName)) {
                                         self.stepPassed(
                                             methodName,
-                                            decodedParameters
+                                            decodedParameters,
+                                            stepTimer
                                         );
                                     }
                                 },
-                                markStepAsFailed: () => {
+                                markStepAsFailed: (stepTimer: Timer) => {
                                     if (!isHiddenStep(this, methodName)) {
                                         self.stepFailed(
                                             methodName,
-                                            decodedParameters
+                                            decodedParameters,
+                                            stepTimer
                                         );
                                     }
                                 },
-                                markStepAsSkipped: () => {
+                                markStepAsSkipped: (stepTimer: Timer) => {
                                     if (!isHiddenStep(this, methodName)) {
                                         insertNewPartIfRequired();
                                         self.stepSkipped(
                                             methodName,
-                                            decodedParameters
+                                            decodedParameters,
+                                            stepTimer
                                         );
                                     }
                                 },
