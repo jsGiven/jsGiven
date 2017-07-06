@@ -60,7 +60,7 @@ class DemoStage extends Stage {
 scenarios('jsgiven.demo', DemoStage, ({ given, when, then }) => ({
     scenarios_can_be_parametrized: scenario(
         {},
-        parametrized2([[1, 2], [2, 4], [3, 7]], (value, result) => {
+        parametrized2([[1, 2], [2, 4], [3, 6]], (value, result) => {
             given().a_number(value).and().another_number(value);
             when().they_are_summed();
             then().the_result_is(result);
