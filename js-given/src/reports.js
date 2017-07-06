@@ -5,10 +5,12 @@ import crypto from 'crypto';
 import _ from 'lodash';
 import humanize from 'string-humanize';
 
-import { type DecodedParameter } from './scenarios';
+import { type DecodedParameter } from './parametrized-scenarios';
 import { type Formatter } from './parameter-formatting';
 
 export type ScenarioPartKind = 'GIVEN' | 'WHEN' | 'THEN';
+
+export const REPORTS_DESTINATION = '.jsGiven-reports';
 
 const INTRO_WORD_METHODS = ['given', 'when', 'then', 'and', 'but', 'with'];
 

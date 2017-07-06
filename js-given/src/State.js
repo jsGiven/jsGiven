@@ -19,7 +19,18 @@ State.addProperty = (stageClass: Class<Stage>, property: string): void => {
     stateProvider.getStoreFromStageClass(stageClass).addProperty(property);
 };
 
-export function copyStateProperties(source: any, target: any) {
+export function copyStateToOtherStages(
+    originalStage: Stage,
+    allStages: Stage[]
+) {
+    allStages.forEach(targetStage => {
+        if (originalStage !== targetStage) {
+            copyStateProperties(originalStage, targetStage);
+        }
+    });
+}
+
+function copyStateProperties(source: any, target: any) {
     if (source && target) {
         const propertyNames = _.intersection(
             stateProvider.getStoreFromTarget(source).getProperties(),

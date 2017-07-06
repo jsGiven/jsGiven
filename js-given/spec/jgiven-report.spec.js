@@ -13,9 +13,9 @@ import {
     ScenarioPart,
     ScenarioReport,
     Step,
+    REPORTS_DESTINATION,
 } from '../src/reports';
 import { generateJGivenReportDataFiles } from '../src/generateJGivenReport';
-import { REPORTS_DESTINATION } from '../src/scenarios';
 
 if (global.describe && global.it) {
     setupForRspec(describe, it);

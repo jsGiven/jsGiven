@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 
 import { scenarios, scenario, setupForRspec, setupForAva, Stage } from '../src';
-import { wrapParameter, decodeParameter } from '../src/scenarios';
+import { wrapParameter, decodeParameter } from '../src/parametrized-scenarios';
 import { Step } from '../src/reports';
 import type { Formatter } from '../src/parameter-formatting';
 

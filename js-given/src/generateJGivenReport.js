@@ -7,8 +7,7 @@ import DecompressZip from 'decompress-zip';
 import fse from 'fs-extra';
 import rimraf from 'rimraf';
 
-import { ScenarioReport, ScenarioPart } from './reports';
-import { REPORTS_DESTINATION } from './scenarios';
+import { ScenarioReport, ScenarioPart, REPORTS_DESTINATION } from './reports';
 import type { ReportModel } from './jgivenReport/ReportModel';
 import type { ScenarioModel } from './jgivenReport/ScenarioModel';
 import type { StepModel } from './jgivenReport/StepModel';

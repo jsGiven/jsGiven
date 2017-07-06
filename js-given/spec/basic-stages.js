@@ -7,7 +7,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import isPromise from 'is-promise';
 
-import { ScenarioRunner, doAsync } from '../src/scenarios';
+import { ScenarioRunner } from '../src/scenarios';
+import { doAsync } from '../src/async-actions';
 import type {
     ScenarioCase,
     ScenarioPart,

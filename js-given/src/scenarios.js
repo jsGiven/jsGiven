@@ -1,10 +1,17 @@
 // @flow
 import _ from 'lodash';
-import humanize from 'string-humanize';
 import retrieveArguments from 'retrieve-arguments';
+import humanize from 'string-humanize';
 
-import { Stage } from './Stage';
-import type { GroupFunc, TestFunc } from './test-runners';
+import { executeStepAndCollectAsyncActions } from './async-actions';
+import { isHiddenStep } from './hidden-steps';
+import { getFormatters, restParameterName } from './parameter-formatting';
+import {
+    decodeParameter,
+    wrapParameter,
+    type DecodedParameter,
+    type ParametrizedScenarioFuncWithParameters,
+} from './parametrized-scenarios';
 import {
     formatParameter,
     GroupReport,
@@ -12,17 +19,12 @@ import {
     ScenarioReport,
     ScenarioPart,
     type ScenarioExecutionStatus,
+    REPORTS_DESTINATION,
 } from './reports';
+import { Stage } from './Stage';
+import { copyStateToOtherStages } from './State';
 import type { TagDescription } from './tags';
-import { copyStateProperties } from './State';
-import { isHiddenStep } from './hidden-steps';
-import {
-    getFormatters,
-    restParameterName,
-    type Formatter,
-} from './parameter-formatting';
-
-export const REPORTS_DESTINATION = '.jsGiven-reports';
+import type { GroupFunc, TestFunc } from './test-runners';
 
 type ScenariosParam<G, W, T> = {
     +given: () => G,
@@ -64,11 +66,6 @@ export type ScenarioFunc =
 
 export type SimpleScenarioFunc = {
     (): void,
-};
-
-export type ParametrizedScenarioFuncWithParameters = {
-    +func: (...args: any[]) => void,
-    +parameters: Array<Array<any>>,
 };
 
 type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G & W & T>;
@@ -635,150 +632,4 @@ export function scenarios<G: Stage, W: Stage, T: Stage>(
     scenarioFunc: ScenariosDescriptions<G, W, T>
 ): void {
     return INSTANCE.scenarios(groupName, stagesParam, scenarioFunc);
-}
-
-function copyStateToOtherStages(originalStage: Stage, allStages: Stage[]) {
-    allStages.forEach(targetStage => {
-        if (originalStage !== targetStage) {
-            copyStateProperties(originalStage, targetStage);
-        }
-    });
-}
-
-export function parametrized(
-    parameters: Array<Array<any>>,
-    func: () => void
-): ParametrizedScenarioFuncWithParameters {
-    return {
-        parameters: (parameters: any),
-        func,
-    };
-}
-
-export function parametrized1<T>(
-    parameters: T[],
-    func: (a: T) => void
-): ParametrizedScenarioFuncWithParameters {
-    return {
-        parameters: parameters.map(param => [param]),
-        func,
-    };
-}
-export function parametrized2<A, B>(
-    parameters: Array<[A, B]>,
-    func: (a: A, b: B) => void
-): ParametrizedScenarioFuncWithParameters {
-    return {
-        parameters: (parameters: any),
-        func,
-    };
-}
-export function parametrized3<A, B, C>(
-    parameters: Array<[A, B, C]>,
-    func: (a: A, b: B, c: C) => void
-): ParametrizedScenarioFuncWithParameters {
-    return {
-        parameters: (parameters: any),
-        func,
-    };
-}
-export function parametrized4<A, B, C, D>(
-    parameters: Array<[A, B, C, D]>,
-    func: (a: A, b: B, c: C, d: D) => void
-): ParametrizedScenarioFuncWithParameters {
-    return {
-        parameters: (parameters: any),
-        func,
-    };
-}
-export function parametrized5<A, B, C, D, E>(
-    parameters: Array<[A, B, C, D, E]>,
-    func: (a: A, b: B, c: C, d: D, e: E) => void
-): ParametrizedScenarioFuncWithParameters {
-    return {
-        parameters: (parameters: any),
-        func,
-    };
-}
-export function parametrized6<A, B, C, D, E, F>(
-    parameters: Array<[A, B, C, D, E, F]>,
-    func: (a: A, b: B, c: C, d: D, e: E, f: F) => void
-): ParametrizedScenarioFuncWithParameters {
-    return {
-        parameters: (parameters: any),
-        func,
-    };
-}
-export function parametrized7<A, B, C, D, E, F, G>(
-    parameters: Array<[A, B, C, D, E, F, G]>,
-    func: (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => void
-): ParametrizedScenarioFuncWithParameters {
-    return {
-        parameters: (parameters: any),
-        func,
-    };
-}
-
-type WrappedParameter = {
-    +scenarioParameterName: string,
-    +value: any,
-    +IS_JSGIVEN_WRAPPER_PARAMETER: true,
-};
-export function wrapParameter(
-    value: any,
-    scenarioParameterName: string
-): WrappedParameter {
-    return {
-        scenarioParameterName,
-        value,
-        IS_JSGIVEN_WRAPPER_PARAMETER: true,
-    };
-}
-
-export type DecodedParameter = {
-    +value: any,
-    +scenarioParameterName: string | null,
-    +stepParameterName: string,
-    +formatters: Formatter[],
-};
-export function decodeParameter(
-    parameter: any,
-    stepParameterName: string,
-    formatters: Formatter[]
-): DecodedParameter {
-    if (parameter instanceof Object && parameter.IS_JSGIVEN_WRAPPER_PARAMETER) {
-        const wrapped: WrappedParameter = (parameter: any);
-        return { ...wrapped, stepParameterName, formatters };
-    } else {
-        if (stepParameterName === undefined) {
-            throw new Error('cant be undefined');
-        }
-        return {
-            value: parameter,
-            scenarioParameterName: null,
-            stepParameterName,
-            formatters,
-        };
-    }
-}
-
-let asyncActionsSingleton: Array<() => Promise<*>> = [];
-function executeStepAndCollectAsyncActions(
-    stepActionThatMayCallDoAsync: () => any
-): Array<() => Promise<*>> {
-    asyncActionsSingleton = [];
-    const collectedAsyncActions = [];
-
-    try {
-        stepActionThatMayCallDoAsync();
-    } finally {
-        collectedAsyncActions.push(...asyncActionsSingleton);
-        asyncActionsSingleton = [];
-    }
-
-    return collectedAsyncActions;
-}
-
-export function doAsync(action: () => Promise<*>) {
-    asyncActionsSingleton.push(action);
 }
