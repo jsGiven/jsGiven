@@ -7,8 +7,10 @@ interface StageMetadataStore<T> {
 }
 
 export type StageMetadataStoreProvider<T> = {
-    getStoreFromTarget: (target: Stage) => StageMetadataStore<T>,
-    getStoreFromStageClass: (stageClass: Class<Stage>) => StageMetadataStore<T>,
+    +getStoreFromTarget: (target: Stage) => StageMetadataStore<T>,
+    +getStoreFromStageClass: (
+        stageClass: Class<Stage>
+    ) => StageMetadataStore<T>,
 };
 
 export function getStageMetadataStoreProvider<T>(

@@ -8,39 +8,39 @@ export type StepModel = {
     /**
      * The original name of this step as it appeared in the Java code.
      */
-    name: string,
+    +name: string,
 
     /**
      * All words of this step including the introduction word.
      */
-    words: Word[],
+    +words: Word[],
 
     /**
      * An optional list of nested steps
      * Can be {@code null}
      */
-    nestedSteps: StepModel[],
+    +nestedSteps: StepModel[],
 
     /**
      * The execution status of this step.
      */
-    status: StepStatus,
+    +status: StepStatus,
 
     /**
      * The total execution time of the step in nano seconds.
      */
-    durationInNanos: number,
+    +durationInNanos: number,
 
     /**
      * An optional extended description of this step.
      * Can be {@code null}
      */
-    extendedDescription: ?string,
+    +extendedDescription: ?string,
 
     /**
      * An optional attachment of the step
      */
-    attachment: ?AttachmentModel,
+    +attachment: ?AttachmentModel,
 
     /**
      * Whether this step is a section title.
@@ -49,5 +49,5 @@ export type StepModel = {
      *
      * @since 0.10.2
      */
-    isSectionTitle: ?boolean,
+    +isSectionTitle: ?boolean,
 };

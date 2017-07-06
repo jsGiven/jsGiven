@@ -8,36 +8,36 @@ export type ArgumentInfo = {
      * argumentName.
      *
      */
-    parameterName?: ?string,
+    +parameterName?: ?string,
 
     /**
      * The name of the argument as declared in the step method.
      */
-    argumentName: string,
+    +argumentName: string,
 
     /**
      * The value of the argument after formatting has been applied.
      * Can be {@code null}
      */
-    formattedValue: ?string,
+    +formattedValue: ?string,
 
     /**
      * Is set when the value of the argument is a data table value,
      * otherwise is {@code null}
      */
-    dataTable?: ?DataTable,
+    +dataTable?: ?DataTable,
 };
 
 export type DataTable = {
     /*
     * The type of the header
     */
-    headerType: HeaderType,
+    +headerType: HeaderType,
 
     /**
     * The data of the table as a list of rows
     */
-    data: Array<Array<String>>,
+    +data: Array<Array<String>>,
 };
 
 export type HeaderType =

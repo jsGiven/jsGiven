@@ -12,7 +12,7 @@ type ParameterFormatterDecorator = {
 
 type ParameterFormatter = {
     (...parameterNames: string[]): ParameterFormatterDecorator,
-    formatParameter: (
+    +formatParameter: (
         stageClass: Class<Stage>,
         stepMethodName: string,
         ...parameterNames: string[]

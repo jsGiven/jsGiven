@@ -25,9 +25,9 @@ import {
 export const REPORTS_DESTINATION = '.jsGiven-reports';
 
 type ScenariosParam<G, W, T> = {
-    given: () => G,
-    when: () => W,
-    then: () => T,
+    +given: () => G,
+    +when: () => W,
+    +then: () => T,
 };
 
 type ScenariosDescriptions<G, W, T> = {
@@ -37,12 +37,12 @@ type ScenariosDescriptions<G, W, T> = {
 };
 
 type ScenarioDescription = {
-    scenarioFunction: ScenarioFunc,
-    tags: TagDescription[],
+    +scenarioFunction: ScenarioFunc,
+    +tags: TagDescription[],
 };
 
 type ScenarioOptions = {
-    tags: TagDescription[],
+    +tags: TagDescription[],
 };
 export function scenario(
     options: $Shape<ScenarioOptions>,
@@ -67,28 +67,28 @@ export type SimpleScenarioFunc = {
 };
 
 export type ParametrizedScenarioFuncWithParameters = {
-    func: (...args: any[]) => void,
-    parameters: Array<Array<any>>,
+    +func: (...args: any[]) => void,
+    +parameters: Array<Array<any>>,
 };
 
 type StagesParam<G, W, T> = [Class<G>, Class<W>, Class<T>] | Class<G & W & T>;
 
 type StepActions = {
-    executeStep: () => void,
-    markStepAsFailed: () => void,
-    markStepAsSkipped: () => void,
-    markStepAsPassed: () => void,
+    +executeStep: () => void,
+    +markStepAsFailed: () => void,
+    +markStepAsSkipped: () => void,
+    +markStepAsPassed: () => void,
 };
 
 type Step = {
-    stepActions: StepActions,
-    stage: Stage,
+    +stepActions: StepActions,
+    +stage: Stage,
 };
 
 type RunningScenario = {
     state: 'COLLECTING_STEPS' | 'RUNNING',
-    stages: Stage[],
-    steps: Step[],
+    +stages: Stage[],
+    +steps: Step[],
 };
 
 export class ScenarioRunner {
@@ -352,13 +352,13 @@ export class ScenarioRunner {
             });
 
             type ScenarioDescriptionWithName = {
-                scenarioPropertyName: string,
-                cases: CaseDescription[],
-                argumentNames: string[],
+                +scenarioPropertyName: string,
+                +cases: CaseDescription[],
+                +argumentNames: string[],
             };
             type CaseDescription = {
-                caseFunction: () => void,
-                args: string[],
+                +caseFunction: () => void,
+                +args: string[],
             };
             function getScenarios(scenarios: {
                 [key: string]: ScenarioDescription,
@@ -720,9 +720,9 @@ export function parametrized7<A, B, C, D, E, F, G>(
 }
 
 type WrappedParameter = {
-    scenarioParameterName: string,
-    value: any,
-    IS_JSGIVEN_WRAPPER_PARAMETER: true,
+    +scenarioParameterName: string,
+    +value: any,
+    +IS_JSGIVEN_WRAPPER_PARAMETER: true,
 };
 export function wrapParameter(
     value: any,
@@ -736,10 +736,10 @@ export function wrapParameter(
 }
 
 export type DecodedParameter = {
-    value: any,
-    scenarioParameterName: string | null,
-    stepParameterName: string,
-    formatters: Formatter[],
+    +value: any,
+    +scenarioParameterName: string | null,
+    +stepParameterName: string,
+    +formatters: Formatter[],
 };
 export function decodeParameter(
     parameter: any,
