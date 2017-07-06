@@ -184,20 +184,22 @@ function toScenarioModel(
             caseNr: index + 1,
             derivedArguments: scenarioCase.args,
             description: '',
-            durationInNanos: 42,
+            durationInNanos: scenarioCase.durationInNanos,
             errorMessage: null,
             explicitParameters: scenarioCase.args,
             explicitArguments: scenarioCase.args,
             stackTrace: null,
-            success: true,
+            success: scenarioCase.successful,
             steps: _.flatMap(scenarioCase.parts, toSteps),
         })),
         casesAsTable: scenarioReport.cases.length > 1,
         className: scenarioReport.groupReport.name,
         derivedParameters: scenarioReport.argumentNames,
         description: scenarioReport.name,
-        durationInNanos: 42,
-        executionStatus: 'SUCCESS',
+        durationInNanos: scenarioReport.cases
+            .map(c => c.durationInNanos)
+            .reduce((a, b) => a + b, 0),
+        executionStatus: scenarioReport.executionStatus,
         explicitParameters: scenarioReport.argumentNames,
         extendedDescription: '',
     };
@@ -206,12 +208,12 @@ function toScenarioModel(
 function toSteps(scenarioPart: ScenarioPart): StepModel[] {
     return scenarioPart.steps.map(step => ({
         attachment: null,
-        durationInNanos: 42,
+        durationInNanos: step.durationInNanos,
         extendedDescription: '',
         isSectionTitle: false,
         name: step.methodName,
         nestedSteps: [],
-        status: 'PASSED',
+        status: step.status,
         words: step.words.map(word => ({
             ...(word.isIntroWord ? { isIntroWord: true } : {}),
             value: word.value,
