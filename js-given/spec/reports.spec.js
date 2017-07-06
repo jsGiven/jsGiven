@@ -109,7 +109,7 @@ class ReportScenarioThenStage extends BasicScenarioThenStage {
         return this;
     }
 
-    its_given_part_does_not_include_methods_that_return_something_else_than_this(): this {
+    its_given_part_does_not_include_methods_that_are_not_called_directly_in_the_scenario(): this {
         const { steps } = this.findPartByKind('GIVEN');
         expect(steps.map(({ name }) => name)).not.to.include('internal method');
         return this;
@@ -144,7 +144,7 @@ scenarios(
                         'and 100 grams of flour',
                     ])
                     .and()
-                    .its_given_part_does_not_include_methods_that_return_something_else_than_this()
+                    .its_given_part_does_not_include_methods_that_are_not_called_directly_in_the_scenario()
                     .and()
                     .it_has_a_when_part()
                     .and()
