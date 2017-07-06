@@ -22,9 +22,13 @@ export async function generateJGivenReport(): Promise<void> {
         }
 
         await installJGivenReportApp();
-        generateJGivenReportDataFiles();
+        const someScenariosHaveFailed = generateJGivenReportDataFiles();
 
         console.log(`jsGiven report available in ./jGiven-report`);
+
+        if (someScenariosHaveFailed) {
+            process.exit(1);
+        }
     } catch (error) {
         console.log(error);
         process.exit(-1);
@@ -89,7 +93,7 @@ export function generateJGivenReportDataFiles(
     filter?: (fileName: string) => boolean = () => true,
     reportPrefix: string = '.',
     jsGivenReportsDir: string = REPORTS_DESTINATION
-) {
+): boolean {
     const files = fs.readdirSync(`${jsGivenReportsDir}`).filter(filter);
     const scenarioReports: ScenarioReport[] = files.map(file =>
         JSON.parse(fs.readFileSync(`${jsGivenReportsDir}/${file}`, 'utf-8'))
@@ -125,6 +129,14 @@ export function generateJGivenReportDataFiles(
         `jgivenReport.addZippedScenarios('${base64}');\n`,
         'utf-8'
     );
+
+    const someScenariosHaveFailed = scenarioModels.some(scenarioModel =>
+        scenarioModel.scenarios.some(
+            scenario => scenario.executionStatus === 'FAILED'
+        )
+    );
+
+    return someScenariosHaveFailed;
 }
 
 function removeDir(dir: string): Promise<void> {
