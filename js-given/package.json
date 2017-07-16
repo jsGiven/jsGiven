@@ -85,7 +85,7 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "decompress-zip": "0.3.0",
-    "fs-extra": "^3.0.1",
+    "fs-extra": "^4.0.0",
     "is-promise": "^2.1.0",
     "lodash": "^4.17.4",
     "retrieve-arguments": "^1.0.1",
