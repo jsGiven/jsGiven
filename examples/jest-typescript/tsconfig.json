@@ -6,7 +6,7 @@
     "outDir": "./build",
     "noEmit": true,
     "lib": [
-      "es5",
+      "es6",
       "es2015.promise"
     ],
     "strict": true
