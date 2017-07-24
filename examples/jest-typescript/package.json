@@ -7,7 +7,7 @@
     "@types/jest": "^20.0.2",
     "jest": "*",
     "js-given": "^0.1.4",
-    "typescript": "^2.4.1"
+    "typescript": "^2.4.2"
   },
   "scripts": {
     "build": "tsc --project . --pretty",
