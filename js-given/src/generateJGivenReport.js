@@ -229,7 +229,7 @@ function toSteps(scenarioPart: ScenarioPart): StepModel[] {
         words: step.words.map(word => ({
             ...(word.isIntroWord ? { isIntroWord: true } : {}),
             value: word.value,
-            ...(word.scenarioParameterName
+            ...(word.scenarioParameterName !== null
                 ? {
                       argumentInfo: {
                           argumentName: word.scenarioParameterName,

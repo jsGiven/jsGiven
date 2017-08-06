@@ -93,7 +93,7 @@ class JGivenReportStage extends Stage {
             this.groupName,
             this.scenarioName
         );
-        if (this.reportPrefix) {
+        if (this.reportPrefix !== null) {
             generateJGivenReportDataFiles(
                 fileName => fileName === scenarioFileName,
                 this.reportPrefix,
@@ -107,7 +107,7 @@ class JGivenReportStage extends Stage {
     }
 
     the_metadata_js_file_is_generated(): this {
-        if (this.jgivenReportDir) {
+        if (this.jgivenReportDir != null) {
             expect(fs.existsSync(`${this.jgivenReportDir}/data/metaData.js`)).to
                 .be.true;
         } else {
@@ -119,7 +119,7 @@ class JGivenReportStage extends Stage {
 
     metaData: ?Object;
     the_metadata_js_file_can_be_executed(): this {
-        if (this.jgivenReportDir) {
+        if (this.jgivenReportDir != null) {
             const metaDataContent = fs.readFileSync(
                 `${this.jgivenReportDir}/data/metaData.js`,
                 'utf-8'
@@ -149,7 +149,7 @@ class JGivenReportStage extends Stage {
     }
 
     the_tags_js_file_is_generated(): this {
-        if (this.jgivenReportDir) {
+        if (this.jgivenReportDir != null) {
             expect(fs.existsSync(`${this.jgivenReportDir}/data/tags.js`)).to.be
                 .true;
         } else {
@@ -161,7 +161,7 @@ class JGivenReportStage extends Stage {
 
     tags: ?Object;
     the_tags_js_file_can_be_executed(): this {
-        if (this.jgivenReportDir) {
+        if (this.jgivenReportDir != null) {
             const tagsContent = fs.readFileSync(
                 `${this.jgivenReportDir}/data/tags.js`,
                 'utf-8'
@@ -182,7 +182,7 @@ class JGivenReportStage extends Stage {
     }
 
     the_data0_js_file_is_generated(): this {
-        if (this.jgivenReportDir) {
+        if (this.jgivenReportDir != null) {
             expect(fs.existsSync(`${this.jgivenReportDir}/data/data0.js`)).to.be
                 .true;
         } else {
@@ -194,7 +194,7 @@ class JGivenReportStage extends Stage {
 
     zippedScenariosData: ?string = undefined;
     the_data0_js_file_can_be_executed(): this {
-        if (this.jgivenReportDir) {
+        if (this.jgivenReportDir != null) {
             const data0Content = fs.readFileSync(
                 `${this.jgivenReportDir}/data/data0.js`,
                 'utf-8'
@@ -217,7 +217,7 @@ class JGivenReportStage extends Stage {
     }
 
     the_zipped_scenarios_can_be_decoded(): this {
-        if (this.zippedScenariosData) {
+        if (this.zippedScenariosData != null) {
             const bufferZipped = Buffer.from(
                 this.zippedScenariosData,
                 'base64'

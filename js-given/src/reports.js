@@ -125,7 +125,7 @@ export class Step {
                 .map(toWord),
         ];
 
-        if (introWord) {
+        if (introWord !== null) {
             words = [toIntroWord(introWord), ...words];
         }
 
