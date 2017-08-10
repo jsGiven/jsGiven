@@ -71,7 +71,7 @@
     "chai": "^4.1.1",
     "check-node-version": "^2.1.0",
     "jasmine": "^2.7.0",
-    "jasmine-spec-reporter": "^4.1.1",
+    "jasmine-spec-reporter": "^4.2.0",
     "jest": "^20.0.4",
     "mocha": "^3.5.0",
     "nodegit": "^0.18.3",
@@ -79,7 +79,7 @@
     "rollup": "^0.45.2",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-uglify": "^2.0.1",
-    "sinon": "^3.0.0",
+    "sinon": "^3.1.0",
     "sinon-chai": "^2.12.0",
     "tmp": "^0.0.31"
   },
