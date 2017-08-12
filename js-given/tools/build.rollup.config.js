@@ -50,6 +50,7 @@ export default function buildConfig(
             'decompress-zip',
             'fs-extra',
             'rimraf',
+            'strip-ansi',
         ],
     };
 }
