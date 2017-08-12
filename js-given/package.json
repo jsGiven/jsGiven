@@ -69,6 +69,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "chai": "^4.1.1",
+    "chalk": "^2.1.0",
     "check-node-version": "^2.1.0",
     "jasmine": "^2.7.0",
     "jasmine-spec-reporter": "^4.2.0",
@@ -92,6 +93,7 @@
     "retrieve-arguments": "^1.0.1",
     "rimraf": "^2.6.1",
     "string-humanize": "^1.0.0",
+    "strip-ansi": "^4.0.0",
     "yargs": "^8.0.2"
   },
   "bin": {

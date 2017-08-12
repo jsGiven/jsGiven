@@ -2,6 +2,7 @@
 import _ from 'lodash';
 import retrieveArguments from 'retrieve-arguments';
 import humanize from 'string-humanize';
+import stripAnsi from 'strip-ansi';
 
 import { executeStepAndCollectAsyncActions } from './async-actions';
 import { isHiddenStep } from './hidden-steps';
@@ -457,7 +458,7 @@ export class ScenarioRunner {
         const durationInNanos = this.currentCaseTimer.elapsedTimeInNanoseconds();
         this.currentCase.successful = false;
         this.currentCase.durationInNanos = durationInNanos;
-        this.currentCase.errorMessage = error.message;
+        this.currentCase.errorMessage = stripAnsi(error.message);
         this.currentCase.stackTrace = error.stack.split('\n');
     }
 

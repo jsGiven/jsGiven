@@ -1,6 +1,7 @@
 // @flow
 import sinon from 'sinon';
 import { expect } from 'chai';
+import chalk from 'chalk';
 
 import {
     doAsync,
@@ -127,6 +128,27 @@ class ScenarioFailureGivenStage extends BasicScenarioGivenStage {
         );
         return this;
     }
+
+    a_synchronous_scenario_that_fails_with_an_error_message_containing_ansi_escape_codes(): this {
+        class FailureStage extends Stage {
+            an_error_is_thrown_with_a_message_containing_ansi_code(): this {
+                throw new Error(chalk.blue('Failure'));
+            }
+        }
+
+        this.scenarioRunner.scenarios(
+            'group_name',
+            FailureStage,
+            ({ given, when, then }) => {
+                return {
+                    scenario_name: scenario({}, () => {
+                        when().an_error_is_thrown_with_a_message_containing_ansi_code();
+                    }),
+                };
+            }
+        );
+        return this;
+    }
 }
 
 class ScenarioFailureThenStage extends BasicScenarioThenStage {
@@ -179,6 +201,12 @@ class ScenarioFailureThenStage extends BasicScenarioThenStage {
     the_third_step_is_skipped(): this {
         const secondStep = this.getAllSteps()[2];
         expect(secondStep.status).to.equal('SKIPPED');
+        return this;
+    }
+
+    the_scenario_case_contains_the_error_message_without_ansi_escape_codes(): this {
+        const [scenarioCase] = this.getCases();
+        expect(scenarioCase.errorMessage).to.equal('Failure');
         return this;
     }
 }
@@ -279,6 +307,20 @@ scenarios(
                         .it_has_exactly_one_case_and_it_is_$_successful(false)
                         .and()
                         .the_scenario_execution_status_is_$('FAILED');
+                }
+            ),
+
+            error_messages_containing_ansi_escape_codes_are_cleaned: scenario(
+                {},
+                () => {
+                    given()
+                        .a_scenario_runner()
+                        .and()
+                        .a_synchronous_scenario_that_fails_with_an_error_message_containing_ansi_escape_codes();
+
+                    when().the_runner_tries_to_execute_the_scenario();
+
+                    then().the_scenario_case_contains_the_error_message_without_ansi_escape_codes();
                 }
             ),
         };
