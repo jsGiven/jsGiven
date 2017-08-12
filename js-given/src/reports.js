@@ -177,6 +177,8 @@ export class ScenarioCase {
     parts: ScenarioPart[];
     successful: boolean;
     durationInNanos: number;
+    errorMessage: string | null;
+    stackTrace: string[] | null;
 
     constructor(args: string[], parts: ScenarioPart[] = []) {
         this.args = args;

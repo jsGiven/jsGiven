@@ -203,4 +203,8 @@ export class BasicScenarioThenStage extends Stage {
     getScenario(): ScenarioReport {
         return JSON.parse(fs.readFileSync(this.getFileName(), 'utf-8'));
     }
+
+    getCases(): ScenarioCase[] {
+        return this.getScenario().cases;
+    }
 }

@@ -194,7 +194,7 @@ export class ScenarioRunner {
                             ? scenarioNameForHumans
                             : `${scenarioNameForHumans} #${index + 1}`;
                     this.testFunc(caseDescription, () => {
-                        let caughtError = null;
+                        let caughtError: Error | null = null;
                         const runningScenario: RunningScenario = {
                             state: 'COLLECTING_STEPS',
                             stages: [],
@@ -350,7 +350,7 @@ export class ScenarioRunner {
 
                         function caseCompleted(self: ScenarioRunner) {
                             if (caughtError) {
-                                self.caseFailed();
+                                self.caseFailed(caughtError);
                             } else {
                                 self.caseSucceeded();
                             }
@@ -453,10 +453,12 @@ export class ScenarioRunner {
         this.currentCaseTimer = new Timer();
     }
 
-    caseFailed() {
+    caseFailed(error: Error) {
         const durationInNanos = this.currentCaseTimer.elapsedTimeInNanoseconds();
         this.currentCase.successful = false;
         this.currentCase.durationInNanos = durationInNanos;
+        this.currentCase.errorMessage = error.message;
+        this.currentCase.stackTrace = error.stack.split('\n');
     }
 
     caseSucceeded() {

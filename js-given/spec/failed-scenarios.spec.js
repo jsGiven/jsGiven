@@ -140,6 +140,15 @@ class ScenarioFailureThenStage extends BasicScenarioThenStage {
         return this;
     }
 
+    the_scenario_case_is_failed_and_contains_the_error(): this {
+        const [scenarioCase] = this.getCases();
+        expect(scenarioCase.successful).to.be.false;
+        expect(scenarioCase.errorMessage).to.equal('Failure');
+        expect(scenarioCase.stackTrace).not.be.be.null;
+        expect(scenarioCase.stackTrace).to.have.lengthOf.at.least(2);
+        return this;
+    }
+
     the_step_that_should_be_skipped_has_not_been_executed(): this {
         expect(this.skippedStepFunction).to.not.have.been.called;
         return this;
@@ -194,6 +203,8 @@ scenarios(
                 then()
                     .an_error_has_been_thrown()
                     .and()
+                    .the_scenario_case_is_failed_and_contains_the_error()
+                    .and()
                     .the_step_that_should_be_skipped_has_not_been_executed()
                     .and()
                     .the_report_includes_all_the_steps_of_the_scenario()
@@ -221,6 +232,8 @@ scenarios(
 
                     then()
                         .an_error_has_been_thrown()
+                        .and()
+                        .the_scenario_case_is_failed_and_contains_the_error()
                         .and()
                         .the_step_that_should_be_skipped_has_not_been_executed()
                         .and()
@@ -250,6 +263,8 @@ scenarios(
 
                     then()
                         .an_error_has_been_thrown()
+                        .and()
+                        .the_scenario_case_is_failed_and_contains_the_error()
                         .and()
                         .the_step_that_should_be_skipped_has_not_been_executed()
                         .and()
