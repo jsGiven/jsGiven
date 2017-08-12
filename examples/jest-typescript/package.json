@@ -12,7 +12,7 @@
   "scripts": {
     "build": "tsc --project . --pretty",
     "pretest": "yarn build && jsgiven clean",
-    "test": "jest",
+    "test": "jest || jsgiven report --fail",
     "posttest": "jsgiven report"
   },
   "jest": {

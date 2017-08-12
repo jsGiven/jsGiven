@@ -11,7 +11,7 @@
   },
   "scripts": {
     "pretest": "jsgiven clean",
-    "test": "mocha --require babel-polyfill *.test.js",
+    "test": "mocha --require babel-polyfill *.test.js || jsgiven report --fail",
     "posttest": "jsgiven report"
   }
 }

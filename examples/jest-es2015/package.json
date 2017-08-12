@@ -16,7 +16,7 @@
   },
   "scripts": {
     "pretest": "jsgiven clean",
-    "test": "jest",
+    "test": "jest || jsgiven report --fail",
     "posttest": "jsgiven report"
   },
   "jest": {

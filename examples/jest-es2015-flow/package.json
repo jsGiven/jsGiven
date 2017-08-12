@@ -23,7 +23,7 @@
     "flow": "flow",
     "updateFlowTyped": "flow-typed update",
     "pretest": "jsgiven clean && yarn flow",
-    "test": "jest",
+    "test": "jest || jsgiven report --fail",
     "posttest": "jsgiven report"
   },
   "jest": {
