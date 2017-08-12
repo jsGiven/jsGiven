@@ -1622,8 +1622,8 @@ jest@^20.0.1:
     jest-cli "^20.0.4"
 
 js-given@next:
-  version "0.1.5-alpha.0"
-  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.1.5-alpha.0.tgz#1fc5cc990e61f33061c25560f20a5b921b9d08b7"
+  version "0.1.5-alpha.2"
+  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.1.5-alpha.2.tgz#b6b4bf80a26b44ce7e41160347cfe93f803e6095"
   dependencies:
     babel-polyfill "^6.23.0"
     decompress-zip "0.3.0"
@@ -1633,6 +1633,7 @@ js-given@next:
     retrieve-arguments "^1.0.1"
     rimraf "^2.6.1"
     string-humanize "^1.0.0"
+    strip-ansi "^4.0.0"
     yargs "^8.0.2"
 
 js-tokens@^3.0.0:
