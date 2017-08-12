@@ -186,9 +186,9 @@ find-up@^2.0.0:
   dependencies:
     locate-path "^2.0.0"
 
-fs-extra@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-3.0.1.tgz#3794f378c58b342ea7dbbb23095109c4b3b62291"
+fs-extra@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-4.0.1.tgz#7fc0c6c8957f983f57f306a24e5b9ddd8d0dd880"
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^3.0.0"
@@ -303,13 +303,13 @@ isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
 
-js-given@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.1.4.tgz#210a14106b26bc4ff6f3bb64e7ce21bb9776ca1c"
+js-given@next:
+  version "0.1.5-alpha.0"
+  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.1.5-alpha.0.tgz#1fc5cc990e61f33061c25560f20a5b921b9d08b7"
   dependencies:
     babel-polyfill "^6.23.0"
     decompress-zip "0.3.0"
-    fs-extra "^3.0.1"
+    fs-extra "^4.0.1"
     is-promise "^2.1.0"
     lodash "^4.17.4"
     retrieve-arguments "^1.0.1"
