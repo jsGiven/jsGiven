@@ -154,24 +154,27 @@ JsGiven produces internal reports in JSON, that are not meant to be presented to
 
 JsGiven converts these internal reports to a fully usable JGiven report.
 
-=== Setting up pretest & posttest npm scripts
+=== Setting up the test npm scripts
 
-Due to the parallel nature of some test runners (Jest & Ava), there is no simple way to remove the internal reports before running tests & generate the html5 report at the end.
+Due to the parallel nature of some test runners (Jest & Ava), there is no simple way to generate the reports after running the tests.
 
-Therefore, you have to set up pretest & posttest npm scripts that will :
+Therefore, you have to set up 3 npm scripts that will :
 
 - Clean the internal reports before starting the tests.
-- Generate the html5 report after the tests have run
+- Run the tests with your usual test running and generate the report if the tests have failed
+- Generate the html5 report after the tests have successfully run.
 
-You have to include the following two tasks in you *package.json* file:
+You have to include the following scripts in you *package.json* file:
 
 [source, json]
 ----
 "scripts": {
   "pretest": "jsgiven clean",
+  "test": "your_test_command || jsgiven report --fail", <1>
   "posttest": "jsgiven report"
 }
 ----
+<1> Where *your_test_command* is your test runner command (mocha, jest, jasmine or another one).
 
 The *jsgiven* command is a CLI command tool provided by the module.
 
