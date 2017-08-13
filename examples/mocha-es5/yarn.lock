@@ -303,9 +303,9 @@ isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
 
-js-given@next:
-  version "0.1.5-alpha.4"
-  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.1.5-alpha.4.tgz#d2c2d0404dec5bc050c2136ef46522e1b755da71"
+js-given@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.1.5.tgz#dfba485fcbab95448931138e0954e3f5ea4d2d38"
   dependencies:
     babel-polyfill "^6.23.0"
     decompress-zip "0.3.0"
