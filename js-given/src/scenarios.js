@@ -117,6 +117,7 @@ export class ScenarioRunner {
                 'JsGiven is not initialized, please call setupForRspec() or setupForAva() in your test code'
             );
         }
+
         const report = new GroupReport(groupName);
 
         let currentStages: ?{
