@@ -38,13 +38,22 @@ export class BasicScenarioGivenStage extends Stage {
     @State jsGivenReportsDir: string;
 
     a_scenario_runner(): this {
-        const tmpDir = tmp.dirSync({ unsafeCleanup: true });
-        this.jsGivenReportsDir = tmpDir.name;
-        this.scenarioRunner = new ScenarioRunner(tmpDir.name);
+        this.initScenarioRunner();
         this.describe = sinon.stub();
         this.it = sinon.stub();
         this.scenarioRunner.setup(this.describe, this.it);
         return this;
+    }
+
+    a_scenario_runner_incorrectly_initialized(): this {
+        this.initScenarioRunner();
+        return this;
+    }
+
+    initScenarioRunner() {
+        const tmpDir = tmp.dirSync({ unsafeCleanup: true });
+        this.jsGivenReportsDir = tmpDir.name;
+        this.scenarioRunner = new ScenarioRunner(tmpDir.name);
     }
 }
 

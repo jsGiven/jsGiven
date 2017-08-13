@@ -145,6 +145,10 @@ class StageRecorderThenStage extends BasicScenarioThenStage {
         expect(this.callRecorder.somethingThenCalled).to.be.true;
         return this;
     }
+
+    a_proper_error_is_thrown(): this {
+        return this;
+    }
 }
 
 scenarios(
@@ -169,4 +173,50 @@ scenarios(
             ),
         };
     }
+);
+
+class UninitializedJsGivenWhenStage extends BasicScenarioWhenStage {
+    @State caughtError: Error;
+
+    declaring_a_scenario(): this {
+        class AStage extends Stage {}
+
+        try {
+            this.scenarioRunner.scenarios('groupName', AStage, () => ({}));
+        } catch (error) {
+            this.caughtError = error;
+        }
+
+        return this;
+    }
+}
+
+class UninitializedJsGivenThenStage extends BasicScenarioThenStage {
+    @State caughtError: Error;
+
+    a_proper_error_is_thrown(): this {
+        expect(this.caughtError).to.exist;
+        expect(this.caughtError.message).to.equal(
+            'JsGiven is not initialized, please call setupForRspec() or setupForAva() in your test code'
+        );
+        return this;
+    }
+}
+
+scenarios(
+    'core.scenarios.uninitialized',
+    [
+        BasicScenarioGivenStage,
+        UninitializedJsGivenWhenStage,
+        UninitializedJsGivenThenStage,
+    ],
+    ({ given, when, then }) => ({
+        uninitialized_use_of_jsgiven_is_properly_reported: scenario({}, () => {
+            given().a_scenario_runner_incorrectly_initialized();
+
+            when().declaring_a_scenario();
+
+            then().a_proper_error_is_thrown();
+        }),
+    })
 );

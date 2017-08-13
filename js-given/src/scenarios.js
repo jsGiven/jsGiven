@@ -112,6 +112,11 @@ export class ScenarioRunner {
         stagesParams: StagesParam<G, W, T>,
         scenariosDescriptions: ScenariosDescriptions<G, W, T>
     ) {
+        if (!this.groupFunc || !this.testFunc) {
+            throw new Error(
+                'JsGiven is not initialized, please call setupForRspec() or setupForAva() in your test code'
+            );
+        }
         const report = new GroupReport(groupName);
 
         let currentStages: ?{
