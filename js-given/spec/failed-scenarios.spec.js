@@ -2,6 +2,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import chalk from 'chalk';
+import stripAnsi from 'strip-ansi';
 
 import {
     doAsync,
@@ -129,10 +130,12 @@ class ScenarioFailureGivenStage extends BasicScenarioGivenStage {
         return this;
     }
 
-    a_synchronous_scenario_that_fails_with_an_error_message_containing_ansi_escape_codes(): this {
+    a_synchronous_scenario_that_fails_with_an_error_message_and_a_stack_trace_containing_ansi_escape_codes(): this {
         class FailureStage extends Stage {
-            an_error_is_thrown_with_a_message_containing_ansi_code(): this {
-                throw new Error(chalk.blue('Failure'));
+            an_error_is_thrown_with_a_message_and_stack_trace_containing_ansi_code(): this {
+                const error = new Error(chalk.blue('Failure'));
+                error.stack = chalk.blue(error.stack);
+                throw error;
             }
         }
 
@@ -142,7 +145,7 @@ class ScenarioFailureGivenStage extends BasicScenarioGivenStage {
             ({ given, when, then }) => {
                 return {
                     scenario_name: scenario({}, () => {
-                        when().an_error_is_thrown_with_a_message_containing_ansi_code();
+                        when().an_error_is_thrown_with_a_message_and_stack_trace_containing_ansi_code();
                     }),
                 };
             }
@@ -207,6 +210,18 @@ class ScenarioFailureThenStage extends BasicScenarioThenStage {
     the_scenario_case_contains_the_error_message_without_ansi_escape_codes(): this {
         const [scenarioCase] = this.getCases();
         expect(scenarioCase.errorMessage).to.equal('Failure');
+        return this;
+    }
+
+    the_scenario_case_contains_the_stack_trace_without_ansi_escape_codes(): this {
+        const [scenarioCase] = this.getCases();
+        if (scenarioCase.stackTrace) {
+            scenarioCase.stackTrace.forEach(frame => {
+                expect(frame).to.equal(stripAnsi(frame));
+            });
+        } else {
+            expect(scenarioCase.stackTrace).to.exist;
+        }
         return this;
     }
 }
@@ -316,11 +331,14 @@ scenarios(
                     given()
                         .a_scenario_runner()
                         .and()
-                        .a_synchronous_scenario_that_fails_with_an_error_message_containing_ansi_escape_codes();
+                        .a_synchronous_scenario_that_fails_with_an_error_message_and_a_stack_trace_containing_ansi_escape_codes();
 
                     when().the_runner_tries_to_execute_the_scenario();
 
-                    then().the_scenario_case_contains_the_error_message_without_ansi_escape_codes();
+                    then()
+                        .the_scenario_case_contains_the_error_message_without_ansi_escape_codes()
+                        .and()
+                        .the_scenario_case_contains_the_stack_trace_without_ansi_escape_codes();
                 }
             ),
         };

@@ -459,7 +459,7 @@ export class ScenarioRunner {
         this.currentCase.successful = false;
         this.currentCase.durationInNanos = durationInNanos;
         this.currentCase.errorMessage = stripAnsi(error.message);
-        this.currentCase.stackTrace = error.stack.split('\n');
+        this.currentCase.stackTrace = stripAnsi(error.stack).split('\n');
     }
 
     caseSucceeded() {
