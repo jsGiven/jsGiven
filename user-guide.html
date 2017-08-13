@@ -566,7 +566,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_report_generation">Report generation</a>
 <ul class="sectlevel2">
-<li><a href="#_setting_up_pretest_posttest_npm_scripts">Setting up pretest &amp; posttest npm scripts</a></li>
+<li><a href="#_setting_up_the_test_npm_scripts">Setting up the test npm scripts</a></li>
 </ul>
 </li>
 <li><a href="#_step_methods">Step methods</a>
@@ -710,7 +710,7 @@ $ npm install --save-dev js-given <i class="conum" data-value="2"></i><b>(2)</b>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="js"><span class="tok-kr">import</span> <span class="tok-p">{</span><span class="tok-nx">scenario</span><span class="tok-p">,</span> <span class="tok-nx">scenarios</span><span class="tok-p">,</span> <span class="tok-nx">setupForRspec</span><span class="tok-p">,</span> <span class="tok-nx">Stage</span><span class="tok-p">}</span> <span class="tok-nx">from</span> <span class="tok-s1">&#39;js-given&#39;</span><span class="tok-p">;</span></code></pre>
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-kr">import</span> <span class="tok-p">{</span> <span class="tok-nx">scenario</span><span class="tok-p">,</span> <span class="tok-nx">scenarios</span><span class="tok-p">,</span> <span class="tok-nx">setupForRspec</span><span class="tok-p">,</span> <span class="tok-nx">Stage</span> <span class="tok-p">}</span> <span class="tok-nx">from</span> <span class="tok-s1">&#39;js-given&#39;</span><span class="tok-p">;</span></code></pre>
 </div>
 </div>
 </div>
@@ -764,7 +764,7 @@ This function takes the test from Ava.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span> <span class="tok-nx">SumStage</span><span class="tok-p">,</span> <span class="tok-p">({</span><span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span><span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span> <span class="tok-nx">SumStage</span><span class="tok-p">,</span> <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
 <span class="tok-p">});</span></code></pre>
 </div>
 </div>
@@ -870,7 +870,7 @@ Step methods are the heart of JsGiven. The test initialization, execution and as
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span> <span class="tok-nx">SumStage</span><span class="tok-p">,</span> <span class="tok-p">({</span><span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span><span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span> <span class="tok-nx">SumStage</span><span class="tok-p">,</span> <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
     <span class="tok-k">return</span> <span class="tok-p">{</span>
         <span class="tok-nx">two_numbers_can_be_added</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
             <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">).</span><span class="tok-nx">and</span><span class="tok-p">().</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
@@ -929,12 +929,12 @@ Ran all test suites.</pre>
 <p>JsGiven converts these internal reports to a fully usable JGiven report.</p>
 </div>
 <div class="sect2">
-<h3 id="_setting_up_pretest_posttest_npm_scripts">Setting up pretest &amp; posttest npm scripts</h3>
+<h3 id="_setting_up_the_test_npm_scripts">Setting up the test npm scripts</h3>
 <div class="paragraph">
-<p>Due to the parallel nature of some test runners (Jest &amp; Ava), there is no simple way to remove the internal reports before running tests &amp; generate the html5 report at the end.</p>
+<p>Due to the parallel nature of some test runners (Jest &amp; Ava), there is no simple way to generate the reports after running the tests.</p>
 </div>
 <div class="paragraph">
-<p>Therefore, you have to set up pretest &amp; posttest npm scripts that will :</p>
+<p>Therefore, you have to set up 3 npm scripts that will :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -942,20 +942,32 @@ Ran all test suites.</pre>
 <p>Clean the internal reports before starting the tests.</p>
 </li>
 <li>
-<p>Generate the html5 report after the tests have run</p>
+<p>Run the tests with your usual test running and generate the report if the tests have failed</p>
+</li>
+<li>
+<p>Generate the html5 report after the tests have successfully run.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>You have to include the following two tasks in you <strong>package.json</strong> file:</p>
+<p>You have to include the following scripts in you <strong>package.json</strong> file:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="json"><span class="tok-s2">&quot;scripts&quot;</span><span class="tok-err">:</span> <span class="tok-p">{</span>
   <span class="tok-nt">&quot;pretest&quot;</span><span class="tok-p">:</span> <span class="tok-s2">&quot;jsgiven clean&quot;</span><span class="tok-p">,</span>
+  <span class="tok-nt">&quot;test&quot;</span><span class="tok-p">:</span> <span class="tok-s2">&quot;your_test_command || jsgiven report --fail&quot;</span><span class="tok-p">,</span> <i class="conum" data-value="1"></i><b>(1)</b>
   <span class="tok-nt">&quot;posttest&quot;</span><span class="tok-p">:</span> <span class="tok-s2">&quot;jsgiven report&quot;</span>
 <span class="tok-p">}</span></code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Where <strong>your_test_command</strong> is your test runner command (mocha, jest, jasmine or another one).</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>The <strong>jsgiven</strong> command is a CLI command tool provided by the module.</p>
@@ -1044,7 +1056,7 @@ While this is a simple solution, it&#8217;s often suitable to have several stage
 <pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span>
     <span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span>
     <span class="tok-p">[</span><span class="tok-nx">SumGivenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumWhenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumThenStage</span><span class="tok-p">],</span>
-    <span class="tok-p">({</span><span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span><span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span></code></pre>
+    <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1055,7 +1067,7 @@ While this is a simple solution, it&#8217;s often suitable to have several stage
 <pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span>
     <span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span>
     <span class="tok-p">[</span><span class="tok-nx">SumGivenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumWhenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumThenStage</span><span class="tok-p">],</span>
-    <span class="tok-p">({</span><span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span><span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
+    <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
         <span class="tok-k">return</span> <span class="tok-p">{</span>
             <span class="tok-nx">two_numbers_can_be_added</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
                 <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">).</span><span class="tok-nx">and</span><span class="tok-p">().</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
@@ -1521,7 +1533,7 @@ This is very useful for writing data-driven scenarios, where the scenarios itsel
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;parametrized-scenarios&#39;</span><span class="tok-p">,</span> <span class="tok-nx">DemoStage</span><span class="tok-p">,</span> <span class="tok-p">({</span><span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span><span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;parametrized-scenarios&#39;</span><span class="tok-p">,</span> <span class="tok-nx">DemoStage</span><span class="tok-p">,</span> <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
     <span class="tok-k">return</span> <span class="tok-p">{</span>
         <span class="tok-nx">scenarios_can_be_parametrized</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">(</span>
             <span class="tok-p">{},</span>
@@ -1559,7 +1571,7 @@ Ran all test suites matching "parameterized".</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;parametrized-scenarios&#39;</span><span class="tok-p">,</span> <span class="tok-nx">DemoStage</span><span class="tok-p">,</span> <span class="tok-p">({</span><span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span><span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;parametrized-scenarios&#39;</span><span class="tok-p">,</span> <span class="tok-nx">DemoStage</span><span class="tok-p">,</span> <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
     <span class="tok-k">return</span> <span class="tok-p">{</span>
         <span class="tok-nx">scenarios_can_be_parametrized_with_only_one_value</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">(</span>
             <span class="tok-p">{},</span>
@@ -1586,7 +1598,7 @@ Ran all test suites matching "parameterized".</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;parametrized-scenarios&#39;</span><span class="tok-p">,</span> <span class="tok-nx">DemoStage</span><span class="tok-p">,</span> <span class="tok-p">({</span><span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span><span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
+<pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;parametrized-scenarios&#39;</span><span class="tok-p">,</span> <span class="tok-nx">DemoStage</span><span class="tok-p">,</span> <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
     <span class="tok-k">return</span> <span class="tok-p">{</span>
         <span class="tok-nx">scenarios_can_be_parametrized</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">(</span>
             <span class="tok-p">{},</span>
@@ -1649,7 +1661,7 @@ JsGiven will continue the scenario execution and execute the further step method
 
     <span class="tok-nx">making_an_http_request_to_that_url</span><span class="tok-p">()</span> <span class="tok-p">{</span>
         <span class="tok-nx">doAsync</span><span class="tok-p">(</span><span class="tok-nx">async</span> <span class="tok-p">()</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
-            <span class="tok-kr">const</span> <span class="tok-p">{</span><span class="tok-nx">statusCode</span><span class="tok-p">}</span> <span class="tok-o">=</span> <span class="tok-nx">await</span> <span class="tok-nx">httpRequest</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">url</span><span class="tok-p">);</span>
+            <span class="tok-kr">const</span> <span class="tok-p">{</span> <span class="tok-nx">statusCode</span> <span class="tok-p">}</span> <span class="tok-o">=</span> <span class="tok-nx">await</span> <span class="tok-nx">httpRequest</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">url</span><span class="tok-p">);</span>
             <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">statusCode</span> <span class="tok-o">=</span> <span class="tok-nx">statusCode</span><span class="tok-p">;</span>
         <span class="tok-p">});</span>
         <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
@@ -1661,7 +1673,7 @@ JsGiven will continue the scenario execution and execute the further step method
     <span class="tok-p">}</span>
 <span class="tok-p">}</span>
 
-<span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;async&#39;</span><span class="tok-p">,</span> <span class="tok-nx">AsyncStage</span><span class="tok-p">,</span> <span class="tok-p">({</span><span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span><span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
+<span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;async&#39;</span><span class="tok-p">,</span> <span class="tok-nx">AsyncStage</span><span class="tok-p">,</span> <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
     <span class="tok-k">return</span> <span class="tok-p">{</span>
         <span class="tok-nx">an_async_scenario_can_be_executed</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
             <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">the_url</span><span class="tok-p">(</span><span class="tok-s1">&#39;https://jsgiven.org&#39;</span><span class="tok-p">);</span>
@@ -1687,7 +1699,7 @@ JsGiven will continue the scenario execution and execute the further step method
 
     <span class="tok-nx">making_an_http_request_to_that_url</span><span class="tok-p">()</span> <span class="tok-p">{</span>
         <span class="tok-nx">doAsync</span><span class="tok-p">(()</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
-            <span class="tok-k">return</span> <span class="tok-nx">httpRequest</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">url</span><span class="tok-p">).</span><span class="tok-nx">then</span><span class="tok-p">(({</span><span class="tok-nx">statusCode</span><span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
+            <span class="tok-k">return</span> <span class="tok-nx">httpRequest</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">url</span><span class="tok-p">).</span><span class="tok-nx">then</span><span class="tok-p">(({</span> <span class="tok-nx">statusCode</span> <span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
                 <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">statusCode</span> <span class="tok-o">=</span> <span class="tok-nx">statusCode</span><span class="tok-p">;</span>
             <span class="tok-p">});</span>
         <span class="tok-p">});</span>
@@ -1700,7 +1712,7 @@ JsGiven will continue the scenario execution and execute the further step method
     <span class="tok-p">}</span>
 <span class="tok-p">}</span>
 
-<span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;async&#39;</span><span class="tok-p">,</span> <span class="tok-nx">PromiseStage</span><span class="tok-p">,</span> <span class="tok-p">({</span><span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span><span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
+<span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;async&#39;</span><span class="tok-p">,</span> <span class="tok-nx">PromiseStage</span><span class="tok-p">,</span> <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
     <span class="tok-k">return</span> <span class="tok-p">{</span>
         <span class="tok-nx">an_async_scenario_with_promises_can_be_executed</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
             <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">the_url</span><span class="tok-p">(</span><span class="tok-s1">&#39;https://jsgiven.org&#39;</span><span class="tok-p">);</span>
