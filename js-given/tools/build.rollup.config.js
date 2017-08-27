@@ -49,7 +49,6 @@ export default function buildConfig(
             'babel-polyfill',
             'yargs',
             'zlib',
-            'decompress-zip',
             'fs-extra',
             'rimraf',
             'strip-ansi',

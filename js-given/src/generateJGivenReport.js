@@ -3,7 +3,6 @@ import fs from 'fs';
 import zlib from 'zlib';
 
 import _ from 'lodash';
-import DecompressZip from 'decompress-zip';
 import fse from 'fs-extra';
 import rimraf from 'rimraf';
 
@@ -50,35 +49,8 @@ export async function installJGivenReportApp(
     const reportDir = `${reportPrefix}/jGiven-report`;
 
     await removeDir(reportDir);
-    fs.mkdirSync(reportDir);
+    fse.copySync('node_modules/jgiven-html-app/dist/', reportDir);
     fs.mkdirSync(`${reportDir}/data`);
-
-    let jarFile = './jgiven-html5-report.jar';
-    if (!fileExists(jarFile)) {
-        jarFile = 'node_modules/js-given/jgiven-html5-report.jar';
-        if (!fileExists(jarFile)) {
-            throw new Error('jgiven html 5 report not found');
-        }
-    }
-    fse.copySync(jarFile, `${reportDir}/jgiven-html5-report.jar`);
-
-    await unzip(`${reportDir}/jgiven-html5-report.jar`, reportDir);
-    await unzip(
-        `${reportDir}/com/tngtech/jgiven/report/html5/app.zip`,
-        reportDir
-    );
-
-    await removeDir(`${reportDir}/META-INF`);
-    await removeDir(`${reportDir}/com`);
-    await removeDir(`${reportDir}/jgiven-html5-report.jar`);
-}
-
-function fileExists(fileName: string): boolean {
-    try {
-        return fs.statSync(fileName).isFile();
-    } catch (error) {
-        return false;
-    }
 }
 
 function directoryExists(dirName: string): boolean {
@@ -139,27 +111,6 @@ function removeDir(dir: string): Promise<void> {
             } else {
                 resolve();
             }
-        });
-    });
-}
-
-function unzip(zipFile: string, targetDirectory: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-        var unzipper = new DecompressZip(zipFile);
-
-        unzipper.on('error', err => {
-            console.log(
-                `Caught an error when extracting: ${zipFile} to ${targetDirectory}`
-            );
-            reject(err);
-        });
-
-        unzipper.on('extract', log => {
-            resolve();
-        });
-
-        unzipper.extract({
-            path: targetDirectory,
         });
     });
 }

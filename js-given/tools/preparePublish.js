@@ -7,9 +7,7 @@ delete pkg.scripts;
 delete pkg.eslintConfig;
 delete pkg.babel;
 delete pkg.ava;
-pkg.scripts = {
-    postinstall: 'node installJGivenReport.js',
-};
+pkg.scripts = {};
 
 var isAlpha = false;
 process.argv.forEach(function(val) {
@@ -31,11 +29,6 @@ fs.writeFileSync(
 fs.writeFileSync(
     'dist/README.md',
     fs.readFileSync('../README.md', 'utf-8'),
-    'utf-8'
-);
-fs.writeFileSync(
-    'dist/installJGivenReport.js',
-    fs.readFileSync('tools/installJGivenReport.js', 'utf-8'),
     'utf-8'
 );
 let cliContent = fs.readFileSync('dist/cli.js', 'utf-8');
