@@ -4,13 +4,12 @@ import babel from 'rollup-plugin-babel';
 // eslint-disable-next-line
 export default function buildConfig(
     // eslint-disable-next-line
-    entry /*: string*/,
+    input /*: string*/,
     // eslint-disable-next-line
-    dest /*: string*/
+    file /*: string*/
 ) /*: Object*/ {
     return {
-        entry,
-        format: 'cjs',
+        input,
         plugins: [
             babel({
                 babelrc: false,
@@ -37,7 +36,10 @@ export default function buildConfig(
                 ],
             }),
         ],
-        dest,
+        output: {
+            file,
+            format: 'cjs',
+        },
         external: [
             'lodash',
             'string-humanize',
