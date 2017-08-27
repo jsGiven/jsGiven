@@ -24,7 +24,7 @@ import {
 } from './reports';
 import { Stage } from './Stage';
 import { copyStateToOtherStages } from './State';
-import type { TagDescription } from './tags';
+import type { Tag } from './tags';
 import type { GroupFunc, TestFunc } from './test-runners';
 import { Timer } from './timer';
 
@@ -42,11 +42,11 @@ type ScenariosDescriptions<G, W, T> = {
 
 type ScenarioDescription = {
     +scenarioFunction: ScenarioFunc,
-    +tags: TagDescription[],
+    +tags: Tag[],
 };
 
 type ScenarioOptions = {
-    +tags: TagDescription[],
+    +tags: Tag[],
 };
 export function scenario(
     options: $Shape<ScenarioOptions>,
