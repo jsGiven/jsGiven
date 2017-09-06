@@ -5,7 +5,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "^20.0.8",
-    "jest": "*",
+    "jest": "^21.0.1",
     "js-given": "next",
     "typescript": "^2.5.2"
   },
