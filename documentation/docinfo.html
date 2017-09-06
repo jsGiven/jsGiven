@@ -28,7 +28,66 @@
     .jsGivenNavBar .nav-link:hover path {
         fill: rgba(255,255,255,0.8);
     }
+    .searchBar {
+        height: 50px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding: 0px 40px;
+        flex-direction: column-reverse;
+        margin-right: 4rem;
+        margin-top: 1rem;
+    }
+    .searchBarInput {
+        border: 1px solid rgba(0,0,0,0.15);
+        border-radius: 0.25rem;
+        display: block;
+        width: 100%;
+        padding: 0.5rem 1.6rem;
+        font-size: 1rem;
+        line-height: 1.25;
+    }
+    .search-icon {
+        position: relative;
+        z-index: 1;
+        width: 0.9rem;
+        height: 0.9rem;
+        top: -0.1rem;
+        left: 1.3rem;
+        fill: #55595c;
+    }
+    @media (max-width: 450px) {
+        .search-icon {
+            display: none;
+        }
+    }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript">
+    var htmlSearchBar = '<div class="searchBar">' +
+        '<div>' +
+            '<svg class="search-icon " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15">' +
+                '<path d="M6.213 12.548C2.783 12.548 0 9.738 0 6.274 0 2.81 2.782 0 6.213 0c3.432 0 6.214 2.81 6.214 6.274 0 1.358-.428 2.616-1.154 3.643L15 13.482 13.576 15l-3.77-3.606c-1.015.727-2.254 1.154-3.593 1.154zm0-2.09c2.288 0 4.143-1.874 4.143-4.184S8.5 2.09 6.213 2.09c-2.287 0-4.142 1.874-4.142 4.184s1.856 4.183 4.143 4.183z"></path>' +
+            '</svg>' +
+            '<input type="search" id="searchBarInput" class="searchBarInput" placeholder="Search docs..." autocomplete="off" spellcheck="false" dir="auto" />' +
+        '<div>' +
+    '</div>';
+
+    $(() => $('body').each((i, body) => {
+        var $body = $(body);
+        var $searchBar = $(htmlSearchBar);
+
+        $body.prepend($searchBar);
+
+        docsearch({
+            apiKey: '1202ad8f9aae7e96f924ec6256f215c1',
+            indexName: 'jsgiven',
+            inputSelector: '#searchBarInput',
+            debug: false // Set debug to true if you want to inspect the dropdown
+        });
+    }));
+</script>
 <script type="text/javascript">
     var html = '<div class="jsGivenNavBar">' +
         '<div>' +
