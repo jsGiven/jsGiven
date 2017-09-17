@@ -92,7 +92,10 @@ class ES5GivenStage extends BasicScenarioGivenStage {
                 return {
                     scenario_name: scenario({}, () => {
                         given();
-                        when().an_action_is_performed().and().anHiddenStep();
+                        when()
+                            .an_action_is_performed()
+                            .and()
+                            .anHiddenStep();
                         then();
                     }),
                 };

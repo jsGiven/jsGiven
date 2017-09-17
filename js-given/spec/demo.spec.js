@@ -61,18 +61,30 @@ scenarios('jsgiven.demo', DemoStage, ({ given, when, then }) => ({
     scenarios_can_be_parametrized: scenario(
         {},
         parametrized2([[1, 2], [2, 4], [3, 6]], (value, result) => {
-            given().a_number(value).and().another_number(value);
+            given()
+                .a_number(value)
+                .and()
+                .another_number(value);
             when().they_are_summed();
             then().the_result_is(result);
         })
     ),
     scenarios_can_have_hidden_steps: scenario({}, () => {
-        given().a_number(1).and().another_number(2);
+        given()
+            .a_number(1)
+            .and()
+            .another_number(2);
         when().they_are_summed();
-        then().the_result_is(3).and().aCompletelyHiddenStep();
+        then()
+            .the_result_is(3)
+            .and()
+            .aCompletelyHiddenStep();
     }),
     parameters_can_be_formatted: scenario({}, () => {
-        given().a_number(1).and().another_number(2);
+        given()
+            .a_number(1)
+            .and()
+            .another_number(2);
         when().they_are_summed();
         then().the_result_as_text_is('3');
     }),

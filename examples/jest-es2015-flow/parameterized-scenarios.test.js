@@ -48,7 +48,10 @@ scenarios('parametrized-scenarios', DemoStage, ({ given, when, then }) => {
             parametrized2(
                 [[1, 2], [2, 4], [3, 6]],
                 (value: number, result: number) => {
-                    given().a_number(value).and().another_number(value);
+                    given()
+                        .a_number(value)
+                        .and()
+                        .another_number(value);
                     when().they_are_summed();
                     then().the_result_is(result);
                 }

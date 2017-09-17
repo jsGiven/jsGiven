@@ -122,7 +122,10 @@ scenarios(
     ({ given, when, then }) => {
         return {
             a_report_is_generated_after_execution: scenario({}, () => {
-                given().a_scenario_runner().and().a_dummy_scenario();
+                given()
+                    .a_scenario_runner()
+                    .and()
+                    .a_dummy_scenario();
 
                 when().the_scenario_is_executed();
 

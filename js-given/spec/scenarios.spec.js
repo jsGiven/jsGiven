@@ -54,7 +54,10 @@ scenarios(
     ({ given, when, then }) => {
         return {
             scenarios_can_be_run_over_any_scenario_runner: scenario({}, () => {
-                given().a_scenario_runner().and().a_dummy_scenario();
+                given()
+                    .a_scenario_runner()
+                    .and()
+                    .a_dummy_scenario();
 
                 when().the_scenario_is_executed();
 

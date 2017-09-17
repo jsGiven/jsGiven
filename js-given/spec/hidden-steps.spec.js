@@ -45,7 +45,10 @@ class ScenarioHiddenStepsGivenStage extends BasicScenarioGivenStage {
             ({ given, when, then }) => {
                 return {
                     scenario_name: scenario({}, () => {
-                        given().a_visible_step().and().anHiddenStep();
+                        given()
+                            .a_visible_step()
+                            .and()
+                            .anHiddenStep();
 
                         when();
 

@@ -41,7 +41,10 @@ scenarios('sum-parametrized', SumStage, ({ given, when, then }) => {
         two_numbers_can_be_added: scenario(
             {},
             parametrized3([[1, 2, 3], [2, 3, 5]], (x, y, result) => {
-                given().a_number(x).and().another_number(y);
+                given()
+                    .a_number(x)
+                    .and()
+                    .another_number(y);
 
                 when().they_are_summed();
 

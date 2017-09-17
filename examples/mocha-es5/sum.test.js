@@ -45,7 +45,11 @@ Object.setPrototypeOf(SumStage, Stage);
 scenarios('sum', SumStage, function(it) {
     return {
         two_numbers_can_be_added: scenario({}, function() {
-            it.given().a_number(1).and().another_number(2);
+            it
+                .given()
+                .a_number(1)
+                .and()
+                .another_number(2);
 
             it.when().they_are_summed();
 

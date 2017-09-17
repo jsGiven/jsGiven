@@ -45,7 +45,10 @@ scenarios(
     ({ given, when, then }) => {
         return {
             two_numbers_can_be_added: scenario({}, () => {
-                given().a_number(1).and().another_number(2);
+                given()
+                    .a_number(1)
+                    .and()
+                    .another_number(2);
 
                 when().they_are_summed();
 
