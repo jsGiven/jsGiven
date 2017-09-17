@@ -21,3 +21,4 @@ export { scenario, scenarios } from './scenarios';
 export { Stage } from './Stage';
 export { State } from './State';
 export { setupForRspec, setupForAva } from './test-runners';
+export { buildTag } from './tags';

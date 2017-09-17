@@ -9,6 +9,7 @@ import {
     doAsync,
     Stage,
     State,
+    buildTag,
 } from '../src';
 
 import {
@@ -23,6 +24,8 @@ if (global.describe && global.it) {
     const test = require('ava');
     setupForAva(test);
 }
+
+const AsyncTag = buildTag('Async');
 
 class AsyncScenarioGivenStage extends BasicScenarioGivenStage {
     @State asyncExecution: { success: boolean } = { success: false };
@@ -129,22 +132,29 @@ scenarios(
     'core.scenarios.async',
     [AsyncScenarioGivenStage, BasicScenarioWhenStage, AsyncScenarioThenStage],
     ({ given, when, then }) => ({
-        scenarios_can_be_run_asynchronously: scenario({}, () => {
-            given()
-                .a_scenario_runner()
-                .and()
-                .a_scenario_with_a_single_stage_with_async_actions();
+        scenarios_can_be_run_asynchronously: scenario(
+            {
+                tags: [AsyncTag],
+            },
+            () => {
+                given()
+                    .a_scenario_runner()
+                    .and()
+                    .a_scenario_with_a_single_stage_with_async_actions();
 
-            when().the_scenario_is_executed();
+                when().the_scenario_is_executed();
 
-            then()
-                .the_async_actions_have_been_executed()
-                .and()
-                .it_has_exactly_one_case_and_it_is_$_successful(true);
-        }),
+                then()
+                    .the_async_actions_have_been_executed()
+                    .and()
+                    .it_has_exactly_one_case_and_it_is_$_successful(true);
+            }
+        ),
 
         state_can_be_shared_between_stages_of_an_scenario_runing_asynchronously: scenario(
-            {},
+            {
+                tags: [AsyncTag],
+            },
             () => {
                 given()
                     .a_scenario_runner()

@@ -46,7 +46,7 @@ type ScenarioDescription = {
 };
 
 type ScenarioOptions = {
-    +tags: Tag[],
+    tags: Tag[],
 };
 export function scenario(
     options: $Shape<ScenarioOptions>,

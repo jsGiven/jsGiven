@@ -2,7 +2,7 @@
 export type TagValue = string | string[];
 
 export type Tag = {
-    (...args: string[]): Tag,
+    (...values: string[]): Tag,
     +tagDescriptionGenerator: (tag: TagConfiguration, value: string) => string,
 } & TagConfiguration;
 
