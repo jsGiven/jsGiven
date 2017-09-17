@@ -7,7 +7,7 @@ export type Tag = {
 } & TagConfiguration;
 
 export type TagConfiguration = {
-    +name: string,
+    +tagName: string,
     +description: string,
     +values: string[],
     +parentTags: Tag[],
@@ -23,7 +23,7 @@ type BuildTagOptions = {
     tagDescriptionGenerator: (tag: TagConfiguration, value: string) => string,
 };
 export function buildTag(
-    name: string,
+    tagName: string,
     {
         description = '',
         style = '',
@@ -42,9 +42,9 @@ export function buildTag(
             prependName,
             tagDescriptionGenerator,
         };
-        return buildTag(name, buildTagOptions);
+        return buildTag(tagName, buildTagOptions);
     };
-    tag.name = name;
+    tag.tagName = tagName;
     tag.description = tag.description;
     tag.values = values;
     tag.parentTags = parentTags;
