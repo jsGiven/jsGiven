@@ -85,12 +85,12 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "fs-extra": "^4.0.1",
+    "fs-extra": "^4.0.2",
     "is-promise": "^2.1.0",
     "jgiven-html-app": "0.16.2",
     "lodash": "^4.17.4",
     "retrieve-arguments": "^1.0.1",
-    "rimraf": "^2.6.1",
+    "rimraf": "^2.6.2",
     "string-humanize": "^1.0.0",
     "strip-ansi": "^4.0.0",
     "yargs": "^8.0.2"
