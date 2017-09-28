@@ -2,39 +2,27 @@
 version: v1.7.1
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
-  'npm:marked:20170112':
-    - jgiven-html-app > modernizr > marked:
-        reason: >-
-          JsGiven's report is a static website, XSS injections are technically
-          possible only by modifying the hosted files, the vulnerability can be
-          ignored.
-        expires: '2018-01-01T14:48:13.876Z'
-  'npm:marked:20150520':
-    - jgiven-html-app > modernizr > marked:
-        reason: >-
-          JsGiven's report is a static website, XSS injections are technically
-          possible only by modifying the hosted files, the vulnerability can be
-          ignored.
-        expires: '2018-01-01T14:48:13.876Z'
   'npm:angular:20150315':
     - jgiven-html-app > angular:
-        reason: >-
-          JsGiven's report is a static website, XSS injections are technically
-          only by modifying the hosted files, the vulnerability can be
-          ignored.
-        expires: '2018-01-01T14:48:13.877Z'
+        reason: ' JsGiven''s report is a static website, it does not use JSONP'
+        expires: '2017-10-28T07:28:10.211Z'
   'npm:angular:20161101':
     - jgiven-html-app > angular:
-        reason: >-
-        JsGiven's report is a static website, XSS injections are technically
-        only by modifying the hosted files, the vulnerability can be
-        ignored.
-        expires: '2018-01-01T14:48:13.877Z'
+        reason: 'JsGiven''s report is a static website, XSS is not an issue.'
+        expires: '2017-10-28T07:28:10.211Z'
   'npm:foundation-sites:20170802':
     - jgiven-html-app > foundation-sites:
-        reason: >-
-        JsGiven's report is a static website, XSS injections are technically
-        only by modifying the hosted files, the vulnerability can be
-        ignored.
-        expires: '2018-01-01T14:48:13.877Z'
-patch: {}
+        reason: 'JsGiven''s report is a static website, XSS is not an issue.'
+        expires: '2017-10-28T07:28:10.211Z'
+  'npm:marked:20170907':
+    - jgiven-html-app > modernizr > marked:
+        reason: 'JsGiven''s report is a static website, it''s not subject to DOS attacks.'
+        expires: '2017-10-28T07:28:10.211Z'
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:marked:20150520':
+    - jgiven-html-app > modernizr > marked:
+        patched: '2017-09-28T07:26:22.563Z'
+  'npm:marked:20170112':
+    - jgiven-html-app > modernizr > marked:
+        patched: '2017-09-28T07:26:22.563Z'
