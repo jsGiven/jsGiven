@@ -83,7 +83,8 @@
     "rollup-plugin-uglify": "^2.0.1",
     "sinon": "^3.3.0",
     "sinon-chai": "^2.13.0",
-    "tmp": "^0.0.33"
+    "tmp": "^0.0.33",
+    "snyk": "^1.41.1"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
@@ -95,8 +96,7 @@
     "rimraf": "^2.6.2",
     "string-humanize": "^1.0.0",
     "strip-ansi": "^4.0.0",
-    "yargs": "^9.0.1",
-    "snyk": "^1.41.1"
+    "yargs": "^9.0.1"
   },
   "bin": {
     "jsgiven": "./cli.js"
