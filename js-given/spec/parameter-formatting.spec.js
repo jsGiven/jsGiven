@@ -230,8 +230,8 @@ class ParametersFormattingChecksStage extends Stage {
         value: mixed
     ): this {
         try {
-            // eslint-disable-next-line no-inner-declarations
-            function AStage() {}
+            // $FlowIgnore
+            function AStage() {} // eslint-disable-line no-inner-declarations
             AStage.prototype = {
                 property: value,
             };
@@ -247,8 +247,8 @@ class ParametersFormattingChecksStage extends Stage {
 
     trying_to_build_a_stage_that_declared_the_quoted_formatParameter_on_a_step_method_with_an_unknown_parameter(): this {
         try {
-            // eslint-disable-next-line no-inner-declarations
-            function AStage() {}
+            // $FlowIgnore
+            function AStage() {} // eslint-disable-line no-inner-declarations
             AStage.prototype = {
                 method: () => {},
             };

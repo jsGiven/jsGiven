@@ -113,8 +113,8 @@ class HiddenChecksStage extends Stage {
         value: mixed
     ): this {
         try {
-            // eslint-disable-next-line no-inner-declarations
-            function AStage() {}
+            // $FlowIgnore
+            function AStage() {} // eslint-disable-line no-inner-declarations
             AStage.prototype = {
                 property: value,
             };

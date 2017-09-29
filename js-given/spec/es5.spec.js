@@ -41,6 +41,7 @@ class ES5GivenStage extends BasicScenarioGivenStage {
         };
         const self = this;
 
+        // $FlowIgnore
         function ES5Stage() {}
         ES5Stage.prototype = {
             an_action_is_performed(): ES5Stage {
@@ -127,6 +128,7 @@ class ES5GivenStage extends BasicScenarioGivenStage {
         };
         const self = this;
 
+        // $FlowIgnore
         function ES5GivenStage() {}
         ES5GivenStage.prototype = {
             a_number: function(value: number) {
@@ -139,6 +141,7 @@ class ES5GivenStage extends BasicScenarioGivenStage {
         State.addProperty(ES5GivenStage, 'value');
         this.ES5GivenStage = ES5GivenStage;
 
+        // $FlowIgnore
         function ES5WhenStage() {}
         ES5WhenStage.prototype = {
             it_is_incremented() {
@@ -151,6 +154,7 @@ class ES5GivenStage extends BasicScenarioGivenStage {
         State.addProperty(ES5WhenStage, 'value');
         this.ES5WhenStage = ES5WhenStage;
 
+        // $FlowIgnore
         function ES5ThenStage() {}
         ES5ThenStage.prototype = {
             its_new_value_is(value: number) {
