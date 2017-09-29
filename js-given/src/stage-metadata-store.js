@@ -2,8 +2,8 @@
 import { Stage } from './Stage';
 
 interface StageMetadataStore<T> {
-    addProperty(property: T): void,
-    getProperties(): T[],
+    addProperty(property: T): void;
+    getProperties(): T[];
 }
 
 export type StageMetadataStoreProvider<T> = {
