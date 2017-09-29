@@ -43,7 +43,7 @@
     "babel-eslint": "8.0.1",
     "chalk": "2.1.0",
     "check-node-version": "2.1.0",
-    "coveralls": "2.13.3",
+    "coveralls": "3.0.0",
     "eslint": "4.7.2",
     "eslint-config-prettier": "2.6.0",
     "eslint-config-standard": "10.2.1",
