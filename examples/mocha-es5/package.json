@@ -7,7 +7,7 @@
   "devDependencies": {
     "chai": "4.1.2",
     "js-given": "next",
-    "mocha": "4.0.0"
+    "mocha": "4.0.1"
   },
   "scripts": {
     "pretest": "jsgiven clean",
