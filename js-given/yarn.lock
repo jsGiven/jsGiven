@@ -4631,9 +4631,9 @@ snyk-go-plugin@1.3.7:
     graphlib "^2.1.1"
     toml "^2.3.2"
 
-snyk-gradle-plugin@1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/snyk-gradle-plugin/-/snyk-gradle-plugin-1.1.2.tgz#9857b808a2bac8d4374ae47a9cef5e127cf56d74"
+snyk-gradle-plugin@1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/snyk-gradle-plugin/-/snyk-gradle-plugin-1.1.3.tgz#d647b4fd5af15b2ec694e9186a2e28559baf28f8"
   dependencies:
     clone-deep "^0.3.0"
 
@@ -4718,9 +4718,9 @@ snyk-try-require@^1.1.1, snyk-try-require@^1.2.0:
     lru-cache "^4.0.0"
     then-fs "^2.0.0"
 
-snyk@1.42.6:
-  version "1.42.6"
-  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.42.6.tgz#cbbbc41b71f7dbd89a486cf5be7167dd10fecfb3"
+snyk@1.42.7:
+  version "1.42.7"
+  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.42.7.tgz#a9c5f80abdf29c9070c33fc8a57783de74b61050"
   dependencies:
     abbrev "^1.0.7"
     ansi-escapes "^1.3.0"
@@ -4736,7 +4736,7 @@ snyk@1.42.6:
     semver "^5.1.0"
     snyk-config "1.0.1"
     snyk-go-plugin "1.3.7"
-    snyk-gradle-plugin "1.1.2"
+    snyk-gradle-plugin "1.1.3"
     snyk-module "1.8.1"
     snyk-mvn-plugin "1.0.3"
     snyk-policy "1.7.1"
