@@ -84,7 +84,7 @@
     "sinon": "4.0.1",
     "sinon-chai": "2.14.0",
     "tmp": "0.0.33",
-    "snyk": "1.44.0"
+    "snyk": "1.44.1"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
