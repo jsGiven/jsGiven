@@ -7,7 +7,7 @@
     "@types/jest": "21.1.5",
     "jest": "21.2.1",
     "js-given": "next",
-    "typescript": "2.5.3"
+    "typescript": "2.6.1"
   },
   "scripts": {
     "build": "tsc --project . --pretty",
