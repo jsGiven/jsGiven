@@ -932,7 +932,10 @@ Step methods are the heart of JsGiven. The test initialization, execution and as
 <pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span> <span class="tok-nx">SumStage</span><span class="tok-p">,</span> <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
     <span class="tok-k">return</span> <span class="tok-p">{</span>
         <span class="tok-nx">two_numbers_can_be_added</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
-            <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">).</span><span class="tok-nx">and</span><span class="tok-p">().</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
+            <span class="tok-nx">given</span><span class="tok-p">()</span>
+                <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span>
+                <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
+                <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
 
             <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
 
@@ -1129,7 +1132,10 @@ While this is a simple solution, it&#8217;s often suitable to have several stage
     <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
         <span class="tok-k">return</span> <span class="tok-p">{</span>
             <span class="tok-nx">two_numbers_can_be_added</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
-                <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">).</span><span class="tok-nx">and</span><span class="tok-p">().</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
+                <span class="tok-nx">given</span><span class="tok-p">()</span>
+                    <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span>
+                    <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
+                    <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
 
                 <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
 
@@ -1597,7 +1603,10 @@ This is very useful for writing data-driven scenarios, where the scenarios itsel
         <span class="tok-nx">scenarios_can_be_parametrized</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">(</span>
             <span class="tok-p">{},</span>
             <span class="tok-nx">parametrized</span><span class="tok-p">([[</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-mi">2</span><span class="tok-p">],</span> <span class="tok-p">[</span><span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-mi">4</span><span class="tok-p">],</span> <span class="tok-p">[</span><span class="tok-mi">3</span><span class="tok-p">,</span> <span class="tok-mi">6</span><span class="tok-p">]],</span> <span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">,</span> <span class="tok-nx">result</span><span class="tok-p">)</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
-                <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">).</span><span class="tok-nx">and</span><span class="tok-p">().</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">);</span>
+                <span class="tok-nx">given</span><span class="tok-p">()</span>
+                    <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span>
+                    <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
+                    <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">);</span>
                 <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
                 <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">result</span><span class="tok-p">);</span>
             <span class="tok-p">})</span>
@@ -1635,7 +1644,10 @@ Ran all test suites matching "parameterized".</pre>
         <span class="tok-nx">scenarios_can_be_parametrized_with_only_one_value</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">(</span>
             <span class="tok-p">{},</span>
             <span class="tok-nx">parametrized1</span><span class="tok-p">([</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-mi">3</span><span class="tok-p">],</span> <span class="tok-nx">value</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
-                <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">).</span><span class="tok-nx">and</span><span class="tok-p">().</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">);</span>
+                <span class="tok-nx">given</span><span class="tok-p">()</span>
+                    <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span>
+                    <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
+                    <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">);</span>
                 <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
                 <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">they_are_successfully_added</span><span class="tok-p">();</span>
             <span class="tok-p">})</span>
@@ -1664,7 +1676,10 @@ Ran all test suites matching "parameterized".</pre>
             <span class="tok-nx">parametrized2</span><span class="tok-p">(</span>
                 <span class="tok-p">[[</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-mi">2</span><span class="tok-p">],</span> <span class="tok-p">[</span><span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-mi">4</span><span class="tok-p">],</span> <span class="tok-p">[</span><span class="tok-mi">3</span><span class="tok-p">,</span> <span class="tok-mi">6</span><span class="tok-p">]],</span>
                 <span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-o">:</span> <span class="tok-nx">number</span><span class="tok-p">,</span> <span class="tok-nx">result</span><span class="tok-o">:</span> <span class="tok-nx">number</span><span class="tok-p">)</span> <span class="tok-o">=&gt;</span> <span class="tok-p">{</span>
-                    <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">).</span><span class="tok-nx">and</span><span class="tok-p">().</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">);</span>
+                    <span class="tok-nx">given</span><span class="tok-p">()</span>
+                        <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span>
+                        <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
+                        <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">);</span>
                     <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
                     <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">result</span><span class="tok-p">);</span>
                 <span class="tok-p">}</span>
@@ -2004,7 +2019,11 @@ See <a href="#_fully_working_examples">Fully working examples</a></p>
 <pre class="pygments highlight"><code data-lang="js"><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span> <span class="tok-nx">SumStage</span><span class="tok-p">,</span> <span class="tok-kd">function</span><span class="tok-p">(</span><span class="tok-nx">it</span><span class="tok-p">)</span> <span class="tok-p">{</span>
     <span class="tok-k">return</span> <span class="tok-p">{</span>
         <span class="tok-nx">two_numbers_can_be_added</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-kd">function</span><span class="tok-p">()</span> <span class="tok-p">{</span>
-            <span class="tok-nx">it</span><span class="tok-p">.</span><span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">).</span><span class="tok-nx">and</span><span class="tok-p">().</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
+            <span class="tok-nx">it</span>
+                <span class="tok-p">.</span><span class="tok-nx">given</span><span class="tok-p">()</span>
+                <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span>
+                <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
+                <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
 
             <span class="tok-nx">it</span><span class="tok-p">.</span><span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
 
