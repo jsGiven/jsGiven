@@ -1891,7 +1891,7 @@ jquery@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.1.1.tgz#347c1c21c7e004115e0a4da32cece041fad3c8a3"
 
-js-given@^0.1.6:
+js-given@0.1.6:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.1.6.tgz#e71ef38ac8ff709cb88d2e7e159c60bc2af97d67"
   dependencies:
