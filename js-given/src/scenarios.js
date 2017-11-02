@@ -12,6 +12,7 @@ import {
     wrapParameter,
     type DecodedParameter,
     type ParametrizedScenarioFuncWithParameters,
+    type WrappedParameter,
 } from './parametrized-scenarios';
 import {
     formatParameter,
@@ -88,6 +89,8 @@ type RunningScenario = {
     state: 'COLLECTING_STEPS' | 'RUNNING',
     +stages: Stage[],
     +steps: Step[],
+    +caseArguments: WrappedParameter[],
+    +formattedCaseArguments: { [key: string]: string },
 };
 
 export class ScenarioRunner {
@@ -195,7 +198,7 @@ export class ScenarioRunner {
                 );
 
                 let casesCount = 0;
-                cases.forEach(({ caseFunction, args }, index) => {
+                cases.forEach(({ caseFunction, wrappedArgs }, index) => {
                     const caseDescription =
                         cases.length === 1
                             ? scenarioNameForHumans
@@ -206,15 +209,22 @@ export class ScenarioRunner {
                             state: 'COLLECTING_STEPS',
                             stages: [],
                             steps: [],
+                            caseArguments: wrappedArgs,
+                            formattedCaseArguments: {},
                         };
 
-                        this.beginCase(scenario, args);
+                        this.beginCase(scenario);
 
                         // Build stages
                         currentStages = stageBuilder(runningScenario);
 
                         // Collecting steps
                         caseFunction();
+
+                        this.setCaseArguments(
+                            runningScenario.caseArguments,
+                            runningScenario.formattedCaseArguments
+                        );
 
                         // Execute scenario
                         runningScenario.state = 'RUNNING';
@@ -378,7 +388,7 @@ export class ScenarioRunner {
             };
             type CaseDescription = {
                 +caseFunction: () => void,
-                +args: string[],
+                +wrappedArgs: WrappedParameter[],
             };
             function getScenarios(scenarios: {
                 [key: string]: ScenarioDescription,
@@ -395,7 +405,7 @@ export class ScenarioRunner {
                             cases: [
                                 {
                                     caseFunction: scenarioFunction,
-                                    args: [],
+                                    wrappedArgs: [],
                                 },
                             ],
                             argumentNames: [],
@@ -418,16 +428,13 @@ export class ScenarioRunner {
                                                 argumentNames[index]
                                             )
                                     );
-                                    const args: string[] = parametersForCase.map(
-                                        p => formatParameter(p, [])
-                                    );
                                     return {
                                         caseFunction: () => {
                                             return func(
                                                 ...parametersForTestFunction
                                             );
                                         },
-                                        args,
+                                        wrappedArgs: parametersForTestFunction,
                                     };
                                 }
                             ),
@@ -453,11 +460,20 @@ export class ScenarioRunner {
         );
     }
 
-    beginCase(scenario: ScenarioReport, args: string[]) {
-        const currentCase = new ScenarioCase(args);
+    beginCase(scenario: ScenarioReport) {
+        const currentCase = new ScenarioCase();
         this.currentCase = currentCase;
         scenario.cases.push(currentCase);
         this.currentCaseTimer = new Timer();
+    }
+
+    setCaseArguments(
+        caseArguments: WrappedParameter[],
+        formattedCaseArguments: { [key: string]: string }
+    ) {
+        this.currentCase.args = caseArguments.map(wp => {
+            return formattedCaseArguments[wp.scenarioParameterName];
+        });
     }
 
     caseFailed(error: Error) {
@@ -555,7 +571,12 @@ export class ScenarioRunner {
             const self = this;
 
             extendedPrototype[methodName] = function(...args: any[]): any {
-                const { state, steps } = runningScenario;
+                const {
+                    state,
+                    steps,
+                    caseArguments,
+                    formattedCaseArguments,
+                } = runningScenario;
 
                 const stepParameterNames = retrieveArguments(
                     classPrototype[methodName]
@@ -573,6 +594,28 @@ export class ScenarioRunner {
                         );
                     }
                 );
+
+                caseArguments.forEach(({ scenarioParameterName, value }) => {
+                    if (
+                        formattedCaseArguments[scenarioParameterName] ===
+                        undefined
+                    ) {
+                        const foundDecodedParameter = decodedParameters.find(
+                            dp =>
+                                dp.scenarioParameterName ===
+                                scenarioParameterName
+                        );
+                        if (foundDecodedParameter) {
+                            // eslint-disable-next-line standard/computed-property-even-spacing
+                            formattedCaseArguments[
+                                scenarioParameterName
+                            ] = formatParameter(
+                                value,
+                                foundDecodedParameter.formatters
+                            );
+                        }
+                    }
+                });
 
                 switch (state) {
                     case 'COLLECTING_STEPS': {

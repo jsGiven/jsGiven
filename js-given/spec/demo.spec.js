@@ -6,7 +6,7 @@ import {
     scenarios,
     setupForRspec,
     setupForAva,
-    parametrized2,
+    parametrized3,
     Stage,
     Hidden,
     Quoted,
@@ -60,14 +60,20 @@ class DemoStage extends Stage {
 scenarios('jsgiven.demo', DemoStage, ({ given, when, then }) => ({
     scenarios_can_be_parametrized: scenario(
         {},
-        parametrized2([[1, 2], [2, 4], [3, 6]], (value, result) => {
-            given()
-                .a_number(value)
-                .and()
-                .another_number(value);
-            when().they_are_summed();
-            then().the_result_is(result);
-        })
+        parametrized3(
+            [[1, 2, '2'], [2, 4, '4'], [3, 6, '4']],
+            (value, result, resultAsText) => {
+                given()
+                    .a_number(value)
+                    .and()
+                    .another_number(value);
+                when().they_are_summed();
+                then()
+                    .the_result_is(result)
+                    .and()
+                    .the_result_as_text_is(resultAsText);
+            }
+        )
     ),
     scenarios_can_have_hidden_steps: scenario({}, () => {
         given()

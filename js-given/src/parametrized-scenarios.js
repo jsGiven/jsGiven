@@ -80,7 +80,7 @@ export function parametrized7<A, B, C, D, E, F, G>(
     };
 }
 
-type WrappedParameter = {
+export type WrappedParameter = {
     +scenarioParameterName: string,
     +value: any,
     +IS_JSGIVEN_WRAPPER_PARAMETER: true,

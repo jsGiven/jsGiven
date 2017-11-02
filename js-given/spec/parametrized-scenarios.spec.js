@@ -8,6 +8,7 @@ import {
     setupForAva,
     parametrized1,
     Stage,
+    Quoted,
 } from '../src';
 
 import {
@@ -85,6 +86,30 @@ class ParametrizedScenarioGivenStage extends BasicScenarioGivenStage {
         );
         return this;
     }
+
+    a_parametrized_scenario_using_formatters(): this {
+        class MyStage extends Stage {
+            @Quoted('value')
+            expecting_a_quoted_value(value: string): this {
+                return this;
+            }
+        }
+        this.scenarioRunner.scenarios(
+            'group_name',
+            MyStage,
+            ({ given, when, then }) => {
+                return {
+                    scenario_name: scenario(
+                        {},
+                        parametrized1(['first', 'second'], value => {
+                            when().expecting_a_quoted_value(value);
+                        })
+                    ),
+                };
+            }
+        );
+        return this;
+    }
 }
 
 class ParametrizedScenarioThenStage extends BasicScenarioThenStage {
@@ -134,6 +159,13 @@ class ParametrizedScenarioThenStage extends BasicScenarioThenStage {
                 );
             }
         });
+        return this;
+    }
+
+    the_formatter_has_been_used_in_all_cases(): this {
+        const [case1, case2] = this.getScenario().cases;
+        expect(case1.args).to.deep.equal(['"first"']);
+        expect(case2.args).to.deep.equal(['"second"']);
         return this;
     }
 }
@@ -192,6 +224,20 @@ scenarios(
                 .the_second_case_is_not_successful()
                 .and()
                 .the_scenario_execution_status_is_$('FAILED');
+        }),
+
+        'parameters are properly formatted': scenario({}, () => {
+            given()
+                .a_scenario_runner()
+                .and()
+                .a_parametrized_scenario_using_formatters();
+
+            when().the_scenario_is_executed();
+
+            then()
+                .the_report_for_this_scenerio_has_been_generated()
+                .and()
+                .the_formatter_has_been_used_in_all_cases();
         }),
     })
 );

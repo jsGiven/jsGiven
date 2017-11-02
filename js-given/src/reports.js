@@ -180,7 +180,7 @@ export class ScenarioCase {
     errorMessage: string | null;
     stackTrace: string[] | null;
 
-    constructor(args: string[], parts: ScenarioPart[] = []) {
+    constructor(args: string[] = [], parts: ScenarioPart[] = []) {
         this.args = args;
         this.parts = parts;
     }
