@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/jsGiven/jsGiven",
   "devDependencies": {
-    "babel-eslint": "8.0.1",
+    "babel-eslint": "8.0.2",
     "chalk": "2.3.0",
     "check-node-version": "2.1.0",
     "coveralls": "3.0.0",
