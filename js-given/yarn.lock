@@ -4511,9 +4511,9 @@ rollup-pluginutils@^1.5.0:
     estree-walker "^0.2.1"
     minimatch "^3.0.2"
 
-rollup@0.51.6:
-  version "0.51.6"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.51.6.tgz#ed98e777ce7bd74cf2d0be249b2d9a2d19399c0f"
+rollup@0.51.7:
+  version "0.51.7"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.51.7.tgz#3c387316ceca3655727cbef716f2733aa15c46df"
 
 run-async@^2.2.0:
   version "2.3.0"
