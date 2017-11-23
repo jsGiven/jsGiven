@@ -247,9 +247,9 @@ chalk@^2.0.0, chalk@^2.1.0:
     escape-string-regexp "^1.0.5"
     supports-color "^4.0.0"
 
-check-node-version@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/check-node-version/-/check-node-version-2.1.0.tgz#85565842cf79a09dfa8e266720575ee0aec1983d"
+check-node-version@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/check-node-version/-/check-node-version-3.0.0.tgz#042e29cf6b744c454e08793730a84857bf6d66ab"
   dependencies:
     map-values "^1.0.1"
     minimist "^1.2.0"
