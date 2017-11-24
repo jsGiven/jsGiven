@@ -2,8 +2,7 @@ const Git = require('nodegit');
 const pkg = require('../package.json');
 
 const context = {};
-Git.Repository
-    .open('..')
+Git.Repository.open('..')
     .then(function(repository) {
         context.repository = repository;
         return context.repository.getStatus();

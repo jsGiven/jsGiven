@@ -13,7 +13,9 @@ const storeProvider: StageMetadataStoreProvider<
 export function Hidden(target: any, key: string, descriptor: any): any {
     checkIsFunction(
         target[key],
-        `@Hidden decorator can only be applied to methods: '${key}' is not a method.`
+        `@Hidden decorator can only be applied to methods: '${
+            key
+        }' is not a method.`
     );
     storeProvider.getStoreFromTarget(target).addProperty(key);
     return { ...descriptor, writable: true };
@@ -22,7 +24,9 @@ Hidden.addHiddenStep = (stageClass: Class<Stage>, property: string): void => {
     checkIsFunction(
         // $FlowIgnore
         stageClass.prototype[property],
-        `Hidden.addHiddenStep() can only be applied to methods: '${property}' is not a method.`
+        `Hidden.addHiddenStep() can only be applied to methods: '${
+            property
+        }' is not a method.`
     );
     storeProvider.getStoreFromStageClass(stageClass).addProperty(property);
 };

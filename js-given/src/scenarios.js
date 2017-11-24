@@ -187,159 +187,65 @@ export class ScenarioRunner {
         this.groupFunc(groupName, () => {
             const scenarios = scenariosDescriptions(scenariosParam);
 
-            getScenarios(
-                scenarios
-            ).forEach(({ scenarioPropertyName, cases, argumentNames }) => {
-                const scenarioNameForHumans = humanize(scenarioPropertyName);
-                const scenario = this.addScenario(
-                    report,
-                    scenarioNameForHumans,
-                    argumentNames
-                );
+            getScenarios(scenarios).forEach(
+                ({ scenarioPropertyName, cases, argumentNames }) => {
+                    const scenarioNameForHumans = humanize(
+                        scenarioPropertyName
+                    );
+                    const scenario = this.addScenario(
+                        report,
+                        scenarioNameForHumans,
+                        argumentNames
+                    );
 
-                let casesCount = 0;
-                cases.forEach(({ caseFunction, wrappedArgs }, index) => {
-                    const caseDescription =
-                        cases.length === 1
-                            ? scenarioNameForHumans
-                            : `${scenarioNameForHumans} #${index + 1}`;
-                    this.testFunc(caseDescription, () => {
-                        let caughtError: Error | null = null;
-                        const runningScenario: RunningScenario = {
-                            state: 'COLLECTING_STEPS',
-                            stages: [],
-                            steps: [],
-                            caseArguments: wrappedArgs,
-                            formattedCaseArguments: {},
-                        };
+                    let casesCount = 0;
+                    cases.forEach(({ caseFunction, wrappedArgs }, index) => {
+                        const caseDescription =
+                            cases.length === 1
+                                ? scenarioNameForHumans
+                                : `${scenarioNameForHumans} #${index + 1}`;
+                        this.testFunc(caseDescription, () => {
+                            let caughtError: Error | null = null;
+                            const runningScenario: RunningScenario = {
+                                state: 'COLLECTING_STEPS',
+                                stages: [],
+                                steps: [],
+                                caseArguments: wrappedArgs,
+                                formattedCaseArguments: {},
+                            };
 
-                        this.beginCase(scenario);
+                            this.beginCase(scenario);
 
-                        // Build stages
-                        currentStages = stageBuilder(runningScenario);
+                            // Build stages
+                            currentStages = stageBuilder(runningScenario);
 
-                        // Collecting steps
-                        caseFunction();
+                            // Collecting steps
+                            caseFunction();
 
-                        this.setCaseArguments(
-                            runningScenario.caseArguments,
-                            runningScenario.formattedCaseArguments
-                        );
+                            this.setCaseArguments(
+                                runningScenario.caseArguments,
+                                runningScenario.formattedCaseArguments
+                            );
 
-                        // Execute scenario
-                        runningScenario.state = 'RUNNING';
-                        let runningSynchronously = true;
-                        try {
-                            const { steps } = runningScenario;
-                            for (let i = 0; i < steps.length; i++) {
-                                const { stepActions, stage } = steps[i];
-                                const stepTimer = new Timer();
-                                let asyncActions = [];
-
-                                if (!caughtError) {
-                                    try {
-                                        asyncActions = executeStepAndCollectAsyncActions(
-                                            stepActions.executeStep
-                                        );
-                                    } catch (error) {
-                                        caughtError = error;
-                                        stepActions.markStepAsFailed(stepTimer);
-                                    }
-                                } else {
-                                    stepActions.markStepAsSkipped(stepTimer);
-                                }
-
-                                if (!caughtError) {
-                                    if (asyncActions.length === 0) {
-                                        stepActions.markStepAsPassed(stepTimer);
-                                        copyStateToOtherStages(
-                                            stage,
-                                            runningScenario.stages
-                                        );
-                                    } else {
-                                        // If we have asynchronous actions, we
-                                        // switch to asynchronous mode
-                                        // We return immediately a promise and
-                                        // the execution is now asynchronous
-                                        // This ensures that scenarios that do
-                                        // not require asynchronous processing
-                                        // are still executed synchronously
-                                        runningSynchronously = false;
-                                        return continueAsyncWork(
-                                            this,
-                                            asyncActions,
-                                            stage,
-                                            steps,
-                                            i,
-                                            stepTimer
-                                        );
-                                    }
-                                }
-                            }
-                        } finally {
-                            if (runningSynchronously) {
-                                caseCompleted(this);
-                            }
-                        }
-
-                        if (caughtError) {
-                            throw caughtError;
-                        }
-
-                        async function continueAsyncWork(
-                            self: ScenarioRunner,
-                            asyncActions: Array<() => Promise<*>>,
-                            stage: Stage,
-                            steps: Step[],
-                            i: number,
-                            initialStepTimer: Timer
-                        ): Promise<*> {
+                            // Execute scenario
+                            runningScenario.state = 'RUNNING';
+                            let runningSynchronously = true;
                             try {
-                                // Execute async actions for current step
-                                try {
-                                    await executeAsyncActions(asyncActions);
-                                } catch (error) {
-                                    caughtError = error;
-                                    const { stepActions } = steps[i];
-                                    stepActions.markStepAsFailed(
-                                        initialStepTimer
-                                    );
-                                }
-                                if (!caughtError) {
-                                    const { stepActions } = steps[i];
-                                    stepActions.markStepAsPassed(
-                                        initialStepTimer
-                                    );
-                                    copyStateToOtherStages(
-                                        stage,
-                                        runningScenario.stages
-                                    );
-                                }
-
-                                // Execute further steps and their async actions
-                                for (let j = i + 1; j < steps.length; j++) {
-                                    const { stepActions, stage } = steps[j];
+                                const { steps } = runningScenario;
+                                for (let i = 0; i < steps.length; i++) {
+                                    const { stepActions, stage } = steps[i];
                                     const stepTimer = new Timer();
+                                    let asyncActions = [];
+
                                     if (!caughtError) {
                                         try {
-                                            const actions = executeStepAndCollectAsyncActions(
+                                            asyncActions = executeStepAndCollectAsyncActions(
                                                 stepActions.executeStep
                                             );
-                                            await executeAsyncActions(actions);
                                         } catch (error) {
                                             caughtError = error;
                                             stepActions.markStepAsFailed(
                                                 stepTimer
-                                            );
-                                        }
-
-                                        if (!caughtError) {
-                                            stepActions.markStepAsPassed(
-                                                stepTimer
-                                            );
-                                            copyStateToOtherStages(
-                                                stage,
-                                                runningScenario.stages
                                             );
                                         }
                                     } else {
@@ -347,39 +253,143 @@ export class ScenarioRunner {
                                             stepTimer
                                         );
                                     }
+
+                                    if (!caughtError) {
+                                        if (asyncActions.length === 0) {
+                                            stepActions.markStepAsPassed(
+                                                stepTimer
+                                            );
+                                            copyStateToOtherStages(
+                                                stage,
+                                                runningScenario.stages
+                                            );
+                                        } else {
+                                            // If we have asynchronous actions, we
+                                            // switch to asynchronous mode
+                                            // We return immediately a promise and
+                                            // the execution is now asynchronous
+                                            // This ensures that scenarios that do
+                                            // not require asynchronous processing
+                                            // are still executed synchronously
+                                            runningSynchronously = false;
+                                            return continueAsyncWork(
+                                                this,
+                                                asyncActions,
+                                                stage,
+                                                steps,
+                                                i,
+                                                stepTimer
+                                            );
+                                        }
+                                    }
                                 }
                             } finally {
-                                caseCompleted(self);
+                                if (runningSynchronously) {
+                                    caseCompleted(this);
+                                }
                             }
 
                             if (caughtError) {
                                 throw caughtError;
                             }
 
-                            async function executeAsyncActions(
-                                asyncActions: Array<() => Promise<*>>
-                            ): Promise<void> {
-                                for (const asyncAction of asyncActions) {
-                                    await asyncAction();
+                            async function continueAsyncWork(
+                                self: ScenarioRunner,
+                                asyncActions: Array<() => Promise<*>>,
+                                stage: Stage,
+                                steps: Step[],
+                                i: number,
+                                initialStepTimer: Timer
+                            ): Promise<*> {
+                                try {
+                                    // Execute async actions for current step
+                                    try {
+                                        await executeAsyncActions(asyncActions);
+                                    } catch (error) {
+                                        caughtError = error;
+                                        const { stepActions } = steps[i];
+                                        stepActions.markStepAsFailed(
+                                            initialStepTimer
+                                        );
+                                    }
+                                    if (!caughtError) {
+                                        const { stepActions } = steps[i];
+                                        stepActions.markStepAsPassed(
+                                            initialStepTimer
+                                        );
+                                        copyStateToOtherStages(
+                                            stage,
+                                            runningScenario.stages
+                                        );
+                                    }
+
+                                    // Execute further steps and their async actions
+                                    for (let j = i + 1; j < steps.length; j++) {
+                                        const { stepActions, stage } = steps[j];
+                                        const stepTimer = new Timer();
+                                        if (!caughtError) {
+                                            try {
+                                                const actions = executeStepAndCollectAsyncActions(
+                                                    stepActions.executeStep
+                                                );
+                                                await executeAsyncActions(
+                                                    actions
+                                                );
+                                            } catch (error) {
+                                                caughtError = error;
+                                                stepActions.markStepAsFailed(
+                                                    stepTimer
+                                                );
+                                            }
+
+                                            if (!caughtError) {
+                                                stepActions.markStepAsPassed(
+                                                    stepTimer
+                                                );
+                                                copyStateToOtherStages(
+                                                    stage,
+                                                    runningScenario.stages
+                                                );
+                                            }
+                                        } else {
+                                            stepActions.markStepAsSkipped(
+                                                stepTimer
+                                            );
+                                        }
+                                    }
+                                } finally {
+                                    caseCompleted(self);
+                                }
+
+                                if (caughtError) {
+                                    throw caughtError;
+                                }
+
+                                async function executeAsyncActions(
+                                    asyncActions: Array<() => Promise<*>>
+                                ): Promise<void> {
+                                    for (const asyncAction of asyncActions) {
+                                        await asyncAction();
+                                    }
                                 }
                             }
-                        }
 
-                        function caseCompleted(self: ScenarioRunner) {
-                            if (caughtError) {
-                                self.caseFailed(caughtError);
-                            } else {
-                                self.caseSucceeded();
+                            function caseCompleted(self: ScenarioRunner) {
+                                if (caughtError) {
+                                    self.caseFailed(caughtError);
+                                } else {
+                                    self.caseSucceeded();
+                                }
+                                casesCount++;
+                                if (casesCount === cases.length) {
+                                    self.scenarioCompleted(scenario);
+                                }
+                                currentStages = undefined;
                             }
-                            casesCount++;
-                            if (casesCount === cases.length) {
-                                self.scenarioCompleted(scenario);
-                            }
-                            currentStages = undefined;
-                        }
+                        });
                     });
-                });
-            });
+                }
+            );
 
             type ScenarioDescriptionWithName = {
                 +scenarioPropertyName: string,
