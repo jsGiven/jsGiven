@@ -35,8 +35,8 @@ export type DataTable = {
     +headerType: HeaderType,
 
     /**
-    * The data of the table as a list of rows
-    */
+     * The data of the table as a list of rows
+     */
     +data: Array<Array<String>>,
 };
 

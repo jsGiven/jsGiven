@@ -64,12 +64,16 @@ export function buildParameterFormatter(
             parameterNames.forEach(parameterName => {
                 checkIsFunction(
                     target[stepMethodName],
-                    `Formatter decorators can only be applied to methods: '${stepMethodName}' is not a method.`
+                    `Formatter decorators can only be applied to methods: '${
+                        stepMethodName
+                    }' is not a method.`
                 );
                 checkIsParameter(
                     target[stepMethodName],
                     parameterName,
-                    `Formatter decorator cannot be applied on method: ${stepMethodName}(): parameter '${parameterName}' was not found.`
+                    `Formatter decorator cannot be applied on method: ${
+                        stepMethodName
+                    }(): parameter '${parameterName}' was not found.`
                 );
                 storeProvider.getStoreFromTarget(target).addProperty({
                     formatter,
@@ -90,13 +94,17 @@ export function buildParameterFormatter(
             checkIsFunction(
                 // $FlowIgnore
                 stageClass.prototype[stepMethodName],
-                `Formatter.formatParameter() can only be applied to methods: '${stepMethodName}' is not a method.`
+                `Formatter.formatParameter() can only be applied to methods: '${
+                    stepMethodName
+                }' is not a method.`
             );
             checkIsParameter(
                 // $FlowIgnore
                 stageClass.prototype[stepMethodName],
                 parameterName,
-                `Formatter.formatParameter() cannot be applied on method: ${stepMethodName}(): parameter '${parameterName}' was not found.`
+                `Formatter.formatParameter() cannot be applied on method: ${
+                    stepMethodName
+                }(): parameter '${parameterName}' was not found.`
             );
             storeProvider.getStoreFromStageClass(stageClass).addProperty({
                 formatter,
