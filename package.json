@@ -27,7 +27,9 @@
     "release": "(cd js-given; yarn release)",
     "buildDocumentation": "(cd documentation; yarn build)",
     "openDocumentation": "(cd documentation && yarn build && open html/index.html)",
-    "deployDocumentation": "(cd documentation; yarn deploy)"
+    "deployDocumentation": "(cd documentation; yarn deploy)",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -56,5 +58,9 @@
     "flow-bin": "0.59.0",
     "glob": "7.1.2",
     "prettier": "1.8.2"
+  },
+  "snyk": true,
+  "dependencies": {
+    "snyk": "^1.52.1"
   }
 }
