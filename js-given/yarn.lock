@@ -4725,18 +4725,18 @@ snyk-mvn-plugin@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/snyk-mvn-plugin/-/snyk-mvn-plugin-1.1.0.tgz#6ad3fb670cd22972094f065ab99b90d286c8ad6f"
 
-snyk-nuget-plugin@1.3.3:
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/snyk-nuget-plugin/-/snyk-nuget-plugin-1.3.3.tgz#c3ac20582174bdda213c5620ee0aa19f3961cad6"
+snyk-nuget-plugin@1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/snyk-nuget-plugin/-/snyk-nuget-plugin-1.3.4.tgz#a32c89f8206f6cbc9aa32637a9cfc76d70de3efc"
   dependencies:
     debug "^3.1.0"
     es6-promise "^4.1.1"
     xml2js "^0.4.17"
     zip "^1.2.0"
 
-snyk-php-plugin@1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/snyk-php-plugin/-/snyk-php-plugin-1.1.2.tgz#74c16f1e66e53beab769d7cecd65a98d04fb03c3"
+snyk-php-plugin@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/snyk-php-plugin/-/snyk-php-plugin-1.3.0.tgz#7361d7dbd4a89db1c624a76b21ceb41e3349abaf"
   dependencies:
     debug "^3.1.0"
 
@@ -4811,9 +4811,9 @@ snyk-try-require@^1.1.1, snyk-try-require@^1.2.0:
     lru-cache "^4.0.0"
     then-fs "^2.0.0"
 
-snyk@1.57.0:
-  version "1.57.0"
-  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.57.0.tgz#d61ecce5459f62815647aaf6f0cfd8d68fdd4deb"
+snyk@1.58.0:
+  version "1.58.0"
+  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.58.0.tgz#3c5afa0031d5e27ca6275f279b929c041f30d7a4"
   dependencies:
     abbrev "^1.0.7"
     ansi-escapes "^1.3.0"
@@ -4833,8 +4833,8 @@ snyk@1.57.0:
     snyk-gradle-plugin "1.2.0"
     snyk-module "1.8.1"
     snyk-mvn-plugin "1.1.0"
-    snyk-nuget-plugin "1.3.3"
-    snyk-php-plugin "1.1.2"
+    snyk-nuget-plugin "1.3.4"
+    snyk-php-plugin "1.3.0"
     snyk-policy "^1.10.1"
     snyk-python-plugin "1.4.0"
     snyk-recursive-readdir "^2.0.0"
