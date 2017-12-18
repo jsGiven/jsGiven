@@ -59,7 +59,7 @@
   "devDependencies": {
     "ava": "0.24.0",
     "babel-core": "6.26.0",
-    "babel-jest": "21.2.0",
+    "babel-jest": "22.0.1",
     "babel-plugin-external-helpers": "6.22.0",
     "babel-plugin-transform-async-generator-functions": "6.24.1",
     "babel-plugin-transform-class-properties": "6.24.1",
@@ -74,7 +74,7 @@
     "check-node-version": "3.1.1",
     "jasmine": "2.8.0",
     "jasmine-spec-reporter": "4.2.1",
-    "jest": "21.2.1",
+    "jest": "22.0.1",
     "mocha": "4.0.1",
     "nodegit": "0.20.3",
     "protractor": "5.2.2",
