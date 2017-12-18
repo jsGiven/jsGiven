@@ -88,7 +88,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "fs-extra": "^4.0.2",
+    "fs-extra": "^5.0.0",
     "is-promise": "^2.1.0",
     "jgiven-html-app": "0.16.2",
     "lodash": "^4.17.4",
