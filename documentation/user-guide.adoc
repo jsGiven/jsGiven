@@ -32,7 +32,7 @@ $ npm install --save-dev js-given <2>
 
 JsGiven works with classic JS test runners (Jest, Jasmine, Mocha, Ava, Protractor).
 
-JsGiven requires Node v4.8.x or more to run.
+JsGiven requires Node v6.x or more to run.
 
 == Getting started
 
@@ -569,13 +569,16 @@ JsGiven relies on promises.
 
 ==== With Babel
 
-You will need to have a promise implementation (a native or polyfilled one)
+If you're writing async/await code, make sure it is properly transpiled or you are using Node 8.
 
+You will need to have a promise implementation (a native or polyfilled one)
 If you use Babel directly with your test runner, Babel already includes polyfills for missing implementations. If not ensure they are included.
 
 ==== With TypeScript
 
-You will need to include the "es2015.promise" library in you tsconfig.json
+If you're writing async/await code, make sure it is properly transpiled by TypeScript.
+
+Depending on the target, you may have to include the "es2015.promise" library in you tsconfig.json
 
 [source, json, indent=4]
 ----
@@ -651,20 +654,7 @@ You don't have to install any type definitions.
 
 A working example is provided : https://github.com/jsGiven/jsGiven/tree/master/examples/jest-typescript
 
-=== Using JSGiven with Node.js v4
-
-With Node.js v4, you will need to include the babel-polyfill before running your tests:
-
-[source, js, indent=0]
-----
-include::../examples/jest-es2015/setup-tests.js[tags=BabelPolyfill]
-----
-
-You should have a look at your test framework documentation on how to include this polyfill.
-The JsGiven examples provide an example for Jest & Mocha.
-See <<Fully working examples>>
-
-=== Using JSGiven with ES5
+=== Using JSGiven in pure ES5
 
 Js Given is usable with ES5.
 
@@ -701,3 +691,4 @@ These examples are tested on each commit against the latest stable version and a
 - https://github.com/jsGiven/jsGiven/tree/master/examples/jest-es2015-flow[Jest + ES2015 + Flow]
 - https://github.com/jsGiven/jsGiven/tree/master/examples/mocha-es5[Mocha + ES5]
 - https://github.com/jsGiven/jsGiven/tree/master/examples/jest-typescript[Jest + TypeScript]
+- https://github.com/jsGiven/jsGiven/tree/master/examples/jest-node-8[Jest with Node 8, with the minimal transpilation required]
