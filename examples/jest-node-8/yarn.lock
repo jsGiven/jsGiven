@@ -703,7 +703,7 @@ babel-polyfill@^6.26.0:
     core-js "^2.5.0"
     regenerator-runtime "^0.10.5"
 
-babel-preset-env@^1.6.1:
+babel-preset-env@1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/babel-preset-env/-/babel-preset-env-1.6.1.tgz#a18b564cc9b9afdf4aae57ae3c1b0d99188e6f48"
   dependencies:
@@ -1041,7 +1041,7 @@ chartjs-color@^2.0.0, chartjs-color@~2.2.0:
     chartjs-color-string "^0.5.0"
     color-convert "^0.5.3"
 
-check-node-version@^3.1.1:
+check-node-version@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/check-node-version/-/check-node-version-3.1.1.tgz#748c74234ff67feb372bc1232efdb1df869fa698"
   dependencies:
@@ -2434,7 +2434,7 @@ jquery@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.1.1.tgz#347c1c21c7e004115e0a4da32cece041fad3c8a3"
 
-js-given@^0.1.7:
+js-given@0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.1.7.tgz#2d05075329d4f4543d807e7effce55a2cac286bc"
   dependencies:
