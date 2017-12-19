@@ -566,21 +566,22 @@ export class ScenarioRunner {
 
     buildStage<T>(tClass: Class<T>, runningScenario: RunningScenario): T {
         // $FlowIgnore
-        class extendedClass extends tClass {}
+        const tInstance = new tClass();
+        const tPrototype = Object.getPrototypeOf(tInstance);
 
-        // Flowtype really can't type this constructor invocation
-        // Therefore we have to cast it as any :(
-        const instance = new (extendedClass: any)();
+        class ExtendedClass {}
+        const proxyInstance = new ExtendedClass();
+        const proxyPrototype = Object.getPrototypeOf(proxyInstance);
 
-        const extendedPrototype = Object.getPrototypeOf(instance);
-        const classPrototype = Object.getPrototypeOf(extendedPrototype);
+        Object.assign(proxyInstance, tInstance);
+        Object.setPrototypeOf(proxyPrototype, tPrototype);
 
         const { stages } = runningScenario;
 
-        getAllMethods(classPrototype).forEach(methodName => {
+        getAllMethods(tPrototype).forEach(methodName => {
             const self = this;
 
-            extendedPrototype[methodName] = function(...args: any[]): any {
+            proxyPrototype[methodName] = function(...args: any[]): any {
                 const {
                     state,
                     steps,
@@ -589,7 +590,7 @@ export class ScenarioRunner {
                 } = runningScenario;
 
                 const stepParameterNames = functionArguments(
-                    classPrototype[methodName]
+                    tPrototype[methodName]
                 );
                 const decodedParameters: DecodedParameter[] = args.map(
                     (arg, index) => {
@@ -600,7 +601,7 @@ export class ScenarioRunner {
                         return decodeParameter(
                             arg,
                             parameterName,
-                            getFormatters(instance, methodName, parameterName)
+                            getFormatters(tInstance, methodName, parameterName)
                         );
                     }
                 );
@@ -632,7 +633,7 @@ export class ScenarioRunner {
                         steps.push({
                             stepActions: {
                                 executeStep: () => {
-                                    return extendedPrototype[methodName].apply(
+                                    return proxyPrototype[methodName].apply(
                                         this,
                                         args
                                     );
@@ -679,7 +680,7 @@ export class ScenarioRunner {
                         const values: any[] = decodedParameters.map(
                             decodedParameter => decodedParameter.value
                         );
-                        const result = classPrototype[methodName].apply(
+                        const result = tPrototype[methodName].apply(
                             this,
                             values
                         );
@@ -702,9 +703,9 @@ export class ScenarioRunner {
             }
         });
 
-        stages.push(instance);
+        stages.push((proxyInstance: any));
 
-        return instance;
+        return (proxyInstance: any);
 
         function getAllMethods(obj: any): string[] {
             let allMethods: string[] = [];
