@@ -19,3 +19,5 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowIgnore\\($\\|[^(]\\|(\\(>=0\\.\\(2[0-4]\\|1
 
 [lints]
 all=error
+unclear-type=off
+untyped-import=off
