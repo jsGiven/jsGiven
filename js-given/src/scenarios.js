@@ -1,6 +1,6 @@
 // @flow
 import _ from 'lodash';
-import retrieveArguments from 'retrieve-arguments';
+import functionArguments from 'function-arguments';
 import humanize from 'string-humanize';
 import stripAnsi from 'strip-ansi';
 
@@ -425,7 +425,7 @@ export class ScenarioRunner {
                             parameters,
                             func,
                         }: ParametrizedScenarioFuncWithParameters = (scenarioFunction: any);
-                        const argumentNames = retrieveArguments(func);
+                        const argumentNames = functionArguments(func);
 
                         return {
                             scenarioPropertyName,
@@ -588,7 +588,7 @@ export class ScenarioRunner {
                     formattedCaseArguments,
                 } = runningScenario;
 
-                const stepParameterNames = retrieveArguments(
+                const stepParameterNames = functionArguments(
                     classPrototype[methodName]
                 );
                 const decodedParameters: DecodedParameter[] = args.map(

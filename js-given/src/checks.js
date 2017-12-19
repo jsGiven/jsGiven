@@ -1,6 +1,6 @@
 // @flow
 import _ from 'lodash';
-import retrieveArguments from 'retrieve-arguments';
+import functionArguments from 'function-arguments';
 
 export function checkIsFunction(target: any, errorMessage: string) {
     if (!target || !_.isFunction(target)) {
@@ -13,7 +13,7 @@ export function checkIsParameter(
     parameterName: string,
     errorMessage: string
 ) {
-    if (!retrieveArguments(func).includes(parameterName)) {
+    if (!functionArguments(func).includes(parameterName)) {
         throw new Error(errorMessage);
     }
 }

@@ -43,7 +43,7 @@ export default function buildConfig(
         external: [
             'lodash',
             'string-humanize',
-            'retrieve-arguments',
+            'function-arguments',
             'fs',
             'crypto',
             'babel-polyfill',
