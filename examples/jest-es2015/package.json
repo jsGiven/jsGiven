@@ -11,7 +11,7 @@
     "babel-preset-es2015": "6.24.1",
     "babel-preset-react": "6.24.1",
     "jest": "22.0.1",
-    "js-given": "0.1.7-alpha.0",
+    "js-given": "^0.1.7-alpha.1",
     "regenerator-runtime": "0.11.1"
   },
   "scripts": {
