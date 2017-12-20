@@ -40,4 +40,4 @@ install:
 after_success:
   - 'cat ./js-given/coverage/lcov.info | ./node_modules/.bin/coveralls'
 after_script:
-  - ./cc-test-reporter -t lcov -p ./js-given after-build --exit-code $TRAVIS_TEST_RESULT
+  - ./cc-test-reporter -p js-given after-build --exit-code $TRAVIS_TEST_RESULT
