@@ -1,3 +1,6 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=7372bdd9c70ad42f845941f1c5fba601dc0af2bb4ec221d55f6b04d228261b2c
 language: node_js
 dist: trusty
 addons:
@@ -22,6 +25,10 @@ cache:
 node_js:
   - "6"
   - "8"
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
@@ -32,3 +39,5 @@ install:
   - travis_wait 45 yarn
 after_success:
   - 'cat ./js-given/coverage/lcov.info | ./node_modules/.bin/coveralls'
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
