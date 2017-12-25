@@ -226,28 +226,41 @@ export function formatParameter(
     formatters: Formatter[]
 ): string {
     if (formatters.length > 0) {
-        let value = parameter;
-        for (const formatter of formatters) {
-            value = formatter(value);
-        }
-        return formatParameter(value, []);
+        return applyFormatters(parameter, formatters);
+    } else {
+        return applyDefaultFormatter(parameter);
     }
+}
+
+function applyFormatters(parameter: any, formatters: Formatter[]): string {
+    let value = parameter;
+    for (const formatter of formatters) {
+        value = formatter(value);
+    }
+    return formatParameter(value, []);
+}
+
+function applyDefaultFormatter(parameter: any): string {
+    let result;
     if (_.isString(parameter)) {
-        return parameter;
+        result = parameter;
     } else if (_.isObject(parameter) || Array.isArray(parameter)) {
         if (
             parameter.toString &&
             parameter.toString !== Object.prototype.toString &&
             parameter.toString !== Array.prototype.toString
         ) {
-            return parameter.toString();
+            result = parameter.toString();
+        } else {
+            result = JSON.stringify(parameter);
         }
-        return JSON.stringify(parameter);
     } else {
-        return parameter && parameter.toString
-            ? parameter.toString()
-            : JSON.stringify(parameter);
+        result =
+            parameter && parameter.toString
+                ? parameter.toString()
+                : JSON.stringify(parameter);
     }
+    return result;
 }
 
 export class GroupReport {
