@@ -244,23 +244,36 @@ function applyDefaultFormatter(parameter: any): string {
     let result;
     if (_.isString(parameter)) {
         result = parameter;
-    } else if (_.isObject(parameter) || Array.isArray(parameter)) {
-        if (
-            parameter.toString &&
-            parameter.toString !== Object.prototype.toString &&
-            parameter.toString !== Array.prototype.toString
-        ) {
+    } else if (isObjectOrArray(parameter)) {
+        if (hasOverridenTostring(parameter)) {
             result = parameter.toString();
         } else {
             result = JSON.stringify(parameter);
         }
     } else {
-        result =
-            parameter && parameter.toString
-                ? parameter.toString()
-                : JSON.stringify(parameter);
+        if (hasToString(parameter)) {
+            result = parameter.toString();
+        } else {
+            result = JSON.stringify(parameter);
+        }
     }
     return result;
+}
+
+function isObjectOrArray(parameter: any): boolean {
+    return _.isObject(parameter) || Array.isArray(parameter);
+}
+
+function hasOverridenTostring(parameter: any): boolean {
+    return (
+        parameter.toString &&
+        parameter.toString !== Object.prototype.toString &&
+        parameter.toString !== Array.prototype.toString
+    );
+}
+
+function hasToString(parameter: any): boolean {
+    return parameter && parameter.toString;
 }
 
 export class GroupReport {
