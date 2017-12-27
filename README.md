@@ -55,12 +55,3 @@ Don't hesitate to give any feedback and to open a GitHub issue https://github.co
 
 You can start using JsGiven with the user guide https://jsgiven.org/user-guide.html
 Don't hesitate to give any feedback and to open a GitHub issue https://github.com/jsGiven/jsGiven/issues
-
-## Getting started
-
-You can start using JsGiven with the user guide https://jsgiven.org/user-guide.html
-Don't hesitate to give any feedback and to open a GitHub issue https://github.com/jsGiven/jsGiven/issues
-
-## Getting started
-
-You can start using JsGiven with the user guide https://jsgiven.org/user-guide.html
