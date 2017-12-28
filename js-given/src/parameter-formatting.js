@@ -144,27 +144,25 @@ function applyFormatters(parameter: any, formatters: Formatter[]): string {
 }
 
 function applyDefaultFormatter(parameter: any): string {
-    let result;
     if (_.isString(parameter)) {
-        result = parameter;
+        return parameter;
     } else if (isObjectOrArray(parameter)) {
-        if (hasOverridenTostring(parameter)) {
-            result = parameter.toString();
-        } else {
-            result = JSON.stringify(parameter);
-        }
+        return formatObjectOrArray(parameter);
     } else {
-        if (hasToString(parameter)) {
-            result = parameter.toString();
-        } else {
-            result = JSON.stringify(parameter);
-        }
+        return toString(parameter);
     }
-    return result;
 }
 
 function isObjectOrArray(parameter: any): boolean {
     return _.isObject(parameter) || Array.isArray(parameter);
+}
+
+function formatObjectOrArray(parameter: any): string {
+    if (hasOverridenTostring(parameter)) {
+        return parameter.toString();
+    } else {
+        return JSON.stringify(parameter);
+    }
 }
 
 function hasOverridenTostring(parameter: any): boolean {
@@ -173,6 +171,14 @@ function hasOverridenTostring(parameter: any): boolean {
         parameter.toString !== Object.prototype.toString &&
         parameter.toString !== Array.prototype.toString
     );
+}
+
+function toString(parameter: any): string {
+    if (hasToString(parameter)) {
+        return parameter.toString();
+    } else {
+        return JSON.stringify(parameter);
+    }
 }
 
 function hasToString(parameter: any): boolean {
