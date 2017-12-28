@@ -1,4 +1,6 @@
 // @flow
+import _ from 'lodash';
+
 import { Stage } from './Stage';
 import {
     getStageMetadataStoreProvider,
@@ -121,3 +123,58 @@ export const QuotedWith = (quoteCharacter: string) =>
 export const NotFormatter = buildParameterFormatter(
     parameterValue => (parameterValue ? '' : 'not')
 );
+
+export function formatParameter(
+    parameter: any,
+    formatters: Formatter[]
+): string {
+    if (formatters.length > 0) {
+        return applyFormatters(parameter, formatters);
+    } else {
+        return applyDefaultFormatter(parameter);
+    }
+}
+
+function applyFormatters(parameter: any, formatters: Formatter[]): string {
+    let value = parameter;
+    for (const formatter of formatters) {
+        value = formatter(value);
+    }
+    return formatParameter(value, []);
+}
+
+function applyDefaultFormatter(parameter: any): string {
+    let result;
+    if (_.isString(parameter)) {
+        result = parameter;
+    } else if (isObjectOrArray(parameter)) {
+        if (hasOverridenTostring(parameter)) {
+            result = parameter.toString();
+        } else {
+            result = JSON.stringify(parameter);
+        }
+    } else {
+        if (hasToString(parameter)) {
+            result = parameter.toString();
+        } else {
+            result = JSON.stringify(parameter);
+        }
+    }
+    return result;
+}
+
+function isObjectOrArray(parameter: any): boolean {
+    return _.isObject(parameter) || Array.isArray(parameter);
+}
+
+function hasOverridenTostring(parameter: any): boolean {
+    return (
+        parameter.toString &&
+        parameter.toString !== Object.prototype.toString &&
+        parameter.toString !== Array.prototype.toString
+    );
+}
+
+function hasToString(parameter: any): boolean {
+    return parameter && parameter.toString;
+}

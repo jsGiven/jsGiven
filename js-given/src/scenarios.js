@@ -6,7 +6,11 @@ import stripAnsi from 'strip-ansi';
 
 import { executeStepAndCollectAsyncActions } from './async-actions';
 import { isHiddenStep } from './hidden-steps';
-import { getFormatters, restParameterName } from './parameter-formatting';
+import {
+    formatParameter,
+    getFormatters,
+    restParameterName,
+} from './parameter-formatting';
 import {
     decodeParameter,
     wrapParameter,
@@ -15,7 +19,6 @@ import {
     type WrappedParameter,
 } from './parametrized-scenarios';
 import {
-    formatParameter,
     GroupReport,
     ScenarioCase,
     ScenarioReport,
