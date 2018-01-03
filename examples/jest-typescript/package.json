@@ -4,7 +4,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "@types/jest": "21.1.10",
+    "@types/jest": "22.0.0",
     "jest": "22.0.4",
     "js-given": "0.1.7",
     "typescript": "2.6.2"
