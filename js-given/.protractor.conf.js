@@ -2,7 +2,7 @@ exports.config = {
     capabilities: {
         browserName: 'chrome',
         chromeOptions: {
-            args: ['--test-type']
+            args: ['--test-type', '--no-sandbox']
         }
     },
     specs: ['spec/**.spec.js'],
