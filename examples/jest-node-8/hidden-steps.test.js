@@ -54,7 +54,6 @@ class StageClass extends Stage {
 }
 Hidden.addHiddenStep(StageClass, 'aCompletelyHiddenStep');
 
-
 scenarios('hidden steps', StageClass, ({ given, when, then }) => {
     return {
         a_scenario: scenario({}, () => {
