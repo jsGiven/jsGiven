@@ -1037,9 +1037,9 @@ chartjs-color@^2.0.0, chartjs-color@~2.2.0:
     chartjs-color-string "^0.5.0"
     color-convert "^0.5.3"
 
-check-node-version@3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/check-node-version/-/check-node-version-3.1.1.tgz#748c74234ff67feb372bc1232efdb1df869fa698"
+check-node-version@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/check-node-version/-/check-node-version-3.2.0.tgz#783a4292dbf76d6b8294b23abece33682b4a7cce"
   dependencies:
     chalk "^2.3.0"
     map-values "^1.0.1"
