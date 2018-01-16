@@ -79,7 +79,7 @@
     "babel-preset-react": "6.24.1",
     "chai": "4.1.2",
     "chalk": "2.3.0",
-    "check-node-version": "3.1.1",
+    "check-node-version": "3.2.0",
     "jasmine": "2.8.0",
     "jasmine-spec-reporter": "4.2.1",
     "jest": "22.1.1",
