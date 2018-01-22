@@ -1968,9 +1968,9 @@ jquery@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.1.1.tgz#347c1c21c7e004115e0a4da32cece041fad3c8a3"
 
-js-given@^0.1.8-alpha.0:
-  version "0.1.8-alpha.0"
-  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.1.8-alpha.0.tgz#6147b0c7609238018855ccf04854afb8bf665ea9"
+js-given@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/js-given/-/js-given-0.1.8.tgz#5801dc3ab164377f891be6fd07e64b65c83927b6"
   dependencies:
     babel-polyfill "^6.26.0"
     fs-extra "^5.0.0"

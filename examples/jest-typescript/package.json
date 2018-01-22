@@ -6,7 +6,7 @@
   "devDependencies": {
     "@types/jest": "22.0.1",
     "jest": "22.1.2",
-    "js-given": "^0.1.8-alpha.0",
+    "js-given": "^0.1.8",
     "typescript": "2.6.2"
   },
   "scripts": {
