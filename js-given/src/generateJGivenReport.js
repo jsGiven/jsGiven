@@ -17,6 +17,10 @@ export async function generateJGivenReport(fail: boolean): Promise<void> {
             console.log(
                 'No jsGiven reports found, skipping jgiven report generation'
             );
+            
+            if (fail) {
+                process.exit(1);
+            }
             return;
         }
 
