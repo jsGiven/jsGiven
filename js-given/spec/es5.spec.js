@@ -30,10 +30,10 @@ class ES5GivenStage extends BasicScenarioGivenStage {
     calledRecorder: {
         called: boolean,
     };
-    ES5Stage: Class<any>;
-    ES5GivenStage: Class<any>;
-    ES5WhenStage: Class<any>;
-    ES5ThenStage: Class<any>;
+    ES5Stage: Function;
+    ES5GivenStage: Function;
+    ES5WhenStage: Function;
+    ES5ThenStage: Function;
 
     an_es5_stage_class(): this {
         this.calledRecorder = {
