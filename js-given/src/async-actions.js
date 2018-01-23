@@ -2,21 +2,21 @@
 
 let asyncActionsSingleton: Array<() => Promise<*>> = [];
 export function executeStepAndCollectAsyncActions(
-    stepActionThatMayCallDoAsync: () => any
+  stepActionThatMayCallDoAsync: () => any
 ): Array<() => Promise<*>> {
+  asyncActionsSingleton = [];
+  const collectedAsyncActions = [];
+
+  try {
+    stepActionThatMayCallDoAsync();
+  } finally {
+    collectedAsyncActions.push(...asyncActionsSingleton);
     asyncActionsSingleton = [];
-    const collectedAsyncActions = [];
+  }
 
-    try {
-        stepActionThatMayCallDoAsync();
-    } finally {
-        collectedAsyncActions.push(...asyncActionsSingleton);
-        asyncActionsSingleton = [];
-    }
-
-    return collectedAsyncActions;
+  return collectedAsyncActions;
 }
 
 export function doAsync(action: () => Promise<*>) {
-    asyncActionsSingleton.push(action);
+  asyncActionsSingleton.push(action);
 }
