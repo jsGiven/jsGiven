@@ -1,22 +1,22 @@
 // @flow
 import {
-    Stage,
-    Quoted,
-    QuotedWith,
-    NotFormatter,
-    buildParameterFormatter,
+  Stage,
+  Quoted,
+  QuotedWith,
+  NotFormatter,
+  buildParameterFormatter,
 } from '../index.js';
 
 class AStage extends Stage {
-    @Quoted('value')
-    a_value(value: string): this {
-        return this;
-    }
+  @Quoted('value')
+  a_value(value: string): this {
+    return this;
+  }
 
-    @Quoted('value1', 'value2')
-    two_values(value1: string, value2: string): this {
-        return this;
-    }
+  @Quoted('value1', 'value2')
+  two_values(value1: string, value2: string): this {
+    return this;
+  }
 }
 
 // $ExpectError
@@ -31,15 +31,15 @@ Quoted.formatParameter(AStage, 'a_value', 'value');
 Quoted.formatParameter(AStage, 'two_values', 'value1', 'value2');
 
 class BStage extends Stage {
-    @QuotedWith("'")('value')
-    a_value(value: string): this {
-        return this;
-    }
+  @QuotedWith("'")('value')
+  a_value(value: string): this {
+    return this;
+  }
 
-    @QuotedWith("'")('value1', 'value2')
-    two_values(value1: string, value2: string): this {
-        return this;
-    }
+  @QuotedWith("'")('value1', 'value2')
+  two_values(value1: string, value2: string): this {
+    return this;
+  }
 }
 
 // $ExpectError
@@ -56,15 +56,15 @@ QuotedWith("'").formatParameter(BStage, '_a_value', 'value');
 QuotedWith("'").formatParameter(BStage, '_two_values', 'value1', 'value2');
 
 class CStage extends Stage {
-    @NotFormatter('booleanValue')
-    a_value(booleanValue: boolean): this {
-        return this;
-    }
+  @NotFormatter('booleanValue')
+  a_value(booleanValue: boolean): this {
+    return this;
+  }
 
-    @NotFormatter('booleanValue1', 'booleanValue2')
-    two_values(booleanValue1: string, booleanValue2: string): this {
-        return this;
-    }
+  @NotFormatter('booleanValue1', 'booleanValue2')
+  two_values(booleanValue1: string, booleanValue2: string): this {
+    return this;
+  }
 }
 
 // $ExpectError
@@ -77,10 +77,10 @@ NotFormatter.formatParameter(CStage, 1);
 NotFormatter.formatParameter(CStage, 'a_value');
 NotFormatter.formatParameter(CStage, 'a_value', 'booleanValue');
 NotFormatter.formatParameter(
-    CStage,
-    'two_values',
-    'booleanValue1',
-    'booleanValue2'
+  CStage,
+  'two_values',
+  'booleanValue1',
+  'booleanValue2'
 );
 
 // $ExpectError

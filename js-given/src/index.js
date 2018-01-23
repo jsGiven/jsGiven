@@ -2,20 +2,20 @@
 export { doAsync } from './async-actions';
 export { Hidden } from './hidden-steps';
 export {
-    parametrized,
-    parametrized1,
-    parametrized2,
-    parametrized3,
-    parametrized4,
-    parametrized5,
-    parametrized6,
-    parametrized7,
+  parametrized,
+  parametrized1,
+  parametrized2,
+  parametrized3,
+  parametrized4,
+  parametrized5,
+  parametrized6,
+  parametrized7,
 } from './parametrized-scenarios';
 export {
-    Quoted,
-    QuotedWith,
-    NotFormatter,
-    buildParameterFormatter,
+  Quoted,
+  QuotedWith,
+  NotFormatter,
+  buildParameterFormatter,
 } from './parameter-formatting';
 export { scenario, scenarios } from './scenarios';
 export { Stage } from './Stage';

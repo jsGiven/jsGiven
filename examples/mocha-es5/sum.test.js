@@ -16,25 +16,25 @@ setupForRspec(describe, it);
 function SumStage() {}
 
 SumStage.prototype = {
-    a_number: function(value) {
-        this.number1 = value;
-        return this;
-    },
+  a_number: function(value) {
+    this.number1 = value;
+    return this;
+  },
 
-    another_number: function(value) {
-        this.number2 = value;
-        return this;
-    },
+  another_number: function(value) {
+    this.number2 = value;
+    return this;
+  },
 
-    they_are_summed: function() {
-        this.result = this.number1 + this.number2;
-        return this;
-    },
+  they_are_summed: function() {
+    this.result = this.number1 + this.number2;
+    return this;
+  },
 
-    the_result_is: function(expectedResult) {
-        expect(this.result).to.equal(expectedResult);
-        return this;
-    },
+  the_result_is: function(expectedResult) {
+    expect(this.result).to.equal(expectedResult);
+    return this;
+  },
 };
 
 Object.setPrototypeOf(SumStage.prototype, Stage.prototype);
@@ -43,18 +43,18 @@ Object.setPrototypeOf(SumStage, Stage);
 
 // tag::scenariosES5[]
 scenarios('sum', SumStage, function(it) {
-    return {
-        two_numbers_can_be_added: scenario({}, function() {
-            it
-                .given()
-                .a_number(1)
-                .and()
-                .another_number(2);
+  return {
+    two_numbers_can_be_added: scenario({}, function() {
+      it
+        .given()
+        .a_number(1)
+        .and()
+        .another_number(2);
 
-            it.when().they_are_summed();
+      it.when().they_are_summed();
 
-            it.then().the_result_is(3);
-        }),
-    };
+      it.then().the_result_is(3);
+    }),
+  };
 });
 // end::scenariosES5[]

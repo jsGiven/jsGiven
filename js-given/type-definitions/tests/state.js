@@ -3,7 +3,7 @@
 import { Stage, State } from '../index.js';
 
 class SingleStage extends Stage {
-    @State property: number;
+  @State property: number;
 }
 
 // $ExpectError
