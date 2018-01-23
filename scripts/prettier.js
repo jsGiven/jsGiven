@@ -13,14 +13,7 @@ const onlyChanged = mode === 'check-changed' || mode === 'write-changed';
 const isWindows = process.platform === 'win32';
 const prettier = isWindows ? 'prettier.cmd' : 'prettier';
 const prettierCmd = path.resolve(__dirname, '../node_modules/.bin/' + prettier);
-const defaultOptions = {
-    'bracket-spacing': 'true',
-    'single-quote': 'true',
-    'jsx-bracket-same-line': 'false',
-    'trailing-comma': 'es5',
-    'print-width': 80,
-    'tab-width': 4,
-};
+
 const config = {
     default: {
         patterns: [
@@ -78,10 +71,7 @@ Object.keys(config).forEach(key => {
         return;
     }
 
-    const args = Object.keys(defaultOptions).map(
-        k => `--${k}=${(options && options[k]) || defaultOptions[k]}`
-    );
-    args.push(`--${shouldWrite ? 'write' : 'l'}`);
+    const args = [`--${shouldWrite ? 'write' : 'l'}`];
 
     try {
         exec(prettierCmd, [...args, ...files]);
