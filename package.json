@@ -67,7 +67,7 @@
     "eslint-plugin-node": "5.2.1",
     "eslint-plugin-promise": "3.6.0",
     "eslint-plugin-standard": "3.0.1",
-    "flow-bin": "0.63.1",
+    "flow-bin": "0.64.0",
     "glob": "7.1.2",
     "prettier": "1.10.2"
   },
