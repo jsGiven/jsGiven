@@ -863,25 +863,25 @@ This function takes the test from Ava.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-kr">class</span> <span class="tok-nx">SumStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
-    <span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 
-    <span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 
-    <span class="tok-nx">they_are_summed</span><span class="tok-p">()</span> <span class="tok-p">{</span>
-        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span> <span class="tok-o">=</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">+</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span><span class="tok-p">;</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">they_are_summed</span><span class="tok-p">()</span> <span class="tok-p">{</span>
+    <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span> <span class="tok-o">=</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">+</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span><span class="tok-p">;</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 
-    <span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span><span class="tok-p">).</span><span class="tok-nx">toEqual</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">);</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span><span class="tok-p">).</span><span class="tok-nx">toEqual</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">);</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">}</span></code></pre>
 </div>
 </div>
@@ -937,18 +937,18 @@ Step methods are the heart of JsGiven. The test initialization, execution and as
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span> <span class="tok-nx">SumStage</span><span class="tok-p">,</span> <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-    <span class="tok-k">return</span> <span class="tok-p">{</span>
-        <span class="tok-nx">two_numbers_can_be_added</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-            <span class="tok-nx">given</span><span class="tok-p">()</span>
-                <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span>
-                <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
-                <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
+  <span class="tok-k">return</span> <span class="tok-p">{</span>
+    <span class="tok-nx">two_numbers_can_be_added</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
+      <span class="tok-nx">given</span><span class="tok-p">()</span>
+        <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span>
+        <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
+        <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
 
-            <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
+      <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
 
-            <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-mi">3</span><span class="tok-p">);</span>
-        <span class="tok-p">}),</span>
-    <span class="tok-p">};</span>
+      <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-mi">3</span><span class="tok-p">);</span>
+    <span class="tok-p">}),</span>
+  <span class="tok-p">};</span>
 <span class="tok-p">});</span></code></pre>
 </div>
 </div>
@@ -1060,7 +1060,7 @@ This is sometimes useful if you need a technical method call within a scenario, 
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span>    <span class="tok-err">@</span><span class="tok-nx">Hidden</span>
     <span class="tok-nx">buildTechnicalObject</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+      <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
     <span class="tok-p">}</span></code></pre>
 </div>
 </div>
@@ -1094,9 +1094,9 @@ See <a href="#_hide_steps_without_decorators">Hide steps without decorators</a><
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-kr">class</span> <span class="tok-nx">StageClass</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
-    <span class="tok-nx">aCompletelyHiddenStep</span><span class="tok-p">()</span><span class="tok-o">:</span> <span class="tok-k">this</span> <span class="tok-p">{</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">aCompletelyHiddenStep</span><span class="tok-p">()</span><span class="tok-o">:</span> <span class="tok-k">this</span> <span class="tok-p">{</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">}</span>
 <span class="tok-nx">Hidden</span><span class="tok-p">.</span><span class="tok-nx">addHiddenStep</span><span class="tok-p">(</span><span class="tok-nx">StageClass</span><span class="tok-p">,</span> <span class="tok-s1">&#39;aCompletelyHiddenStep&#39;</span><span class="tok-p">);</span></code></pre>
 </div>
@@ -1123,9 +1123,9 @@ While this is a simple solution, it&#8217;s often suitable to have several stage
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-nx">scenarios</span><span class="tok-p">(</span>
-    <span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span>
-    <span class="tok-p">[</span><span class="tok-nx">SumGivenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumWhenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumThenStage</span><span class="tok-p">],</span>
-    <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span></code></pre>
+  <span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span>
+  <span class="tok-p">[</span><span class="tok-nx">SumGivenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumWhenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumThenStage</span><span class="tok-p">],</span>
+  <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1134,22 +1134,22 @@ While this is a simple solution, it&#8217;s often suitable to have several stage
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-nx">scenarios</span><span class="tok-p">(</span>
-    <span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span>
-    <span class="tok-p">[</span><span class="tok-nx">SumGivenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumWhenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumThenStage</span><span class="tok-p">],</span>
-    <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-        <span class="tok-k">return</span> <span class="tok-p">{</span>
-            <span class="tok-nx">two_numbers_can_be_added</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-                <span class="tok-nx">given</span><span class="tok-p">()</span>
-                    <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span>
-                    <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
-                    <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
+  <span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span>
+  <span class="tok-p">[</span><span class="tok-nx">SumGivenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumWhenStage</span><span class="tok-p">,</span> <span class="tok-nx">SumThenStage</span><span class="tok-p">],</span>
+  <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
+    <span class="tok-k">return</span> <span class="tok-p">{</span>
+      <span class="tok-nx">two_numbers_can_be_added</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
+        <span class="tok-nx">given</span><span class="tok-p">()</span>
+          <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span>
+          <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
+          <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
 
-                <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
+        <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
 
-                <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-mi">3</span><span class="tok-p">);</span>
-            <span class="tok-p">}),</span>
-        <span class="tok-p">};</span>
-    <span class="tok-p">}</span>
+        <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-mi">3</span><span class="tok-p">);</span>
+      <span class="tok-p">}),</span>
+    <span class="tok-p">};</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">);</span></code></pre>
 </div>
 </div>
@@ -1174,41 +1174,41 @@ Both fields also have to be annotated with the special decorator @State to tell 
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-kr">class</span> <span class="tok-nx">SumGivenStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
-    <span class="tok-err">@</span><span class="tok-nx">State</span> <span class="tok-nx">number1</span><span class="tok-p">;</span>
+  <span class="tok-err">@</span><span class="tok-nx">State</span> <span class="tok-nx">number1</span><span class="tok-p">;</span>
 
-    <span class="tok-err">@</span><span class="tok-nx">State</span> <span class="tok-nx">number2</span><span class="tok-p">;</span>
+  <span class="tok-err">@</span><span class="tok-nx">State</span> <span class="tok-nx">number2</span><span class="tok-p">;</span>
 
-    <span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 
-    <span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">}</span>
 
 <span class="tok-kr">class</span> <span class="tok-nx">SumWhenStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
-    <span class="tok-err">@</span><span class="tok-nx">State</span> <span class="tok-nx">number1</span><span class="tok-p">;</span>
+  <span class="tok-err">@</span><span class="tok-nx">State</span> <span class="tok-nx">number1</span><span class="tok-p">;</span>
 
-    <span class="tok-err">@</span><span class="tok-nx">State</span> <span class="tok-nx">number2</span><span class="tok-p">;</span>
+  <span class="tok-err">@</span><span class="tok-nx">State</span> <span class="tok-nx">number2</span><span class="tok-p">;</span>
 
-    <span class="tok-err">@</span><span class="tok-nx">State</span> <span class="tok-nx">result</span><span class="tok-p">;</span>
+  <span class="tok-err">@</span><span class="tok-nx">State</span> <span class="tok-nx">result</span><span class="tok-p">;</span>
 
-    <span class="tok-nx">they_are_summed</span><span class="tok-p">()</span> <span class="tok-p">{</span>
-        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span> <span class="tok-o">=</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">+</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span><span class="tok-p">;</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">they_are_summed</span><span class="tok-p">()</span> <span class="tok-p">{</span>
+    <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span> <span class="tok-o">=</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">+</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span><span class="tok-p">;</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">}</span>
 
 <span class="tok-kr">class</span> <span class="tok-nx">SumThenStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
-    <span class="tok-err">@</span><span class="tok-nx">State</span> <span class="tok-nx">result</span><span class="tok-p">;</span>
+  <span class="tok-err">@</span><span class="tok-nx">State</span> <span class="tok-nx">result</span><span class="tok-p">;</span>
 
-    <span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span><span class="tok-p">).</span><span class="tok-nx">toEqual</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">);</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span><span class="tok-p">).</span><span class="tok-nx">toEqual</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">);</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">}</span></code></pre>
 </div>
 </div>
@@ -1227,34 +1227,34 @@ See <a href="#_using_state_sharing_without_decorators">Using state sharing witho
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-kr">class</span> <span class="tok-nx">SumGivenStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
-    <span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 
-    <span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">}</span>
 <span class="tok-nx">State</span><span class="tok-p">.</span><span class="tok-nx">addProperty</span><span class="tok-p">(</span><span class="tok-nx">SumGivenStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;number1&#39;</span><span class="tok-p">);</span>
 <span class="tok-nx">State</span><span class="tok-p">.</span><span class="tok-nx">addProperty</span><span class="tok-p">(</span><span class="tok-nx">SumGivenStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;number2&#39;</span><span class="tok-p">);</span>
 
 <span class="tok-kr">class</span> <span class="tok-nx">SumWhenStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
-    <span class="tok-nx">they_are_summed</span><span class="tok-p">()</span> <span class="tok-p">{</span>
-        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span> <span class="tok-o">=</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">+</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span><span class="tok-p">;</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">they_are_summed</span><span class="tok-p">()</span> <span class="tok-p">{</span>
+    <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span> <span class="tok-o">=</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">+</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span><span class="tok-p">;</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">}</span>
 <span class="tok-nx">State</span><span class="tok-p">.</span><span class="tok-nx">addProperty</span><span class="tok-p">(</span><span class="tok-nx">SumWhenStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;number1&#39;</span><span class="tok-p">);</span>
 <span class="tok-nx">State</span><span class="tok-p">.</span><span class="tok-nx">addProperty</span><span class="tok-p">(</span><span class="tok-nx">SumWhenStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;number2&#39;</span><span class="tok-p">);</span>
 <span class="tok-nx">State</span><span class="tok-p">.</span><span class="tok-nx">addProperty</span><span class="tok-p">(</span><span class="tok-nx">SumWhenStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;result&#39;</span><span class="tok-p">);</span>
 
 <span class="tok-kr">class</span> <span class="tok-nx">SumThenStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
-    <span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span><span class="tok-p">).</span><span class="tok-nx">toEqual</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">);</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span><span class="tok-p">).</span><span class="tok-nx">toEqual</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">);</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">}</span>
 <span class="tok-nx">State</span><span class="tok-p">.</span><span class="tok-nx">addProperty</span><span class="tok-p">(</span><span class="tok-nx">SumThenStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;result&#39;</span><span class="tok-p">);</span></code></pre>
 </div>
@@ -1345,7 +1345,7 @@ This can be used in all other cases and also to change the formatting of primiti
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-kr">const</span> <span class="tok-nx">LoudFormatter</span> <span class="tok-o">=</span> <span class="tok-nx">buildParameterFormatter</span><span class="tok-p">(</span>
-    <span class="tok-nx">text</span> <span class="tok-p">=&gt;</span> <span class="tok-nx">text</span><span class="tok-p">.</span><span class="tok-nx">toUpperCase</span><span class="tok-p">()</span> <span class="tok-o">+</span> <span class="tok-s1">&#39; !!!&#39;</span>
+  <span class="tok-nx">text</span> <span class="tok-p">=&gt;</span> <span class="tok-nx">text</span><span class="tok-p">.</span><span class="tok-nx">toUpperCase</span><span class="tok-p">()</span> <span class="tok-o">+</span> <span class="tok-s1">&#39; !!!&#39;</span>
 <span class="tok-p">);</span></code></pre>
 </div>
 </div>
@@ -1361,10 +1361,10 @@ This can be used in all other cases and also to change the formatting of primiti
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-kr">class</span> <span class="tok-nx">MyStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
-    <span class="tok-err">@</span><span class="tok-nx">LoudFormatter</span><span class="tok-p">(</span><span class="tok-s1">&#39;value&#39;</span><span class="tok-p">)</span>
-    <span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-err">@</span><span class="tok-nx">LoudFormatter</span><span class="tok-p">(</span><span class="tok-s1">&#39;value&#39;</span><span class="tok-p">)</span>
+  <span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">}</span></code></pre>
 </div>
 </div>
@@ -1378,13 +1378,13 @@ This can be used in all other cases and also to change the formatting of primiti
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-nx">parameters_can_be_formatted</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-    <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-s1">&#39;hello world&#39;</span><span class="tok-p">);</span>
-    <span class="tok-c1">// Will be converted to</span>
-    <span class="tok-c1">//   Given a value HELLO WORLD !!!</span>
+  <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-s1">&#39;hello world&#39;</span><span class="tok-p">);</span>
+  <span class="tok-c1">// Will be converted to</span>
+  <span class="tok-c1">//   Given a value HELLO WORLD !!!</span>
 
-    <span class="tok-nx">when</span><span class="tok-p">();</span>
+  <span class="tok-nx">when</span><span class="tok-p">();</span>
 
-    <span class="tok-nx">then</span><span class="tok-p">();</span>
+  <span class="tok-nx">then</span><span class="tok-p">();</span>
 <span class="tok-p">}),</span></code></pre>
 </div>
 </div>
@@ -1418,9 +1418,9 @@ This method takes three parameters:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-kr">class</span> <span class="tok-nx">MyStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
-    <span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">}</span>
 <span class="tok-nx">LoudFormatter</span><span class="tok-p">.</span><span class="tok-nx">formatParameter</span><span class="tok-p">(</span><span class="tok-nx">MyStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;a_value&#39;</span><span class="tok-p">,</span> <span class="tok-s1">&#39;value&#39;</span><span class="tok-p">);</span></code></pre>
 </div>
@@ -1441,13 +1441,13 @@ This way you will write a function that accepts parameters and will call buildPa
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-kr">const</span> <span class="tok-nx">LoudFormatter</span> <span class="tok-o">=</span> <span class="tok-nx">bangCharacter</span> <span class="tok-p">=&gt;</span>
-    <span class="tok-nx">buildParameterFormatter</span><span class="tok-p">(</span><span class="tok-nx">text</span> <span class="tok-p">=&gt;</span> <span class="tok-nx">text</span><span class="tok-p">.</span><span class="tok-nx">toUpperCase</span><span class="tok-p">()</span> <span class="tok-o">+</span> <span class="tok-sb">`</span><span class="tok-si">${</span><span class="tok-nx">bangCharacter</span><span class="tok-si">}</span><span class="tok-sb">`</span><span class="tok-p">);</span>
+  <span class="tok-nx">buildParameterFormatter</span><span class="tok-p">(</span><span class="tok-nx">text</span> <span class="tok-p">=&gt;</span> <span class="tok-nx">text</span><span class="tok-p">.</span><span class="tok-nx">toUpperCase</span><span class="tok-p">()</span> <span class="tok-o">+</span> <span class="tok-sb">`</span><span class="tok-si">${</span><span class="tok-nx">bangCharacter</span><span class="tok-si">}</span><span class="tok-sb">`</span><span class="tok-p">);</span>
 
 <span class="tok-kr">class</span> <span class="tok-nx">MyStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
-    <span class="tok-err">@</span><span class="tok-nx">LoudFormatter</span><span class="tok-p">(</span><span class="tok-s1">&#39;!&#39;</span><span class="tok-p">)(</span><span class="tok-s1">&#39;value&#39;</span><span class="tok-p">)</span>
-    <span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-err">@</span><span class="tok-nx">LoudFormatter</span><span class="tok-p">(</span><span class="tok-s1">&#39;!&#39;</span><span class="tok-p">)(</span><span class="tok-s1">&#39;value&#39;</span><span class="tok-p">)</span>
+  <span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">}</span></code></pre>
 </div>
 </div>
@@ -1457,12 +1457,12 @@ This way you will write a function that accepts parameters and will call buildPa
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-kr">const</span> <span class="tok-nx">LoudFormatter</span> <span class="tok-o">=</span> <span class="tok-nx">bangCharacter</span> <span class="tok-p">=&gt;</span>
-    <span class="tok-nx">buildParameterFormatter</span><span class="tok-p">(</span><span class="tok-nx">text</span> <span class="tok-p">=&gt;</span> <span class="tok-nx">text</span><span class="tok-p">.</span><span class="tok-nx">toUpperCase</span><span class="tok-p">()</span> <span class="tok-o">+</span> <span class="tok-sb">`</span><span class="tok-si">${</span><span class="tok-nx">bangCharacter</span><span class="tok-si">}</span><span class="tok-sb">`</span><span class="tok-p">);</span>
+  <span class="tok-nx">buildParameterFormatter</span><span class="tok-p">(</span><span class="tok-nx">text</span> <span class="tok-p">=&gt;</span> <span class="tok-nx">text</span><span class="tok-p">.</span><span class="tok-nx">toUpperCase</span><span class="tok-p">()</span> <span class="tok-o">+</span> <span class="tok-sb">`</span><span class="tok-si">${</span><span class="tok-nx">bangCharacter</span><span class="tok-si">}</span><span class="tok-sb">`</span><span class="tok-p">);</span>
 
 <span class="tok-kr">class</span> <span class="tok-nx">MyStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
-    <span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">a_value</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">}</span>
 <span class="tok-nx">LoudFormatter</span><span class="tok-p">(</span><span class="tok-s1">&#39;!&#39;</span><span class="tok-p">).</span><span class="tok-nx">formatParameter</span><span class="tok-p">(</span><span class="tok-nx">MyStage</span><span class="tok-p">,</span> <span class="tok-s1">&#39;a_value&#39;</span><span class="tok-p">,</span> <span class="tok-s1">&#39;value&#39;</span><span class="tok-p">);</span></code></pre>
 </div>
@@ -1479,7 +1479,7 @@ This way you will write a function that accepts parameters and will call buildPa
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-err">@</span><span class="tok-nx">Quoted</span><span class="tok-p">(</span><span class="tok-s1">&#39;message&#39;</span><span class="tok-p">)</span>
 <span class="tok-nx">the_message_$_is_printed_to_the_console</span><span class="tok-p">(</span><span class="tok-nx">message</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
 <span class="tok-p">}</span></code></pre>
 </div>
 </div>
@@ -1509,7 +1509,7 @@ This way you will write a function that accepts parameters and will call buildPa
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-err">@</span><span class="tok-nx">QuotedWith</span><span class="tok-p">(</span><span class="tok-s2">&quot;&#39;&quot;</span><span class="tok-p">)(</span><span class="tok-s1">&#39;message&#39;</span><span class="tok-p">)</span>
 <span class="tok-nx">the_message_$_is_printed_to_the_console</span><span class="tok-p">(</span><span class="tok-nx">message</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
 <span class="tok-p">}</span></code></pre>
 </div>
 </div>
@@ -1539,7 +1539,7 @@ This way you will write a function that accepts parameters and will call buildPa
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-err">@</span><span class="tok-nx">NotFormatter</span><span class="tok-p">(</span><span class="tok-s1">&#39;present&#39;</span><span class="tok-p">)</span>
 <span class="tok-nx">the_message_is_$_displayed_to_the_user</span><span class="tok-p">(</span><span class="tok-nx">present</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
 <span class="tok-p">}</span></code></pre>
 </div>
 </div>
@@ -1606,19 +1606,19 @@ This is very useful for writing data-driven scenarios, where the scenarios itsel
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;parametrized-scenarios&#39;</span><span class="tok-p">,</span> <span class="tok-nx">DemoStage</span><span class="tok-p">,</span> <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-    <span class="tok-k">return</span> <span class="tok-p">{</span>
-        <span class="tok-nx">scenarios_can_be_parametrized</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">(</span>
-            <span class="tok-p">{},</span>
-            <span class="tok-nx">parametrized</span><span class="tok-p">([[</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-mi">2</span><span class="tok-p">],</span> <span class="tok-p">[</span><span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-mi">4</span><span class="tok-p">],</span> <span class="tok-p">[</span><span class="tok-mi">3</span><span class="tok-p">,</span> <span class="tok-mi">6</span><span class="tok-p">]],</span> <span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">,</span> <span class="tok-nx">result</span><span class="tok-p">)</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-                <span class="tok-nx">given</span><span class="tok-p">()</span>
-                    <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span>
-                    <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
-                    <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">);</span>
-                <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
-                <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">result</span><span class="tok-p">);</span>
-            <span class="tok-p">})</span>
-        <span class="tok-p">),</span>
-    <span class="tok-p">};</span>
+  <span class="tok-k">return</span> <span class="tok-p">{</span>
+    <span class="tok-nx">scenarios_can_be_parametrized</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">(</span>
+      <span class="tok-p">{},</span>
+      <span class="tok-nx">parametrized</span><span class="tok-p">([[</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-mi">2</span><span class="tok-p">],</span> <span class="tok-p">[</span><span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-mi">4</span><span class="tok-p">],</span> <span class="tok-p">[</span><span class="tok-mi">3</span><span class="tok-p">,</span> <span class="tok-mi">6</span><span class="tok-p">]],</span> <span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">,</span> <span class="tok-nx">result</span><span class="tok-p">)</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
+        <span class="tok-nx">given</span><span class="tok-p">()</span>
+          <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span>
+          <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
+          <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">);</span>
+        <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
+        <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">result</span><span class="tok-p">);</span>
+      <span class="tok-p">})</span>
+    <span class="tok-p">),</span>
+  <span class="tok-p">};</span>
 <span class="tok-p">});</span></code></pre>
 </div>
 </div>
@@ -1647,19 +1647,19 @@ Ran all test suites matching "parameterized".</pre>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;parametrized-scenarios&#39;</span><span class="tok-p">,</span> <span class="tok-nx">DemoStage</span><span class="tok-p">,</span> <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-    <span class="tok-k">return</span> <span class="tok-p">{</span>
-        <span class="tok-nx">scenarios_can_be_parametrized_with_only_one_value</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">(</span>
-            <span class="tok-p">{},</span>
-            <span class="tok-nx">parametrized1</span><span class="tok-p">([</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-mi">3</span><span class="tok-p">],</span> <span class="tok-nx">value</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-                <span class="tok-nx">given</span><span class="tok-p">()</span>
-                    <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span>
-                    <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
-                    <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">);</span>
-                <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
-                <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">they_are_successfully_added</span><span class="tok-p">();</span>
-            <span class="tok-p">})</span>
-        <span class="tok-p">),</span>
-    <span class="tok-p">};</span>
+  <span class="tok-k">return</span> <span class="tok-p">{</span>
+    <span class="tok-nx">scenarios_can_be_parametrized_with_only_one_value</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">(</span>
+      <span class="tok-p">{},</span>
+      <span class="tok-nx">parametrized1</span><span class="tok-p">([</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-mi">3</span><span class="tok-p">],</span> <span class="tok-nx">value</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
+        <span class="tok-nx">given</span><span class="tok-p">()</span>
+          <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span>
+          <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
+          <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">);</span>
+        <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
+        <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">they_are_successfully_added</span><span class="tok-p">();</span>
+      <span class="tok-p">})</span>
+    <span class="tok-p">),</span>
+  <span class="tok-p">};</span>
 <span class="tok-p">});</span></code></pre>
 </div>
 </div>
@@ -1677,22 +1677,22 @@ Ran all test suites matching "parameterized".</pre>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;parametrized-scenarios&#39;</span><span class="tok-p">,</span> <span class="tok-nx">DemoStage</span><span class="tok-p">,</span> <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-    <span class="tok-k">return</span> <span class="tok-p">{</span>
-        <span class="tok-nx">scenarios_can_be_parametrized</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">(</span>
-            <span class="tok-p">{},</span>
-            <span class="tok-nx">parametrized2</span><span class="tok-p">(</span>
-                <span class="tok-p">[[</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-mi">2</span><span class="tok-p">],</span> <span class="tok-p">[</span><span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-mi">4</span><span class="tok-p">],</span> <span class="tok-p">[</span><span class="tok-mi">3</span><span class="tok-p">,</span> <span class="tok-mi">6</span><span class="tok-p">]],</span>
-                <span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-o">:</span> <span class="tok-nx">number</span><span class="tok-p">,</span> <span class="tok-nx">result</span><span class="tok-o">:</span> <span class="tok-nx">number</span><span class="tok-p">)</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-                    <span class="tok-nx">given</span><span class="tok-p">()</span>
-                        <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span>
-                        <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
-                        <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">);</span>
-                    <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
-                    <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">result</span><span class="tok-p">);</span>
-                <span class="tok-p">}</span>
-            <span class="tok-p">)</span>
-        <span class="tok-p">),</span>
-    <span class="tok-p">};</span>
+  <span class="tok-k">return</span> <span class="tok-p">{</span>
+    <span class="tok-nx">scenarios_can_be_parametrized</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">(</span>
+      <span class="tok-p">{},</span>
+      <span class="tok-nx">parametrized2</span><span class="tok-p">(</span>
+        <span class="tok-p">[[</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-mi">2</span><span class="tok-p">],</span> <span class="tok-p">[</span><span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-mi">4</span><span class="tok-p">],</span> <span class="tok-p">[</span><span class="tok-mi">3</span><span class="tok-p">,</span> <span class="tok-mi">6</span><span class="tok-p">]],</span>
+        <span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-o">:</span> <span class="tok-nx">number</span><span class="tok-p">,</span> <span class="tok-nx">result</span><span class="tok-o">:</span> <span class="tok-nx">number</span><span class="tok-p">)</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
+          <span class="tok-nx">given</span><span class="tok-p">()</span>
+            <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span>
+            <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
+            <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">);</span>
+          <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
+          <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-nx">result</span><span class="tok-p">);</span>
+        <span class="tok-p">}</span>
+      <span class="tok-p">)</span>
+    <span class="tok-p">),</span>
+  <span class="tok-p">};</span>
 <span class="tok-p">});</span></code></pre>
 </div>
 </div>
@@ -1735,35 +1735,35 @@ JsGiven will continue the scenario execution and execute the further step method
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-kr">class</span> <span class="tok-nx">AsyncStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
-    <span class="tok-nx">the_url</span><span class="tok-p">(</span><span class="tok-nx">url</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">url</span> <span class="tok-o">=</span> <span class="tok-nx">url</span><span class="tok-p">;</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">the_url</span><span class="tok-p">(</span><span class="tok-nx">url</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">url</span> <span class="tok-o">=</span> <span class="tok-nx">url</span><span class="tok-p">;</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 
-    <span class="tok-nx">making_an_http_request_to_that_url</span><span class="tok-p">()</span> <span class="tok-p">{</span>
-        <span class="tok-nx">doAsync</span><span class="tok-p">(</span><span class="tok-nx">async</span> <span class="tok-p">()</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-            <span class="tok-kr">const</span> <span class="tok-p">{</span> <span class="tok-nx">statusCode</span> <span class="tok-p">}</span> <span class="tok-o">=</span> <span class="tok-nx">await</span> <span class="tok-nx">httpRequest</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">url</span><span class="tok-p">);</span>
-            <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">statusCode</span> <span class="tok-o">=</span> <span class="tok-nx">statusCode</span><span class="tok-p">;</span>
-        <span class="tok-p">});</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">making_an_http_request_to_that_url</span><span class="tok-p">()</span> <span class="tok-p">{</span>
+    <span class="tok-nx">doAsync</span><span class="tok-p">(</span><span class="tok-nx">async</span> <span class="tok-p">()</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
+      <span class="tok-kr">const</span> <span class="tok-p">{</span> <span class="tok-nx">statusCode</span> <span class="tok-p">}</span> <span class="tok-o">=</span> <span class="tok-nx">await</span> <span class="tok-nx">httpRequest</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">url</span><span class="tok-p">);</span>
+      <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">statusCode</span> <span class="tok-o">=</span> <span class="tok-nx">statusCode</span><span class="tok-p">;</span>
+    <span class="tok-p">});</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 
-    <span class="tok-nx">the_status_code_is</span><span class="tok-p">(</span><span class="tok-nx">expectedStatusCode</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">statusCode</span><span class="tok-p">).</span><span class="tok-nx">toEqual</span><span class="tok-p">(</span><span class="tok-nx">expectedStatusCode</span><span class="tok-p">);</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">the_status_code_is</span><span class="tok-p">(</span><span class="tok-nx">expectedStatusCode</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">statusCode</span><span class="tok-p">).</span><span class="tok-nx">toEqual</span><span class="tok-p">(</span><span class="tok-nx">expectedStatusCode</span><span class="tok-p">);</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">}</span>
 
 <span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;async&#39;</span><span class="tok-p">,</span> <span class="tok-nx">AsyncStage</span><span class="tok-p">,</span> <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-    <span class="tok-k">return</span> <span class="tok-p">{</span>
-        <span class="tok-nx">an_async_scenario_can_be_executed</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-            <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">the_url</span><span class="tok-p">(</span><span class="tok-s1">&#39;https://jsgiven.org&#39;</span><span class="tok-p">);</span>
+  <span class="tok-k">return</span> <span class="tok-p">{</span>
+    <span class="tok-nx">an_async_scenario_can_be_executed</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
+      <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">the_url</span><span class="tok-p">(</span><span class="tok-s1">&#39;https://jsgiven.org&#39;</span><span class="tok-p">);</span>
 
-            <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">making_an_http_request_to_that_url</span><span class="tok-p">();</span>
+      <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">making_an_http_request_to_that_url</span><span class="tok-p">();</span>
 
-            <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_status_code_is</span><span class="tok-p">(</span><span class="tok-mi">200</span><span class="tok-p">);</span>
-        <span class="tok-p">}),</span>
-    <span class="tok-p">};</span>
+      <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_status_code_is</span><span class="tok-p">(</span><span class="tok-mi">200</span><span class="tok-p">);</span>
+    <span class="tok-p">}),</span>
+  <span class="tok-p">};</span>
 <span class="tok-p">});</span></code></pre>
 </div>
 </div>
@@ -1773,36 +1773,36 @@ JsGiven will continue the scenario execution and execute the further step method
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-kr">class</span> <span class="tok-nx">PromiseStage</span> <span class="tok-kr">extends</span> <span class="tok-nx">Stage</span> <span class="tok-p">{</span>
-    <span class="tok-nx">the_url</span><span class="tok-p">(</span><span class="tok-nx">url</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">url</span> <span class="tok-o">=</span> <span class="tok-nx">url</span><span class="tok-p">;</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">the_url</span><span class="tok-p">(</span><span class="tok-nx">url</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">url</span> <span class="tok-o">=</span> <span class="tok-nx">url</span><span class="tok-p">;</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 
-    <span class="tok-nx">making_an_http_request_to_that_url</span><span class="tok-p">()</span> <span class="tok-p">{</span>
-        <span class="tok-nx">doAsync</span><span class="tok-p">(()</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-            <span class="tok-k">return</span> <span class="tok-nx">httpRequest</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">url</span><span class="tok-p">).</span><span class="tok-nx">then</span><span class="tok-p">(({</span> <span class="tok-nx">statusCode</span> <span class="tok-p">})</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-                <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">statusCode</span> <span class="tok-o">=</span> <span class="tok-nx">statusCode</span><span class="tok-p">;</span>
-            <span class="tok-p">});</span>
-        <span class="tok-p">});</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">making_an_http_request_to_that_url</span><span class="tok-p">()</span> <span class="tok-p">{</span>
+    <span class="tok-nx">doAsync</span><span class="tok-p">(()</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
+      <span class="tok-k">return</span> <span class="tok-nx">httpRequest</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">url</span><span class="tok-p">).</span><span class="tok-nx">then</span><span class="tok-p">(({</span> <span class="tok-nx">statusCode</span> <span class="tok-p">})</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
+        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">statusCode</span> <span class="tok-o">=</span> <span class="tok-nx">statusCode</span><span class="tok-p">;</span>
+      <span class="tok-p">});</span>
+    <span class="tok-p">});</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 
-    <span class="tok-nx">the_status_code_is</span><span class="tok-p">(</span><span class="tok-nx">expectedStatusCode</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">statusCode</span><span class="tok-p">).</span><span class="tok-nx">toEqual</span><span class="tok-p">(</span><span class="tok-nx">expectedStatusCode</span><span class="tok-p">);</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">}</span>
+  <span class="tok-nx">the_status_code_is</span><span class="tok-p">(</span><span class="tok-nx">expectedStatusCode</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">statusCode</span><span class="tok-p">).</span><span class="tok-nx">toEqual</span><span class="tok-p">(</span><span class="tok-nx">expectedStatusCode</span><span class="tok-p">);</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">}</span>
 <span class="tok-p">}</span>
 
 <span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;async&#39;</span><span class="tok-p">,</span> <span class="tok-nx">PromiseStage</span><span class="tok-p">,</span> <span class="tok-p">({</span> <span class="tok-nx">given</span><span class="tok-p">,</span> <span class="tok-nx">when</span><span class="tok-p">,</span> <span class="tok-nx">then</span> <span class="tok-p">})</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-    <span class="tok-k">return</span> <span class="tok-p">{</span>
-        <span class="tok-nx">an_async_scenario_with_promises_can_be_executed</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
-            <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">the_url</span><span class="tok-p">(</span><span class="tok-s1">&#39;https://jsgiven.org&#39;</span><span class="tok-p">);</span>
+  <span class="tok-k">return</span> <span class="tok-p">{</span>
+    <span class="tok-nx">an_async_scenario_with_promises_can_be_executed</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-p">()</span> <span class="tok-p">=&gt;</span> <span class="tok-p">{</span>
+      <span class="tok-nx">given</span><span class="tok-p">().</span><span class="tok-nx">the_url</span><span class="tok-p">(</span><span class="tok-s1">&#39;https://jsgiven.org&#39;</span><span class="tok-p">);</span>
 
-            <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">making_an_http_request_to_that_url</span><span class="tok-p">();</span>
+      <span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">making_an_http_request_to_that_url</span><span class="tok-p">();</span>
 
-            <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_status_code_is</span><span class="tok-p">(</span><span class="tok-mi">200</span><span class="tok-p">);</span>
-        <span class="tok-p">}),</span>
-    <span class="tok-p">};</span>
+      <span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_status_code_is</span><span class="tok-p">(</span><span class="tok-mi">200</span><span class="tok-p">);</span>
+    <span class="tok-p">}),</span>
+  <span class="tok-p">};</span>
 <span class="tok-p">});</span></code></pre>
 </div>
 </div>
@@ -1981,25 +1981,25 @@ You don&#8217;t have to install any type definitions.</p>
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-kd">function</span> <span class="tok-nx">SumStage</span><span class="tok-p">()</span> <span class="tok-p">{}</span>
 
 <span class="tok-nx">SumStage</span><span class="tok-p">.</span><span class="tok-nx">prototype</span> <span class="tok-o">=</span> <span class="tok-p">{</span>
-    <span class="tok-nx">a_number</span><span class="tok-o">:</span> <span class="tok-kd">function</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">},</span>
+  <span class="tok-nx">a_number</span><span class="tok-o">:</span> <span class="tok-kd">function</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">},</span>
 
-    <span class="tok-nx">another_number</span><span class="tok-o">:</span> <span class="tok-kd">function</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">},</span>
+  <span class="tok-nx">another_number</span><span class="tok-o">:</span> <span class="tok-kd">function</span><span class="tok-p">(</span><span class="tok-nx">value</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span> <span class="tok-o">=</span> <span class="tok-nx">value</span><span class="tok-p">;</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">},</span>
 
-    <span class="tok-nx">they_are_summed</span><span class="tok-o">:</span> <span class="tok-kd">function</span><span class="tok-p">()</span> <span class="tok-p">{</span>
-        <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span> <span class="tok-o">=</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">+</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span><span class="tok-p">;</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">},</span>
+  <span class="tok-nx">they_are_summed</span><span class="tok-o">:</span> <span class="tok-kd">function</span><span class="tok-p">()</span> <span class="tok-p">{</span>
+    <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span> <span class="tok-o">=</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number1</span> <span class="tok-o">+</span> <span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">number2</span><span class="tok-p">;</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">},</span>
 
-    <span class="tok-nx">the_result_is</span><span class="tok-o">:</span> <span class="tok-kd">function</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-        <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span><span class="tok-p">).</span><span class="tok-nx">to</span><span class="tok-p">.</span><span class="tok-nx">equal</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">);</span>
-        <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
-    <span class="tok-p">},</span>
+  <span class="tok-nx">the_result_is</span><span class="tok-o">:</span> <span class="tok-kd">function</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+    <span class="tok-nx">expect</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-nx">result</span><span class="tok-p">).</span><span class="tok-nx">to</span><span class="tok-p">.</span><span class="tok-nx">equal</span><span class="tok-p">(</span><span class="tok-nx">expectedResult</span><span class="tok-p">);</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-p">;</span>
+  <span class="tok-p">},</span>
 <span class="tok-p">};</span>
 
 <span class="tok-nb">Object</span><span class="tok-p">.</span><span class="tok-nx">setPrototypeOf</span><span class="tok-p">(</span><span class="tok-nx">SumStage</span><span class="tok-p">.</span><span class="tok-nx">prototype</span><span class="tok-p">,</span> <span class="tok-nx">Stage</span><span class="tok-p">.</span><span class="tok-nx">prototype</span><span class="tok-p">);</span>
@@ -2012,19 +2012,19 @@ You don&#8217;t have to install any type definitions.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="js"><span></span><span class="tok-nx">scenarios</span><span class="tok-p">(</span><span class="tok-s1">&#39;sum&#39;</span><span class="tok-p">,</span> <span class="tok-nx">SumStage</span><span class="tok-p">,</span> <span class="tok-kd">function</span><span class="tok-p">(</span><span class="tok-nx">it</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-    <span class="tok-k">return</span> <span class="tok-p">{</span>
-        <span class="tok-nx">two_numbers_can_be_added</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-kd">function</span><span class="tok-p">()</span> <span class="tok-p">{</span>
-            <span class="tok-nx">it</span>
-                <span class="tok-p">.</span><span class="tok-nx">given</span><span class="tok-p">()</span>
-                <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span>
-                <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
-                <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
+  <span class="tok-k">return</span> <span class="tok-p">{</span>
+    <span class="tok-nx">two_numbers_can_be_added</span><span class="tok-o">:</span> <span class="tok-nx">scenario</span><span class="tok-p">({},</span> <span class="tok-kd">function</span><span class="tok-p">()</span> <span class="tok-p">{</span>
+      <span class="tok-nx">it</span>
+        <span class="tok-p">.</span><span class="tok-nx">given</span><span class="tok-p">()</span>
+        <span class="tok-p">.</span><span class="tok-nx">a_number</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span>
+        <span class="tok-p">.</span><span class="tok-nx">and</span><span class="tok-p">()</span>
+        <span class="tok-p">.</span><span class="tok-nx">another_number</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">);</span>
 
-            <span class="tok-nx">it</span><span class="tok-p">.</span><span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
+      <span class="tok-nx">it</span><span class="tok-p">.</span><span class="tok-nx">when</span><span class="tok-p">().</span><span class="tok-nx">they_are_summed</span><span class="tok-p">();</span>
 
-            <span class="tok-nx">it</span><span class="tok-p">.</span><span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-mi">3</span><span class="tok-p">);</span>
-        <span class="tok-p">}),</span>
-    <span class="tok-p">};</span>
+      <span class="tok-nx">it</span><span class="tok-p">.</span><span class="tok-nx">then</span><span class="tok-p">().</span><span class="tok-nx">the_result_is</span><span class="tok-p">(</span><span class="tok-mi">3</span><span class="tok-p">);</span>
+    <span class="tok-p">}),</span>
+  <span class="tok-p">};</span>
 <span class="tok-p">});</span></code></pre>
 </div>
 </div>
