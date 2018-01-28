@@ -62,6 +62,7 @@ You can start using JsGiven with the link:./user-guide.html[user guide]
 
 == Changelog
 
+- v0.1.8 (22nd January 2018): Fixes issue when "jsgiven report --fail" does not fail if no reports present
 - v0.1.7 (19th December 2017): Fixes issue when using JsGiven with native ES6 classes (non-transpiled Node > 6).
 - v0.1.6 (2nd November 2017): Fixes formatters issue in parametrized scenarios, uses jgiven-html-app.
 - v0.1.5 (13th August 2017): Implement error handling.
