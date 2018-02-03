@@ -30,6 +30,10 @@ ignore:
     - jgiven-html-app > modernizr > marked:
         reason: 'JsGiven''s report is a static website, XSS is not an issue.'
         expires: '2019-01-25T06:48:06.510Z'
+  'npm:marked:20171207':
+    - jgiven-html-app > modernizr > marked:
+        reason: 'JsGiven''s report is a static website, it''s not subject to DOS attacks.'
+        expires: '2019-12-28T07:28:10.211Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:marked:20150520':
