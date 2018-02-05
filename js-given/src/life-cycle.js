@@ -62,16 +62,32 @@ export async function initStages(...stages: Stage[]): Promise<void> {
     const beforeProperties = beforeProvider
       .getStoreFromTarget(stage)
       .getProperties();
-    for (const beforeProperty of beforeProperties) {
-      const stageAny: any = stage;
-      const beforeFunction = stageAny[beforeProperty];
-      if (_.isFunction(beforeFunction)) {
-        const lifecycleResult = beforeFunction.apply(stage, []);
-        // only await on promises, sadly methods that return this (a stage)
-        // also have a then() method then and are awaited :(
-        if (isPromise(lifecycleResult) && stage !== lifecycleResult) {
-          await lifecycleResult;
-        }
+    await invokeBeforeAfterMethods(stage, beforeProperties);
+  }
+}
+
+export async function cleanupStages(...stages: Stage[]): Promise<void> {
+  for (const stage of stages) {
+    const afterProperties = afterProvider
+      .getStoreFromTarget(stage)
+      .getProperties();
+    await invokeBeforeAfterMethods(stage, afterProperties);
+  }
+}
+
+async function invokeBeforeAfterMethods(
+  stage: Stage,
+  methodNames: string[]
+): Promise<void> {
+  for (const methodName of methodNames) {
+    const stageAny: any = stage;
+    const func = stageAny[methodName];
+    if (_.isFunction(func)) {
+      const lifecycleResult = func.apply(stage, []);
+      // only await on promises, sadly methods that return this (a stage)
+      // also have a then() method then and are awaited :(
+      if (isPromise(lifecycleResult) && stage !== lifecycleResult) {
+        await lifecycleResult;
       }
     }
   }
