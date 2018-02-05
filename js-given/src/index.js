@@ -1,6 +1,7 @@
 // @flow
 export { doAsync } from './async-actions';
 export { Hidden } from './hidden-steps';
+export { Before, After, Rule } from './life-cycle';
 export {
   parametrized,
   parametrized1,

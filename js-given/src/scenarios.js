@@ -6,6 +6,7 @@ import stripAnsi from 'strip-ansi';
 
 import { executeStepAndCollectAsyncActions } from './async-actions';
 import { isHiddenStep } from './hidden-steps';
+import { initStages, isLifecycleMethod } from './life-cycle';
 import {
   formatParameter,
   getFormatters,
@@ -132,31 +133,33 @@ export class ScenarioRunner {
       thenStage: T,
     } = undefined;
 
-    let stageBuilder: (
+    let buildStage: (
       runningScenario: RunningScenario
-    ) => {
+    ) => Promise<{
       givenStage: G,
       whenStage: W,
       thenStage: T,
-    };
+    }>;
 
     if (Array.isArray(stagesParams)) {
       const self = this;
 
       const [givenClass, whenClass, thenClass] = stagesParams;
 
-      stageBuilder = runningScenario => {
+      buildStage = async runningScenario => {
         const givenStage = self.buildStage(givenClass, runningScenario);
         const whenStage = self.buildStage(whenClass, runningScenario);
         const thenStage = self.buildStage(thenClass, runningScenario);
+        await initStages(givenStage, whenStage, thenStage);
         return { givenStage, whenStage, thenStage };
       };
     } else {
       const self = this;
       const givenClass = (stagesParams: any);
 
-      stageBuilder = runningScenario => {
+      buildStage = async runningScenario => {
         const givenStage = self.buildStage(givenClass, runningScenario);
+        await initStages(givenStage);
         const whenStage = givenStage;
         const thenStage = givenStage;
         return { givenStage, whenStage, thenStage };
@@ -218,7 +221,7 @@ export class ScenarioRunner {
               this.beginCase(scenario);
 
               // Build stages
-              currentStages = stageBuilder(runningScenario);
+              currentStages = await buildStage(runningScenario);
 
               // Collecting steps
               caseFunction();
@@ -464,6 +467,10 @@ export class ScenarioRunner {
           caseArguments,
           formattedCaseArguments,
         } = runningScenario;
+
+        if (isLifecycleMethod(this, methodName)) {
+          return tPrototype[methodName].apply(this, args);
+        }
 
         const stepParameterNames = functionArguments(tPrototype[methodName]);
         const decodedParameters: DecodedParameter[] = args.map((arg, index) => {
