@@ -48,7 +48,7 @@ class LifeCycleGivenStage extends BasicScenarioGivenStage {
 
     class GivenStageThatRecordBeenCalled extends Stage {
       @Before
-      before() {
+      async before(): Promise<void> {
         self.sideEffectRecorder.calledDuringBeforeInGivenStage = true;
       }
       ensure_before_method_has_been_called(): this {
@@ -59,8 +59,9 @@ class LifeCycleGivenStage extends BasicScenarioGivenStage {
     }
     class WhenStageThatRecordBeenCalled extends Stage {
       @Before
-      before() {
+      before(): this {
         self.sideEffectRecorder.calledDuringBeforeInWhenStage = true;
+        return this;
       }
       ensure_before_method_has_been_called(): this {
         expect(self.sideEffectRecorder.calledDuringBeforeInWhenStage).to.be
@@ -107,9 +108,8 @@ class LifeCycleGivenStage extends BasicScenarioGivenStage {
 
     class BeforeStage extends Stage {
       @Before
-      before(): this {
+      async before(): Promise<void> {
         self.sideEffectRecorder.calledDuringBefore = true;
-        return this;
       }
       ensure_before_method_has_been_called(): this {
         expect(self.sideEffectRecorder.calledDuringBefore).to.be.true;
@@ -130,12 +130,41 @@ class LifeCycleGivenStage extends BasicScenarioGivenStage {
     );
     return this;
   }
+
+  a_scenario_with_a_stage_that_contains_a_before_method_add_with_addProperty_method(): this {
+    this.initSideEffectRecorder();
+    const self = this;
+
+    class BeforeStage extends Stage {
+      async before(): Promise<void> {
+        self.sideEffectRecorder.calledDuringBefore = true;
+      }
+      ensure_before_method_has_been_called(): this {
+        expect(self.sideEffectRecorder.calledDuringBefore).to.be.true;
+        return this;
+      }
+    }
+    Before.addProperty(BeforeStage, 'before');
+
+    this.scenarioRunner.scenarios(
+      'group_name',
+      BeforeStage,
+      ({ given, when, then }) => {
+        return {
+          scenario_using_stages: scenario({}, () => {
+            then().ensure_before_method_has_been_called();
+          }),
+        };
+      }
+    );
+    return this;
+  }
 }
 
 class LifeCycleThenStage extends BasicScenarioThenStage {
   @State sideEffectRecorder;
 
-  the_method_annotated_with_the_before_annotation_has_been_called_on_the_3_stages_before_the_scenario_execution(): this {
+  the_methods_annotated_with_the_before_annotation_have_been_called_on_the_3_stages_before_the_scenario_execution(): this {
     expect(this.sideEffectRecorder.calledDuringBeforeInGivenStage).to.be.true;
     expect(this.sideEffectRecorder.calledDuringBeforeInWhenStage).to.be.true;
     expect(this.sideEffectRecorder.calledDuringBeforeInThenStage).to.be.true;
@@ -163,7 +192,7 @@ scenarios(
 
           when().the_scenario_is_executed();
 
-          then().the_method_annotated_with_the_before_annotation_has_been_called_on_the_3_stages_before_the_scenario_execution();
+          then().the_methods_annotated_with_the_before_annotation_have_been_called_on_the_3_stages_before_the_scenario_execution();
         }
       ),
 
@@ -172,6 +201,17 @@ scenarios(
           .a_scenario_runner()
           .and()
           .a_scenario_with_a_stage_that_contains_a_method_with_the_before_annotation();
+
+        when().the_scenario_is_executed();
+
+        then().the_method_annotated_with_the_before_annotation_has_been_called_before_the_scenario_execution();
+      }),
+
+      before_methods_can_be_defined_without_annotations: scenario({}, () => {
+        given()
+          .a_scenario_runner()
+          .and()
+          .a_scenario_with_a_stage_that_contains_a_before_method_add_with_addProperty_method();
 
         when().the_scenario_is_executed();
 
