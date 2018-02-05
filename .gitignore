@@ -6,3 +6,5 @@ node_modules
 jgiven-html5-report.jar
 .DS_Store
 js-given/coverage
+yarn-error.log
+

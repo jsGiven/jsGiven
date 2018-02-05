@@ -1,6 +1,7 @@
 // @flow
 
 let asyncActionsSingleton: Array<() => Promise<*>> = [];
+
 export function executeStepAndCollectAsyncActions(
   stepActionThatMayCallDoAsync: () => any
 ): Array<() => Promise<*>> {

@@ -5,7 +5,6 @@ import _ from 'lodash';
 import tmp from 'tmp';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import isPromise from 'is-promise';
 
 import { ScenarioRunner } from '../src/scenarios';
 import { doAsync } from '../src/async-actions';
@@ -72,13 +71,9 @@ export class BasicScenarioWhenStage extends Stage {
     const callCount = this.it.callCount;
     for (let i = 0; i < callCount; i++) {
       const testFunction = this.it.getCall(i).args[1];
-      const promiseOrNull = testFunction(); // Emulate rspec it()
-
-      if (isPromise(promiseOrNull)) {
-        doAsync(async () => {
-          await promiseOrNull;
-        });
-      }
+      doAsync(async () => {
+        await testFunction();
+      });
     }
 
     return this;
@@ -94,21 +89,13 @@ export class BasicScenarioWhenStage extends Stage {
     for (let i = 0; i < callCount; i++) {
       const testFunction = this.it.getCall(i).args[1];
 
-      try {
-        const promiseOrNull = testFunction(); // Emulate rspec it()
-
-        if (isPromise(promiseOrNull)) {
-          doAsync(async () => {
-            try {
-              await promiseOrNull;
-            } catch (error) {
-              this.errors.push(error);
-            }
-          });
+      doAsync(async () => {
+        try {
+          await testFunction();
+        } catch (error) {
+          this.errors.push(error);
         }
-      } catch (error) {
-        this.errors.push(error);
-      }
+      });
     }
 
     return this;

@@ -5,40 +5,32 @@
   "description": "JavaScript frontend to jgiven",
   "main": "index.js",
   "scripts": {
-    "installProtractor":
-      "check-node-version -q --node '< 6.9' || node_modules/protractor/bin/webdriver-manager update --gecko false",
+    "installProtractor": "check-node-version -q --node '< 6.9' || node_modules/protractor/bin/webdriver-manager update --gecko false",
     "postinstall": "yarn installProtractor",
     "pretest": "node src/cli.es5.js clean",
     "test": "yarn allTests || yarn generateReportFail",
     "posttest": "yarn generateReport && yarn build",
-    "allTests":
-      "yarn test_jest && yarn test_mocha && yarn test_jasmine && yarn test_ava && yarn test_protractor && yarn test_type_definitions",
+    "allTests": "yarn test_jest && yarn test_mocha && yarn test_jasmine && yarn test_ava && yarn test_protractor && yarn test_type_definitions",
     "test_mocha": "mocha --opts spec/support/mocha-default.opts spec",
     "test_jest": "jest --config .jest.conf.json --colors",
     "test_jasmine": "node spec/support/jasmine-runner.js",
-    "test_ava":
-      "check-node-version -q --node '< 6.9' || AVA_CONFIG_DIR=$(pwd) ava spec/**.spec.js -v",
-    "test_protractor":
-      "check-node-version -q --node '< 6.9' || protractor .protractor.conf.js",
-    "test_type_definitions":
-      "(cd type-definitions/tests && ../../../node_modules/.bin/flow)",
+    "test_ava": "check-node-version -q --node '< 6.9' || AVA_CONFIG_DIR=$(pwd) ava spec/**.spec.js -v",
+    "test_protractor": "check-node-version -q --node '< 6.9' || protractor .protractor.conf.js",
+    "test_type_definitions": "(cd type-definitions/tests && ../../../node_modules/.bin/flow)",
     "testWatch": "yarn test_jest -- --watch",
     "generateReport": "node src/cli.es5.js report",
     "generateReportFail": "node src/cli.es5.js report --fail",
     "coverage": "yarn test_jest -- --coverage",
-    "__doBuild":
-      "rm -vfr dist && yarn buildLib && yarn buildCli && cp type-definitions/*.js.flow type-definitions/*.d.ts dist",
+    "__doBuild": "rm -vfr dist && yarn buildLib && yarn buildCli && cp type-definitions/*.js.flow type-definitions/*.d.ts dist",
     "build": "yarn __doBuild && yarn __doPreparePublish -- alpha",
     "buildLib": "rollup -c tools/lib.rollup.config.js",
     "buildCli": "rollup -c tools/cli.rollup.config.js",
     "__doPreparePublish": "node tools/preparePublish.js",
     "__doTagRelease": "node tools/tagRelease.js",
     "__doPublishAlpha": "(cd dist; echo '' | yarn publish --tag next)",
-    "__doReleaseAlpha":
-      "yarn __doPreparePublish -- alpha && yarn __doPublishAlpha",
+    "__doReleaseAlpha": "yarn __doPreparePublish -- alpha && yarn __doPublishAlpha",
     "__doPublish": "(cd dist; echo '' | yarn publish)",
-    "__doRelease":
-      "yarn __doPreparePublish && yarn __doTagRelease && yarn __doPublish",
+    "__doRelease": "yarn __doPreparePublish && yarn __doTagRelease && yarn __doPublish",
     "releaseAlpha": "yarn test && yarn build && yarn __doReleaseAlpha",
     "release": "yarn test && yarn build && yarn __doRelease",
     "snyk-protect": "snyk protect",
@@ -97,7 +89,6 @@
     "babel-polyfill": "^6.26.0",
     "fs-extra": "^5.0.0",
     "function-arguments": "^1.0.8",
-    "is-promise": "^2.1.0",
     "jgiven-html-app": "0.16.2",
     "lodash": "^4.17.4",
     "rimraf": "^2.6.2",
