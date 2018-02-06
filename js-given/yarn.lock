@@ -2965,9 +2965,9 @@ jasmine-core@~2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.8.0.tgz#bcc979ae1f9fd05701e45e52e65d3a5d63f1a24e"
 
-jasmine-core@~2.9.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.9.0.tgz#bfbb56defcd30789adec5a3fbba8504233289c72"
+jasmine-core@~2.99.0:
+  version "2.99.0"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.99.0.tgz#c105ab5222da45f1b0a10580383f5adbbff56d2c"
 
 jasmine-spec-reporter@4.2.1:
   version "4.2.1"
@@ -2983,13 +2983,13 @@ jasmine@2.8.0:
     glob "^7.0.6"
     jasmine-core "~2.8.0"
 
-jasmine@2.9.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-2.9.0.tgz#76571f925c8783409e7c6153572e5a6341cf93eb"
+jasmine@2.99.0:
+  version "2.99.0"
+  resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-2.99.0.tgz#8ca72d102e639b867c6489856e0e18a9c7aa42b7"
   dependencies:
     exit "^0.1.2"
     glob "^7.0.6"
-    jasmine-core "~2.9.0"
+    jasmine-core "~2.99.0"
 
 jasminewd2@^2.1.0:
   version "2.2.0"
