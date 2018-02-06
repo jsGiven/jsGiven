@@ -7,6 +7,7 @@ import {
   getStageMetadataStoreProvider,
   type StageMetadataStoreProvider,
 } from './stage-metadata-store';
+import { copyStateToOtherStages } from './State';
 
 const beforeProvider: StageMetadataStoreProvider<
   string
@@ -34,13 +35,13 @@ After.addProperty = (stageClass: Class<Stage>, property: string): void => {
 
 const ruleProvider: StageMetadataStoreProvider<
   string
-> = getStageMetadataStoreProvider('@Rule');
+> = getStageMetadataStoreProvider('@Around');
 
-export function Rule(target: any, key: string, descriptor: any): any {
+export function Around(target: any, key: string, descriptor: any): any {
   ruleProvider.getStoreFromTarget(target).addProperty(key);
   return { ...descriptor, writable: true };
 }
-Rule.addProperty = (stageClass: Class<Stage>, property: string): void => {
+Around.addProperty = (stageClass: Class<Stage>, property: string): void => {
   ruleProvider.getStoreFromStageClass(stageClass).addProperty(property);
 };
 
@@ -63,6 +64,8 @@ export async function initStages(...stages: Stage[]): Promise<void> {
       .getStoreFromTarget(stage)
       .getProperties();
     await invokeBeforeAfterMethods(stage, beforeProperties);
+
+    copyStateToOtherStages(stage, stages);
   }
 }
 
@@ -85,7 +88,7 @@ async function invokeBeforeAfterMethods(
     if (_.isFunction(func)) {
       const lifecycleResult = func.apply(stage, []);
       // only await on promises, sadly methods that return this (a stage)
-      // also have a then() method then and are awaited :(
+      // also have a then() method and are awaited :(
       if (isPromise(lifecycleResult) && stage !== lifecycleResult) {
         await lifecycleResult;
       }

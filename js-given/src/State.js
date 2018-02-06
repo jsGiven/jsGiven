@@ -36,11 +36,8 @@ function copyStateProperties(source: any, target: any) {
       stateProvider.getStoreFromTarget(source).getProperties(),
       stateProvider.getStoreFromTarget(target).getProperties()
     );
-    propertyNames.forEach(propertyName => {
-      // Need to convert to any to avoid typechecking
-      const sourceAny: any = source;
-      const targetAny: any = target;
-      targetAny[propertyName] = sourceAny[propertyName];
-    });
+    propertyNames.forEach(
+      propertyName => (target[propertyName] = source[propertyName])
+    );
   }
 }
