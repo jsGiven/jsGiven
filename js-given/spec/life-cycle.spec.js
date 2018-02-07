@@ -1,5 +1,7 @@
 // @flow
-import { expect } from 'chai';
+import chai, { expect } from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+import sleepPromise from 'sleep-promise';
 
 import {
   scenario,
@@ -11,12 +13,15 @@ import {
   Before,
   After,
 } from '../src';
+import { aroundToBeforeAfter, type AroundMethod } from '../src/life-cycle';
 
 import {
   BasicScenarioGivenStage,
   BasicScenarioWhenStage,
   BasicScenarioThenStage,
 } from './basic-stages';
+
+chai.use(chaiAsPromised);
 
 if (global.describe && global.it) {
   setupForRspec(describe, it);
@@ -446,3 +451,141 @@ scenarios(
     };
   }
 );
+
+if (global.describe && global.it) {
+  describe('life-cycle', () => {
+    describe('aroundToBeforeAfter()', () => {
+      it('should execute only "before" part when after() is not invoked', async () => {
+        // Given
+        const sideEffects = {
+          inBefore: false,
+          inAfter: false,
+        };
+        const around: AroundMethod = async test => {
+          sideEffects.inBefore = true;
+          await test();
+          sideEffects.inAfter = true;
+        };
+        const beforeAfter = aroundToBeforeAfter(around);
+
+        // when
+        await beforeAfter.before();
+
+        // then
+        expect(sideEffects).to.deep.equal({ inBefore: true, inAfter: false });
+      });
+
+      it('should execute "after" part when after() is invoked', async () => {
+        // Given
+        const sideEffects = {
+          inBefore: false,
+          inAfter: false,
+        };
+        const around: AroundMethod = async test => {
+          sideEffects.inBefore = true;
+          await test();
+          sideEffects.inAfter = true;
+        };
+        const beforeAfter = aroundToBeforeAfter(around);
+
+        // when
+        await beforeAfter.before();
+        await beforeAfter.after();
+
+        // then
+        expect(sideEffects).to.deep.equal({ inBefore: true, inAfter: true });
+      });
+
+      it('an error occurring before calling test() should be reported in the before() call', async () => {
+        // Given
+        const around: AroundMethod = async test => {
+          throw new Error('Failure');
+        };
+        const beforeAfter = aroundToBeforeAfter(around);
+
+        // when
+        const promise = beforeAfter.before();
+
+        // then
+        await expect(promise).to.be.rejected;
+      });
+
+      it('an error occurring after awaiting test() should be reported in the after() call', async () => {
+        // Given
+        const around: AroundMethod = async test => {
+          await test();
+          throw new Error('Failure');
+        };
+        const beforeAfter = aroundToBeforeAfter(around);
+
+        // when
+        await beforeAfter.before();
+        const afterPromise = beforeAfter.after();
+
+        // then
+        await expect(afterPromise).to.be.rejected;
+      });
+
+      it('should reject invoking before() twice', async () => {
+        // Given
+        const around: AroundMethod = async test => {
+          await test();
+        };
+        const beforeAfter = aroundToBeforeAfter(around);
+
+        // when
+        beforeAfter.before();
+        const promise = beforeAfter.before();
+
+        // then
+        await expect(promise).to.be.rejected;
+      });
+
+      it('should reject invoking after() if before() has not been invoked', async () => {
+        // Given
+        const around: AroundMethod = async test => {
+          await test();
+        };
+        const beforeAfter = aroundToBeforeAfter(around);
+
+        // when
+        const promise = beforeAfter.after();
+
+        // then
+        await expect(promise).to.be.rejected;
+      });
+
+      it('should reject invoking after() if before() has not been invoked and awaited', async () => {
+        // Given
+        const around: AroundMethod = async test => {
+          await sleepPromise(0);
+          await await test();
+        };
+        const beforeAfter = aroundToBeforeAfter(around);
+
+        // when
+        beforeAfter.before();
+        const promise = beforeAfter.after();
+
+        // then
+        await expect(promise).to.be.rejected;
+      });
+
+      it('should reject invoking after() twice', async () => {
+        // Given
+        const around: AroundMethod = async test => {
+          await test();
+        };
+        const beforeAfter = aroundToBeforeAfter(around);
+
+        // when
+        await beforeAfter.before();
+        beforeAfter.after();
+        const promise = beforeAfter.after();
+
+        // then
+        await expect(promise).to.be.rejected;
+      });
+    });
+  });
+}

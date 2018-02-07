@@ -95,3 +95,69 @@ async function invokeBeforeAfterMethods(
     }
   }
 }
+
+// @VisibleForTesting
+export type AroundMethod = (() => Promise<void>) => Promise<void>;
+
+// @VisibleForTesting
+export type BeforeAfterMethods = {
+  before: () => Promise<void>,
+  after: () => Promise<void>,
+};
+
+// @VisibleForTesting
+export function aroundToBeforeAfter(
+  aroundMethod: AroundMethod
+): BeforeAfterMethods {
+  let currentlyExecuting: 'NONE' | 'BEFORE' | 'TEST' | 'AFTER' = 'NONE';
+  let promiseOfAroundMethod = null;
+  let resolveBefore;
+  let rejectBefore;
+  let resolveTest;
+
+  return {
+    before(): Promise<void> {
+      if (currentlyExecuting !== 'NONE') {
+        return Promise.reject(new Error('before() must be invoked only once'));
+      } else {
+        currentlyExecuting = 'BEFORE';
+      }
+
+      const beforePromise = new Promise((resolve, reject) => {
+        resolveBefore = resolve;
+        rejectBefore = reject;
+      });
+      promiseOfAroundMethod = aroundMethod(() => {
+        currentlyExecuting = 'TEST';
+        resolveBefore();
+        return new Promise((resolve, reject) => {
+          resolveTest = resolve;
+        });
+      }).catch(beforeError => {
+        if (currentlyExecuting === 'BEFORE') {
+          rejectBefore(beforeError); // And swallow error
+        } else {
+          throw beforeError; // Re-throw error
+        }
+      });
+      return beforePromise;
+    },
+
+    after(): Promise<void> {
+      if (promiseOfAroundMethod === null || currentlyExecuting === 'BEFORE') {
+        return Promise.reject(
+          new Error('before() must be invoked and awaited first')
+        );
+      } else {
+        if (currentlyExecuting !== 'TEST') {
+          return Promise.reject(new Error('after() must be invoked only once'));
+        } else {
+          currentlyExecuting = 'AFTER';
+        }
+        // Resume around method execution
+        resolveTest();
+        return promiseOfAroundMethod;
+      }
+    },
+  };
+}
