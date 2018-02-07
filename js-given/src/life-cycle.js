@@ -110,7 +110,7 @@ export function aroundToBeforeAfter(
   aroundMethod: AroundMethod
 ): BeforeAfterMethods {
   let currentlyExecuting: 'NONE' | 'BEFORE' | 'TEST' | 'AFTER' = 'NONE';
-  let promiseOfAroundMethod = null;
+  let promiseOfAroundMethod;
   let resolveBefore;
   let rejectBefore;
   let resolveTest;
@@ -135,25 +135,25 @@ export function aroundToBeforeAfter(
         });
       }).catch(beforeError => {
         if (currentlyExecuting === 'BEFORE') {
-          rejectBefore(beforeError); // And swallow error
+          // Catch the error, and reject it in the before() promise !
+          rejectBefore(beforeError);
         } else {
-          throw beforeError; // Re-throw error
+          // Re-throw error it will get caught in the after() promise
+          throw beforeError;
         }
       });
       return beforePromise;
     },
 
     after(): Promise<void> {
-      if (promiseOfAroundMethod === null || currentlyExecuting === 'BEFORE') {
+      if (currentlyExecuting !== 'TEST') {
         return Promise.reject(
-          new Error('before() must be invoked and awaited first')
+          new Error(
+            'before() must be invoked and awaited first, after() must be invoked only once'
+          )
         );
       } else {
-        if (currentlyExecuting !== 'TEST') {
-          return Promise.reject(new Error('after() must be invoked only once'));
-        } else {
-          currentlyExecuting = 'AFTER';
-        }
+        currentlyExecuting = 'AFTER';
         // Resume around method execution
         resolveTest();
         return promiseOfAroundMethod;
