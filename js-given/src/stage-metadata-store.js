@@ -14,11 +14,16 @@ export type StageMetadataStoreProvider<T> = {
 export function getStageMetadataStoreProvider<T>(
   key: string
 ): StageMetadataStoreProvider<T> {
-  const KEY = `__JSGIVEN__INTERNAL__${key}__KEY__`;
+  const KEY = `__JSGIVEN__INTERNAL__STAGE_METADATA_STORE__${key}__KEY__`;
 
   function getOrBuildStore<T>(target: any): StageMetadataStore<T> {
     if (!target[KEY]) {
-      target[KEY] = new StageMetadataStoreImpl();
+      Object.defineProperty(target, KEY, {
+        value: new StageMetadataStoreImpl(),
+        writable: false,
+        enumerable: false,
+        configurable: false,
+      });
     }
 
     return target[KEY];
