@@ -33,16 +33,16 @@ After.addProperty = (stageClass: Class<Stage>, property: string): void => {
   afterProvider.getStoreFromStageClass(stageClass).addProperty(property);
 };
 
-const ruleProvider: StageMetadataStoreProvider<
+const aroundProvider: StageMetadataStoreProvider<
   string
 > = getStageMetadataStoreProvider('@Around');
 
 export function Around(target: any, key: string, descriptor: any): any {
-  ruleProvider.getStoreFromTarget(target).addProperty(key);
+  aroundProvider.getStoreFromTarget(target).addProperty(key);
   return { ...descriptor, writable: true };
 }
 Around.addProperty = (stageClass: Class<Stage>, property: string): void => {
-  ruleProvider.getStoreFromStageClass(stageClass).addProperty(property);
+  aroundProvider.getStoreFromStageClass(stageClass).addProperty(property);
 };
 
 export function isLifecycleMethod(stage: Stage, methodName: string): boolean {
@@ -54,12 +54,24 @@ export function isLifecycleMethod(stage: Stage, methodName: string): boolean {
     afterProvider
       .getStoreFromTarget(stage)
       .getProperties()
+      .includes(methodName) ||
+    aroundProvider
+      .getStoreFromTarget(stage)
+      .getProperties()
       .includes(methodName)
   );
 }
 
 export async function initStages(...stages: Stage[]): Promise<void> {
   for (const stage of stages) {
+    const aroundProperties = aroundProvider
+      .getStoreFromTarget(stage)
+      .getProperties();
+    installAroundWrappers(stage, aroundProperties);
+    for (const property of aroundProperties) {
+      await (stage: any)[aroundWrapperPropertyName(property)].before();
+    }
+
     const beforeProperties = beforeProvider
       .getStoreFromTarget(stage)
       .getProperties();
@@ -75,6 +87,13 @@ export async function cleanupStages(...stages: Stage[]): Promise<void> {
       .getStoreFromTarget(stage)
       .getProperties();
     await invokeBeforeAfterMethods(stage, afterProperties);
+
+    const aroundProperties = aroundProvider
+      .getStoreFromTarget(stage)
+      .getProperties();
+    for (const property of aroundProperties) {
+      await (stage: any)[aroundWrapperPropertyName(property)].after();
+    }
   }
 }
 
@@ -94,6 +113,20 @@ async function invokeBeforeAfterMethods(
       }
     }
   }
+}
+
+function installAroundWrappers(stage: Stage, aroundProperties: string[]) {
+  aroundProperties.forEach(property => {
+    Object.defineProperty(stage, aroundWrapperPropertyName(property), {
+      value: aroundToBeforeAfter(test => (stage: any)[property](test)),
+      writable: false,
+      enumerable: false,
+      configurable: false,
+    });
+  });
+}
+function aroundWrapperPropertyName(property: string): string {
+  return `__JSGIVEN__INTERNAL__AROUND_PROPERTY__${property}__KEY__`;
 }
 
 // @VisibleForTesting

@@ -12,6 +12,7 @@ import {
   Stage,
   Before,
   After,
+  Around,
 } from '../src';
 import { aroundToBeforeAfter, type AroundMethod } from '../src/life-cycle';
 
@@ -268,6 +269,80 @@ class LifeCycleGivenStage extends BasicScenarioGivenStage {
     return this;
   }
 
+  a_scenario_with_a_stage_that_contains_an_around_method_with_the_around_annotation(): this {
+    const self = this;
+
+    class AroundStage extends Stage {
+      @Around
+      async around(test: () => Promise<void>): Promise<void> {
+        self.sideEffectRecorder.calledDuringBefore = true;
+        await test();
+        self.sideEffectRecorder.calledDuringAfter = true;
+      }
+      ensure_before_part_has_been_called(): this {
+        expect(self.sideEffectRecorder.calledDuringBefore).to.be.true;
+        return this;
+      }
+      ensure_after_part_has_not_been_called(): this {
+        expect(self.sideEffectRecorder.calledDuringAfter).to.be.false;
+        return this;
+      }
+    }
+
+    this.scenarioRunner.scenarios(
+      'group_name',
+      AroundStage,
+      ({ given, when, then }) => {
+        return {
+          scenario_using_stages: scenario({}, () => {
+            then()
+              .ensure_before_part_has_been_called()
+              .and()
+              .ensure_after_part_has_not_been_called();
+          }),
+        };
+      }
+    );
+    return this;
+  }
+
+  a_scenario_with_a_stage_that_contains_an_around_method_added_with_the_addProperty_method(): this {
+    const self = this;
+
+    class AroundStage extends Stage {
+      async around(test: () => Promise<void>): Promise<void> {
+        self.sideEffectRecorder.calledDuringBefore = true;
+        await test();
+        self.sideEffectRecorder.calledDuringAfter = true;
+      }
+      ensure_before_part_has_been_called(): this {
+        expect(self.sideEffectRecorder.calledDuringBefore).to.be.true;
+        return this;
+      }
+      ensure_after_part_has_not_been_called(): this {
+        expect(self.sideEffectRecorder.calledDuringAfter).to.be.false;
+        return this;
+      }
+    }
+    Around.addProperty(AroundStage, 'around');
+
+    this.scenarioRunner.scenarios(
+      'group_name',
+      AroundStage,
+      ({ given, when, then }) => {
+        return {
+          scenario_using_stages: scenario({}, () => {
+            then()
+              .ensure_before_part_has_been_called()
+              .and()
+              .ensure_after_part_has_not_been_called();
+          }),
+        };
+      }
+    );
+    return this;
+  }
+
   a_scenario_with_a_stage_that_contains_a_before_method_added_with_addProperty_method(): this {
     const self = this;
 
@@ -339,6 +414,12 @@ class LifeCycleThenStage extends BasicScenarioThenStage {
     expect(this.sideEffectRecorder.calledDuringAfterInGivenStage).to.be.true;
     expect(this.sideEffectRecorder.calledDuringAfterInWhenStage).to.be.true;
     expect(this.sideEffectRecorder.calledDuringAfterInThenStage).to.be.true;
+    return this;
+  }
+
+  the_around_method_has_been_executed(): this {
+    expect(this.sideEffectRecorder.calledDuringBefore).to.be.true;
+    expect(this.sideEffectRecorder.calledDuringAfter).to.be.true;
     return this;
   }
 
@@ -446,6 +527,34 @@ scenarios(
           when().the_scenario_is_executed();
 
           then().the_state_has_been_propagated_after_the_before_method_has_been_executed();
+        }
+      ),
+
+      around_methods_can_be_defined_on_a_single_stage_with_the_Around_annotation: scenario(
+        {},
+        () => {
+          given()
+            .a_scenario_runner()
+            .and()
+            .a_scenario_with_a_stage_that_contains_an_around_method_with_the_around_annotation();
+
+          when().the_scenario_is_executed();
+
+          then().the_around_method_has_been_executed();
+        }
+      ),
+
+      around_methods_can_be_defined_on_a_single_stage_with_the_addProperty_method: scenario(
+        {},
+        () => {
+          given()
+            .a_scenario_runner()
+            .and()
+            .a_scenario_with_a_stage_that_contains_an_around_method_added_with_the_addProperty_method();
+
+          when().the_scenario_is_executed();
+
+          then().the_around_method_has_been_executed();
         }
       ),
     };
