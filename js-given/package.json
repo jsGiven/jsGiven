@@ -91,7 +91,6 @@
     "babel-polyfill": "^6.26.0",
     "fs-extra": "^5.0.0",
     "function-arguments": "^1.0.8",
-    "is-promise": "^2.1.0",
     "jgiven-html-app": "0.16.2",
     "lodash": "^4.17.4",
     "rimraf": "^2.6.2",

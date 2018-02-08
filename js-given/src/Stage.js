@@ -20,7 +20,12 @@ export class Stage {
     return this;
   }
 
-  then(): this {
+  then(...args: any[]): this {
+    if (args.length > 0) {
+      throw new Error(
+        'Someone is calling jsGiven.Stage.then() with arguments. Maybe you are returning a Stage (return this ?) instead of a Promise.'
+      );
+    }
     return this;
   }
 }

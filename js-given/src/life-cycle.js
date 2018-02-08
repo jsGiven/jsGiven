@@ -1,6 +1,5 @@
 // @flow
 import _ from 'lodash';
-import isPromise from 'is-promise';
 
 import { Stage } from './Stage';
 import {
@@ -105,24 +104,26 @@ async function invokeBeforeAfterMethods(
     const stageAny: any = stage;
     const func = stageAny[methodName];
     if (_.isFunction(func)) {
-      const lifecycleResult = func.apply(stage, []);
-      // only await on promises, sadly methods that return this (a stage)
-      // also have a then() method and are awaited :(
-      if (isPromise(lifecycleResult) && stage !== lifecycleResult) {
-        await lifecycleResult;
-      }
+      await func.apply(stage, []);
+    } else {
+      throw new Error(`Property ${methodName} is not a function on Stage`);
     }
   }
 }
 
 function installAroundWrappers(stage: Stage, aroundProperties: string[]) {
   aroundProperties.forEach(property => {
-    Object.defineProperty(stage, aroundWrapperPropertyName(property), {
-      value: aroundToBeforeAfter(test => (stage: any)[property](test)),
-      writable: false,
-      enumerable: false,
-      configurable: false,
-    });
+    const func = (stage: any)[property];
+    if (_.isFunction(func)) {
+      Object.defineProperty(stage, aroundWrapperPropertyName(property), {
+        value: aroundToBeforeAfter(test => func.apply(stage, [test])),
+        writable: false,
+        enumerable: false,
+        configurable: false,
+      });
+    } else {
+      throw new Error(`Property ${property} is not a function on Stage`);
+    }
   });
 }
 function aroundWrapperPropertyName(property: string): string {

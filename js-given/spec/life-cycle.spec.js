@@ -13,6 +13,7 @@ import {
   Before,
   After,
   Around,
+  Quoted,
 } from '../src';
 import { aroundToBeforeAfter, type AroundMethod } from '../src/life-cycle';
 
@@ -73,9 +74,8 @@ class LifeCycleGivenStage extends BasicScenarioGivenStage {
     }
     class BeforeWhenStage extends Stage {
       @Before
-      before(): this {
+      before() {
         self.sideEffectRecorder.calledDuringBeforeInWhenStage = true;
-        return this;
       }
       ensure_before_method_has_been_called(): this {
         expect(self.sideEffectRecorder.calledDuringBeforeInWhenStage).to.be
@@ -174,9 +174,8 @@ class LifeCycleGivenStage extends BasicScenarioGivenStage {
     }
     class AfterWhenStage extends Stage {
       @After
-      after(): this {
+      after() {
         self.sideEffectRecorder.calledDuringAfterInWhenStage = true;
-        return this;
       }
       ensure_after_method_has_not_been_called(): this {
         expect(self.sideEffectRecorder.calledDuringAfterInWhenStage).to.be
@@ -343,6 +342,40 @@ class LifeCycleGivenStage extends BasicScenarioGivenStage {
     return this;
   }
 
+  a_scenario_with_a_stage_that_defines_an_around_method_on_a_non_method_property(): this {
+    class AroundStage extends Stage {
+      @Around around: string = 'ok';
+    }
+
+    this.scenarioRunner.scenarios(
+      'group_name',
+      AroundStage,
+      ({ given, when, then }) => {
+        return {
+          scenario_using_stages: scenario({}, () => {}),
+        };
+      }
+    );
+    return this;
+  }
+
+  a_scenario_with_a_stage_that_defines_a_before_method_on_a_non_method_property(): this {
+    class BeforeStage extends Stage {
+      @Before before: string = 'ok';
+    }
+
+    this.scenarioRunner.scenarios(
+      'group_name',
+      BeforeStage,
+      ({ given, when, then }) => {
+        return {
+          scenario_using_stages: scenario({}, () => {}),
+        };
+      }
+    );
+    return this;
+  }
+
   a_scenario_with_a_stage_that_contains_a_before_method_added_with_addProperty_method(): this {
     const self = this;
 
@@ -402,6 +435,7 @@ class LifeCycleGivenStage extends BasicScenarioGivenStage {
 
 class LifeCycleThenStage extends BasicScenarioThenStage {
   @State sideEffectRecorder: SideEffectRecorder;
+  @State errors: Error[] = [];
 
   the_methods_annotated_with_the_before_annotation_have_been_called_on_the_3_stages_before_the_scenario_execution(): this {
     expect(this.sideEffectRecorder.calledDuringBeforeInGivenStage).to.be.true;
@@ -435,6 +469,13 @@ class LifeCycleThenStage extends BasicScenarioThenStage {
 
   the_state_has_been_propagated_after_the_before_method_has_been_executed(): this {
     expect(this.sideEffectRecorder.statePropagated).to.be.true;
+    return this;
+  }
+
+  @Quoted('error')
+  the_error_$_is_reported(error: string): this {
+    expect(this.errors).to.have.lengthOf(1);
+    expect(this.errors[0].toString()).to.equal(error);
     return this;
   }
 }
@@ -555,6 +596,38 @@ scenarios(
           when().the_scenario_is_executed();
 
           then().the_around_method_has_been_executed();
+        }
+      ),
+
+      defining_an_around_method_on_a_property_that_is_not_a_method_is_reported_as_an_error: scenario(
+        {},
+        () => {
+          given()
+            .a_scenario_runner()
+            .and()
+            .a_scenario_with_a_stage_that_defines_an_around_method_on_a_non_method_property();
+
+          when().the_runner_tries_to_execute_the_scenario();
+
+          then().the_error_$_is_reported(
+            'Error: Property around is not a function on Stage'
+          );
+        }
+      ),
+
+      defining_a_before_method_on_a_property_that_is_not_a_method_is_reported_as_an_error: scenario(
+        {},
+        () => {
+          given()
+            .a_scenario_runner()
+            .and()
+            .a_scenario_with_a_stage_that_defines_a_before_method_on_a_non_method_property();
+
+          when().the_runner_tries_to_execute_the_scenario();
+
+          then().the_error_$_is_reported(
+            'Error: Property before is not a function on Stage'
+          );
         }
       ),
     };
