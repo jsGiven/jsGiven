@@ -98,7 +98,7 @@
     "jgiven-html-app": "0.16.2",
     "lodash": "4.17.5",
     "rimraf": "^2.6.2",
-    "snyk": "1.61.0",
+    "snyk": "1.69.10",
     "string-humanize": "^1.0.0",
     "strip-ansi": "^4.0.0",
     "yargs": "^11.0.0"
