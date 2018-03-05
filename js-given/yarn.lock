@@ -3542,9 +3542,9 @@ nodegit-promise@~4.0.0:
   dependencies:
     asap "~2.0.3"
 
-nodegit@0.21.0:
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/nodegit/-/nodegit-0.21.0.tgz#9c81d446fadda73ad8ca4e39ddb2ab7845cfeae9"
+nodegit@0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/nodegit/-/nodegit-0.21.1.tgz#8f7876c45a30c39174e25089ef67cf72e6798dbe"
   dependencies:
     fs-extra "~0.27.0"
     lodash "^4.13.1"
