@@ -3490,13 +3490,13 @@ multimatch@^2.1.0:
     arrify "^1.0.0"
     minimatch "^3.0.0"
 
+nan@^2.10.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f"
+
 nan@^2.3.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.7.0.tgz#d95bf721ec877e08db276ed3fc6eb78f9083ad46"
-
-nan@^2.9.2:
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/nan/-/nan-2.9.2.tgz#f564d75f5f8f36a6d9456cca7a6c4fe488ab7866"
 
 natural-compare@^1.4.0:
   version "1.4.0"
@@ -3580,13 +3580,13 @@ nodegit-promise@~4.0.0:
   dependencies:
     asap "~2.0.3"
 
-nodegit@0.21.2:
-  version "0.21.2"
-  resolved "https://registry.yarnpkg.com/nodegit/-/nodegit-0.21.2.tgz#957c69a07a0afdeb21d1c69e9d3ad0a72e87acaa"
+nodegit@0.22.0:
+  version "0.22.0"
+  resolved "https://registry.yarnpkg.com/nodegit/-/nodegit-0.22.0.tgz#3b49f732f6c19091f05563f2cd7307871ee1973c"
   dependencies:
     fs-extra "~0.27.0"
     lodash "^4.13.1"
-    nan "^2.9.2"
+    nan "^2.10.0"
     node-gyp "^3.6.2"
     node-pre-gyp "~0.6.39"
     promisify-node "~0.3.0"
