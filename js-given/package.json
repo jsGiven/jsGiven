@@ -77,7 +77,7 @@
     "protractor": "5.3.2",
     "rollup": "0.59.1",
     "rollup-plugin-babel": "3.0.4",
-    "rollup-plugin-uglify": "3.0.0",
+    "rollup-plugin-uglify": "4.0.0",
     "sinon": "4.5.0",
     "sinon-chai": "2.14.0",
     "sleep-promise": "2.0.0",
