@@ -76,7 +76,7 @@
     "nodegit": "0.22.1",
     "protractor": "5.3.2",
     "rollup": "0.61.2",
-    "rollup-plugin-babel": "3.0.4",
+    "rollup-plugin-babel": "3.0.5",
     "rollup-plugin-uglify": "4.0.0",
     "sinon": "6.0.0",
     "sinon-chai": "2.14.0",
