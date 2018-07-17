@@ -75,7 +75,7 @@
     "mocha": "5.2.0",
     "nodegit": "0.22.1",
     "protractor": "5.3.2",
-    "rollup": "0.62.0",
+    "rollup": "0.63.0",
     "rollup-plugin-babel": "3.0.7",
     "rollup-plugin-uglify": "4.0.0",
     "sinon": "6.1.2",
