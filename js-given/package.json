@@ -91,7 +91,7 @@
     "lodash": "4.17.11",
     "rimraf": "^2.6.2",
     "string-humanize": "^1.0.0",
-    "strip-ansi": "^4.0.0",
+    "strip-ansi": "^5.0.0",
     "yargs": "^11.0.0"
   },
   "bin": {
