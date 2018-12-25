@@ -74,7 +74,7 @@
     "jest": "23.6.0",
     "mocha": "5.2.0",
     "nodegit": "0.23.0",
-    "protractor": "5.4.1",
+    "protractor": "5.4.2",
     "rollup": "0.68.2",
     "rollup-plugin-babel": "3.0.7",
     "rollup-plugin-uglify": "4.0.0",
