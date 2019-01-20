@@ -3403,9 +3403,9 @@ jest@23.6.0:
     import-local "^1.0.0"
     jest-cli "^23.6.0"
 
-jgiven-html-app@0.16.2:
-  version "0.16.2"
-  resolved "https://registry.yarnpkg.com/jgiven-html-app/-/jgiven-html-app-0.16.2.tgz#fbcb4d47a90b72c0428007c88c68775e4e64342e"
+jgiven-html-app@0.17.0:
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/jgiven-html-app/-/jgiven-html-app-0.17.0.tgz#f96d42284b0e777f57c845b3b756843a6d929305"
   dependencies:
     angular "1.5.8"
     angular-bindonce "0.3.1"
