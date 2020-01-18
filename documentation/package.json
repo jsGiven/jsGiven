@@ -14,6 +14,6 @@
     "createInvalidationOnCloudFront": "aws cloudfront --profile jsgiven create-invalidation --distribution-id E6TZPJI8EIT7K --paths '/*'"
   },
   "devDependencies": {
-    "gh-pages": "1.2.0"
+    "gh-pages": "2.2.0"
   }
 }
