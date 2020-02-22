@@ -97,9 +97,9 @@
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-2.1.2.tgz#16947fce5f57258d01f1688fdc32723093c55d3f"
 
-"@types/estree@0.0.39":
-  version "0.0.39"
-  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
+"@types/estree@*":
+  version "0.0.42"
+  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.42.tgz#8d0c1f480339efedb3e46070e22dd63e0430dd11"
 
 "@types/node@*":
   version "8.5.1"
@@ -130,6 +130,10 @@ acorn-globals@^4.0.0:
 acorn@^5.0.0, acorn@^5.1.2:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.2.1.tgz#317ac7821826c22c702d66189ab8359675f135d7"
+
+acorn@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.1.0.tgz#949d36f2c292535da602283586c2477c57eb2d6c"
 
 adm-zip@^0.4.7:
   version "0.4.7"
@@ -4961,12 +4965,13 @@ rollup-pluginutils@^1.5.0:
     estree-walker "^0.2.1"
     minimatch "^3.0.2"
 
-rollup@0.68.2:
-  version "0.68.2"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.68.2.tgz#c26afb5d981ca7a1a32f76087dbde9dad4fcc653"
+rollup@1.31.1:
+  version "1.31.1"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.31.1.tgz#4170d6f87148d46e5fbe29b493f8f3ea3453c96f"
   dependencies:
-    "@types/estree" "0.0.39"
+    "@types/estree" "*"
     "@types/node" "*"
+    acorn "^7.1.0"
 
 run-parallel@^1.1.4:
   version "1.1.6"
