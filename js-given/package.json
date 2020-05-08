@@ -81,7 +81,7 @@
     "sinon": "6.3.5",
     "sinon-chai": "2.14.0",
     "sleep-promise": "8.0.1",
-    "tmp": "0.0.33"
+    "tmp": "0.2.1"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
