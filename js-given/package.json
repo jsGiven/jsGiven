@@ -88,7 +88,7 @@
     "fs-extra": "^5.0.0",
     "function-arguments": "^1.0.8",
     "jgiven-html-app": "0.17.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.20",
     "rimraf": "^2.6.2",
     "string-humanize": "^1.0.0",
     "strip-ansi": "^4.0.0",
