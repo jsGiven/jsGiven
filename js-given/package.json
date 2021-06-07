@@ -79,7 +79,7 @@
     "rollup-plugin-babel": "3.0.7",
     "rollup-plugin-uglify": "4.0.0",
     "sinon": "6.3.5",
-    "sinon-chai": "2.14.0",
+    "sinon-chai": "3.7.0",
     "sleep-promise": "8.0.1",
     "tmp": "0.2.1"
   },
