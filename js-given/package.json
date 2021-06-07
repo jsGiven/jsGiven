@@ -87,7 +87,7 @@
     "babel-polyfill": "^6.26.0",
     "fs-extra": "^5.0.0",
     "function-arguments": "^1.0.8",
-    "jgiven-html-app": "0.17.0",
+    "jgiven-html-app": "1.0.0",
     "lodash": "4.17.21",
     "rimraf": "^2.6.2",
     "string-humanize": "^1.0.0",
