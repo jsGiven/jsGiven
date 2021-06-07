@@ -32,7 +32,9 @@
     "__doPublish": "(cd dist; echo '' | yarn publish)",
     "__doRelease": "yarn __doPreparePublish && yarn __doTagRelease && yarn __doPublish",
     "releaseAlpha": "yarn test && yarn build && yarn __doReleaseAlpha",
-    "release": "yarn test && yarn build && yarn __doRelease"
+    "release": "yarn test && yarn build && yarn __doRelease",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -92,7 +94,8 @@
     "rimraf": "^2.6.2",
     "string-humanize": "^1.0.0",
     "strip-ansi": "^4.0.0",
-    "yargs": "^11.0.0"
+    "yargs": "^11.0.0",
+    "snyk": "^1.189.0"
   },
   "bin": {
     "jsgiven": "./cli.js"
@@ -118,5 +121,6 @@
   },
   "engines": {
     "node": ">= 4.6.0"
-  }
+  },
+  "snyk": true
 }
