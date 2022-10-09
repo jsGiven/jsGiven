@@ -1,0 +1,11 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:marked:20170907':
+    - jgiven-html-app > modernizr > marked:
+        patched: '2022-10-09T21:16:21.012Z'
+  'npm:moment:20170905':
+    - jgiven-html-app > angular-chart.js > chart.js > moment:
+        patched: '2022-10-09T21:16:21.012Z'
